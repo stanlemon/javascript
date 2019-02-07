@@ -11,7 +11,7 @@ export default class App extends React.Component {
       <Container database="local">
         <div className="app">
           <h1>Counter App!</h1>
-          <WrappedCounter />
+          <WrappedCounter count={0} loading={<div>Loading...</div>} />
         </div>
       </Container>
     );
