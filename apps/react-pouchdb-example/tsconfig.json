@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "sourceMap": true,
+    "outDir": "./.tsout",
+    "noImplicitAny": true,
+    "module": "commonjs",
+    "target": "esnext",
+    "jsx": "react",
+    "lib":[
+      "es7",
+      "dom"
+    ],
+    "allowSyntheticDefaultImports": true
+  },
+  "include": [
+    "./src/**/*"
+  ],
+  "exclude": ["node_modules"]
+}

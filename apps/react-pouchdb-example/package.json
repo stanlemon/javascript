@@ -1,0 +1,70 @@
+{
+  "name": "parcel-app",
+  "version": "0.0.1",
+  "description": "A react app using pouchdb built with parcel in typescript",
+  "author": "Stan Lemon <stanlemon@users.noreply.github.com",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:stanlemon/parcel-app.git"
+  },
+  "main": "./src/index.tsx",
+  "scripts": {
+    "start": "parcel index.html",
+    "test": "jest",
+    "lint": "eslint --ext js,jsx,ts,tsx ./src/",
+    "eslint-check": "eslint --print-config . | eslint-config-prettier-check"
+  },
+  "jest": {
+    "roots": [
+      "./src/"
+    ],
+    "setupFilesAfterEnv": [
+      "jest-enzyme"
+    ],
+    "testEnvironment": "enzyme",
+    "testEnvironmentOptions": {
+      "enzymeAdapter": "react16"
+    },
+    "transform": {
+      "^.+\\.(js|jsx|ts|tsx)?$": "babel-jest"
+    }
+  },
+  "dependencies": {
+    "@types/lodash": "^4.14.120",
+    "@types/pouchdb": "^6.3.2",
+    "@types/react": "^16.8.2",
+    "@types/react-dom": "^16.8.0",
+    "lodash": "^4.17.11",
+    "pouchdb": "^7.0.0",
+    "react": "^16.8.1",
+    "react-dom": "^16.8.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.2.2",
+    "@babel/plugin-proposal-class-properties": "^7.3.0",
+    "@babel/preset-env": "^7.3.1",
+    "@babel/preset-react": "^7.0.0",
+    "@babel/preset-typescript": "^7.1.0",
+    "@types/enzyme": "^3.1.16",
+    "@types/jest": "^24.0.0",
+    "@types/parcel-env": "0.0.0",
+    "@typescript-eslint/eslint-plugin": "^1.2.0",
+    "babel-eslint": "^10.0.1",
+    "babel-jest": "^24.1.0",
+    "enzyme": "^3.8.0",
+    "enzyme-adapter-react-16": "^1.9.1",
+    "eslint": "^5.13.0",
+    "eslint-config-prettier": "^4.0.0",
+    "eslint-plugin-jest": "^22.2.2",
+    "eslint-plugin-prettier": "^3.0.1",
+    "eslint-plugin-react": "^7.12.4",
+    "jest": "^24.1.0",
+    "jest-environment-enzyme": "^7.0.1",
+    "jest-enzyme": "^7.0.1",
+    "parcel-bundler": "^1.11.0",
+    "prettier": "^1.16.4",
+    "react-hot-loader": "^4.6.5",
+    "typescript": "^3.3.1"
+  }
+}
