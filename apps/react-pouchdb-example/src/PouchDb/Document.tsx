@@ -38,9 +38,10 @@ export function withDocument<P>(
   return class extends React.Component<P & DocumentProps, DocumentState> {
     static contextType = Context;
 
+    /* eslint-disable @typescript-eslint/no-object-literal-type-assertion */
     static defaultProps: Partial<P & DocumentProps> = {
-      //loading: <React.Fragment />
-    };
+      loading: <React.Fragment />
+    } as Partial<P & DocumentProps>;
 
     state = {
       initialized: false,
