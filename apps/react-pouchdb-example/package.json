@@ -65,6 +65,7 @@
     "parcel-bundler": "^1.11.0",
     "prettier": "^1.16.4",
     "react-hot-loader": "^4.6.5",
-    "typescript": "^3.3.1"
+    "typescript": "^3.3.1",
+    "wait-for-expect": "^1.1.0"
   }
 }

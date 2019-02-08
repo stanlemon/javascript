@@ -4,14 +4,14 @@ export interface ContainerProps {
   loading?: string;
 }
 
-/* eslint-disable max-lines-per-function */
+// eslint-disable-next-line max-lines-per-function
 export function withContainer<OriginalProps extends {}>(
   WrappedComponent: React.ComponentType<OriginalProps>
 ): React.ComponentType<OriginalProps & ContainerProps> {
   type CombinedProps = OriginalProps & ContainerProps;
 
   class Container extends React.Component<CombinedProps> {
-    /* eslint-disable @typescript-eslint/no-object-literal-type-assertion */
+    // eslint-disable-next-line @typescript-eslint/no-object-literal-type-assertion
     static defaultProps: CombinedProps = {
       loading: "Loading!!!"
     } as CombinedProps;

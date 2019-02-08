@@ -6,7 +6,7 @@ import { Context } from "./Container";
  * Properties specific to the <Document/> component.
  */
 export interface DocumentProps {
-  /* eslint-disable @typescript-eslint/no-explicit-any */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   loading: React.ReactElement<any>;
 }
 
@@ -30,7 +30,7 @@ export interface PuttableProps {
   putState(data: object): void;
 }
 
-/* eslint-disable max-lines-per-function */
+// eslint-disable-next-line max-lines-per-function
 export function withDocument<P>(
   id: string,
   WrappedComponent: React.ComponentType<P & PuttableProps>
@@ -38,7 +38,7 @@ export function withDocument<P>(
   return class extends React.Component<P & DocumentProps, DocumentState> {
     static contextType = Context;
 
-    /* eslint-disable @typescript-eslint/no-object-literal-type-assertion */
+    // eslint-disable-next-line @typescript-eslint/no-object-literal-type-assertion
     static defaultProps: Partial<P & DocumentProps> = {
       loading: <React.Fragment />
     } as Partial<P & DocumentProps>;
@@ -82,6 +82,7 @@ export function withDocument<P>(
     componentDidMount(): void {
       this.db
         .get(id)
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         .then((doc: any) => {
           // Update state, but remove these pouchdb specific fields before we do
           const data = omit(doc, ["_id", "_rev"]);
@@ -109,6 +110,7 @@ export function withDocument<P>(
 
       this.db
         .get(id)
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         .then((doc: any) => {
           // Update the document with our latest data
           return this.db.put({
@@ -118,6 +120,7 @@ export function withDocument<P>(
           });
         })
         .catch(
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           (err: any): void => {
             // This indicates a brand new document that we are creating
             if (err.status === 404 && err.reason === "missing") {

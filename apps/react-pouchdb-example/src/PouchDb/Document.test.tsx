@@ -1,6 +1,7 @@
 import React from "react";
 import PouchDB from "pouchdb";
 import { mount } from "enzyme";
+import waitForExpect from "wait-for-expect";
 import { Container } from "./Container";
 import { withDocument, PuttableProps } from "./Document";
 
@@ -19,7 +20,8 @@ function Loading(): React.FunctionComponentElement<null> {
   return <div>Loading...</div>;
 }
 
-test("withDocument() renders children", async (): Promise<void> => {
+/* eslint-disable max-lines-per-function */
+test("withDocument() renders wrapped component", async (): Promise<void> => {
   const db = new PouchDB("local");
   // Delete our document if it already exists
   try {
@@ -39,5 +41,20 @@ test("withDocument() renders children", async (): Promise<void> => {
     </Container>
   );
 
+  // The component is not initialized while waiting for PouchDB to fetch its document
+  expect(wrapper.find(Test).state().initialized).toBe(false);
+  // Uninitialized means that we should have a loading component in the tree
   expect(wrapper.find(Loading).length).toBe(1);
+  // And we should not have the component we wrapped
+  expect(wrapper.find(TestComponent).length).toBe(0);
+
+  await waitForExpect(() => {
+    expect(wrapper.find(Test).state().initialized).toBe(true);
+  });
+
+  // Force the component to re-render now that it is initialized
+  wrapper.update();
+
+  expect(wrapper.find(Loading).length).toBe(0);
+  expect(wrapper.find(TestComponent).length).toBe(1);
 });

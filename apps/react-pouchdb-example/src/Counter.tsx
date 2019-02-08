@@ -14,7 +14,7 @@ type CounterProps = PuttableProps & {
 export default class Counter extends React.Component<CounterProps> {
   static defaultProps = {
     count: 0,
-    /* eslint-disable @typescript-eslint/no-unused-vars */
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     putState: (state = {}): void => {}
   };
 
