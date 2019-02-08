@@ -18,9 +18,9 @@ export class Notes extends React.Component<Props, State> {
     note: ""
   };
 
-  updateNote = (e): void => {
+  updateNote = (e: React.FormEvent<HTMLInputElement>): void => {
     this.setState({
-      note: e.target.value
+      note: e.currentTarget.value
     });
   };
 
@@ -37,7 +37,7 @@ export class Notes extends React.Component<Props, State> {
     this.setState({ note: "" });
   };
 
-  addNoteWithEnter = (e): void => {
+  addNoteWithEnter = (e: React.KeyboardEvent<HTMLInputElement>): void => {
     if (e.key === "Enter") {
       this.addNote();
     }
