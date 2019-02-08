@@ -15,7 +15,7 @@ class TestComponent extends React.Component<
   }
 }
 
-function Loading(): React.ReactElement<any> {
+function Loading(): React.FunctionComponentElement<null> {
   return <div>Loading...</div>;
 }
 
