@@ -6,9 +6,6 @@ import { Context } from "./Container";
  * Properties specific to the <Document/> component.
  */
 export interface DocumentProps {
-  //id: string;
-  /* eslint-disable @typescript-eslint/no-explicit-any */
-  //component: React.ComponentType<PuttableProps>;
   /* eslint-disable @typescript-eslint/no-explicit-any */
   loading: React.ReactElement<any>;
 }
@@ -34,19 +31,18 @@ export interface PuttableProps {
 }
 
 /* eslint-disable max-lines-per-function */
-export function Document<P = {}>(
+export function withDocument<P>(
   id: string,
   WrappedComponent: React.ComponentType<P & PuttableProps>
 ): React.ComponentClass<P & DocumentProps> {
   return class extends React.Component<P & DocumentProps, DocumentState> {
     static contextType = Context;
 
-    // Why does typescript say this is an error?
-    static defaultProps: P & DocumentProps = {
-      loading: <React.Fragment />
+    static defaultProps: Partial<P & DocumentProps> = {
+      //loading: <React.Fragment />
     };
 
-    state: DocumentState = {
+    state = {
       initialized: false,
       data: {}
     };

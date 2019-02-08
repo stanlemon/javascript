@@ -1,8 +1,8 @@
 import React from "react";
 import PouchDB from "pouchdb";
-import { mount, shallow, render } from "enzyme";
+import { mount } from "enzyme";
 import { Container } from "./Container";
-import { Document, PuttableProps } from "./Document";
+import { withDocument, PuttableProps } from "./Document";
 
 class TestComponent extends React.Component<
   PuttableProps & { value?: string }
@@ -15,12 +15,11 @@ class TestComponent extends React.Component<
   }
 }
 
-// TODO: What is the correct return type here?
-function Loading() {
+function Loading(): React.ReactElement<any> {
   return <div>Loading...</div>;
 }
 
-test("<Document/> renders children", async (): Promise<any> => {
+test("withDocument() renders children", async (): Promise<void> => {
   const db = new PouchDB("local");
   // Delete our document if it already exists
   try {
@@ -32,7 +31,7 @@ test("<Document/> renders children", async (): Promise<any> => {
 
   await db.put({ _id: "test", value: "Hello World" });
 
-  const Test = Document("test", TestComponent);
+  const Test = withDocument("test", TestComponent);
 
   const wrapper = mount(
     <Container>
