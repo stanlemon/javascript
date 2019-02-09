@@ -52,7 +52,45 @@ async function getPouchDb(): Promise<PouchDB.Database> {
   return db;
 }
 
-test("withDocument initializes with no existing document", async (done): Promise<
+test("withDocument() renders wrapped component", async (done): Promise<
+  void
+> => {
+  // Add some initial state to our document, this should get loaded into the component
+  const db = await getPouchDb();
+
+  await db.put({ _id: "test", value: "Hello World" });
+
+  const Test = withDocument("test", TestComponent);
+
+  const wrapper = mount(
+    <Container database={db}>
+      <Test loading={<Loading />} />
+    </Container>
+  );
+
+  // The component is not initialized while waiting for PouchDB to fetch its document
+  expect(wrapper.find(Test).state().initialized).toBe(false);
+  // Uninitialized means that we should have a loading component in the tree
+  expect(wrapper.find(Loading).length).toBe(1);
+  // And we should not have the component we wrapped
+  expect(wrapper.find(TestComponent).length).toBe(0);
+
+  await waitForExpect(() => {
+    expect(wrapper.find(Test).state().initialized).toBe(true);
+  }, 1000);
+
+  // Force the component to re-render now that it is initialized
+  wrapper.update();
+
+  expect(wrapper.find(Loading).length).toBe(0);
+  expect(wrapper.find(TestComponent).length).toBe(1);
+
+  wrapper.unmount();
+
+  done();
+});
+
+test("withDocument() initializes with no existing document", async (done): Promise<
   void
 > => {
   const db = await getPouchDb();
@@ -75,7 +113,7 @@ test("withDocument initializes with no existing document", async (done): Promise
   done();
 });
 
-test("withDocument updates document in PouchDB", async (done): Promise<
+test("withDocument() updates document in PouchDB", async (done): Promise<
   void
 > => {
   const db = await getPouchDb();
@@ -120,37 +158,43 @@ test("withDocument updates document in PouchDB", async (done): Promise<
   done();
 });
 
-// Note: For some reason if this test runs before the others they fail
-test("withDocument renders wrapped component", async (done): Promise<void> => {
+test("withDocument() receives changes from a remote db", async (done): Promise<
+  void
+> => {
   // Add some initial state to our document, this should get loaded into the component
   const db = await getPouchDb();
 
-  await db.put({ _id: "test", value: "Hello World" });
+  const remoteDb = new PouchDB("remote", { adapter: "memory" });
 
   const Test = withDocument("test", TestComponent);
 
   const wrapper = mount(
-    <Container database={db}>
-      <Test loading={<Loading />} />
+    <Container database={db} remote={remoteDb}>
+      <Test value="Start" loading={<Loading />} />
     </Container>
   );
 
-  // The component is not initialized while waiting for PouchDB to fetch its document
-  expect(wrapper.find(Test).state().initialized).toBe(false);
-  // Uninitialized means that we should have a loading component in the tree
-  expect(wrapper.find(Loading).length).toBe(1);
-  // And we should not have the component we wrapped
-  expect(wrapper.find(TestComponent).length).toBe(0);
-
   await waitForExpect(() => {
-    expect(wrapper.find(Test).state().initialized).toBe(true);
+    wrapper.setProps({});
+    wrapper.update();
+    wrapper.instance().forceUpdate();
+
+    const state = wrapper.find(Test).state();
+
+    expect(state.initialized).toBe(true);
   }, 1000);
 
   // Force the component to re-render now that it is initialized
   wrapper.update();
 
-  expect(wrapper.find(Loading).length).toBe(0);
-  expect(wrapper.find(TestComponent).length).toBe(1);
+  expect(wrapper.find(TestComponent).props().value).toBe("Start");
+
+  await remoteDb.put({ _id: "test", value: "Finish" });
+
+  await waitForExpect(() => {
+    wrapper.update();
+    expect(wrapper.find(TestComponent).props().value).toBe("Finish");
+  }, 1000);
 
   wrapper.unmount();
 

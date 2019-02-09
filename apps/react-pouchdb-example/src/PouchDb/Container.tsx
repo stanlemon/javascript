@@ -89,7 +89,6 @@ export class Container extends React.Component<ContainerProps> {
     if (this.props.remote) {
       this.sync.cancel();
       this.changes.cancel();
-      this.db.close();
       this.watching = [];
     }
   }

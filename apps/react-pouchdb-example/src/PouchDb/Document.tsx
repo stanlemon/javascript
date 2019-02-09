@@ -72,19 +72,21 @@ export function withDocument<P>(
     componentDidMount(): void {
       this.db
         .get(id)
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        .then((doc: any) => {
+        .then((doc: {}) => {
           // Update state, but remove these pouchdb specific fields before we do
           const data = omit(doc, ["_id", "_rev"]);
 
           this.setDocument(data);
         })
-        .catch(err => {
-          // We did not find a document, but the component is now initialized
-          if (err.status === 404 && err.reason === "missing") {
-            this.setDocument();
+        .catch(
+          (err: { status: number; message: string; reason: string }): void => {
+            // We did not find a document, but the component is now initialized
+            // The document can be either 'missing' or 'deleted'
+            if (err.status === 404) {
+              this.setDocument();
+            }
           }
-        });
+        );
     }
 
     /**
@@ -97,7 +99,7 @@ export function withDocument<P>(
 
       this.db
         .get(id)
-        .then((doc: {}) => {
+        .then((doc: { _id: string; _rev: string }) => {
           // Update the document with our latest data
           return this.db.put({
             _id: doc._id,
@@ -110,10 +112,10 @@ export function withDocument<P>(
           console.log("Result from put", doc);
         })
         .catch(
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          (err: any): void => {
+          (err: { status: number; message: string; reason: string }): void => {
             // This indicates a brand new document that we are creating
-            if (err.status === 404 && err.reason === "missing") {
+            // The document can be either 'missing' or 'deleted'
+            if (err.status === 404) {
               this.db.put({
                 _id: id,
                 ...data
