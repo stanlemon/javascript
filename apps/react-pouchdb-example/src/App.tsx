@@ -13,7 +13,7 @@ const WrappedHeader = withContainer(Header);
 export default class App extends React.Component {
   render(): React.ReactNode {
     return (
-      <Container database="local">
+      <Container database="local" remote="http://127.0.0.1:5984/test">
         <div className="app">
           <WrappedHeader>Counter App!</WrappedHeader>
           <WrappedCounter count={0} loading={<div>Loading...</div>} />

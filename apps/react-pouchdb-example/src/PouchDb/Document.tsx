@@ -1,6 +1,6 @@
 import * as React from "react";
 import { omit } from "lodash";
-import { Context } from "./Container";
+import { Context, ContainerContext } from "./Container";
 
 /**
  * Properties specific to the <Document/> component.
@@ -51,28 +51,23 @@ export function withDocument<P>(
     private db: PouchDB.Database;
     private changes: PouchDB.Core.Changes<{}>;
 
+    private setDocument = (data: {} = {}): void => {
+      this.setState({
+        initialized: true,
+        data
+      });
+    };
+
     /**
      * Component wrapper, encapsulates a component with PouchDB document management.
      */
-    constructor(props: P & DocumentProps, context: PouchDB.Database) {
+    constructor(props: P & DocumentProps, context: ContainerContext) {
       super(props);
 
-      this.db = context;
+      this.db = context.db;
 
-      // TODO: Evaluate the risk of doing this in multiple components in a single application.
-      this.changes = this.db
-        .changes({
-          since: "now",
-          live: true,
-          include_docs: true
-        })
-        .on("change", change => {
-          // If a change occurred for our document, update our state
-          if (change.id === id) {
-            const data = omit(change.doc, ["_id", "_rev"]);
-            this.setState({ data });
-          }
-        });
+      // Add our current document to the ones we are watching
+      context.watchDocument(id, this, this.setDocument);
     }
 
     componentWillUnmount(): void {
@@ -87,15 +82,12 @@ export function withDocument<P>(
           // Update state, but remove these pouchdb specific fields before we do
           const data = omit(doc, ["_id", "_rev"]);
 
-          this.setState({
-            initialized: true,
-            data
-          });
+          this.setDocument(data);
         })
         .catch(err => {
           // We did not find a document, but the component is now initialized
           if (err.status === 404 && err.reason === "missing") {
-            this.setState({ initialized: true });
+            this.setDocument();
           }
         });
     }
@@ -106,7 +98,7 @@ export function withDocument<P>(
      * This method updates state as well as updates the PouchDb document.
      */
     private putState = (data: object): void => {
-      this.setState({ data });
+      this.setDocument(data);
 
       this.db
         .get(id)
