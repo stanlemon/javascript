@@ -97,8 +97,7 @@ export function withDocument<P>(
 
       this.db
         .get(id)
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        .then((doc: any) => {
+        .then((doc: {}) => {
           // Update the document with our latest data
           return this.db.put({
             _id: doc._id,
@@ -106,7 +105,8 @@ export function withDocument<P>(
             ...data
           });
         })
-        .then((doc: any) => {
+        .then((doc: {}) => {
+          // TODO: We should track the current revision id
           console.log("Result from put", doc);
         })
         .catch(

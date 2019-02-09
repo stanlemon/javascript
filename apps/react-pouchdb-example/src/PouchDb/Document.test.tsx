@@ -109,7 +109,7 @@ test("withDocument updates document in PouchDB", async (done): Promise<
   wrapper.update();
 
   await waitForExpect(async () => {
-    const doc = await db.get("test");
+    const doc = (await db.get("test")) as { value: string };
     expect(doc.value).toBe(newValue);
   }, 1000);
 
