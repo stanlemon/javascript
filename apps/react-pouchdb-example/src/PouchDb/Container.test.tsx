@@ -3,15 +3,16 @@ import { mount } from "enzyme";
 import { Container } from "./Container";
 
 test("<Container/> renders children", (): void => {
+  const text = "Hello World";
   const wrapper = mount(
     <Container>
-      <h1>Hello World</h1>
+      <h1>{text}</h1>
     </Container>
   );
 
-  expect(wrapper.props().database).toBe("local");
+  expect(wrapper.props().database).toBe(Container.defaultProps.database);
 
   expect(wrapper.children().length).toBe(1);
 
-  expect(wrapper.children().contains("Hello World")).toBe(true);
+  expect(wrapper.children().contains(text)).toBe(true);
 });

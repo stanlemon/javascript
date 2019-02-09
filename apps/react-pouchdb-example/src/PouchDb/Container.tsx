@@ -8,16 +8,19 @@ interface ContainerProps {
   children: React.ReactNode;
 
   /**
-   * Name of the local PouchDB database.
+   * (Optional) Name or instance of the local PouchDB instance.
+   *
+   * Normally you just specify a name such as 'local' or 'test', but for unusual circumstances you can pass along an
+   * existing PouchDB instance.
    *
    * Defaults to 'local' if not specified.
    */
-  database?: string;
+  database?: string | PouchDB.Database;
 
   /**
-   * (Optional) URL of a remote CouchDB compatible database to synchronize with.
+   * (Optional) URL or instance of a remote CouchDB compatible database to synchronize with.
    */
-  remote?: string;
+  remote?: string | PouchDB.Database;
 }
 
 export interface ContainerContext {
@@ -55,7 +58,11 @@ export class Container extends React.Component<ContainerProps> {
     super(props);
 
     // Create our new local database
-    this.db = new PouchDB(props.database);
+    this.db =
+      props.database instanceof PouchDB
+        ? props.database
+        : new PouchDB(props.database as string);
+
     // Replicate to a remote database
     if (props.remote) {
       this.sync = this.db.sync(props.remote, { live: true });
@@ -81,6 +88,9 @@ export class Container extends React.Component<ContainerProps> {
   componentWillUnmount(): void {
     if (this.props.remote) {
       this.sync.cancel();
+      this.changes.cancel();
+      this.db.close();
+      this.watching = [];
     }
   }
 

@@ -63,6 +63,7 @@
     "jest-environment-enzyme": "^7.0.1",
     "jest-enzyme": "^7.0.1",
     "parcel-bundler": "^1.11.0",
+    "pouchdb-adapter-memory": "^7.0.0",
     "prettier": "^1.16.4",
     "react-hot-loader": "^4.6.5",
     "typescript": "^3.3.3",

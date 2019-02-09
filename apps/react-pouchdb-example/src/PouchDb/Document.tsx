@@ -35,7 +35,7 @@ export function withDocument<P>(
   id: string,
   WrappedComponent: React.ComponentType<P & PuttableProps>
 ): React.ComponentClass<P & DocumentProps> {
-  return class extends React.Component<P & DocumentProps, DocumentState> {
+  return class extends React.PureComponent<P & DocumentProps, DocumentState> {
     static contextType = Context;
 
     // eslint-disable-next-line @typescript-eslint/no-object-literal-type-assertion
@@ -49,7 +49,6 @@ export function withDocument<P>(
     };
 
     private db: PouchDB.Database;
-    private changes: PouchDB.Core.Changes<{}>;
 
     private setDocument = (data: {} = {}): void => {
       this.setState({
@@ -68,10 +67,6 @@ export function withDocument<P>(
 
       // Add our current document to the ones we are watching
       context.watchDocument(id, this, this.setDocument);
-    }
-
-    componentWillUnmount(): void {
-      this.changes.cancel();
     }
 
     componentDidMount(): void {
@@ -110,6 +105,9 @@ export function withDocument<P>(
             _rev: doc._rev,
             ...data
           });
+        })
+        .then((doc: any) => {
+          console.log("Result from put", doc);
         })
         .catch(
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
