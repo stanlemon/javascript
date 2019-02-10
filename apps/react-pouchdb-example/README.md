@@ -21,7 +21,7 @@ npm test
 
 ## Syncing to a Remote Database
 
-The `<PouchDb.Container>` component has an attribute called `remote` that can be either a `PouchDB` instance or a valid URL for a CouchBD compatible database instance. If you want a quick and easy way to test this out, install `pouchdb-server` and run it.
+The `<PouchDb.Database>` component has an attribute called `remote` that can be either a `PouchDB` instance or a valid URL for a CouchBD compatible database instance. If you want a quick and easy way to test this out, install `pouchdb-server` and run it.
 
 Install `pouchdb-server`:
 

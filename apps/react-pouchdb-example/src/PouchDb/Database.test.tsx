@@ -1,16 +1,16 @@
 import React from "react";
 import { mount } from "enzyme";
-import { Container } from "./Container";
+import { Database } from "./Database";
 
-test("<Container/> renders children", (): void => {
+test("<Database/> renders children", (): void => {
   const text = "Hello World";
   const wrapper = mount(
-    <Container>
+    <Database>
       <h1>{text}</h1>
-    </Container>
+    </Database>
   );
 
-  expect(wrapper.props().database).toBe(Container.defaultProps.database);
+  expect(wrapper.props().database).toBe(Database.defaultProps.database);
 
   expect(wrapper.children().length).toBe(1);
 

@@ -1,6 +1,6 @@
 import * as React from "react";
 import { omit } from "lodash";
-import { Context, ContainerContext } from "./Container";
+import { Context, DatabaseContext } from "./Database";
 
 /**
  * Properties specific to the <Document/> component.
@@ -60,7 +60,7 @@ export function withDocument<P>(
     /**
      * Component wrapper, encapsulates a component with PouchDB document management.
      */
-    constructor(props: P & DocumentProps, context: ContainerContext) {
+    constructor(props: P & DocumentProps, context: DatabaseContext) {
       super(props);
 
       this.db = context.db;

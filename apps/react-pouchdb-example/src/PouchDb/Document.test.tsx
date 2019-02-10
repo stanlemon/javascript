@@ -3,7 +3,7 @@ import React from "react";
 import PouchDB from "pouchdb";
 import { mount } from "enzyme";
 import waitForExpect from "wait-for-expect";
-import { Container } from "./Container";
+import { Database } from "./Database";
 import { withDocument, PuttableProps } from "./Document";
 
 PouchDB.plugin(require("pouchdb-adapter-memory"));
@@ -38,7 +38,7 @@ function Loading(): React.FunctionComponentElement<null> {
 }
 
 async function getPouchDb(): Promise<PouchDB.Database> {
-  // An existing database, we'll pass this into our container to be used
+  // An existing database, we'll pass this into our component to be used
   const db = new PouchDB("local", { adapter: "memory" });
 
   // If the test document exists we're going to delete it before each test
@@ -63,9 +63,9 @@ test("withDocument() renders wrapped component", async (done): Promise<
   const Test = withDocument("test", TestComponent);
 
   const wrapper = mount(
-    <Container database={db}>
+    <Database database={db}>
       <Test loading={<Loading />} />
-    </Container>
+    </Database>
   );
 
   // The component is not initialized while waiting for PouchDB to fetch its document
@@ -98,9 +98,9 @@ test("withDocument() initializes with no existing document", async (done): Promi
   const Test = withDocument("test", TestComponent);
 
   const wrapper = mount(
-    <Container database={db}>
+    <Database database={db}>
       <Test loading={<Loading />} />
-    </Container>
+    </Database>
   );
 
   // Wait until our component is initialized
@@ -121,9 +121,9 @@ test("withDocument() updates document in PouchDB", async (done): Promise<
   const Test = withDocument("test", TestComponent);
 
   const wrapper = mount(
-    <Container database={db}>
+    <Database database={db}>
       <Test loading={<Loading />} />
-    </Container>
+    </Database>
   );
 
   // Wait until our component is initialized
@@ -169,9 +169,9 @@ test("withDocument() receives changes from a remote db", async (done): Promise<
   const Test = withDocument("test", TestComponent);
 
   const wrapper = mount(
-    <Container database={db} remote={remoteDb}>
+    <Database database={db} remote={remoteDb}>
       <Test value="Start" loading={<Loading />} />
-    </Container>
+    </Database>
   );
 
   await waitForExpect(() => {

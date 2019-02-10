@@ -1,14 +1,14 @@
 import * as React from "react";
 
-export interface ContainerProps {
+export interface DatabaseProps {
   loading?: string;
 }
 
 // eslint-disable-next-line max-lines-per-function
 export function withContainer<OriginalProps extends {}>(
   WrappedComponent: React.ComponentType<OriginalProps>
-): React.ComponentType<OriginalProps & ContainerProps> {
-  type CombinedProps = OriginalProps & ContainerProps;
+): React.ComponentType<OriginalProps & DatabaseProps> {
+  type CombinedProps = OriginalProps & DatabaseProps;
 
   class Container extends React.Component<CombinedProps> {
     // eslint-disable-next-line @typescript-eslint/no-object-literal-type-assertion

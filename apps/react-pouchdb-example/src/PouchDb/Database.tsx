@@ -4,7 +4,7 @@ import { omit } from "lodash";
 
 export const Context = React.createContext(null);
 
-interface ContainerProps {
+interface DatabaseProps {
   children: React.ReactNode;
 
   /**
@@ -23,7 +23,7 @@ interface ContainerProps {
   remote?: string | PouchDB.Database;
 }
 
-export interface ContainerContext {
+export interface DatabaseContext {
   db: PouchDB.Database;
   watchDocument(
     document: string,
@@ -33,10 +33,10 @@ export interface ContainerContext {
 }
 
 /**
- * Container for using PouchDB with React components. In order to wrap a component in a <Document />
+ * Component for using PouchDB with React components. In order to wrap a component in a <Document />
  * you need to use this component upstream of it.
  */
-export class Container extends React.Component<ContainerProps> {
+export class Database extends React.Component<DatabaseProps> {
   private db: PouchDB.Database;
 
   private sync: PouchDB.Replication.Sync<{}>;
@@ -54,7 +54,7 @@ export class Container extends React.Component<ContainerProps> {
     database: "local"
   };
 
-  constructor(props: ContainerProps) {
+  constructor(props: DatabaseProps) {
     super(props);
 
     // Create our new local database
@@ -94,7 +94,7 @@ export class Container extends React.Component<ContainerProps> {
   }
 
   render(): React.ReactNode {
-    const value: ContainerContext = {
+    const value: DatabaseContext = {
       db: this.db,
       watchDocument: (
         document: string,
@@ -116,4 +116,4 @@ export class Container extends React.Component<ContainerProps> {
   }
 }
 
-export default Container;
+export default Database;
