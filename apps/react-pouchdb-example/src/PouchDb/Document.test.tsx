@@ -175,13 +175,7 @@ test("withDocument() receives changes from a remote db", async (done): Promise<
   );
 
   await waitForExpect(() => {
-    wrapper.setProps({});
-    wrapper.update();
-    wrapper.instance().forceUpdate();
-
-    const state = wrapper.find(Test).state();
-
-    expect(state.initialized).toBe(true);
+    expect(wrapper.find(Test).state().initialized).toBe(true);
   }, 1000);
 
   // Force the component to re-render now that it is initialized
