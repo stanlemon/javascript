@@ -30,7 +30,7 @@ export class Notes extends React.Component<Props, State> {
       return;
     }
 
-    this.props.putState({
+    this.props.putDocument({
       notes: [...this.props.notes, this.state.note]
     });
 
@@ -44,7 +44,7 @@ export class Notes extends React.Component<Props, State> {
   };
 
   removeNote(note: string): void {
-    this.props.putState({
+    this.props.putDocument({
       notes: this.props.notes.filter(n => n !== note)
     });
   }

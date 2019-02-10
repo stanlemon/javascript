@@ -23,11 +23,11 @@ export interface PuttableProps {
   /**
    * Put data into state and the mapped PouchDB document.
    *
-   * If you are using a <Document/> component you should call this.props.putState() instead of this.setState().
+   * If you are using a <Document/> component you should call this.props.putDocument() instead of this.setState().
    *
    * @param data Data to be put in both state and PouchDB.
    */
-  putState(data: object): void;
+  putDocument(data: object): void;
 }
 
 // eslint-disable-next-line max-lines-per-function
@@ -94,7 +94,7 @@ export function withDocument<P>(
      *
      * This method updates state as well as updates the PouchDb document.
      */
-    private putState = (data: object): void => {
+    private putDocument = (data: object): void => {
       this.setDocument(data);
 
       this.db
@@ -134,7 +134,7 @@ export function withDocument<P>(
       const props = {
         ...this.props,
         ...this.state.data,
-        putState: this.putState
+        putDocument: this.putDocument
       };
 
       return <WrappedComponent {...props} />;

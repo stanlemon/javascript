@@ -16,7 +16,7 @@ class TestComponent extends React.Component<
   };
 
   onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    this.props.putState({ value: e.target.value });
+    this.props.putDocument({ value: e.target.value });
   };
 
   render(): React.ReactNode {

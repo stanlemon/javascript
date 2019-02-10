@@ -30,11 +30,11 @@ test("<Counter/> Renders the current count", (): void => {
 test("<Counter/> can be incremented with a button", (): void => {
   let state;
 
-  const putState = ({ count }: { count: number }): void => {
+  const putDocument = ({ count }: { count: number }): void => {
     state = count;
   };
 
-  const wrapper = shallow(<Counter putState={putState} />);
+  const wrapper = shallow(<Counter putDocument={putDocument} />);
 
   wrapper.find("button#increment").simulate("click");
 
@@ -44,11 +44,11 @@ test("<Counter/> can be incremented with a button", (): void => {
 test("<Counter/> can be decremented with a button", (): void => {
   let state;
 
-  const putState = ({ count }: { count: number }): void => {
+  const putDocument = ({ count }: { count: number }): void => {
     state = count;
   };
 
-  const wrapper = shallow(<Counter count={10} putState={putState} />);
+  const wrapper = shallow(<Counter count={10} putDocument={putDocument} />);
 
   wrapper.find("button#decrement").simulate("click");
 

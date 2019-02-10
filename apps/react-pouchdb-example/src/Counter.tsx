@@ -15,7 +15,7 @@ export default class Counter extends React.Component<CounterProps> {
   static defaultProps = {
     count: 0,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    putState: (state = {}): void => {}
+    putDocument: (state = {}): void => {}
   };
 
   /**
@@ -24,9 +24,9 @@ export default class Counter extends React.Component<CounterProps> {
    */
   private updateCount(increment: boolean): void {
     if (increment) {
-      this.props.putState({ count: this.props.count + 1 });
+      this.props.putDocument({ count: this.props.count + 1 });
     } else {
-      this.props.putState({ count: this.props.count - 1 });
+      this.props.putDocument({ count: this.props.count - 1 });
     }
   }
 
