@@ -1,7 +1,8 @@
 import * as React from "react";
-import { Database, withDocument } from "./PouchDb";
+import { Database, Aware, withDocument } from "./PouchDb";
 import Counter from "./Counter";
 import { Notes } from "./Notes";
+import { DatabaseInfo } from "./DatabaseInfo";
 import "./App.css";
 import { withContainer, Header } from "./withContainer";
 
@@ -18,6 +19,9 @@ export default class App extends React.Component {
           <WrappedHeader>Counter App!</WrappedHeader>
           <WrappedCounter count={0} loading={<div>Loading...</div>} />
           <WrappedNotes loading={<div>Loading...</div>} />
+          <Aware>
+            <DatabaseInfo />
+          </Aware>
         </div>
       </Database>
     );
