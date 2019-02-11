@@ -1,19 +1,14 @@
 {
   "compilerOptions": {
     "sourceMap": true,
-    "outDir": "./.tsout",
+    "outDir": "./dist",
     "noImplicitAny": true,
     "module": "commonjs",
-    "target": "esnext",
+    "target": "es6",
     "jsx": "react",
-    "lib":[
-      "es7",
-      "dom"
-    ],
+    "lib": ["esnext", "dom"],
     "allowSyntheticDefaultImports": true
   },
-  "include": [
-    "./src/**/*"
-  ],
-  "exclude": ["node_modules"]
+  "include": ["./src/**/*"],
+  "exclude": ["node_modules", "./src/**/*.test.*"]
 }

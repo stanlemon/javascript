@@ -10,8 +10,9 @@
   },
   "main": "./src/index.tsx",
   "scripts": {
-    "start": "parcel index.html",
+    "start": "parcel --out-dir ./out/ index.html",
     "test": "jest",
+    "build": "tsc -d",
     "lint": "eslint --ext js,jsx,ts,tsx ./src/",
     "eslint-check": "eslint --print-config . | eslint-config-prettier-check"
   },
