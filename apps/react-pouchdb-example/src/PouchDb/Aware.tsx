@@ -1,12 +1,12 @@
 import * as React from "react";
 
-import { Context, DatabaseContext } from "./Database";
+import { Context } from "./Database";
 
 interface Props {
   children: React.ReactChild;
 }
 
-export class Aware extends React.Component<Props, {}, DatabaseContext> {
+export class Aware extends React.Component<Props, {}> {
   static contextType = Context;
 
   render(): React.ReactNode {
