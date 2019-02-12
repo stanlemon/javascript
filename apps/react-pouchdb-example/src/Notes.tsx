@@ -18,7 +18,7 @@ export class Notes extends React.Component<Props, State> {
     note: ""
   };
 
-  updateNote = (e: React.FormEvent<HTMLInputElement>): void => {
+  updateNote = (e: React.FormEvent<HTMLTextAreaElement>): void => {
     this.setState({
       note: e.currentTarget.value
     });
@@ -37,7 +37,7 @@ export class Notes extends React.Component<Props, State> {
     this.setState({ note: "" });
   };
 
-  addNoteWithEnter = (e: React.KeyboardEvent<HTMLInputElement>): void => {
+  addNoteWithEnter = (e: React.KeyboardEvent<HTMLTextAreaElement>): void => {
     if (e.key === "Enter") {
       this.addNote();
     }
@@ -52,6 +52,7 @@ export class Notes extends React.Component<Props, State> {
   render(): React.ReactNode {
     return (
       <div>
+        <h2>Notes:</h2>
         <ul>
           {this.props.notes.map((note, i) => (
             <li key={i}>
@@ -60,13 +61,14 @@ export class Notes extends React.Component<Props, State> {
             </li>
           ))}
         </ul>
-        <input
-          type="text"
+        <textarea
           onChange={this.updateNote}
           onKeyPress={this.addNoteWithEnter}
           value={this.state.note}
         />
-        <button onClick={this.addNote}>Add</button>
+        <div>
+          <button onClick={this.addNote}>Add Note</button>
+        </div>
       </div>
     );
   }

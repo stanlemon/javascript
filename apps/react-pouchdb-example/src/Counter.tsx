@@ -41,7 +41,8 @@ export default class Counter extends React.Component<CounterProps> {
   render(): React.ReactNode {
     return (
       <div>
-        <p>The current count is: {this.props.count}</p>
+        <h2>Counter:</h2>
+        <p>Current count is: {this.props.count}</p>
         <button id="increment" onClick={this.increment}>
           Increment
         </button>

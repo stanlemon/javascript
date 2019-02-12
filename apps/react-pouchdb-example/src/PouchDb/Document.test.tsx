@@ -4,7 +4,7 @@ import PouchDB from "pouchdb";
 import { mount } from "enzyme";
 import waitForExpect from "wait-for-expect";
 import { Database } from "./Database";
-import { withDocument, PuttableProps } from "./Document";
+import { Document, withDocument, PuttableProps } from "./Document";
 
 PouchDB.plugin(require("pouchdb-adapter-memory"));
 
@@ -69,14 +69,14 @@ test("withDocument() renders wrapped component", async (done): Promise<
   );
 
   // The component is not initialized while waiting for PouchDB to fetch its document
-  expect(wrapper.find(Test).state().initialized).toBe(false);
+  expect(wrapper.find(Document).state().initialized).toBe(false);
   // Uninitialized means that we should have a loading component in the tree
   expect(wrapper.find(Loading).length).toBe(1);
   // And we should not have the component we wrapped
   expect(wrapper.find(TestComponent).length).toBe(0);
 
   await waitForExpect(() => {
-    expect(wrapper.find(Test).state().initialized).toBe(true);
+    expect(wrapper.find(Document).state().initialized).toBe(true);
   }, 1000);
 
   // Force the component to re-render now that it is initialized
@@ -105,7 +105,7 @@ test("withDocument() initializes with no existing document", async (done): Promi
 
   // Wait until our component is initialized
   await waitForExpect(() => {
-    expect(wrapper.find(Test).state().initialized).toBe(true);
+    expect(wrapper.find(Document).state().initialized).toBe(true);
   }, 1000);
 
   wrapper.unmount();
@@ -128,7 +128,7 @@ test("withDocument() updates document in PouchDB", async (done): Promise<
 
   // Wait until our component is initialized
   await waitForExpect(() => {
-    expect(wrapper.find(Test).state().initialized).toBe(true);
+    expect(wrapper.find(Document).state().initialized).toBe(true);
   }, 3000);
 
   wrapper.update();
@@ -142,7 +142,7 @@ test("withDocument() updates document in PouchDB", async (done): Promise<
 
   input.simulate("change", { target: { value: newValue } });
 
-  expect(wrapper.find(Test).state().data.value).toBe(newValue);
+  expect(wrapper.find(Document).state().data.value).toBe(newValue);
 
   wrapper.update();
 
@@ -175,7 +175,7 @@ test("withDocument() receives changes from a remote db", async (done): Promise<
   );
 
   await waitForExpect(() => {
-    expect(wrapper.find(Test).state().initialized).toBe(true);
+    expect(wrapper.find(Document).state().initialized).toBe(true);
   }, 1000);
 
   // Force the component to re-render now that it is initialized

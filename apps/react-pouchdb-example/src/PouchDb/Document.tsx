@@ -2,12 +2,17 @@ import * as React from "react";
 import { omit } from "lodash";
 import { Context, DatabaseContext } from "./Database";
 
+export interface DocumentIdProps {
+  id: string;
+}
+
 /**
  * Properties specific to the <Document/> component.
  */
 export interface DocumentProps {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  loading: React.ReactElement<any>;
+  loading?: React.ReactElement<{}>;
+  children?: React.ReactChild;
+  component?: React.ReactElement<{}>;
 }
 
 export interface DocumentState {
@@ -34,110 +39,136 @@ export interface PuttableProps {
 export function withDocument<P>(
   id: string,
   WrappedComponent: React.ComponentType<P & PuttableProps>
-): React.ComponentClass<P & DocumentProps> {
-  return class extends React.PureComponent<P & DocumentProps, DocumentState> {
-    static contextType = Context;
+): React.FunctionComponent<P & DocumentProps> {
+  return (props: P & DocumentProps): React.ReactElement<P & DocumentProps> => (
+    <Document id={id} loading={props.loading}>
+      <WrappedComponent
+        // This property will get overwritten by <Document />
+        putDocument={() => {
+          /* do nothing */
+        }}
+        {...props}
+      />
+    </Document>
+  );
+}
 
-    // eslint-disable-next-line @typescript-eslint/no-object-literal-type-assertion
-    static defaultProps: Partial<P & DocumentProps> = {
-      loading: <React.Fragment />
-    } as Partial<P & DocumentProps>;
+export class Document extends React.PureComponent<
+  DocumentIdProps & Partial<DocumentProps>,
+  DocumentState
+> {
+  static contextType = Context;
 
-    state = {
-      initialized: false,
-      data: {}
-    };
+  // eslint-disable-next-line
+  static defaultProps: DocumentIdProps & Partial<DocumentProps> = {
+    loading: <React.Fragment />
+  } as DocumentIdProps & Partial<DocumentProps>;
 
-    private db: PouchDB.Database;
-
-    private setDocument = (data: {} = {}): void => {
-      this.setState({
-        initialized: true,
-        data
-      });
-    };
-
-    /**
-     * Component wrapper, encapsulates a component with PouchDB document management.
-     */
-    constructor(props: P & DocumentProps, context: DatabaseContext) {
-      super(props);
-
-      this.db = context.db;
-
-      // Add our current document to the ones we are watching
-      context.watchDocument(id, this, this.setDocument);
-    }
-
-    componentDidMount(): void {
-      this.db
-        .get(id)
-        .then((doc: {}) => {
-          // Update state, but remove these pouchdb specific fields before we do
-          const data = omit(doc, ["_id", "_rev"]);
-
-          this.setDocument(data);
-        })
-        .catch(
-          (err: { status: number; message: string; reason: string }): void => {
-            // We did not find a document, but the component is now initialized
-            // The document can be either 'missing' or 'deleted'
-            if (err.status === 404) {
-              this.setDocument();
-            }
-          }
-        );
-    }
-
-    /**
-     * Replacement for setState() in managed components.
-     *
-     * This method updates state as well as updates the PouchDb document.
-     */
-    private putDocument = (data: object): void => {
-      this.setDocument(data);
-
-      this.db
-        .get(id)
-        .then((doc: { _id: string; _rev: string }) => {
-          // Update the document with our latest data
-          return this.db.put({
-            _id: doc._id,
-            _rev: doc._rev,
-            ...data
-          });
-        })
-        .then((doc: {}) => {
-          // TODO: We should track the current revision id
-          console.log("Result from put", doc);
-        })
-        .catch(
-          (err: { status: number; message: string; reason: string }): void => {
-            // This indicates a brand new document that we are creating
-            // The document can be either 'missing' or 'deleted'
-            if (err.status === 404) {
-              this.db.put({
-                _id: id,
-                ...data
-              });
-            }
-          }
-        );
-    };
-
-    render(): React.ReactNode {
-      // If we haven't initialized the document yet, don't return the component
-      if (!this.state.initialized) {
-        return this.props.loading;
-      }
-
-      const props = {
-        ...this.props,
-        ...this.state.data,
-        putDocument: this.putDocument
-      };
-
-      return <WrappedComponent {...props} />;
-    }
+  state = {
+    initialized: false,
+    data: {}
   };
+
+  private db: PouchDB.Database;
+
+  private setDocument = (data: {} = {}): void => {
+    this.setState({
+      initialized: true,
+      data
+    });
+  };
+
+  /**
+   * Component wrapper, encapsulates a component with PouchDB document management.
+   */
+  constructor(
+    props: DocumentIdProps & Partial<DocumentProps>,
+    context: DatabaseContext
+  ) {
+    super(props);
+
+    this.db = context.db;
+
+    // Add our current document to the ones we are watching
+    context.watchDocument(this.props.id, this, this.setDocument);
+  }
+
+  componentDidMount(): void {
+    this.db
+      .get(this.props.id)
+      .then((doc: {}) => {
+        // Update state, but remove these pouchdb specific fields before we do
+        const data = omit(doc, ["_id", "_rev"]);
+
+        this.setDocument(data);
+      })
+      .catch(
+        (err: { status: number; message: string; reason: string }): void => {
+          // We did not find a document, but the component is now initialized
+          // The document can be either 'missing' or 'deleted'
+          if (err.status === 404) {
+            this.setDocument();
+          }
+        }
+      );
+  }
+
+  /**
+   * Replacement for setState() in managed components.
+   *
+   * This method updates state as well as updates the PouchDb document.
+   */
+  private putDocument = (data: object): void => {
+    this.setDocument(data);
+
+    this.db
+      .get(this.props.id)
+      .then((doc: { _id: string; _rev: string }) => {
+        // Update the document with our latest data
+        return this.db.put({
+          _id: doc._id,
+          _rev: doc._rev,
+          ...data
+        });
+      })
+      .then((doc: {}) => {
+        // TODO: We should track the current revision id
+        console.log("Result from put", doc);
+      })
+      .catch(
+        (err: { status: number; message: string; reason: string }): void => {
+          // This indicates a brand new document that we are creating
+          // The document can be either 'missing' or 'deleted'
+          if (err.status === 404) {
+            this.db.put({
+              _id: this.props.id,
+              ...data
+            });
+          }
+        }
+      );
+  };
+
+  render(): React.ReactNode {
+    // If we haven't initialized the document yet, don't return the component
+    if (!this.state.initialized) {
+      return this.props.loading;
+    }
+
+    const props = {
+      ...this.props,
+      ...this.state.data,
+      putDocument: this.putDocument
+    };
+
+    const child = (this.props.component
+      ? this.props.component
+      : this.props.children) as React.ReactElement<{}>;
+
+    if (!child) {
+      throw new Error("A component or children must be specified.");
+    }
+
+    return React.cloneElement(child, props);
+  }
 }
