@@ -78,23 +78,11 @@ export class Document extends React.PureComponent<
     });
   };
 
-  /**
-   * Component wrapper, encapsulates a component with PouchDB document management.
-   */
-  constructor(
-    props: DocumentIdProps & Partial<DocumentProps>,
-    context: DatabaseContext
-  ) {
-    super(props);
-
-    this.db = context.db;
-
-    // Add our current document to the ones we are watching
-    context.watchDocument(this.props.id, this, this.setDocument);
-  }
-
   componentDidMount(): void {
-    this.db
+    // Add our current document to the ones we are watching
+    this.context.watchDocument(this.props.id, this, this.setDocument);
+
+    this.context.db
       .get(this.props.id)
       .then((doc: {}) => {
         // Update state, but remove these pouchdb specific fields before we do
@@ -121,11 +109,11 @@ export class Document extends React.PureComponent<
   private putDocument = (data: object): void => {
     this.setDocument(data);
 
-    this.db
+    this.context.db
       .get(this.props.id)
       .then((doc: { _id: string; _rev: string }) => {
         // Update the document with our latest data
-        return this.db.put({
+        return this.context.db.put({
           _id: doc._id,
           _rev: doc._rev,
           ...data
@@ -140,7 +128,7 @@ export class Document extends React.PureComponent<
           // This indicates a brand new document that we are creating
           // The document can be either 'missing' or 'deleted'
           if (err.status === 404) {
-            this.db.put({
+            this.context.db.put({
               _id: this.props.id,
               ...data
             });

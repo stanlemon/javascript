@@ -85,6 +85,14 @@ test("withDocument() renders wrapped component", async (done): Promise<
   expect(wrapper.find(Loading).length).toBe(0);
   expect(wrapper.find(TestComponent).length).toBe(1);
 
+  // Our value property from the document came back
+  expect(wrapper.find(TestComponent).prop("value")).toBe("Hello World");
+  expect(wrapper.html()).toContain("Hello World");
+
+  // These properties should not come back from the PouchDB document
+  expect(wrapper.find(TestComponent).prop("_id")).toBe(undefined);
+  expect(wrapper.find(TestComponent).prop("_rev")).toBe(undefined);
+
   wrapper.unmount();
 
   done();
@@ -181,6 +189,8 @@ test("withDocument() receives changes from a remote db", async (done): Promise<
   // Force the component to re-render now that it is initialized
   wrapper.update();
 
+  expect(wrapper.find(TestComponent).length).toBe(1);
+
   expect(wrapper.find(TestComponent).props().value).toBe("Start");
 
   await remoteDb.put({ _id: "test", value: "Finish" });
@@ -189,6 +199,10 @@ test("withDocument() receives changes from a remote db", async (done): Promise<
     wrapper.update();
     expect(wrapper.find(TestComponent).props().value).toBe("Finish");
   }, 1000);
+
+  // These properties should not come back from the PouchDB document
+  expect(wrapper.find(TestComponent).prop("_id")).toBe(undefined);
+  expect(wrapper.find(TestComponent).prop("_rev")).toBe(undefined);
 
   wrapper.unmount();
 

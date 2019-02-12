@@ -1,6 +1,5 @@
 import * as React from "react";
 import PouchDB from "pouchdb";
-import { omit } from "lodash";
 
 export const Context = React.createContext(null);
 
@@ -26,10 +25,16 @@ interface DatabaseProps {
 export interface DatabaseContext {
   db: PouchDB.Database;
   watchDocument(
-    document: string,
+    id: string,
     component: React.ReactInstance,
     callback: (data: {}) => void
   ): void;
+}
+
+interface Doc {
+  [key: string]: string;
+  _id: string;
+  _rev: string;
 }
 
 /**
@@ -45,8 +50,11 @@ export class Database extends React.Component<DatabaseProps> {
 
   // TODO: Might want to key this by the document name and have an array of components and callbacks
   private watching: {
-    document: string;
+    // Id of the document to be watched
+    id: string;
+    // <Document /> component instance
     component: React.ReactInstance;
+    // Callback on the <Document /> instance that allows us to setState() from here
     callback: (data: {}) => void;
   }[] = [];
 
@@ -73,16 +81,36 @@ export class Database extends React.Component<DatabaseProps> {
           live: true,
           include_docs: true
         })
-        .on("change", change => {
+        .on("change", (change: PouchDB.Core.ChangesResponseChange<Doc>) => {
           console.log("Received change", change);
           this.watching.forEach(watch => {
-            if (watch.document === change.id) {
-              const data = omit(change.doc, ["_id", "_rev"]);
+            if (watch.id === change.id) {
+              const data = this.extractDocument(change.doc);
               watch.callback(data);
             }
           });
         });
     }
+  }
+
+  /**
+   * Given a document from PouchDB extract the _id and _rev fields from it.
+   * @param doc pouchdb document
+   */
+  private extractDocument(doc: Doc): {} {
+    const data = Object.keys(doc)
+      // Create a new key set that excludes these two keys
+      .filter(k => k !== "_id" && k !== "_rev")
+      // Create a new object using the keyset and the original values
+      // Note that the [key]: string type here basically states that every key on the object is a string
+      .reduce((obj: { [key: string]: string }, key: string): {
+        [key: string]: string;
+      } => {
+        obj[key] = doc[key];
+        return obj;
+      }, {});
+
+    return data;
   }
 
   componentWillUnmount(): void {
@@ -97,15 +125,15 @@ export class Database extends React.Component<DatabaseProps> {
     const value: DatabaseContext = {
       db: this.db,
       watchDocument: (
-        document: string,
+        id: string,
         component: React.ReactInstance,
         callback: (data: {}) => void
       ) => {
-        console.log("Watching new document  = " + document);
-        this.watching.push({ document, component, callback });
+        console.log("Watching new document  = " + id);
+        this.watching.push({ id, component, callback });
         console.log(
           "Currently watching these documents " +
-            JSON.stringify(this.watching.map(e => e.document))
+            JSON.stringify(this.watching.map(e => e.id))
         );
       }
     };
