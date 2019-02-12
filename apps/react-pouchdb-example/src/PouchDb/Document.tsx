@@ -1,6 +1,6 @@
 import * as React from "react";
 import { omit } from "lodash";
-import { Context, DatabaseContext } from "./Database";
+import { Context } from "./Database";
 
 export interface DocumentIdProps {
   id: string;

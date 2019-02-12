@@ -27,7 +27,7 @@ export interface DatabaseContext {
   watchDocument(
     id: string,
     component: React.ReactInstance,
-    callback: (data: {}) => void
+    setDocument: (data: {}) => void
   ): void;
 }
 
@@ -55,7 +55,7 @@ export class Database extends React.Component<DatabaseProps> {
     // <Document /> component instance
     component: React.ReactInstance;
     // Callback on the <Document /> instance that allows us to setState() from here
-    callback: (data: {}) => void;
+    setDocument: (data: {}) => void;
   }[] = [];
 
   static defaultProps = {
@@ -67,13 +67,13 @@ export class Database extends React.Component<DatabaseProps> {
 
     // Create our new local database
     this.db =
-      props.database instanceof PouchDB
-        ? props.database
-        : new PouchDB(props.database as string);
+      this.props.database instanceof PouchDB
+        ? this.props.database
+        : new PouchDB(this.props.database as string);
 
     // Replicate to a remote database
-    if (props.remote) {
-      this.sync = this.db.sync(props.remote, { live: true });
+    if (this.props.remote) {
+      this.sync = this.db.sync(this.props.remote, { live: true });
 
       this.changes = this.db
         .changes({
@@ -86,7 +86,7 @@ export class Database extends React.Component<DatabaseProps> {
           this.watching.forEach(watch => {
             if (watch.id === change.id) {
               const data = this.extractDocument(change.doc);
-              watch.callback(data);
+              watch.setDocument(data);
             }
           });
         });
@@ -113,6 +113,8 @@ export class Database extends React.Component<DatabaseProps> {
     return data;
   }
 
+  componentDidMount(): void {}
+
   componentWillUnmount(): void {
     if (this.props.remote) {
       this.sync.cancel();
@@ -127,10 +129,10 @@ export class Database extends React.Component<DatabaseProps> {
       watchDocument: (
         id: string,
         component: React.ReactInstance,
-        callback: (data: {}) => void
+        setDocument: (data: {}) => void
       ) => {
         console.log("Watching new document  = " + id);
-        this.watching.push({ id, component, callback });
+        this.watching.push({ id, component, setDocument });
         console.log(
           "Currently watching these documents " +
             JSON.stringify(this.watching.map(e => e.id))
