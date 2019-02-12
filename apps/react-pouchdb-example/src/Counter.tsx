@@ -11,7 +11,7 @@ type CounterProps = PuttableProps & {
 /**
  * Counter application that tracks increment and decrement operations.
  */
-export default class Counter extends React.Component<CounterProps> {
+export class Counter extends React.Component<CounterProps> {
   static defaultProps = {
     count: 0,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars

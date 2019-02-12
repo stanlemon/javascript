@@ -35,7 +35,6 @@ export interface PuttableProps {
   putDocument(data: object): void;
 }
 
-// eslint-disable-next-line max-lines-per-function
 export function withDocument<P>(
   id: string,
   WrappedComponent: React.ComponentType<P & PuttableProps>
@@ -58,11 +57,6 @@ export class Document extends React.PureComponent<
   DocumentState
 > {
   static contextType = Context;
-
-  // eslint-disable-next-line
-  static defaultProps: DocumentIdProps & Partial<DocumentProps> = {
-    loading: <React.Fragment />
-  } as DocumentIdProps & Partial<DocumentProps>;
 
   state = {
     initialized: false,
@@ -138,7 +132,12 @@ export class Document extends React.PureComponent<
   };
 
   render(): React.ReactNode {
-    // If we haven't initialized the document yet, don't return the component
+    // If we haven't initialized the document yet and don't have a loading component
+    if (!this.state.initialized && !this.props.loading) {
+      return <React.Fragment />;
+    }
+
+    // If we haven't initialized the document yet return the loading component
     if (!this.state.initialized) {
       return this.props.loading;
     }

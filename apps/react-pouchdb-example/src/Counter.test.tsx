@@ -1,6 +1,6 @@
 import React from "react";
 import { mount, shallow } from "enzyme";
-import Counter from "./Counter";
+import { Counter } from "./Counter";
 
 test("<Counter/> Defaults count to 0", (): void => {
   const wrapper = mount(<Counter />);
