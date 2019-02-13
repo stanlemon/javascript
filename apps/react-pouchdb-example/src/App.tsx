@@ -3,6 +3,7 @@ import { Database, Aware, Document, withDocument } from "./PouchDb";
 import { Counter } from "./Counter";
 import { Notes } from "./Notes";
 import { Tasks } from "./Tasks";
+import { Example } from "./Example";
 import { DatabaseInfo } from "./DatabaseInfo";
 import "./App.css";
 
@@ -25,7 +26,7 @@ export default class App extends React.Component {
       <Database database="local" remote="http://127.0.0.1:5984/test">
         <div className="app">
           <h1>Test App!</h1>
-          <WrappedCounter count={0} loading={<div>Loading Counter...</div>} />
+          <Example />
           <WrappedNotes />
           <WrappedTasks />
           <div style={{ marginTop: 20 }} />
