@@ -28,7 +28,7 @@ test("<Counter/> Renders the current count", (): void => {
 });
 
 test("<Counter/> can be incremented with a button", (): void => {
-  let state;
+  let state: number;
 
   const putDocument = ({ count }: { count: number }): void => {
     state = count;
@@ -42,7 +42,7 @@ test("<Counter/> can be incremented with a button", (): void => {
 });
 
 test("<Counter/> can be decremented with a button", (): void => {
-  let state;
+  let state: number;
 
   const putDocument = ({ count }: { count: number }): void => {
     state = count;
