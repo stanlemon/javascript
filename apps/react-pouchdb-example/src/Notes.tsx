@@ -2,7 +2,7 @@ import * as React from "react";
 import { PuttableProps } from "./PouchDb";
 
 type Props = PuttableProps & {
-  notes?: string[];
+  notes?: { note: string }[];
 };
 
 interface State {
@@ -31,7 +31,7 @@ export class Notes extends React.Component<Props, State> {
     }
 
     this.props.putDocument({
-      notes: [...this.props.notes, this.state.note]
+      notes: [...this.props.notes, { note: this.state.note }]
     });
 
     this.setState({ note: "" });
@@ -39,13 +39,14 @@ export class Notes extends React.Component<Props, State> {
 
   addNoteWithEnter = (e: React.KeyboardEvent<HTMLTextAreaElement>): void => {
     if (e.key === "Enter") {
+      e.preventDefault();
       this.addNote();
     }
   };
 
-  removeNote(note: string): void {
+  removeNote(note: { note: string }): void {
     this.props.putDocument({
-      notes: this.props.notes.filter(n => n !== note)
+      notes: this.props.notes.filter(n => n.note !== note.note)
     });
   }
 
@@ -56,7 +57,7 @@ export class Notes extends React.Component<Props, State> {
         <ul>
           {this.props.notes.map((note, i) => (
             <li key={i}>
-              {note}
+              {note.note}
               <button onClick={this.removeNote.bind(this, note)}>Remove</button>
             </li>
           ))}
