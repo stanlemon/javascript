@@ -1,9 +1,11 @@
 import * as React from "react";
 import PouchDB from "pouchdb";
-
-export const Context = React.createContext(null);
+import { Document } from "./Document";
 
 interface DatabaseProps {
+  /**
+   * Children components.
+   */
   children: React.ReactNode;
 
   /**
@@ -22,11 +24,18 @@ interface DatabaseProps {
   remote?: string | PouchDB.Database;
 }
 
-interface Doc {
+export interface DatabaseContext {
+  db: PouchDB.Database;
+  watchDocument(id: string, component: Document): void;
+}
+
+export interface Doc {
   [key: string]: string;
   _id: string;
   _rev: string;
 }
+
+export const Context = React.createContext<DatabaseContext>(null);
 
 /**
  * Component for using PouchDB with React components. In order to wrap a component in a <Document />
@@ -47,9 +56,7 @@ export class Database extends React.Component<DatabaseProps> {
     // Id of the document to be watched
     id: string;
     // <Document /> component instance
-    component: React.ReactInstance;
-    // Callback on the <Document /> instance that allows us to setState() from here
-    setDocument: (data: {}) => void;
+    component: Document;
   }[] = [];
 
   constructor(props: DatabaseProps) {
@@ -62,47 +69,50 @@ export class Database extends React.Component<DatabaseProps> {
         : new PouchDB(this.props.database as string);
   }
 
-  /**
-   * Given a document from PouchDB extract the _id and _rev fields from it.
-   * @param doc pouchdb document
-   */
-  private extractDocument(doc: Doc): {} {
-    const data = Object.keys(doc)
-      // Create a new key set that excludes these two keys
-      .filter(k => k !== "_id" && k !== "_rev")
-      // Create a new object using the keyset and the original values
-      // Note that the [key]: string type here basically states that every key on the object is a string
-      .reduce((obj: { [key: string]: string }, key: string): {
-        [key: string]: string;
-      } => {
-        obj[key] = doc[key];
-        return obj;
-      }, {});
-
-    return data;
-  }
-
+  // eslint-disable-next-line max-lines-per-function
   componentDidMount(): void {
-    // Replicate to a remote database
-    if (this.props.remote) {
-      this.sync = this.db.sync(this.props.remote, { live: true });
-
-      this.changes = this.db
-        .changes({
-          since: "now",
-          live: true,
-          include_docs: true
-        })
-        .on("change", (change: PouchDB.Core.ChangesResponseChange<Doc>) => {
-          console.log("Received change", change);
-          this.watching.forEach(watch => {
-            if (watch.id === change.id) {
-              const data = this.extractDocument(change.doc);
-              watch.setDocument(data);
-            }
-          });
-        });
+    if (!this.props.remote) {
+      return;
     }
+
+    // Replicate to a remote database
+    this.sync = this.db.sync(this.props.remote, { live: true });
+
+    this.changes = this.db
+      .changes({
+        conflicts: true,
+        live: true,
+        include_docs: true
+      })
+      .on("change", (change: PouchDB.Core.ChangesResponseChange<Doc>) => {
+        // eslint-disable-next-line no-console
+        console.log("Received change = ", change);
+
+        this.watching.forEach(watch => {
+          // if (change.deleted === true) { /* handle deletion /* }
+
+          // If this isn't the doc we're looking for, skip over it
+          if (watch.id !== change.id) {
+            return;
+          }
+
+          if (change.doc._conflicts) {
+            // Handle conflict here
+            this.db
+              // Note: What happens when there is more than one conflict?
+              .get(watch.id, { rev: change.doc._conflicts[0] })
+              .then((conflict: Doc) => {
+                watch.component.handleConflict(change.doc, conflict);
+              });
+          }
+
+          // If we don't have the revision for this change already (meaning it's likely external and not local) apply it
+          if (watch.component.getRevision() !== change.doc._rev) {
+            watch.component.setRevision(change.doc._rev);
+            watch.component.setDocument(change.doc);
+          }
+        });
+      });
   }
 
   componentWillUnmount(): void {
@@ -114,24 +124,17 @@ export class Database extends React.Component<DatabaseProps> {
   }
 
   render(): React.ReactNode {
-    const value = {
+    const contextValue: DatabaseContext = {
       db: this.db,
-      watchDocument: (
-        id: string,
-        component: React.ReactInstance,
-        setDocument: (data: {}) => void
-      ) => {
-        console.log("Watching new document  = " + id);
-        this.watching.push({ id, component, setDocument });
-        console.log(
-          "Currently watching these documents " +
-            JSON.stringify(this.watching.map(e => e.id))
-        );
+      watchDocument: (id: string, component: Document) => {
+        this.watching.push({ id, component });
       }
     };
 
     return (
-      <Context.Provider value={value}>{this.props.children}</Context.Provider>
+      <Context.Provider value={contextValue}>
+        {this.props.children}
+      </Context.Provider>
     );
   }
 }
