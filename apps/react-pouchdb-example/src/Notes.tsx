@@ -1,5 +1,5 @@
 import * as React from "react";
-import { PuttableProps } from "./PouchDb";
+import { PuttableProps } from "@stanlemon/react-pouchdb";
 
 type Props = PuttableProps & {
   notes?: { note: string }[];
@@ -57,8 +57,17 @@ export class Notes extends React.Component<Props, State> {
         <ul>
           {this.props.notes.map((note, i) => (
             <li key={i}>
-              {note.note}
-              <button onClick={this.removeNote.bind(this, note)}>Remove</button>
+              <div className="columns is-mobile">
+                <div className="column is-four-fifths">{note.note}</div>
+                <div className="column has-text-right">
+                  <button
+                    className="button is-small is-danger"
+                    onClick={this.removeNote.bind(this, note)}
+                  >
+                    Remove
+                  </button>
+                </div>
+              </div>
             </li>
           ))}
         </ul>

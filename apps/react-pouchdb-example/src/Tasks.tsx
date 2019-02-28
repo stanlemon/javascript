@@ -1,5 +1,5 @@
 import * as React from "react";
-import { PuttableProps } from "./PouchDb";
+import { PuttableProps } from "@stanlemon/react-pouchdb";
 
 interface Task {
   name: string;
@@ -87,17 +87,26 @@ export class Tasks extends React.Component<Props, State> {
           <ul>
             {this.props.tasks.map((task, i) => (
               <li key={i}>
-                <label className="checkbox">
-                  {task.completed ? <del>{task.name}</del> : task.name}{" "}
-                  <input
-                    type="checkbox"
-                    checked={task.completed}
-                    onChange={this.completeTask.bind(this, task)}
-                  />
-                </label>{" "}
-                <button onClick={this.removeTask.bind(this, task)}>
-                  Remove
-                </button>
+                <div className="columns is-mobile">
+                  <div className="column is-four-fifths">
+                    <label className="checkbox">
+                      <input
+                        type="checkbox"
+                        checked={task.completed}
+                        onChange={this.completeTask.bind(this, task)}
+                      />{" "}
+                      {task.completed ? <del>{task.name}</del> : task.name}{" "}
+                    </label>
+                  </div>
+                  <div className="column has-text-right">
+                    <button
+                      className="button is-small is-danger"
+                      onClick={this.removeTask.bind(this, task)}
+                    >
+                      Remove
+                    </button>
+                  </div>
+                </div>
               </li>
             ))}
           </ul>
