@@ -40,14 +40,20 @@ export class Counter extends React.Component<CounterProps> {
 
   render(): React.ReactNode {
     return (
-      <div>
+      <section>
         <p>Current count is: {this.props.count}</p>
-        <button id="increment" onClick={this.increment}>
-          Increment +
-        </button>
-        <button id="decrement" onClick={this.decrement}>
-          Decrement -
-        </button>
+        <div className="field has-addons">
+          <p className="control">
+            <button className="button" id="increment" onClick={this.increment}>
+              Increment +
+            </button>
+          </p>
+          <p className="control">
+            <button className="button" id="decrement" onClick={this.decrement}>
+              Decrement -
+            </button>
+          </p>
+        </div>
       </div>
     );
   }

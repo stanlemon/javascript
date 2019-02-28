@@ -11,15 +11,24 @@ export function Example(): React.ReactElement<{}> {
   return (
     <Database database="local" remote="http://127.0.0.1:5984/test">
       <div style={style}>
-        <h2>Three Counters, Three Ways!</h2>
-        <h3>Using a higher order function:</h3>
-        <WrappedCounter loading={<div>Loading Counter...</div>} />
-        <h3>Wrapping the component as a child:</h3>
-        <Document id="counter2">
-          <Counter />
-        </Document>
-        <h3>Wrapping the component as a property:</h3>
-        <Document id="counter3" component={<Counter />} />
+        <h2 className="is-size-2">Three Counters, Three Ways!</h2>
+        <hr />
+        <div className="columns is-3 is-three-quarters">
+          <div className="column">
+            <h3 className="is-size-4">Using a higher order function:</h3>
+            <WrappedCounter loading={<div>Loading Counter...</div>} />
+          </div>
+          <div className="column">
+            <h3 className="is-size-4">Wrapping the component as a child:</h3>
+            <Document id="counter2">
+              <Counter />
+            </Document>
+          </div>
+          <div className="column">
+            <h3 className="is-size-4">Wrapping the component as a property:</h3>
+            <Document id="counter3" component={<Counter />} />
+          </div>
+        </div>
       </div>
     </Database>
   );

@@ -78,7 +78,7 @@ export class Tasks extends React.Component<Props, State> {
   render(): React.ReactNode {
     return (
       <React.Fragment>
-        <h2>Tasks:</h2>
+        <h2 className="is-size-2">Tasks:</h2>
         {this.props.tasks.length === 0 ? (
           <div>
             <em>There are no tasks yet.</em>
@@ -87,12 +87,14 @@ export class Tasks extends React.Component<Props, State> {
           <ul>
             {this.props.tasks.map((task, i) => (
               <li key={i}>
-                {task.completed ? <del>{task.name}</del> : task.name}{" "}
-                <input
-                  type="checkbox"
-                  checked={task.completed}
-                  onChange={this.completeTask.bind(this, task)}
-                />
+                <label className="checkbox">
+                  {task.completed ? <del>{task.name}</del> : task.name}{" "}
+                  <input
+                    type="checkbox"
+                    checked={task.completed}
+                    onChange={this.completeTask.bind(this, task)}
+                  />
+                </label>{" "}
                 <button onClick={this.removeTask.bind(this, task)}>
                   Remove
                 </button>
@@ -100,13 +102,25 @@ export class Tasks extends React.Component<Props, State> {
             ))}
           </ul>
         )}
-        <input
-          type="text"
-          onChange={this.updateTask}
-          onKeyPress={this.addTaskWithEnter}
-          value={this.state.name}
-        />
-        <button onClick={this.addTask}>Add Task</button>
+        <br />
+        <div className="field">
+          <div className="control">
+            <input
+              className="input"
+              type="text"
+              onChange={this.updateTask}
+              onKeyPress={this.addTaskWithEnter}
+              value={this.state.name}
+            />
+          </div>
+        </div>
+        <div className="field">
+          <div className="control">
+            <button className="button is-primary" onClick={this.addTask}>
+              Add Task
+            </button>
+          </div>
+        </div>
       </React.Fragment>
     );
   }

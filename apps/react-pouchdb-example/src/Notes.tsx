@@ -53,7 +53,7 @@ export class Notes extends React.Component<Props, State> {
   render(): React.ReactNode {
     return (
       <div>
-        <h2>Notes:</h2>
+        <h2 className="is-size-2">Notes:</h2>
         <ul>
           {this.props.notes.map((note, i) => (
             <li key={i}>
@@ -62,13 +62,23 @@ export class Notes extends React.Component<Props, State> {
             </li>
           ))}
         </ul>
-        <textarea
-          onChange={this.updateNote}
-          onKeyPress={this.addNoteWithEnter}
-          value={this.state.note}
-        />
-        <div>
-          <button onClick={this.addNote}>Add Note</button>
+        <br />
+        <div className="field">
+          <div className="control">
+            <textarea
+              className="textarea"
+              onChange={this.updateNote}
+              onKeyPress={this.addNoteWithEnter}
+              value={this.state.note}
+            />
+          </div>
+        </div>
+        <div className="field">
+          <div className="control">
+            <button className="button is-primary" onClick={this.addNote}>
+              Add Note
+            </button>
+          </div>
         </div>
       </div>
     );

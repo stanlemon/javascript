@@ -6,6 +6,7 @@ import { Tasks } from "./Tasks";
 import { Example } from "./Example";
 import { DatabaseInfo } from "./DatabaseInfo";
 import "./App.css";
+import "bulma/css/bulma.css";
 
 // Example using the HOC
 const WrappedCounter = withDocument("counter", Counter);
@@ -25,9 +26,11 @@ export default class App extends React.Component {
     return (
       <Database database="local" remote="http://127.0.0.1:5984/test">
         <div className="app">
-          <h1>Test App!</h1>
+          <h1 className="is-size-1">Test App!</h1>
           <Example />
+          <br />
           <WrappedNotes />
+          <br />
           <WrappedTasks />
           <div style={{ marginTop: 20 }} />
           <Aware>
