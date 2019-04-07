@@ -40,51 +40,44 @@ export default class App extends React.Component {
   /* eslint-disable max-lines-per-function */
   render(): React.ReactNode {
     return (
-      <Database database="local" remote="http://127.0.0.1:5984/test">
-        <DatabaseContext.Consumer>
-          {({ db }) => (
-            <Authentication
-              url={remoteUrl}
-              localDatabase={db}
-              loading={<LoadingComponent />}
-              login={<LoginComponent />}
-              signup={<SignUpComponent />}
-            >
-              {props => (
-                <div>
-                  <h1>Hello World</h1>
-                  <button onClick={props.logout}>Logout</button>
-
-                  <div className="app">
-                    <h1 className="is-size-1">Test App!</h1>
-                    <hr />
-                    <div className="columns">
-                      <div className="column">
-                        <WrappedNotes />
-                      </div>
-                      <div className="column">
-                        <WrappedTasks />
-                      </div>
-                    </div>
+      <Authentication
+        url={remoteUrl}
+        loading={<LoadingComponent />}
+        login={<LoginComponent />}
+        signup={<SignUpComponent />}
+      >
+        {({ logout, db }) => (
+          <div>
+            <h1>Hello World</h1>
+            <button onClick={logout}>Logout</button>
+            <div className="app">
+              <h1 className="is-size-1">Test App!</h1>
+              <hr />
+              <div className="columns">
+                <Database database="local" remote={db}>
+                  <div className="column">
+                    <WrappedNotes />
                   </div>
-                  <br />
-                  <footer className="footer">
-                    <div className="content has-text-centered">
-                      <p>
-                        Created by <a href="http://stanlemon.net">Stan Lemon</a>{" "}
-                        using{" "}
-                        <a href="https://github.com/stanlemon/react-pouchdb">
-                          React PouchDB components.
-                        </a>
-                      </p>
-                    </div>
-                  </footer>
-                </div>
-              )}
-            </Authentication>
-          )}
-        </DatabaseContext.Consumer>
-      </Database>
+                  <div className="column">
+                    <WrappedTasks />
+                  </div>
+                </Database>
+              </div>
+            </div>
+            <br />
+            <footer className="footer">
+              <div className="content has-text-centered">
+                <p>
+                  Created by <a href="http://stanlemon.net">Stan Lemon</a> using{" "}
+                  <a href="https://github.com/stanlemon/react-pouchdb">
+                    React PouchDB components.
+                  </a>
+                </p>
+              </div>
+            </footer>
+          </div>
+        )}
+      </Authentication>
     );
   }
 }
