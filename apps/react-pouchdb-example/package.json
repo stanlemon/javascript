@@ -12,7 +12,7 @@
   "scripts": {
     "start": "parcel --out-dir ./out/ index.html",
     "test": "jest",
-    "build": "tsc -d",
+    "build": "tsc",
     "lint": "eslint --ext js,jsx,ts,tsx ./src/",
     "eslint-check": "eslint --print-config . | eslint-config-prettier-check"
   },
@@ -32,6 +32,7 @@
     }
   },
   "dependencies": {
+    "@stanlemon/react-couchdb-authentication": "^0.1.0",
     "@stanlemon/react-pouchdb": "^0.1.0",
     "@types/lodash": "^4.14.121",
     "@types/pouchdb": "^6.3.3",
