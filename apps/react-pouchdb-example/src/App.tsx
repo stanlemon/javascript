@@ -34,7 +34,7 @@ const SignUpComponent = props => (
 );
 const LoadingComponent = (): React.ReactElement<{}> => <div>Loading...</div>;
 
-const remoteUrl = "http://127.0.0.1:5984/test";
+const remoteUrl = "http://127.0.0.1:5984/_users";
 
 export default class App extends React.Component {
   /* eslint-disable max-lines-per-function */
@@ -42,19 +42,23 @@ export default class App extends React.Component {
     return (
       <Authentication
         url={remoteUrl}
+        // Disable sync because the <Database/> component will manage this for us
+        sync={false}
         loading={<LoadingComponent />}
         login={<LoginComponent />}
         signup={<SignUpComponent />}
       >
-        {({ logout, db }) => (
+        {({ logout, db, remoteDb, user }) => (
           <div>
-            <h1>Hello World</h1>
+            <h1>
+              Hello <a href="mailto:{user.email}">{user.name}</a>
+            </h1>
             <button onClick={logout}>Logout</button>
             <div className="app">
               <h1 className="is-size-1">Test App!</h1>
               <hr />
               <div className="columns">
-                <Database database="local" remote={db}>
+                <Database database={db} remote={remoteDb}>
                   <div className="column">
                     <WrappedNotes />
                   </div>
