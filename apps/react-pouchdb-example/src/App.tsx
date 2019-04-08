@@ -15,6 +15,10 @@ import "bulma/css/bulma.css";
 import { Footer } from "./Footer";
 import { Header } from "./Header";
 
+const remoteUrl = process.env.REMOTE_URL
+  ? process.env.REMOTE_URL
+  : "http://127.0.0.1:5984/_users";
+
 // Example using the component and wrapping children
 const WrappedNotes = (): React.ReactElement<{}> => (
   <Document id="notes" loading={<div>Loading Notes...</div>}>
@@ -30,7 +34,7 @@ export default class App extends React.Component {
   render(): React.ReactNode {
     return (
       <Authentication
-        url="http://127.0.0.1:5984/_users"
+        url={remoteUrl}
         // Disable sync because the <Database/> component will manage this for us
         sync={false}
         loading={<div>Loading...</div>}
