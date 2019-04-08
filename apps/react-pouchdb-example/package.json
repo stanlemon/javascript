@@ -10,7 +10,7 @@
   },
   "main": "./src/index.tsx",
   "scripts": {
-    "start": "parcel --out-dir ./out/ index.html",
+    "start": "parcel --port process.env.PORT --out-dir ./out/ index.html",
     "test": "jest",
     "build": "tsc",
     "lint": "eslint --ext js,jsx,ts,tsx ./src/",
