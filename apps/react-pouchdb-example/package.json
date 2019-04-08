@@ -32,6 +32,7 @@
     }
   },
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.8.1",
     "@stanlemon/react-couchdb-authentication": "^0.1.0",
     "@stanlemon/react-pouchdb": "^0.1.0",
     "@types/lodash": "^4.14.121",

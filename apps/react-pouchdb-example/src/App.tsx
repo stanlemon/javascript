@@ -1,20 +1,19 @@
 import * as React from "react";
-import {
-  Database,
-  Context as DatabaseContext,
-  Document
-} from "@stanlemon/react-pouchdb";
+import { Database, Document } from "@stanlemon/react-pouchdb";
+import { Login } from "./Login";
+import { SignUp } from "./SignUp";
 import { Notes } from "./Notes";
 import { Tasks } from "./Tasks";
 import { Authentication } from "@stanlemon/react-couchdb-authentication";
 import {
   LoginContainer,
-  Login,
-  SignUpContainer,
-  SignUp
+  SignUpContainer
 } from "@stanlemon/react-couchdb-authentication/dist/components/";
 import "./App.css";
+import "@fortawesome/fontawesome-free/css/all.css";
 import "bulma/css/bulma.css";
+import { Footer } from "./Footer";
+import { Header } from "./Header";
 
 // Example using the component and wrapping children
 const WrappedNotes = (): React.ReactElement<{}> => (
@@ -26,37 +25,44 @@ const WrappedNotes = (): React.ReactElement<{}> => (
 const WrappedTasks = (): React.ReactElement<{}> => (
   <Document id="tasks" component={<Tasks />} />
 );
-const LoginComponent = props => (
-  <LoginContainer {...props} component={<Login />} />
-);
-const SignUpComponent = props => (
-  <SignUpContainer {...props} component={<SignUp />} />
-);
-const LoadingComponent = (): React.ReactElement<{}> => <div>Loading...</div>;
-
-const remoteUrl = "http://127.0.0.1:5984/_users";
 
 export default class App extends React.Component {
-  /* eslint-disable max-lines-per-function */
   render(): React.ReactNode {
     return (
       <Authentication
-        url={remoteUrl}
+        url="http://127.0.0.1:5984/_users"
         // Disable sync because the <Database/> component will manage this for us
         sync={false}
-        loading={<LoadingComponent />}
-        login={<LoginComponent />}
-        signup={<SignUpComponent />}
+        loading={<div>Loading...</div>}
+        login={<LoginContainer component={<Login />} />}
+        signup={<SignUpContainer component={<SignUp />} />}
       >
         {({ logout, db, remoteDb, user }) => (
           <div>
-            <h1>
-              Hello <a href="mailto:{user.email}">{user.name}</a>
-            </h1>
-            <button onClick={logout}>Logout</button>
-            <div className="app">
-              <h1 className="is-size-1">Test App!</h1>
+            <Header
+              title="Test App"
+              subtitle="Notes, tasks and stuff like that"
+            />
+
+            <div className="app container">
+              <div className="columns">
+                <div className="column">
+                  <h1>
+                    Hello, <a href={"mailto:" + user.email}>{user.name}</a>!
+                  </h1>
+                </div>
+                <div className="column has-text-right">
+                  <button className="button is-small" onClick={logout}>
+                    <span className="icon is-small">
+                      <i className="fas fa-sign-out-alt" />
+                    </span>
+                    <span>Logout</span>
+                  </button>
+                </div>
+              </div>
+
               <hr />
+
               <div className="columns">
                 <Database database={db} remote={remoteDb}>
                   <div className="column">
@@ -69,16 +75,7 @@ export default class App extends React.Component {
               </div>
             </div>
             <br />
-            <footer className="footer">
-              <div className="content has-text-centered">
-                <p>
-                  Created by <a href="http://stanlemon.net">Stan Lemon</a> using{" "}
-                  <a href="https://github.com/stanlemon/react-pouchdb">
-                    React PouchDB components.
-                  </a>
-                </p>
-              </div>
-            </footer>
+            <Footer />
           </div>
         )}
       </Authentication>
