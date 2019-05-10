@@ -41,7 +41,7 @@ export default class App extends React.Component {
         login={<LoginContainer component={<Login />} />}
         signup={<SignUpContainer component={<SignUp />} />}
       >
-        {({ logout, db, remoteDb, user }) => (
+        {({ logout, db, remoteDb, user }): React.ReactNode => (
           <div>
             <Header
               title="Test App"
