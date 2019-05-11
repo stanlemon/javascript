@@ -51,9 +51,11 @@ export default class App extends React.Component {
             <div className="app container">
               <div className="columns">
                 <div className="column">
-                  <h1>
-                    Hello, <a href={"mailto:" + user.email}>{user.name}</a>!
-                  </h1>
+                  {user.email && user.name && (
+                    <h1>
+                      Hello, <a href={"mailto:" + user.email}>{user.name}</a>!
+                    </h1>
+                  )}
                 </div>
                 <div className="column has-text-right">
                   <button className="button is-small" onClick={logout}>

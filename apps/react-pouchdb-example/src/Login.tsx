@@ -39,6 +39,12 @@ export function Login(props): JSX.Element {
                   placeholder="Password"
                   value={props.password}
                   onChange={props.setPassword}
+                  onKeyDown={(e): void => {
+                    // Submit the form if they hit enter
+                    if (e.key.toLowerCase() === "enter") {
+                      props.login();
+                    }
+                  }}
                 />
                 <span className="icon is-small is-left">
                   <i className="fas fa-lock" />
