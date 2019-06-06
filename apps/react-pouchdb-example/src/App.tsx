@@ -1,4 +1,5 @@
 import * as React from "react";
+import PouchDB from "pouchdb";
 import { Database, Document } from "@stanlemon/react-pouchdb";
 import { Login } from "./Login";
 import { SignUp } from "./SignUp";
@@ -30,61 +31,73 @@ const WrappedTasks = (): React.ReactElement<{}> => (
   <Document id="tasks" component={<Tasks />} />
 );
 
-export default class App extends React.Component {
-  render(): React.ReactNode {
-    return (
-      <Authentication
-        url={remoteUrl}
-        // Disable sync because the <Database/> component will manage this for us
-        sync={false}
-        loading={<div>Loading...</div>}
-        login={<LoginContainer component={<Login />} />}
-        signup={<SignUpContainer component={<SignUp />} />}
-      >
-        {({ logout, db, remoteDb, user }): React.ReactNode => (
-          <div>
-            <Header
-              title="Test App"
-              subtitle="Notes, tasks and stuff like that"
-            />
+export function App({
+  logout,
+  db,
+  remoteDb,
+  user
+}: {
+  logout?: () => void;
+  db?: PouchDB.Database;
+  remoteDb?: string;
+  user?: {
+    email: string;
+    name: string;
+  };
+}): React.ReactElement<{}> {
+  return (
+    <div>
+      <Header title="Test App" subtitle="Notes, tasks and stuff like that" />
 
-            <div className="app container">
-              <div className="columns">
-                <div className="column">
-                  {user.email && user.name && (
-                    <h1>
-                      Hello, <a href={"mailto:" + user.email}>{user.name}</a>!
-                    </h1>
-                  )}
-                </div>
-                <div className="column has-text-right">
-                  <button className="button is-small" onClick={logout}>
-                    <span className="icon is-small">
-                      <i className="fas fa-sign-out-alt" />
-                    </span>
-                    <span>Logout</span>
-                  </button>
-                </div>
-              </div>
-
-              <hr />
-
-              <div className="columns">
-                <Database database={db} remote={remoteDb}>
-                  <div className="column">
-                    <WrappedNotes />
-                  </div>
-                  <div className="column">
-                    <WrappedTasks />
-                  </div>
-                </Database>
-              </div>
-            </div>
-            <br />
-            <Footer />
+      <div className="app container">
+        <div className="columns">
+          <div className="column">
+            {user.email && user.name && (
+              <h1>
+                Hello, <a href={"mailto:" + user.email}>{user.name}</a>!
+              </h1>
+            )}
           </div>
-        )}
-      </Authentication>
-    );
-  }
+          <div className="column has-text-right">
+            <button className="button is-small" onClick={logout}>
+              <span className="icon is-small">
+                <i className="fas fa-sign-out-alt" />
+              </span>
+              <span>Logout</span>
+            </button>
+          </div>
+        </div>
+
+        <hr />
+
+        <div className="columns">
+          <Database database={db} remote={remoteDb}>
+            <div className="column">
+              <WrappedNotes />
+            </div>
+            <div className="column">
+              <WrappedTasks />
+            </div>
+          </Database>
+        </div>
+      </div>
+      <br />
+      <Footer />
+    </div>
+  );
+}
+
+export default function(): React.ReactElement<{}> {
+  return (
+    <Authentication
+      url={remoteUrl}
+      // Disable sync because the <Database/> component will manage this for us
+      sync={false}
+      loading={<div>Loading...</div>}
+      login={<LoginContainer component={<Login />} />}
+      signup={<SignUpContainer component={<SignUp />} />}
+    >
+      <App />
+    </Authentication>
+  );
 }

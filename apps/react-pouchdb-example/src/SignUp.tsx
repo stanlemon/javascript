@@ -1,7 +1,17 @@
 import * as React from "react";
 import { Header } from "./Header";
 
-export function SignUp(props): JSX.Element {
+export function SignUp(props: {
+  error: string;
+  username: string;
+  setUsername(event: React.FormEvent<HTMLInputElement>): void;
+  email: string;
+  setEmail(event: React.FormEvent<HTMLInputElement>): void;
+  password: string;
+  setPassword(event: React.FormEvent<HTMLInputElement>): void;
+  signUp(): void;
+  navigateToLogin(): void;
+}): JSX.Element {
   return (
     <div>
       <Header title="Test App" subtitle="Signup for a new account" />

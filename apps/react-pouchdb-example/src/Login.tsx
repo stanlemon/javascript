@@ -1,7 +1,15 @@
 import * as React from "react";
 import { Header } from "./Header";
 
-export function Login(props): JSX.Element {
+export function Login(props: {
+  error: string;
+  username: string;
+  setUsername(event: React.FormEvent<HTMLInputElement>): void;
+  password: string;
+  setPassword(event: React.FormEvent<HTMLInputElement>): void;
+  login(): void;
+  navigateToSignup(): void;
+}): JSX.Element {
   return (
     <div>
       <Header title="Test App" subtitle="Login to get started" />
