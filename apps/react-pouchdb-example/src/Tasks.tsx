@@ -1,8 +1,10 @@
 import * as React from "react";
 import { PuttableProps } from "@stanlemon/react-pouchdb";
 import { Form } from "@stanlemon/react-form";
+import { addRow, updatePartialRow, removeRow } from "./DocumentHelpers";
 
 interface Task {
+  id: string;
   name: string;
   completed: boolean;
 }
@@ -25,15 +27,12 @@ export class Tasks extends React.Component<Props, State> {
     this.formRef = React.createRef();
   }
 
-  addTask = (values: { task: string }): {} => {
+  addTask = (values: { name: string }): {} => {
     this.props.putDocument({
-      tasks: [
-        ...this.props.tasks,
-        {
-          name: values.task,
-          completed: false
-        }
-      ]
+      tasks: addRow(this.props.tasks, {
+        ...values,
+        completed: false
+      })
     });
 
     // Clear out the form
@@ -49,23 +48,15 @@ export class Tasks extends React.Component<Props, State> {
 
   removeTask = (task: Task): void => {
     this.props.putDocument({
-      tasks: this.props.tasks.filter(t => t.name !== task.name)
+      tasks: removeRow(this.props.tasks, task)
     });
   };
 
   completeTask = (task: Task): void => {
-    const tasks = this.props.tasks.map(t => {
-      if (task.name === t.name) {
-        return {
-          name: task.name,
-          completed: !t.completed
-        };
-      }
-      return t;
-    });
-
     this.props.putDocument({
-      tasks
+      tasks: updatePartialRow(this.props.tasks, task.id {
+        completed: !task.completed
+      })
     });
   };
 
@@ -94,7 +85,7 @@ export class Tasks extends React.Component<Props, State> {
           <div className="field">
             <div className="control">
               <input
-                name="task"
+                name="name"
                 className="input"
                 type="text"
                 onKeyPress={this.addTaskWithEnter}

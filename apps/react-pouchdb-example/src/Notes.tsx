@@ -1,8 +1,10 @@
 import * as React from "react";
 import { PuttableProps } from "@stanlemon/react-pouchdb";
 import { Form } from "@stanlemon/react-form";
+import { addRow, removeRow } from "./DocumentHelpers";
 
 interface Note {
+  id: string;
   note: string;
 }
 
@@ -21,14 +23,14 @@ export class Notes extends React.Component<Props, State> {
 
   addNote = (values: Note): {} => {
     this.props.putDocument({
-      notes: [...this.props.notes, { note: values.note }]
+      notes: addRow(this.props.notes, values)
     });
     return {};
   };
 
   removeNote = (note: Note): void => {
     this.props.putDocument({
-      notes: this.props.notes.filter(n => n.note !== note.note)
+      notes: removeRow(this.props.notes, note)
     });
   };
 
