@@ -78,52 +78,70 @@ export class Tasks extends React.Component<Props, State> {
             <em>There are no tasks yet.</em>
           </div>
         ) : (
-          <ul>
-            {this.props.tasks.map((task, i) => (
-              <li key={i}>
-                <div className="columns is-mobile">
-                  <div className="column is-four-fifths">
-                    <label className="checkbox">
-                      <input
-                        type="checkbox"
-                        checked={task.completed}
-                        onChange={this.completeTask.bind(this, task)}
-                      />{" "}
-                      {task.completed ? <del>{task.name}</del> : task.name}{" "}
-                    </label>
-                  </div>
-                  <div className="column has-text-right">
-                    <button
-                      className="button is-small is-danger"
-                      onClick={this.removeTask.bind(this, task)}
-                    >
-                      Remove
-                    </button>
-                  </div>
+          <div>
+            <ul>
+              {this.props.tasks.map((task, i) => (
+                <TaskRow
+                  key={i}
+                  task={task}
+                  completeTask={this.completeTask}
+                  removeTask={this.removeTask}
+                />
+              ))}
+            </ul>
+            <br />
+            <Form ref={this.formRef} onSuccess={this.addTask}>
+              <div className="field">
+                <div className="control">
+                  <input
+                    name="task"
+                    className="input"
+                    type="text"
+                    onKeyPress={this.addTaskWithEnter}
+                  />
                 </div>
-              </li>
-            ))}
-          </ul>
+              </div>
+              <div className="field">
+                <div className="control">
+                  <button className="button is-primary">Add Task</button>
+                </div>
+              </div>
+            </Form>
+          </div>
         )}
-        <br />
-        <Form ref={this.formRef} onSuccess={this.addTask}>
-          <div className="field">
-            <div className="control">
-              <input
-                name="task"
-                className="input"
-                type="text"
-                onKeyPress={this.addTaskWithEnter}
-              />
-            </div>
-          </div>
-          <div className="field">
-            <div className="control">
-              <button className="button is-primary">Add Task</button>
-            </div>
-          </div>
-        </Form>
       </>
     );
   }
+}
+
+function TaskRow(props: {
+  task: Task;
+  completeTask: (task: Task) => void;
+  removeTask: (task: Task) => void;
+}) {
+  const { task } = props;
+  const completeTask = () => props.completeTask(task);
+  const removeTask = () => props.removeTask(task);
+
+  return (
+    <li>
+      <div className="columns is-mobile">
+        <div className="column is-four-fifths">
+          <label className="checkbox">
+            <input
+              type="checkbox"
+              checked={task.completed}
+              onChange={completeTask}
+            />{" "}
+            {task.completed ? <del>{task.name}</del> : task.name}{" "}
+          </label>
+        </div>
+        <div className="column has-text-right">
+          <button className="button is-small is-danger" onClick={removeTask}>
+            Remove
+          </button>
+        </div>
+      </div>
+    </li>
+  );
 }
