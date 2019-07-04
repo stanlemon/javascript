@@ -78,37 +78,35 @@ export class Tasks extends React.Component<Props, State> {
             <em>There are no tasks yet.</em>
           </div>
         ) : (
-          <div>
-            <ul>
-              {this.props.tasks.map((task, i) => (
-                <TaskRow
-                  key={i}
-                  task={task}
-                  completeTask={this.completeTask}
-                  removeTask={this.removeTask}
-                />
-              ))}
-            </ul>
-            <br />
-            <Form ref={this.formRef} onSuccess={this.addTask}>
-              <div className="field">
-                <div className="control">
-                  <input
-                    name="task"
-                    className="input"
-                    type="text"
-                    onKeyPress={this.addTaskWithEnter}
-                  />
-                </div>
-              </div>
-              <div className="field">
-                <div className="control">
-                  <button className="button is-primary">Add Task</button>
-                </div>
-              </div>
-            </Form>
-          </div>
+          <ul>
+            {this.props.tasks.map((task, i) => (
+              <TaskRow
+                key={i}
+                task={task}
+                completeTask={this.completeTask}
+                removeTask={this.removeTask}
+              />
+            ))}
+          </ul>
         )}
+        <br />
+        <Form ref={this.formRef} onSuccess={this.addTask}>
+          <div className="field">
+            <div className="control">
+              <input
+                name="task"
+                className="input"
+                type="text"
+                onKeyPress={this.addTaskWithEnter}
+              />
+            </div>
+          </div>
+          <div className="field">
+            <div className="control">
+              <button className="button is-primary">Add Task</button>
+            </div>
+          </div>
+        </Form>
       </>
     );
   }
