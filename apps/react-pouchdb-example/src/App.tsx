@@ -52,7 +52,7 @@ export function App({
       <div className="app container">
         <div className="columns">
           <div className="column">
-            {user.email && user.name && (
+            {user && user.email && user.name && (
               <h1>
                 Hello, <a href={"mailto:" + user.email}>{user.name}</a>!
               </h1>
