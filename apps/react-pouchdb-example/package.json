@@ -1,6 +1,6 @@
 {
-  "name": "parcel-app",
-  "version": "0.0.1",
+  "name": "example-app",
+  "version": "0.1.0",
   "description": "A react app using pouchdb built with parcel in typescript",
   "author": "Stan Lemon <stanlemon@users.noreply.github.com",
   "license": "MIT",
