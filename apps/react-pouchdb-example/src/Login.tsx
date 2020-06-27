@@ -1,15 +1,8 @@
 import * as React from "react";
 import { Header } from "./Header";
+import { LoginViewProps as Props } from "@stanlemon/react-couchdb-authentication/dist/components/LoginView";
 
-export function Login(props: {
-  error: string;
-  username: string;
-  setUsername(event: React.FormEvent<HTMLInputElement>): void;
-  password: string;
-  setPassword(event: React.FormEvent<HTMLInputElement>): void;
-  login(): void;
-  navigateToSignup(): void;
-}): React.ReactElement {
+export function Login(props: Props): React.ReactElement {
   return (
     <div>
       <Header title="Test App" subtitle="Login to get started" />
@@ -70,7 +63,7 @@ export function Login(props: {
             <p>
               <button
                 className="button is-text"
-                onClick={props.navigateToSignup}
+                onClick={props.navigateToSignUp}
               >
                 Click here to sign up
               </button>

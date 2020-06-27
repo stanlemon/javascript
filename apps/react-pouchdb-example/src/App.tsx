@@ -94,8 +94,8 @@ export default function (): React.ReactElement {
       url={remoteUrl}
       // Disable sync because the <Database/> component will manage this for us
       sync={false}
-      login={<Login component={<LoginView />} />}
-      signup={<SignUp component={<SignUpView />} />}
+      login={<Login component={LoginView} />}
+      signup={<SignUp component={SignUpView} />}
     >
       <App />
     </Authentication>

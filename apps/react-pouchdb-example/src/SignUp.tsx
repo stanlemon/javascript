@@ -1,17 +1,8 @@
 import * as React from "react";
 import { Header } from "./Header";
+import { SignUpViewProps as Props } from "@stanlemon/react-couchdb-authentication/dist/components/SignUpView";
 
-export function SignUp(props: {
-  error: string;
-  username: string;
-  setUsername(event: React.FormEvent<HTMLInputElement>): void;
-  email: string;
-  setEmail(event: React.FormEvent<HTMLInputElement>): void;
-  password: string;
-  setPassword(event: React.FormEvent<HTMLInputElement>): void;
-  signUp(): void;
-  navigateToLogin(): void;
-}): React.ReactElement {
+export function SignUp(props: Props): React.ReactElement {
   return (
     <div>
       <Header title="Test App" subtitle="Signup for a new account" />
