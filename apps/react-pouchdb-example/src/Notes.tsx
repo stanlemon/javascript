@@ -1,32 +1,32 @@
 import * as React from "react";
 import { PuttableProps } from "@stanlemon/react-pouchdb";
-import { addRow, removeRow } from "./DocumentHelpers";
+import { addRow, removeRow, Row } from "./DocumentHelpers";
 
-interface Note {
+type Note = Row & {
   id: string;
   note: string;
-}
-
-type Props = PuttableProps & {
-  notes?: { note: string }[];
 };
 
-interface State {
+type Props = PuttableProps & {
+  notes: Note[];
+};
+
+type State = {
   note: string;
-}
+};
 
 export class Notes extends React.Component<Props, State> {
   static defaultProps: Partial<Props> = {
-    notes: []
+    notes: [],
   };
 
   state = {
-    note: ""
+    note: "",
   };
 
   updateNote = (e: React.FormEvent<HTMLTextAreaElement>): void => {
     this.setState({
-      note: e.currentTarget.value
+      note: e.currentTarget.value,
     });
   };
 
@@ -37,7 +37,7 @@ export class Notes extends React.Component<Props, State> {
     }
 
     this.props.putDocument({
-      notes: addRow(this.props.notes, values)
+      notes: addRow(this.props.notes, { note: this.state.note }),
     });
 
     this.setState({ note: "" });
@@ -50,9 +50,9 @@ export class Notes extends React.Component<Props, State> {
     }
   };
 
-  removeNote(note: { note: string }): void {
+  removeNote(note: Note): void {
     this.props.putDocument({
-      notes: removeRow(this.props.notes, note)
+      notes: removeRow(this.props.notes, note),
     });
   }
 

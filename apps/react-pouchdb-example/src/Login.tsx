@@ -9,7 +9,7 @@ export function Login(props: {
   setPassword(event: React.FormEvent<HTMLInputElement>): void;
   login(): void;
   navigateToSignup(): void;
-}): JSX.Element {
+}): React.ReactElement {
   return (
     <div>
       <Header title="Test App" subtitle="Login to get started" />

@@ -11,7 +11,7 @@ export function SignUp(props: {
   setPassword(event: React.FormEvent<HTMLInputElement>): void;
   signUp(): void;
   navigateToLogin(): void;
-}): JSX.Element {
+}): React.ReactElement {
   return (
     <div>
       <Header title="Test App" subtitle="Signup for a new account" />

@@ -2,11 +2,11 @@ import * as React from "react";
 
 export function Header({
   title,
-  subtitle
+  subtitle,
 }: {
   title: string;
   subtitle: string;
-}): JSX.Element {
+}): React.ReactElement {
   return (
     <section className="hero is-primary">
       <div className="hero-body">

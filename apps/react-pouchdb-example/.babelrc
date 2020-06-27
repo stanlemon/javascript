@@ -8,7 +8,8 @@
     "@babel/preset-typescript"
   ],
   "plugins": [
-    "@babel/plugin-proposal-class-properties",
+    // Hack because I need this for typescript, but Parcel gets wonky
+    ["@babel/plugin-proposal-class-properties", {}, "babel-plugin-proposal-class-properties"],
     "react-hot-loader/babel"
   ]
 }

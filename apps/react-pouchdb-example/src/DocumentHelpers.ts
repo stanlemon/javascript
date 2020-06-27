@@ -1,24 +1,24 @@
-import uuidv1 from "uuid/v1";
+import { v1 as uuidv1 } from "uuid";
 
-interface Row {
+export interface Row {
   id: string;
-  [propName: string]: any;
+  [propName: string]: unknown;
 }
 
-export function addRow(rows: Row[], row: Omit<Row, "id">) {
+export function addRow(rows: Row[], row: Omit<Row, "id">): Row[] {
   return [...rows, { id: uuidv1(), ...row }];
 }
 
-export function removeRow(rows: Row[], row: Row) {
-  return rows.filter(r => r.id !== row.id);
+export function removeRow(rows: Row[], row: Row): Row[] {
+  return rows.filter((r) => r.id !== row.id);
 }
 
-export function removeRowById(rows: Row[], id: string) {
-  return rows.filter(r => r.id !== id);
+export function removeRowById(rows: Row[], id: string): Row[] {
+  return rows.filter((r) => r.id !== id);
 }
 
-export function updateRow(rows: Row[], row: Row) {
-  return rows.map(r => {
+export function updateRow(rows: Row[], row: Row): Row[] {
+  return rows.map((r) => {
     if (r.id === row.id) {
       return { ...r, ...row };
     }
@@ -26,8 +26,12 @@ export function updateRow(rows: Row[], row: Row) {
   });
 }
 
-export function updatePartialRow(rows: Row[], id: string, row: {}) {
-  return rows.map(r => {
+export function updatePartialRow(
+  rows: Row[],
+  id: string,
+  row: Record<string, unknown>
+): Row[] {
+  return rows.map((r) => {
     if (r.id === id) {
       return { ...r, ...row };
     }

@@ -8,7 +8,7 @@ import { Tasks } from "./Tasks";
 import { Authentication } from "@stanlemon/react-couchdb-authentication";
 import {
   Login,
-  SignUp
+  SignUp,
 } from "@stanlemon/react-couchdb-authentication/dist/components/";
 import "./App.css";
 import "@fortawesome/fontawesome-free/css/all.css";
@@ -21,13 +21,13 @@ const remoteUrl = process.env.REMOTE_URL
   : "http://127.0.0.1:5984/";
 
 // Example using the component and wrapping children
-const WrappedNotes = (): React.ReactElement<{}> => (
+const WrappedNotes = (): React.ReactElement => (
   <Document id="notes" loading={<div>Loading Notes...</div>}>
     <Notes />
   </Document>
 );
 // Example using the component and the 'component' property
-const WrappedTasks = (): React.ReactElement<{}> => (
+const WrappedTasks = (): React.ReactElement => (
   <Document id="tasks" component={<Tasks />} />
 );
 
@@ -35,7 +35,7 @@ export function App({
   logout,
   db,
   remoteDb,
-  user
+  user,
 }: {
   logout?: () => void;
   db?: PouchDB.Database;
@@ -44,7 +44,7 @@ export function App({
     email: string;
     name: string;
   };
-}): React.ReactElement<{}> {
+}): React.ReactElement {
   return (
     <div>
       <Header title="Test App" subtitle="Notes, tasks and stuff like that" />
@@ -87,7 +87,7 @@ export function App({
   );
 }
 
-export default function(): React.ReactElement<{}> {
+export default function (): React.ReactElement {
   return (
     <Authentication
       debug={true}

@@ -2,31 +2,31 @@ import * as React from "react";
 import { PuttableProps } from "@stanlemon/react-pouchdb";
 import { addRow, updatePartialRow, removeRow } from "./DocumentHelpers";
 
-interface Task {
+type Task = {
   id: string;
   name: string;
   completed: boolean;
-}
+};
 
 type Props = PuttableProps & {
   tasks?: Task[];
 };
 
-type State = Task;
+type State = Omit<Task, "id">;
 
 export class Tasks extends React.Component<Props, State> {
   static defaultProps: Partial<Props> = {
-    tasks: []
+    tasks: [],
   };
 
   state = {
     name: "",
-    completed: false
+    completed: false,
   };
 
   updateTask = (e: React.FormEvent<HTMLInputElement>): void => {
     this.setState({
-      name: e.currentTarget.value
+      name: e.currentTarget.value,
     });
   };
 
@@ -36,12 +36,11 @@ export class Tasks extends React.Component<Props, State> {
       return;
     }
 
-  addTask = (values: { name: string }): {} => {
     this.props.putDocument({
       tasks: addRow(this.props.tasks, {
-        ...values,
-        completed: false
-      })
+        name: this.state.name,
+        completed: false,
+      }),
     });
 
     this.setState({ name: "", completed: false });
@@ -55,21 +54,21 @@ export class Tasks extends React.Component<Props, State> {
 
   removeTask = (task: Task): void => {
     this.props.putDocument({
-      tasks: removeRow(this.props.tasks, task)
+      tasks: removeRow(this.props.tasks, task),
     });
   };
 
   completeTask = (task: Task): void => {
     this.props.putDocument({
-      tasks: updatePartialRow(this.props.tasks, task.id {
-        completed: !task.completed
-      })
+      tasks: updatePartialRow(this.props.tasks, task.id, {
+        completed: !task.completed,
+      }),
     });
   };
 
   render(): React.ReactNode {
     return (
-      <React.Fragment>
+      <>
         <h2 className="is-size-2">Tasks:</h2>
         {this.props.tasks.length === 0 ? (
           <div>
@@ -106,7 +105,7 @@ export class Tasks extends React.Component<Props, State> {
             </button>
           </div>
         </div>
-      </React.Fragment>
+      </>
     );
   }
 }
