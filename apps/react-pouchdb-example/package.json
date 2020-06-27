@@ -15,6 +15,17 @@
     "build": "tsc --build tsconfig.json ./",
     "lint": "eslint --ext js,jsx,ts,tsx ./src/"
   },
+  "browserslist": [
+    "last 1 year, not dead",
+    "edge > 18",
+    "not ie 11",
+    "not ie_mob 11",
+    "not samsung < 1000",
+    "not opera < 1000",
+    "not kaios < 1000",
+    "not android < 1000",
+    "not and_qq < 1000"
+  ],
   "jest": {
     "roots": [
       "./src/"
@@ -32,8 +43,8 @@
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.13.1",
-    "@stanlemon/react-couchdb-authentication": "^0.2.3",
-    "@stanlemon/react-pouchdb": "^0.1.6",
+    "@stanlemon/react-couchdb-authentication": "^0.2.4",
+    "@stanlemon/react-pouchdb": "^0.1.10",
     "@types/pouchdb": "^6.4.0",
     "@types/react-dom": "^16.9.8",
     "@types/uuid": "^8.0.0",
