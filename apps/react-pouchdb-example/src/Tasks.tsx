@@ -1,6 +1,5 @@
 import * as React from "react";
 import { PuttableProps } from "@stanlemon/react-pouchdb";
-import { Form } from "@stanlemon/react-form";
 import { addRow, updatePartialRow, removeRow } from "./DocumentHelpers";
 
 interface Task {
@@ -20,12 +19,22 @@ export class Tasks extends React.Component<Props, State> {
     tasks: []
   };
 
-  private formRef: React.RefObject<Form>;
+  state = {
+    name: "",
+    completed: false
+  };
 
-  constructor(props: Props) {
-    super(props);
-    this.formRef = React.createRef();
-  }
+  updateTask = (e: React.FormEvent<HTMLInputElement>): void => {
+    this.setState({
+      name: e.currentTarget.value
+    });
+  };
+
+  addTask = (): void => {
+    // If there is no actual note, skip
+    if (this.state.name.trim() === "") {
+      return;
+    }
 
   addTask = (values: { name: string }): {} => {
     this.props.putDocument({
@@ -35,14 +44,12 @@ export class Tasks extends React.Component<Props, State> {
       })
     });
 
-    // Clear out the form
-    return {};
+    this.setState({ name: "", completed: false });
   };
 
   addTaskWithEnter = (e: React.KeyboardEvent<HTMLInputElement>): void => {
     if (e.key === "Enter") {
-      e.preventDefault();
-      this.formRef.current.submit();
+      this.addTask();
     }
   };
 
@@ -62,7 +69,7 @@ export class Tasks extends React.Component<Props, State> {
 
   render(): React.ReactNode {
     return (
-      <>
+      <React.Fragment>
         <h2 className="is-size-2">Tasks:</h2>
         {this.props.tasks.length === 0 ? (
           <div>
@@ -81,24 +88,25 @@ export class Tasks extends React.Component<Props, State> {
           </ul>
         )}
         <br />
-        <Form ref={this.formRef} onSuccess={this.addTask}>
-          <div className="field">
-            <div className="control">
-              <input
-                name="name"
-                className="input"
-                type="text"
-                onKeyPress={this.addTaskWithEnter}
-              />
-            </div>
+        <div className="field">
+          <div className="control">
+            <input
+              className="input"
+              type="text"
+              onChange={this.updateTask}
+              onKeyPress={this.addTaskWithEnter}
+              value={this.state.name}
+            />
           </div>
-          <div className="field">
-            <div className="control">
-              <button className="button is-primary">Add Task</button>
-            </div>
+        </div>
+        <div className="field">
+          <div className="control">
+            <button className="button is-primary" onClick={this.addTask}>
+              Add Task
+            </button>
           </div>
-        </Form>
-      </>
+        </div>
+      </React.Fragment>
     );
   }
 }

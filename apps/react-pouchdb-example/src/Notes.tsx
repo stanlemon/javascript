@@ -1,6 +1,5 @@
 import * as React from "react";
 import { PuttableProps } from "@stanlemon/react-pouchdb";
-import { Form } from "@stanlemon/react-form";
 import { addRow, removeRow } from "./DocumentHelpers";
 
 interface Note {
@@ -9,7 +8,7 @@ interface Note {
 }
 
 type Props = PuttableProps & {
-  notes?: Note[];
+  notes?: { note: string }[];
 };
 
 interface State {
@@ -21,59 +20,82 @@ export class Notes extends React.Component<Props, State> {
     notes: []
   };
 
-  addNote = (values: Note): {} => {
+  state = {
+    note: ""
+  };
+
+  updateNote = (e: React.FormEvent<HTMLTextAreaElement>): void => {
+    this.setState({
+      note: e.currentTarget.value
+    });
+  };
+
+  addNote = (): void => {
+    // If there is no actual note, skip
+    if (this.state.note.trim() === "") {
+      return;
+    }
+
     this.props.putDocument({
       notes: addRow(this.props.notes, values)
     });
-    return {};
+
+    this.setState({ note: "" });
   };
 
-  removeNote = (note: Note): void => {
+  addNoteWithEnter = (e: React.KeyboardEvent<HTMLTextAreaElement>): void => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      this.addNote();
+    }
+  };
+
+  removeNote(note: { note: string }): void {
     this.props.putDocument({
       notes: removeRow(this.props.notes, note)
     });
-  };
+  }
 
   render(): React.ReactNode {
     return (
-      <>
+      <div>
         <h2 className="is-size-2">Notes:</h2>
         <ul>
           {this.props.notes.map((note, i) => (
-            <NoteRow key={i} note={note} removeNote={this.removeNote} />
+            <li key={i}>
+              <div className="columns is-mobile">
+                <div className="column is-four-fifths">{note.note}</div>
+                <div className="column has-text-right">
+                  <button
+                    className="button is-small is-danger"
+                    onClick={this.removeNote.bind(this, note)}
+                  >
+                    Remove
+                  </button>
+                </div>
+              </div>
+            </li>
           ))}
         </ul>
         <br />
-        <Form onSuccess={this.addNote}>
-          <div className="field">
-            <div className="control">
-              <textarea name="note" className="textarea" />
-            </div>
+        <div className="field">
+          <div className="control">
+            <textarea
+              className="textarea"
+              onChange={this.updateNote}
+              onKeyPress={this.addNoteWithEnter}
+              value={this.state.note}
+            />
           </div>
-          <div className="field">
-            <div className="control">
-              <button className="button is-primary">Add Note</button>
-            </div>
+        </div>
+        <div className="field">
+          <div className="control">
+            <button className="button is-primary" onClick={this.addNote}>
+              Add Note
+            </button>
           </div>
-        </Form>
-      </>
-    );
-  }
-}
-
-function NoteRow(props: { note: Note; removeNote(note: Note): void }) {
-  const removeNote = () => props.removeNote(props.note);
-
-  return (
-    <li>
-      <div className="columns is-mobile">
-        <div className="column is-four-fifths">{props.note.note}</div>
-        <div className="column has-text-right">
-          <button className="button is-small is-danger" onClick={removeNote}>
-            Remove
-          </button>
         </div>
       </div>
-    </li>
-  );
+    );
+  }
 }
