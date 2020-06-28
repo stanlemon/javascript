@@ -52,11 +52,7 @@ export function App({
       <div className="app container">
         <div className="columns">
           <div className="column">
-            {user && user.email && user.name && (
-              <h1>
-                Hello, <a href={"mailto:" + user.email}>{user.name}</a>!
-              </h1>
-            )}
+            {user && user.name && <h1>Hello, {user.name}!</h1>}
           </div>
           <div className="column has-text-right">
             <button className="button is-small" onClick={logout}>
