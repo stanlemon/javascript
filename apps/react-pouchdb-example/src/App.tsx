@@ -21,13 +21,13 @@ const remoteUrl = process.env.REMOTE_URL
 
 // Example using the component and wrapping children
 const WrappedNotes = (): React.ReactElement => (
-  <Document id="notes" loading={<div>Loading Notes...</div>}>
+  <Document id="notes" loading={<div>Loading Notes...</div>} debug={true}>
     <Notes />
   </Document>
 );
 // Example using the component and the 'component' property
 const WrappedTasks = (): React.ReactElement => (
-  <Document id="tasks" component={<Tasks />} />
+  <Document id="tasks" component={<Tasks />} debug={true} />
 );
 
 export function App({
