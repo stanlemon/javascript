@@ -1,5 +1,4 @@
 import * as React from "react";
-import PouchDB from "pouchdb";
 import { Database, Document } from "@stanlemon/react-pouchdb";
 import { Login as LoginView } from "./Login";
 import { SignUp as SignUpView } from "./SignUp";
@@ -52,7 +51,11 @@ export function App({
       <div className="app container">
         <div className="columns">
           <div className="column">
-            {user && user.name && <h1>Hello, {user.name}!</h1>}
+            {user && user.name && (
+              <h1>
+                Hello, <a href={`mailto:${user.email}`}>{user.name}</a>!
+              </h1>
+            )}
           </div>
           <div className="column has-text-right">
             <button className="button is-small" onClick={logout}>
