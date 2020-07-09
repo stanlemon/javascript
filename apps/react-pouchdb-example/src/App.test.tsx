@@ -21,6 +21,9 @@ describe("<App />", () => {
     const { getByText } = render(<App db={db} />);
 
     await waitFor(() => getByText("Notes:"));
+
     await waitFor(() => getByText("Tasks:"));
+
+    await db.close();
   });
 });
