@@ -4,11 +4,12 @@ import { Login as LoginView } from "./Login";
 import { SignUp as SignUpView } from "./SignUp";
 import { Notes } from "./Notes";
 import { Tasks } from "./Tasks";
-import { Authentication } from "@stanlemon/react-couchdb-authentication";
 import {
+  Authentication,
+  withAuthentication,
   Login,
   SignUp,
-} from "@stanlemon/react-couchdb-authentication/dist/components/";
+} from "@stanlemon/react-couchdb-authentication";
 import "./App.css";
 import "@fortawesome/fontawesome-free/css/all.css";
 import "bulma/css/bulma.css";
@@ -30,21 +31,18 @@ const WrappedTasks = (): React.ReactElement => (
   <Document id="tasks" component={<Tasks />} debug={true} />
 );
 
-export function App({
-  logout,
-  db,
-  remoteDb,
-  user,
-}: {
-  logout?: () => void;
-  db?: PouchDB.Database;
-  remoteDb?: string;
-  user?: {
-    email: string;
-    name: string;
-  };
-}): React.ReactElement {
-  return (
+export const App = withAuthentication(
+  ({
+    logout,
+    db,
+    remoteDb,
+    user,
+  }: {
+    logout?: () => void;
+    db: PouchDB.Database;
+    remoteDb: PouchDB.Database;
+    user?: { name: string; email: string };
+  }): React.ReactElement => (
     <div>
       <Header title="Test App" subtitle="Notes, tasks and stuff like that" />
 
@@ -83,8 +81,8 @@ export function App({
       <br />
       <Footer />
     </div>
-  );
-}
+  )
+);
 
 export default function (): React.ReactElement {
   return (

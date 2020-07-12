@@ -40,7 +40,7 @@
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.13.1",
-    "@stanlemon/react-couchdb-authentication": "^0.2.9",
+    "@stanlemon/react-couchdb-authentication": "^0.3.2",
     "@stanlemon/react-pouchdb": "^0.1.13",
     "@types/pouchdb": "^6.4.0",
     "@types/react-dom": "^16.9.8",
@@ -61,7 +61,7 @@
     "@testing-library/react": "^10.4.5",
     "@types/jest": "^26.0.4",
     "@types/parcel-env": "0.0.0",
-    "@types/react": "^16.9.41",
+    "@types/react": "^16.9.43",
     "@typescript-eslint/eslint-plugin": "^3.6.0",
     "@typescript-eslint/parser": "^3.6.0",
     "babel-eslint": "^10.1.0",

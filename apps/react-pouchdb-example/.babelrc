@@ -1,16 +1,10 @@
 {
   "presets": [
-    ["@babel/preset-env", {
-      "bugfixes": true,
-      "useBuiltIns": false,
-      "shippedProposals": true
-    }],
+    "@babel/preset-env",
     "@babel/preset-react",
     "@babel/preset-typescript"
   ],
   "plugins": [
-    // Hack because I need this for typescript, but Parcel gets wonky
-    ["@babel/plugin-proposal-class-properties", {}, "babel-plugin-proposal-class-properties"],
     "react-hot-loader/babel"
   ]
 }
