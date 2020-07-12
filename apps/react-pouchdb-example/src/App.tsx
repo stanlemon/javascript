@@ -1,8 +1,7 @@
-import * as React from "react";
+import React, { useState } from "react";
 import { Database, Document } from "@stanlemon/react-pouchdb";
 import {
   Authentication,
-  Context as AuthenticationContext,
   Authenticated,
   Unauthenticated,
   withAuthentication,
@@ -18,6 +17,7 @@ import { Login as LoginView } from "./Login";
 import { SignUp as SignUpView } from "./SignUp";
 import { Notes } from "./Notes";
 import { Tasks } from "./Tasks";
+import { Modal } from "./Modal";
 
 const remoteUrl = process.env.REMOTE_URL
   ? process.env.REMOTE_URL
@@ -46,8 +46,10 @@ export const App = withAuthentication(
     remoteDb: PouchDB.Database;
     user?: { name: string; email: string };
   }): React.ReactElement => {
+    const [isSigningUp, setSigningUp] = useState(false);
+
     return (
-      <div>
+      <>
         <Header title="Test App" subtitle="Notes, tasks and stuff like that" />
 
         <div className="app container">
@@ -71,11 +73,17 @@ export const App = withAuthentication(
             </div>
           </Authenticated>
           <Unauthenticated>
-            <AuthenticationContext.Consumer>
-              {({ login, error }) => (
-                <Login error={error} login={login} component={LoginView} />
-              )}
-            </AuthenticationContext.Consumer>
+            <>
+              <Login component={LoginView} />
+              <p className="has-text-centered">
+                <button
+                  className="button is-text"
+                  onClick={() => setSigningUp(true)}
+                >
+                  Don&apos;t have an account? Click here to sign up
+                </button>
+              </p>
+            </>
           </Unauthenticated>
 
           <hr />
@@ -93,7 +101,12 @@ export const App = withAuthentication(
         </div>
         <br />
         <Footer />
-      </div>
+        <Unauthenticated>
+          <Modal open={isSigningUp} onClose={() => setSigningUp(false)}>
+            <SignUp component={SignUpView} />
+          </Modal>
+        </Unauthenticated>
+      </>
     );
   }
 );
@@ -106,8 +119,6 @@ export default function (): React.ReactElement {
       url={remoteUrl}
       // Disable sync because the <Database/> component will manage this for us
       sync={false}
-      login={<Login component={LoginView} />}
-      signup={<SignUp component={SignUpView} />}
     >
       <App />
     </Authentication>

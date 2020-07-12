@@ -40,7 +40,7 @@
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.13.1",
-    "@stanlemon/react-couchdb-authentication": "^0.3.2",
+    "@stanlemon/react-couchdb-authentication": "^0.4.1",
     "@stanlemon/react-pouchdb": "^0.1.15",
     "@types/pouchdb": "^6.4.0",
     "@types/react-dom": "^16.9.8",

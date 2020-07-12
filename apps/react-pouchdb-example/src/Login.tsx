@@ -48,22 +48,6 @@ export function Login(props: Props): React.ReactElement {
           </button>
         </div>
       </div>
-      <p className="has-text-centered">
-        <button className="button is-text" onClick={props.navigateToSignUp}>
-          Don't have an account? Click here to sign up
-        </button>
-      </p>
     </>
   );
 }
-
-/*
-            <p>
-              <button
-                className="button is-text"
-                onClick={props.navigateToSignUp}
-              >
-                Click here to sign up
-              </button>
-            </p>
-*/
