@@ -21,7 +21,7 @@ import { Modal } from "./Modal";
 
 const remoteUrl = process.env.REMOTE_URL
   ? process.env.REMOTE_URL
-  : "http://127.0.0.1:5984/";
+  : "http://localhost:5984/";
 
 // Example using the component and wrapping children
 const WrappedNotes = (): React.ReactElement => (

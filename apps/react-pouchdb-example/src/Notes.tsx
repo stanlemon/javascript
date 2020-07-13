@@ -1,6 +1,7 @@
 import * as React from "react";
 import { PuttableProps } from "@stanlemon/react-pouchdb";
 import { addRow, removeRow, Row } from "./DocumentHelpers";
+import { MultilineText } from "./MultilineText";
 
 type Note = Row & {
   id: string;
@@ -57,6 +58,7 @@ export class Notes extends React.Component<Props, State> {
   }
 
   render(): React.ReactNode {
+    console.log(this.props.notes.map((note) => note.note)[2]);
     return (
       <div>
         <h2 className="is-size-2">Notes:</h2>
@@ -64,7 +66,9 @@ export class Notes extends React.Component<Props, State> {
           {this.props.notes.map((note, i) => (
             <li key={i}>
               <div className="columns is-mobile">
-                <div className="column is-four-fifths">{note.note}</div>
+                <div className="column is-four-fifths content">
+                  <MultilineText text={note.note} />
+                </div>
                 <div className="column has-text-right">
                   <button
                     className="button is-small is-danger"
@@ -77,7 +81,7 @@ export class Notes extends React.Component<Props, State> {
             </li>
           ))}
         </ul>
-        <br />
+        <h3 className="is-size-3">New Note:</h3>
         <div className="field">
           <div className="control">
             <textarea
