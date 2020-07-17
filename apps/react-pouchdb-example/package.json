@@ -77,6 +77,6 @@
     "pouchdb-adapter-memory": "^7.2.1",
     "prettier": "^2.0.5",
     "react-hot-loader": "^4.12.21",
-    "typescript": "^3.9.6"
+    "typescript": "^3.9.7"
   }
 }
