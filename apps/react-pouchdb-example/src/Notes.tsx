@@ -58,7 +58,6 @@ export class Notes extends React.Component<Props, State> {
   }
 
   render(): React.ReactNode {
-    console.log(this.props.notes.map((note) => note.note)[2]);
     return (
       <div>
         <h2 className="is-size-2">Notes:</h2>
