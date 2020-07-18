@@ -1,4 +1,5 @@
-import { v1 as uuidv1 } from "uuid";
+import { v4 as uuid } from "uuid";
+import { formatISO } from "date-fns";
 
 export interface Row {
   id: string;
@@ -6,34 +7,29 @@ export interface Row {
 }
 
 export function addRow(rows: Row[], row: Omit<Row, "id">): Row[] {
-  return [...rows, { id: uuidv1(), ...row }];
+  const now = formatISO(new Date());
+  return [...rows, { ...row, id: uuid(), created: now, lastUpdated: now }];
 }
 
 export function removeRow(rows: Row[], row: Row): Row[] {
-  return rows.filter((r) => r.id !== row.id);
+  return removeRowById(rows, row.id);
 }
 
 export function removeRowById(rows: Row[], id: string): Row[] {
   return rows.filter((r) => r.id !== id);
 }
 
-export function updateRow(rows: Row[], row: Row): Row[] {
+export function updateRow(rows: Row[], row: Row, partial = true): Row[] {
+  const lastUpdated = formatISO(new Date());
   return rows.map((r) => {
     if (r.id === row.id) {
-      return { ...r, ...row };
-    }
-    return r;
-  });
-}
-
-export function updatePartialRow(
-  rows: Row[],
-  id: string,
-  row: Record<string, unknown>
-): Row[] {
-  return rows.map((r) => {
-    if (r.id === id) {
-      return { ...r, ...row };
+      return {
+        ...(partial ? r : {}),
+        ...row,
+        id: r.id,
+        created: r.created,
+        lastUpdated,
+      };
     }
     return r;
   });

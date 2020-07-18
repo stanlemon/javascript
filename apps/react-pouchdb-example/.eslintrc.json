@@ -24,6 +24,8 @@
     "no-console": "warn",
     // Requires the displayName property to be set, not ideal for stateless components
     "react/display-name": 0,
+    // We're using typescript and not messing with prop types
+    "react/prop-types": 0,
     // Requires 'public' before public methods
     "@typescript-eslint/explicit-member-accessibility": 0,
     // Disallows snake casing, which is often used in options objects (eg. "include_docs")

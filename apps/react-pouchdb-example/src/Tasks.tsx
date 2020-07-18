@@ -1,6 +1,6 @@
 import * as React from "react";
 import { PuttableProps } from "@stanlemon/react-pouchdb";
-import { addRow, updatePartialRow, removeRow } from "./DocumentHelpers";
+import { addRow, removeRow, updateRow } from "./DocumentHelpers";
 
 type Task = {
   id: string;
@@ -60,7 +60,8 @@ export class Tasks extends React.Component<Props, State> {
 
   completeTask = (task: Task): void => {
     this.props.putDocument({
-      tasks: updatePartialRow(this.props.tasks, task.id, {
+      tasks: updateRow(this.props.tasks, {
+        id: task.id,
         completed: !task.completed,
       }),
     });
