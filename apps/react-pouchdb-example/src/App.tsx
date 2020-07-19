@@ -11,6 +11,7 @@ import {
 import "@fortawesome/fontawesome-free/css/all.css";
 import "bulma/css/bulma.css";
 import "./App.css";
+import { DocumentWithRows } from "./DocumentWithRows";
 import { Footer } from "./Footer";
 import { Header } from "./Header";
 import { Login as LoginView } from "./Login";
@@ -25,9 +26,13 @@ const remoteUrl = process.env.REMOTE_URL
 
 // Example using the component and wrapping children
 const WrappedNotes = (): React.ReactElement => (
-  <Document id="notes" loading={<div>Loading Notes...</div>} debug={true}>
+  <DocumentWithRows
+    id="notes"
+    loading={<div>Loading Notes...</div>}
+    debug={true}
+  >
     <Notes />
-  </Document>
+  </DocumentWithRows>
 );
 // Example using the component and the 'component' property
 const WrappedTasks = (): React.ReactElement => (

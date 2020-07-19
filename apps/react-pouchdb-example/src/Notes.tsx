@@ -1,6 +1,6 @@
 import * as React from "react";
-import { PuttableProps } from "@stanlemon/react-pouchdb";
-import { addRow, removeRow, Row } from "./DocumentHelpers";
+import { Row } from "./DocumentHelpers";
+import { RowProps } from "./DocumentWithRows";
 import { MultilineText } from "./MultilineText";
 
 type Note = Row & {
@@ -8,7 +8,7 @@ type Note = Row & {
   note: string;
 };
 
-type Props = PuttableProps & {
+type Props = RowProps & {
   notes: Note[];
 };
 
@@ -37,9 +37,7 @@ export class Notes extends React.Component<Props, State> {
       return;
     }
 
-    this.props.putDocument({
-      notes: addRow(this.props.notes, { note: this.state.note }),
-    });
+    this.props.addRow({ note: this.state.note });
 
     this.setState({ note: "" });
   };
@@ -52,9 +50,7 @@ export class Notes extends React.Component<Props, State> {
   };
 
   removeNote(note: Note): void {
-    this.props.putDocument({
-      notes: removeRow(this.props.notes, note),
-    });
+    this.props.removeRow(note);
   }
 
   render(): React.ReactNode {

@@ -1,5 +1,9 @@
 import * as React from "react";
-import { Document, PuttableProps } from "@stanlemon/react-pouchdb";
+import {
+  Document,
+  PuttableProps,
+  DocumentProps,
+} from "@stanlemon/react-pouchdb";
 import {
   Row,
   addRow,
@@ -10,12 +14,21 @@ import {
 
 type Props = PuttableProps & {
   id: string;
-  children: React.ReactElement;
+  component: React.ReactElement<RowProps>;
   rows?: Row[];
 };
 
+export interface RowProps {
+  addRow(row: Omit<Row, "id">): void;
+  removeRow(row: Row): void;
+  removeRowById(id: string): void;
+  updateRow(row: Row, partial?: boolean): void;
+}
+
 class Wrapper extends React.Component<Props> {
-  static defaultProps: Partial<Props> = {};
+  static defaultProps: Partial<Props> = {
+    rows: [],
+  };
 
   #addRow = (row: Omit<Row, "id">): void => {
     this.props.putDocument({
@@ -42,7 +55,8 @@ class Wrapper extends React.Component<Props> {
   };
 
   render(): React.ReactElement {
-    return React.cloneElement(this.props.children, {
+    return React.cloneElement(this.props.component, {
+      [this.props.id]: this.props.rows,
       addRow: this.#addRow,
       removeRow: this.#removeRow,
       removeRowById: this.#removeRowById,
@@ -54,13 +68,14 @@ class Wrapper extends React.Component<Props> {
 export function DocumentWithRows({
   id,
   children,
-}: {
+  ...props
+}: DocumentProps & {
   id: string;
-  children: React.ReactElement;
-}): React.ReactNode {
+  children: React.ReactElement<RowProps>;
+}): React.ReactElement {
   return (
-    <Document id={id}>
-      <Wrapper id={id}>{children}</Wrapper>
+    <Document id={id} {...props}>
+      <Wrapper id={id} component={children} />
     </Document>
   );
 }
