@@ -50,7 +50,7 @@
     "pouchdb": "^7.2.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "uuid": "^8.2.0"
+    "uuid": "^8.3.0"
   },
   "devDependencies": {
     "@babel/core": "^7.10.5",
