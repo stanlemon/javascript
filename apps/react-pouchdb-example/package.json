@@ -44,7 +44,7 @@
     "@stanlemon/react-pouchdb": "^0.1.15",
     "@types/pouchdb": "^6.4.0",
     "@types/react-dom": "^16.9.8",
-    "@types/uuid": "^8.0.0",
+    "@types/uuid": "^8.0.1",
     "bulma": "^0.9.0",
     "date-fns": "^2.15.0",
     "pouchdb": "^7.2.2",
