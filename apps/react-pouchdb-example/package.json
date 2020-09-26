@@ -82,7 +82,6 @@
     "prettier": "^2.1.2",
     "react-hot-loader": "^4.13.0",
     "style-loader": "^1.2.1",
-    "ts-loader": "^8.0.4",
     "typescript": "^4.0.3",
     "url-loader": "^4.1.0",
     "webpack": "^4.44.2",
