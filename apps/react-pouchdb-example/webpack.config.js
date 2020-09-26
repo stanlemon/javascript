@@ -2,13 +2,18 @@ const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
+  mode: "development",
   entry: ["./src/index.tsx", "react-hot-loader/patch"],
   output: {
     filename: "main.js",
     path: path.resolve(__dirname, "dist"),
+    publicPath: "/",
   },
+  devtool:
+    process.env.NODE_ENV === "production" ? "source-map" : "eval-source-map",
   devServer: {
     hot: true,
+    historyApiFallback: true,
   },
   module: {
     rules: [
