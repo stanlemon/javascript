@@ -1,3 +1,4 @@
+const webpack = require("webpack");
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
@@ -42,6 +43,9 @@ module.exports = {
     },
   },
   plugins: [
+    new webpack.EnvironmentPlugin({
+      REMOTE_URL: "http://localhost:5984/",
+    }),
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, "index.html"),
     }),
