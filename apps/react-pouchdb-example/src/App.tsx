@@ -36,7 +36,12 @@ const WrappedNotes = (): React.ReactElement => (
 );
 // Example using the component and the 'component' property
 const WrappedTasks = (): React.ReactElement => (
-  <Document id="tasks" component={<Tasks />} debug={true} />
+  <Document
+    id="tasks"
+    component={<Tasks />}
+    loading={<div>Loading Tasks...</div>}
+    debug={true}
+  />
 );
 
 export const App = withAuthentication(

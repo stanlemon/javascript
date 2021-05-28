@@ -4,6 +4,8 @@ import "@testing-library/jest-dom/extend-expect";
 import PouchDB from "pouchdb";
 import { App } from "./App";
 
+window.setImmediate = window.setInterval;
+
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 PouchDB.plugin(require("pouchdb-adapter-memory"));
 
@@ -20,10 +22,8 @@ describe("<App />", () => {
 
     const { getByText } = render(<App db={db} />);
 
-    await waitFor(() => getByText("Notes:"));
+    await waitFor(() => getByText("Loading Notes..."));
 
-    await waitFor(() => getByText("Tasks:"));
-
-    await db.close();
+    await waitFor(() => getByText("Loading Tasks..."));
   });
 });
