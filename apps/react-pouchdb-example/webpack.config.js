@@ -1,6 +1,9 @@
-const webpack = require("webpack");
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+
+const couchdbUrl = process.env.COUCHDB_URL
+  ? process.env.COUCHDB_URL
+  : "http://localhost:5984/";
 
 module.exports = {
   mode: "development",
@@ -15,6 +18,14 @@ module.exports = {
   devServer: {
     hot: true,
     historyApiFallback: true,
+    proxy: {
+      "/couchdb": {
+        target: couchdbUrl,
+        pathRewrite: {
+          "^/couchdb": "",
+        },
+      },
+    },
   },
   module: {
     rules: [
@@ -43,9 +54,6 @@ module.exports = {
     },
   },
   plugins: [
-    new webpack.EnvironmentPlugin({
-      REMOTE_URL: "http://localhost:5984/",
-    }),
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, "index.html"),
     }),
