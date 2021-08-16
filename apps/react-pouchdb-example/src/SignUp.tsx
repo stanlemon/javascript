@@ -1,4 +1,6 @@
 import * as React from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUser, faEnvelope, faLock } from "@fortawesome/free-solid-svg-icons";
 import { SignUpViewProps as Props } from "@stanlemon/react-couchdb-authentication/dist/components/SignUpView";
 
 export function SignUp(props: Props): React.ReactElement {
@@ -20,7 +22,7 @@ export function SignUp(props: Props): React.ReactElement {
             onChange={props.setUsername}
           />
           <span className="icon is-small is-left">
-            <i className="fas fa-user" />
+            <FontAwesomeIcon icon={faUser} />
           </span>
         </div>
       </div>
@@ -35,7 +37,7 @@ export function SignUp(props: Props): React.ReactElement {
             onChange={props.setEmail}
           />
           <span className="icon is-small is-left">
-            <i className="fas fa-envelope" />
+            <FontAwesomeIcon icon={faEnvelope} />
           </span>
         </p>
       </div>
@@ -50,7 +52,7 @@ export function SignUp(props: Props): React.ReactElement {
             onChange={props.setPassword}
           />
           <span className="icon is-small is-left">
-            <i className="fas fa-lock" />
+            <FontAwesomeIcon icon={faLock} />
           </span>
         </p>
       </div>

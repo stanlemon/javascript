@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
 import { Database, Document } from "@stanlemon/react-pouchdb";
 import {
   Authentication,
@@ -8,7 +10,6 @@ import {
   Login,
   SignUp,
 } from "@stanlemon/react-couchdb-authentication";
-import "@fortawesome/fontawesome-free/css/all.css";
 import "bulma/css/bulma.css";
 import "./App.css";
 import { DocumentWithRows } from "./DocumentWithRows";
@@ -73,7 +74,7 @@ export const App = withAuthentication(
               <div className="column  is-half has-text-right">
                 <button className="button is-small" onClick={logout}>
                   <span className="icon is-small">
-                    <i className="fas fa-sign-out-alt" />
+                    <FontAwesomeIcon icon={faSignOutAlt} />
                   </span>
                   <span>Logout</span>
                 </button>
