@@ -21,7 +21,7 @@ import { Notes } from "./Notes";
 import { Tasks } from "./Tasks";
 import { Modal } from "./Modal";
 
-const remoteUrl = "/couchdb/";
+const remoteUrl = process.env.REMOTE_DB_URL ?? "http://localhost:8080/couchdb/";
 
 // Example using the component and wrapping children
 const WrappedNotes = (): React.ReactElement => (

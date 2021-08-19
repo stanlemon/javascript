@@ -1,4 +1,5 @@
 const path = require("path");
+const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 const couchdbUrl = process.env.COUCHDB_URL
@@ -56,6 +57,12 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, "index.html"),
+    }),
+    new webpack.DefinePlugin({
+      // This should match the hostname and port of webpack, if it doesn't, fix it!
+      "process.env.REMOTE_DB_URL": JSON.stringify(
+        "http://localhost:8080/couchdb/"
+      ),
     }),
   ],
 };
