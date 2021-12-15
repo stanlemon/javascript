@@ -1,0 +1,10 @@
+{
+  "scripts": {
+    "lint": "eslint --ext js,jsx,ts,tsx ./",
+    "lint:format": "eslint --fix --ext js,jsx,ts,tsx ./"
+  },
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ]
+}

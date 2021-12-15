@@ -1,0 +1,18 @@
+{
+  "name": "@stanlemon/app-test",
+  "type": "module",
+  "scripts": {
+    "start": "webpack serve",
+    "build": "NODE_ENV=production webpack",
+    "test": "jest",
+    "lint": "eslint --ext js,jsx,ts,tsx ./src/",
+    "lint:format": "eslint --fix --ext js,jsx,ts,tsx ./src/"
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.36",
+    "@fortawesome/free-solid-svg-icons": "^5.15.4",
+    "@fortawesome/react-fontawesome": "^0.1.16",
+    "@stanlemon/webdev": "*",
+    "lodash": "4.17.21"
+  }
+}
