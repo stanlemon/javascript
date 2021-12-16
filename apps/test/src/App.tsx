@@ -2,7 +2,6 @@ import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCoffee } from "@fortawesome/free-solid-svg-icons";
 import "./App.less";
-import { defaults } from "lodash";
 
 export default class App extends React.Component {
   state = {
@@ -24,9 +23,6 @@ export default class App extends React.Component {
   };
 
   render(): React.ReactElement {
-    const x = defaults({ a: 1 }, { a: 3, b: 2 });
-    console.log(x);
-
     return (
       <div>
         <h1>Hello World!</h1>
