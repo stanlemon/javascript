@@ -5,18 +5,27 @@ import HtmlWebpackPlugin from "html-webpack-plugin";
 import ReactRefreshWebpackPlugin from "@pmmmwh/react-refresh-webpack-plugin";
 import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
 import { CleanWebpackPlugin } from "clean-webpack-plugin";
+import { config as dotenv } from "dotenv";
+
+dotenv();
 
 const babelOptions = JSON.parse(
   readFileSync(new URL("./.babelrc.json", import.meta.url))
 );
 
-const ENV = process.env.NODE_ENV ?? "development";
+// Entry points, which can be separated by a semi-colon
+const WEBDEV_ENTRY = process.env.WEBDEV_ENTRY ?? "./src/index.tsx";
+// HTML pages to create, which can be separated by a semi-colon
+// If you prefix a page with a ! it will disable script injection
+// The filename from the supplied path is used as the filename of the resulting file
+const WEBDEV_HTML = process.env.WEBDEV_HTML ?? "./index.html";
+const NODE_ENV = process.env.NODE_ENV ?? "development";
 
-const isDevelopment = ENV !== "production";
+const isDevelopment = NODE_ENV !== "production";
 
 export default {
   mode: isDevelopment ? "development" : "production",
-  entry: ["./src/index.tsx"],
+  entry: WEBDEV_ENTRY.split(";"),
   output: {
     filename: "[name].[contenthash].js",
     path: path.resolve("./", "dist"),
@@ -90,11 +99,20 @@ export default {
   plugins: [
     ...[
       new CleanWebpackPlugin(),
-      new HtmlWebpackPlugin({
-        template: path.resolve("./", "index.html"),
+      ...WEBDEV_HTML.split(";").map((html) => {
+        let inject = true;
+        if (html.substring(0, 1) === "!") {
+          html = html.substring(1);
+          inject = false;
+        }
+        return new HtmlWebpackPlugin({
+          filename: path.basename(html),
+          template: html,
+          inject,
+        });
       }),
       new webpack.DefinePlugin({
-        "process.env.NODE_ENV": JSON.stringify(ENV),
+        "process.env.NODE_ENV": JSON.stringify(NODE_ENV),
       }),
     ],
     ...[
