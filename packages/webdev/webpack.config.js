@@ -19,7 +19,20 @@ const WEBDEV_ENTRY = process.env.WEBDEV_ENTRY ?? "./src/index.tsx";
 // If you prefix a page with a ! it will disable script injection
 // The filename from the supplied path is used as the filename of the resulting file
 const WEBDEV_HTML = process.env.WEBDEV_HTML ?? "./index.html";
+// Proxy path's can be designated as path@host, separated by semi-colons
+// For example /api@http://localhost:3000;/auth@http://localhost:4000
+const WEBDEV_PROXY = process.env.WEBDEV_HTML ?? "";
 const NODE_ENV = process.env.NODE_ENV ?? "development";
+
+const proxy = {};
+WEBDEV_PROXY.split(";").forEach((entry) => {
+  if (entry.indexOf("@") === -1) {
+    return;
+  }
+  const path = entry.substring(0, entry.indexOf("@"));
+  const host = entry.substring(entry.indexOf("@") + 1);
+  proxy[path] = host;
+});
 
 const isDevelopment = NODE_ENV !== "production";
 
@@ -34,6 +47,7 @@ export default {
   devServer: {
     hot: true,
     historyApiFallback: true,
+    proxy,
   },
   optimization: {
     moduleIds: "deterministic",
