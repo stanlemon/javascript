@@ -1,5 +1,9 @@
 {
-  "name": "@stanlemon/app-test",
+  "name": "@stanlemon/app-template",
+  "version": "0.1.0",
+  "description": "A template for creating apps using the webdev package.",
+  "author": "Stan Lemon <stanlemon@users.noreply.github.com>",
+  "license": "MIT",
   "type": "module",
   "scripts": {
     "start": "webpack serve",
@@ -9,9 +13,6 @@
     "lint:format": "eslint --fix --ext js,jsx,ts,tsx ./src/"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "^1.2.36",
-    "@fortawesome/free-solid-svg-icons": "^5.15.4",
-    "@fortawesome/react-fontawesome": "^0.1.16",
     "@stanlemon/webdev": "*"
   }
 }
