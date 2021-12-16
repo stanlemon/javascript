@@ -1,10 +1,20 @@
 import React from "react";
-import { render } from "@testing-library/react";
-import "@testing-library/jest-dom";
+import { render, screen, fireEvent } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import App from "./App";
 
-test("Basic", () => {
+test("<App/>", () => {
   render(<App />);
 
-  expect(true).toBe(true);
+  // The header is present
+  expect(screen.getByRole("heading")).toHaveTextContent("Hello World!");
+
+  // Type some data into the input
+  userEvent.type(screen.getByRole("textbox"), "The first item");
+
+  // Click the add button
+  fireEvent.click(screen.getByRole("button"));
+
+  // Now we should have a list item with the text we entered
+  expect(screen.getByRole("listitem")).toHaveTextContent("The first item");
 });
