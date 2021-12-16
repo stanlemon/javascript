@@ -88,7 +88,7 @@ export default {
       },
       {
         test: /\.(png|jpe?g|gif|svg|eot|ttf|woff|woff2)$/i,
-        loader: "url-loader",
+        type: "asset/resource",
       },
     ],
   },
