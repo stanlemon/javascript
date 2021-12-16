@@ -1,6 +1,6 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-npm run lint --workspaces
+npm run lint --workspaces --if-present
 
-npm run test --workspaces
+npm run test --workspaces --if-present
