@@ -1,6 +1,6 @@
 {
   "name": "@stanlemon/eslint-config",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "My typical eslint setup, but without all the copy and paste.",
   "keywords": [
     "eslint"
@@ -15,7 +15,7 @@
     "lint": "eslint --ext js,jsx,ts,tsx ./",
     "lint:format": "eslint --fix --ext js,jsx,ts,tsx ./"
   },
-  "devDependencies": {
+  "dependencies": {
     "@babel/eslint-parser": "^7.16.5",
     "@typescript-eslint/eslint-plugin": "^5.7.0",
     "@typescript-eslint/parser": "^5.7.0",

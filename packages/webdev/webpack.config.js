@@ -97,7 +97,13 @@ export default {
         "process.env.NODE_ENV": JSON.stringify(ENV),
       }),
     ],
-    ...[!isDevelopment && new BundleAnalyzerPlugin()].filter(Boolean),
+    ...[
+      !isDevelopment &&
+        new BundleAnalyzerPlugin({
+          analyzerMode: "static",
+          openAnalyzer: false,
+        }),
+    ].filter(Boolean),
     ...[isDevelopment && new ReactRefreshWebpackPlugin()].filter(Boolean),
   ],
 };
