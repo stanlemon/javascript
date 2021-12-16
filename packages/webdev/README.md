@@ -2,7 +2,7 @@
 
 This repository contains all of my usual environment setup for babel, webpack and jest for developing React apps. I got tired of copying and pasting the same config files everywhere, so I put this together.
 
-To get started, create these files:
+To get started, either copy [apps/template](../apps/template/) or create these files:
 
 package.json
 ```json
