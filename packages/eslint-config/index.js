@@ -9,7 +9,6 @@ module.exports = {
     "react-app",
     "plugin:jest/recommended",
     "plugin:prettier/recommended",
-    "plugin:@typescript-eslint/recommended",
   ],
   rules: {
     // Requires strict equality
@@ -25,8 +24,6 @@ module.exports = {
     "no-console": "warn",
     // Requires the displayName property to be set, not ideal for stateless components
     "react/display-name": "off",
-    // Requires 'public' before public methods
-    "@typescript-eslint/explicit-member-accessibility": "off",
     // Allow exporting of unamed objects as a default
     "import/no-anonymous-default-export": [
       "error",
@@ -35,4 +32,14 @@ module.exports = {
       },
     ],
   },
+  overrides: [
+    {
+      files: ["**/*.ts", "**/*.tsx"],
+      extends: ["plugin:@typescript-eslint/recommended"],
+      rules: {
+        // Requires 'public' before public methods
+        "@typescript-eslint/explicit-member-accessibility": "off",
+      },
+    },
+  ],
 };
