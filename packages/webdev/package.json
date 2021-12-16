@@ -1,5 +1,18 @@
 {
   "name": "@stanlemon/webdev",
+  "version": "0.1.0",
+  "description": "My typical web development setup, but without all the copy and paste.",
+  "keywords": [
+    "webpack",
+    "babel",
+    "jest",
+    "react"
+  ],
+  "author": "Stan Lemon <stanlemon@users.noreply.github.com>",
+  "license": "MIT",
+  "engines": {
+    "node": ">=17.0"
+  },
   "type": "module",
   "scripts": {
     "lint": "eslint --ext js,jsx,ts,tsx ./",
