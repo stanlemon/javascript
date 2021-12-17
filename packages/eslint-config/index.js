@@ -18,6 +18,8 @@ module.exports = {
       "error",
       {
         max: 80,
+        skipBlankLines: true,
+        skipComments: true,
       },
     ],
     // Linting shouldn't break on this, but we also want to discourage using console logging
@@ -39,6 +41,25 @@ module.exports = {
       rules: {
         // Requires 'public' before public methods
         "@typescript-eslint/explicit-member-accessibility": "off",
+      },
+    },
+    {
+      files: ["**/*.jsx", "**/.tsx"],
+      rules: {
+        "max-lines-per-function": [
+          "error",
+          {
+            max: 160,
+            skipBlankLines: true,
+            skipComments: true,
+          },
+        ],
+      },
+    },
+    {
+      files: ["**/*.test.*"],
+      rules: {
+        "max-lines-per-function": "off",
       },
     },
   ],
