@@ -21,7 +21,7 @@ const WEBDEV_ENTRY = process.env.WEBDEV_ENTRY ?? "./src/index.tsx";
 const WEBDEV_HTML = process.env.WEBDEV_HTML ?? "./index.html";
 // Proxy path's can be designated as path@host, separated by semi-colons
 // For example /api@http://localhost:3000;/auth@http://localhost:4000
-const WEBDEV_PROXY = process.env.WEBDEV_HTML ?? "";
+const WEBDEV_PROXY = process.env.WEBDEV_PROXY ?? "";
 const NODE_ENV = process.env.NODE_ENV ?? "development";
 
 const proxy = {};
