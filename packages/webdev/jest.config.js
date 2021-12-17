@@ -19,4 +19,15 @@ export default {
   moduleNameMapper: {
     "\\.(css|less|sass|scss)$": "identity-obj-proxy",
   },
+  coverageDirectory: ".coverage",
+  coverageReporters: ["json", "lcov", "text", "html"],
+  collectCoverageFrom: ["**/*.{js,jsx,ts,tsx}"],
+  coveragePathIgnorePatterns: [
+    // Ignore all of our dependencies
+    "/node_modules/",
+    // Ignore coverage files
+    "\\.coverage\\/",
+    // Ignore config files
+    "\\.config\\.js$",
+  ],
 };
