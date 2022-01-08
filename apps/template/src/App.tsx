@@ -1,31 +1,13 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import "./App.less";
-
-function Input({ onClick }) {
-  const [value, setValue] = useState("");
-
-  const handleClick = () => {
-    onClick(value);
-    setValue("");
-  };
-
-  return (
-    <>
-      <input
-        type="text"
-        onChange={(e) => setValue(e.currentTarget.value)}
-        value={value}
-      />
-      <button onClick={handleClick}>Add</button>
-    </>
-  );
-}
+import Header from "./Header";
+import Input from "./Input";
 
 export default function App() {
-  const [items, setItems] = useState([]);
+  const [items, setItems] = useState<string[]>([]);
   return (
     <div>
-      <h1>Hello World!</h1>
+      <Header />
       <Input onClick={(item) => setItems([...items, item])} />
       <ul>
         {items.map((item, i) => (
