@@ -1,3 +1,5 @@
+const dir = process.cwd();
+
 module.exports = {
   env: {
     es2021: true,
@@ -36,8 +38,25 @@ module.exports = {
   },
   overrides: [
     {
-      files: ["**/*.ts", "**/*.tsx"],
-      extends: ["plugin:@typescript-eslint/recommended"],
+      files: ["**/*.{ts,tsx}"],
+      plugins: ["@typescript-eslint"],
+      extends: [
+        "plugin:@typescript-eslint/eslint-recommended",
+        "plugin:@typescript-eslint/recommended",
+        "plugin:@typescript-eslint/recommended-requiring-type-checking",
+      ],
+      parser: "@typescript-eslint/parser",
+      parserOptions: {
+        // Lint with Type Information
+        // https://github.com/typescript-eslint/typescript-eslint/blob/master/docs/getting-started/linting/TYPED_LINTING.md
+        tsconfigRootDir: dir,
+        project: dir + "/tsconfig.json",
+      },
+      settings: {
+        "import/parsers": {
+          "@typescript-eslint/parser": [".ts", ".tsx"],
+        },
+      },
       rules: {
         // Requires 'public' before public methods
         "@typescript-eslint/explicit-member-accessibility": "off",
