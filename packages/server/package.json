@@ -1,0 +1,32 @@
+{
+  "name": "@stanlemon/server",
+  "version": "0.1.0",
+  "description": "A basic express web server setup.",
+  "author": "Stan Lemon <stanlemon@users.noreply.github.com>",
+  "license": "MIT",
+  "engines": {
+    "node": ">=17.0"
+  },
+  "type": "module",
+  "main": "./src/index.js",
+  "exports": "./src/index.js",
+  "scripts": {
+    "start": "NODE_ENV=development nodemon ./app.js",
+    "lint": "eslint --ext js,jsx,ts,tsx ./",
+    "lint:format": "eslint --fix --ext js,jsx,ts,tsx ./"
+  },
+  "dependencies": {
+    "compression": "^1.7.4",
+    "dotenv": "11.0.0",
+    "express": "^4.17.1",
+    "express-rate-limit": "^5.5.1",
+    "helmet": "^4.6.0",
+    "http-proxy-middleware": "^2.0.1",
+    "lodash-es": "^4.17.21",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "@stanlemon/eslint-config": "*",
+    "nodemon": "^2.0.15"
+  }
+}
