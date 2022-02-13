@@ -1,7 +1,7 @@
 import { v4 as uuid } from "uuid";
 import { formatISO } from "date-fns";
 
-export interface Row {
+export interface Row extends Record<string, unknown> {
   id: string;
   [propName: string]: unknown;
 }

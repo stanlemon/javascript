@@ -8,16 +8,21 @@ interface Task extends Row {
   completed: boolean;
 }
 
-type Props = typeof Tasks.defaultProps & PuttableProps;
+type Props = PuttableProps & {
+  tasks: Task[];
+};
 
 type State = Omit<Task, "id">;
 
 export class Tasks extends React.Component<Props, State> {
   static defaultProps = {
-    tasks: [],
-    putDocument: () => {
-      // Do nothing
-    },
+    tasks: [] as Task[],
+    putDocument: (data: Record<string, unknown>) =>
+      void (
+        {
+          // Do nothing
+        }
+      ),
   };
 
   state = {
