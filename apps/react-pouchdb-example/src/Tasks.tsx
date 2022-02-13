@@ -1,22 +1,23 @@
 import * as React from "react";
 import { PuttableProps } from "@stanlemon/react-pouchdb";
-import { addRow, removeRow, updateRow } from "./DocumentHelpers";
+import { addRow, removeRow, Row, updateRow } from "./DocumentHelpers";
 
-type Task = {
+interface Task extends Row {
   id: string;
   name: string;
   completed: boolean;
-};
+}
 
-type Props = PuttableProps & {
-  tasks?: Task[];
-};
+type Props = typeof Tasks.defaultProps & PuttableProps;
 
 type State = Omit<Task, "id">;
 
 export class Tasks extends React.Component<Props, State> {
-  static defaultProps: Partial<Props> = {
+  static defaultProps = {
     tasks: [],
+    putDocument: () => {
+      // Do nothing
+    },
   };
 
   state = {

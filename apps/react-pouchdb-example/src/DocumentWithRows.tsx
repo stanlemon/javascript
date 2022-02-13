@@ -12,11 +12,13 @@ import {
   updateRow,
 } from "./DocumentHelpers";
 
-type Props = PuttableProps & {
-  id: string;
-  component: React.ReactElement<RowProps>;
-  rows?: Row[];
-};
+type Props = {
+  rows: Row[];
+} & PuttableProps & {
+    id: string;
+    component: React.ReactElement<RowProps>;
+    rows: Row[];
+  };
 
 export interface RowProps {
   addRow(row: Omit<Row, "id">): void;
@@ -26,7 +28,7 @@ export interface RowProps {
 }
 
 class Wrapper extends React.Component<Props> {
-  static defaultProps: Partial<Props> = {
+  static defaultProps = {
     rows: [],
   };
 
@@ -75,7 +77,14 @@ export function DocumentWithRows({
 }): React.ReactElement {
   return (
     <Document id={id} {...props}>
-      <Wrapper id={id} component={children} />
+      <Wrapper
+        id={id}
+        component={children}
+        // This will be overriden by <Document />
+        putDocument={() => {
+          // Empty
+        }}
+      />
     </Document>
   );
 }
