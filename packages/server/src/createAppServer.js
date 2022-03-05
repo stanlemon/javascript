@@ -8,11 +8,9 @@ import { createProxyMiddleware } from "http-proxy-middleware";
 
 dotenv.config();
 
-const DEVELOPMENT = "development";
-const { NODE_ENV = DEVELOPMENT, WEBPACK_URL = "http://localhost:8080" } =
-  process.env;
-
-export default function createAppServer(opts = { port: 3000 }) {
+export default function createAppServer(
+  options = { port: 3000, webpack: false }
+) {
   const app = express();
   app.use(express.json());
 
@@ -32,15 +30,11 @@ export default function createAppServer(opts = { port: 3000 }) {
     app.use(helmet());
   }
 
-  if (NODE_ENV !== DEVELOPMENT) {
-    app.use(express.static("./dist"));
-  }
-
-  if (NODE_ENV === DEVELOPMENT && WEBPACK_URL) {
+  if (options.webpack !== false && process.env.NODE_ENV === "production") {
     app.get(
       "/*.js",
       createProxyMiddleware({
-        target: WEBPACK_URL,
+        target: options.webpack,
         changeOrigin: true,
       })
     );
@@ -48,10 +42,12 @@ export default function createAppServer(opts = { port: 3000 }) {
     app.get(
       "/",
       createProxyMiddleware({
-        target: WEBPACK_URL,
+        target: options.webpack,
         changeOrigin: true,
       })
     );
+  } else if (options.webpack !== false) {
+    app.use(express.static("./dist"));
   }
 
   app.get("/health", (req, res) => {
@@ -60,10 +56,10 @@ export default function createAppServer(opts = { port: 3000 }) {
     });
   });
 
-  const server = app.listen(opts.port);
+  const server = app.listen(options.port);
 
   /* eslint-disable no-console */
-  console.log("Starting in %s mode", NODE_ENV);
+  console.log("Starting in %s mode", process.env.NODE_ENV);
   console.log(
     "Listening at http://%s:%s",
     server.address().address === "::" ? "localhost" : server.address().address,

@@ -1,7 +1,7 @@
 {
-  "name": "@stanlemon/server",
-  "version": "0.2.0",
-  "description": "A basic express web server setup.",
+  "name": "@stanlemon/server-with-auth",
+  "version": "0.1.0",
+  "description": "A basic express web server setup with authentication baked in.",
   "author": "Stan Lemon <stanlemon@users.noreply.github.com>",
   "license": "MIT",
   "engines": {
@@ -16,18 +16,16 @@
     "lint:format": "eslint --fix --ext js,jsx,ts,tsx ./"
   },
   "dependencies": {
-    "compression": "^1.7.4",
-    "dotenv": "16.0.0",
-    "express": "^4.17.2",
-    "express-rate-limit": "^6.2.1",
-    "helmet": "^5.0.2",
-    "http-proxy-middleware": "^2.0.3",
-    "joi": "^17.6.0",
-    "lodash-es": "^4.17.21",
-    "morgan": "^1.10.0"
+    "@stanlemon/server": "*",
+    "bcryptjs": "^2.4.3",
+    "date-fns": "^2.28.0",
+    "jsonwebtoken": "^8.5.1",
+    "passport": "^0.5.2",
+    "passport-jwt": "^4.0.0",
+    "passport-local": "^1.0.0"
   },
   "devDependencies": {
-    "@stanlemon/eslint-config": "0.1.4",
+    "@stanlemon/eslint-config": "*",
     "nodemon": "^2.0.15"
   }
 }
