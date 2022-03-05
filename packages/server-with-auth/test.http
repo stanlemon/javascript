@@ -19,3 +19,8 @@ Content-Type: application/json
 # @name session
 GET http://localhost:3003/auth/session
 Authorization: Bearer {{authToken}}
+
+###
+
+GET http://localhost:3003/api/users
+Authorization: Bearer {{authToken}}

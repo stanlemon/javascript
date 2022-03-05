@@ -1,8 +1,14 @@
 import { useState } from "react";
 
 export default function Input({
+  type = "text",
+  label,
+  placeholder,
   onClick,
 }: {
+  type: string;
+  label: string;
+  placeholder: string;
   onClick: (value: string) => void;
 }) {
   const [value, setValue] = useState("");
@@ -25,10 +31,12 @@ export default function Input({
 
   return (
     <>
+      {label && <label>{label}</label>}
       <input
-        type="text"
+        type={type}
         onChange={handleChange}
         onKeyPress={handleKeyPress}
+        placeholder={placeholder}
         value={value}
       />
       <button onClick={handleClick}>Add</button>
