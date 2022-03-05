@@ -1,32 +1,28 @@
-import { useState } from "react";
-
 export default function Input({
   type = "text",
+  value = "",
   label,
   placeholder,
-  onClick,
+  onChange,
+  onEnter = () => {
+    /* noop */
+  },
 }: {
-  type: string;
-  label: string;
-  placeholder: string;
-  onClick: (value: string) => void;
+  type?: string;
+  value?: string;
+  label?: string;
+  placeholder?: string;
+  onChange: (value: string) => void;
+  onEnter: () => void;
 }) {
-  const [value, setValue] = useState("");
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    setValue(e.currentTarget.value);
+    onChange(e.currentTarget.value);
   };
-
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>): void => {
     if (e.key === "Enter") {
       e.preventDefault();
-      handleClick();
+      onEnter();
     }
-  };
-
-  const handleClick = () => {
-    onClick(value);
-    setValue("");
   };
 
   return (
@@ -39,7 +35,6 @@ export default function Input({
         placeholder={placeholder}
         value={value}
       />
-      <button onClick={handleClick}>Add</button>
     </>
   );
 }
