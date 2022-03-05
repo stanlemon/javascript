@@ -50,6 +50,15 @@ export default function createAppServer(options) {
         changeOrigin: true,
       })
     );
+
+    app.get(
+      "/ws",
+      createProxyMiddleware({
+        target: webpack,
+        changeOrigin: true,
+        ws: true,
+      })
+    );
   } else if (webpack !== false) {
     app.use(express.static("./dist"));
   }
