@@ -9,7 +9,7 @@ import { createProxyMiddleware } from "http-proxy-middleware";
 dotenv.config();
 
 export default function createAppServer(
-  options = { port: 3000, webpack: false }
+  options = { port: 3000, webpack: false, start: true }
 ) {
   const app = express();
   app.use(express.json());
@@ -56,15 +56,19 @@ export default function createAppServer(
     });
   });
 
-  const server = app.listen(options.port);
+  if (options.start) {
+    const server = app.listen(options.port);
 
-  /* eslint-disable no-console */
-  console.log("Starting in %s mode", process.env.NODE_ENV);
-  console.log(
-    "Listening at http://%s:%s",
-    server.address().address === "::" ? "localhost" : server.address().address,
-    server.address().port
-  );
+    /* eslint-disable no-console */
+    console.log("Starting in %s mode", process.env.NODE_ENV);
+    console.log(
+      "Listening at http://%s:%s",
+      server.address().address === "::"
+        ? "localhost"
+        : server.address().address,
+      server.address().port
+    );
+  }
 
   return app;
 }

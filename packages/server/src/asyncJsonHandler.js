@@ -26,22 +26,22 @@ export function asyncJsonHandler(fn) {
     } catch (ex) {
       // TODO: Add better support for validation errors
       if (ex.message === "Bad Request") {
-        res.status(400).json({ error: ex.message });
+        res.status(400).json({ error: formatError(ex) });
         return;
       }
 
       if (ex.message === "Not Authorized") {
-        res.status(403).json({ error: ex.message });
+        res.status(403).json({ error: formatError(ex) });
         return;
       }
 
       if (ex.message === "Not Found") {
-        res.status(404).json({ error: ex.message });
+        res.status(404).json({ error: formatError(ex) });
         return;
       }
 
       if (ex.message === "Already Exists") {
-        res.status(409).json({ error: ex.message });
+        res.status(409).json({ error: formatError(ex) });
         return;
       }
 
@@ -52,7 +52,7 @@ export function asyncJsonHandler(fn) {
         // eslint-disable-next-line no-console
         console.error(ex);
 
-        res.status(500).json({ error: ex.message });
+        res.status(500).json({ error: formatError(ex) });
       } else {
         res.status(500).json({ error: "Something went wrong" });
       }
@@ -60,14 +60,19 @@ export function asyncJsonHandler(fn) {
   };
 }
 
+function formatError(ex) {
+  return ex.message + (ex.details ? ": " + ex.details : "");
+}
+
 export class BadRequestException extends Error {
   static MESSAGE = "Bad Request";
   static CODE = 400;
 
-  constructor() {
+  constructor(details = null) {
     super(BadRequestException.MESSAGE);
     this.name = "BadRequestException";
     this.code = BadRequestException.CODE;
+    this.details = details;
   }
 }
 
@@ -75,10 +80,11 @@ export class NotAuthorizedException extends Error {
   static MESSAGE = "Not Authorized";
   static CODE = 403;
 
-  constructor() {
+  constructor(details = null) {
     super(NotAuthorizedException.MESSAGE);
     this.name = "NotAuthorizedException";
     this.code = NotAuthorizedException.CODE;
+    this.details = details;
   }
 }
 
@@ -86,10 +92,11 @@ export class NotFoundException extends Error {
   static MESSAGE = "Not Found";
   static CODE = 404;
 
-  constructor() {
+  constructor(details = null) {
     super(NotFoundException.MESSAGE);
     this.name = "NotFoundException";
     this.code = NotFoundException.CODE;
+    this.details = details;
   }
 }
 
@@ -97,9 +104,10 @@ export class AlreadyExistsException extends Error {
   static MESSAGE = "Already Exists";
   static CODE = 409;
 
-  constructor() {
+  constructor(details = null) {
     super(AlreadyExistsException.MESSAGE);
     this.name = "AlreadyExistsException";
     this.code = AlreadyExistsException.CODE;
+    this.details = details;
   }
 }

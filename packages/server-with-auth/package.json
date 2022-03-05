@@ -13,7 +13,9 @@
   "scripts": {
     "start": "NODE_ENV=development nodemon ./app.js",
     "lint": "eslint --ext js,jsx,ts,tsx ./",
-    "lint:format": "eslint --fix --ext js,jsx,ts,tsx ./"
+    "lint:format": "eslint --fix --ext js,jsx,ts,tsx ./",
+    "test": "NODE_OPTIONS=--experimental-vm-modules jest --detectOpenHandles",
+    "test:watch": "NODE_OPTIONS=--experimental-vm-modules jest --detectOpenHandles --watch"
   },
   "dependencies": {
     "@stanlemon/server": "*",
@@ -26,6 +28,7 @@
   },
   "devDependencies": {
     "@stanlemon/eslint-config": "*",
-    "nodemon": "^2.0.15"
+    "nodemon": "^2.0.15",
+    "supertest": "^6.2.2"
   }
 }

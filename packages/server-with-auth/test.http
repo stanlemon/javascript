@@ -1,0 +1,21 @@
+GET http://localhost:3003/ HTTP/1.1
+content-type: application/json
+
+###
+
+# @name login
+POST http://localhost:3003/auth/login HTTP/1.1
+Content-Type: application/json
+
+{
+    "username": "user",
+    "password": "password"
+}
+
+###
+
+@authToken = {{login.response.body.token}}
+
+# @name session
+GET http://localhost:3003/auth/session
+Authorization: Bearer {{authToken}}
