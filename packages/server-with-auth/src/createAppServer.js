@@ -10,6 +10,8 @@ export default function createAppServer(
   {
     port,
     webpack,
+    getUserById,
+    getUserByUsername,
     getUserByUsernameAndPassword,
     getUserByVerificationToken,
     createUser,
@@ -17,6 +19,8 @@ export default function createAppServer(
   } = {
     port: 3000,
     webpack: false,
+    getUserById: (userId) => {},
+    getUserByUsername: (username) => {},
     getUserByUsernameAndPassword: (username, password) => {},
     getUserByVerificationToken: (token) => {},
     createUser: (user) => {},
@@ -47,11 +51,25 @@ export default function createAppServer(
       }
     )
   );
+  passport.serializeUser((user, done) => {
+    done(null, user.id);
+  });
+  passport.deserializeUser((id, done) => {
+    getUserById(id)
+      .then((user) => {
+        // An undefined user means we couldn't find it, so the session is invalid
+        done(null, user === undefined ? false : user);
+      })
+      .catch((error) => {
+        done(error, null);
+      });
+  });
   passport.initialize();
 
   app.use(
     auth({
       secret,
+      getUserByUsername,
       getUserByUsernameAndPassword,
       getUserByVerificationToken,
       createUser,

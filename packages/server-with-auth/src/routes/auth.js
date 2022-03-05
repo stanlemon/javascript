@@ -3,12 +3,17 @@ import { format } from "date-fns";
 import { Router } from "express";
 import passport from "passport";
 import jwt from "jsonwebtoken";
-import { schemaHandler, formatOutput } from "@stanlemon/server";
+import {
+  schemaHandler,
+  formatOutput,
+  BadRequestException,
+} from "@stanlemon/server";
 import schema from "../../src/schema/user.js";
 
 /* eslint-disable max-lines-per-function */
 export default function authRoutes({
   secret,
+  getUserByUsername,
   getUserByUsernameAndPassword,
   getUserByVerificationToken,
   createUser,
@@ -77,19 +82,27 @@ export default function authRoutes({
     schemaHandler(
       // Modify the schema to make password required for this operation
       schema.append({ password: schema._keys.password.required() }),
-      async (req, res) => {
-        const user = await createUser(req.body);
+      async (data) => {
+        const existing = await getUserByUsername(data.username);
+
+        if (existing) {
+          throw new BadRequestException(
+            "A user with this username already exists"
+          );
+        }
+
+        const user = await createUser(data);
 
         if (isEmpty(user)) {
-          res.status(500).json({
+          return {
             message: "An error has occurred",
-          });
+          };
         }
 
         // TODO: Add hook for handling verification notification
         // user.verification_token
 
-        res.json({ success: true });
+        return { success: true };
       }
     )
   );
@@ -101,13 +114,13 @@ export default function authRoutes({
 
     if (isEmpty(user)) {
       return res
-        .status(401)
+        .status(400)
         .json({ success: false, message: "Cannot verify user." });
     }
 
     if (!isEmpty(user.verified_date)) {
       return res
-        .status(200)
+        .status(400)
         .send({ success: false, message: "User already verified." });
     }
 
