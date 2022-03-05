@@ -1,0 +1,44 @@
+import asyncJsonHandler from "./asyncJsonHandler.js";
+
+export default function schemaHandler(schema, fn) {
+  return async (req, res, next) => {
+    // Validate the input schema
+    try {
+      const value = await schema.validateAsync(req.body, {
+        // False here will not allow keys that are not part of the schema
+        allowUnknown: false,
+        // True here will strip the unknown keys from the returned value
+        stripUnknown: true,
+        // Ensure that all rules are evaluated, by default Joi stops on the first error
+        abortEarly: false,
+        // Customized error messages
+        messages: {
+          "any.invalid": "{{#label}} is invalid",
+          "any.required": "{{#label}} is required",
+          "boolean.base": "{{#label}} must be true or false",
+          "string.empty": "{{#label}} is not allowed to be empty",
+          "string.email": "{{#label}} must be a valid email address",
+          "string.min":
+            "{{#label}} must be at least {{#limit}} characters long",
+          "string.max":
+            "{{#label}} cannot be more than {{#limit}} characters long",
+          "number.base": "{{#label}} must be a number",
+          "date.base": "{{#label}} must be a valid date",
+        },
+      });
+
+      // eslint-disable-next-line require-atomic-updates
+      req.body = value;
+
+      // Wrap all of these in our async handler
+      await asyncJsonHandler(fn)(req, res, next);
+    } catch (error) {
+      res.status(400).json({
+        errors: Object.assign.apply(
+          null,
+          error.details.map((d) => ({ [d.path]: d.message }))
+        ),
+      });
+    }
+  };
+}
