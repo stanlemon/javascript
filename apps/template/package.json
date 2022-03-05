@@ -6,14 +6,17 @@
   "license": "MIT",
   "type": "module",
   "scripts": {
-    "start": "webpack serve",
-    "build": "NODE_ENV=production webpack",
+    "start": "node app.js",
+    "build": "npm run webpack:build",
+    "webpack:serve": "webpack serve",
+    "webpack:build": "NODE_ENV=production webpack",
     "test": "jest",
     "test:coverage": "jest --coverage",
     "lint": "eslint --ext js,jsx,ts,tsx ./src/",
     "lint:format": "eslint --fix --ext js,jsx,ts,tsx ./src/"
   },
   "dependencies": {
-    "@stanlemon/webdev": "*"
+    "@stanlemon/webdev": "*",
+    "@stanlemon/server-with-auth": "*"
   }
 }

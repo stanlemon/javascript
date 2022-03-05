@@ -1,39 +1,47 @@
 import dotenv from "dotenv";
-import { createAppServer as createBaseAppServer } from "@stanlemon/server";
+import {
+  createAppServer as createBaseAppServer,
+  DEFAULTS as BASE_DEFAULTS,
+} from "@stanlemon/server";
 import passport from "passport";
 import { Strategy as JwtStrategy, ExtractJwt } from "passport-jwt";
+import checkAuth from "./checkAuth.js";
 import auth from "./routes/auth.js";
 
 dotenv.config();
 
-export default function createAppServer(
-  {
+export const DEFAULTS = {
+  ...BASE_DEFAULTS,
+  secure: [],
+  getUserById: (userId) => {},
+  getUserByUsername: (username) => {},
+  getUserByUsernameAndPassword: (username, password) => {},
+  getUserByVerificationToken: (token) => {},
+  createUser: (user) => {},
+  updateUser: (userId, user) => {},
+};
+
+export default function createAppServer(options) {
+  const {
     port,
     webpack,
+    start,
+    secure,
     getUserById,
     getUserByUsername,
     getUserByUsernameAndPassword,
     getUserByVerificationToken,
     createUser,
     updateUser,
-  } = {
-    port: 3000,
-    webpack: false,
-    getUserById: (userId) => {},
-    getUserByUsername: (username) => {},
-    getUserByUsernameAndPassword: (username, password) => {},
-    getUserByVerificationToken: (token) => {},
-    createUser: (user) => {},
-    updateUser: (userId, user) => {},
-  }
-) {
+  } = { ...DEFAULTS, ...options };
+
   if (!process.env.JWT_SECRET) {
     console.warn("You need to specify a secret.");
   }
 
   const secret = process.env.JWT_SECRET || "YouNeedASecret";
 
-  const app = createBaseAppServer({ port, webpack });
+  const app = createBaseAppServer({ port, webpack, start });
 
   passport.use(
     "jwt",
@@ -76,6 +84,10 @@ export default function createAppServer(
       updateUser,
     })
   );
+
+  secure.forEach((path) => {
+    app.use(path, checkAuth());
+  });
 
   return app;
 }
