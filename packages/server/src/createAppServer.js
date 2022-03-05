@@ -16,20 +16,19 @@ export default function createAppServer(options) {
   const app = express();
   app.use(express.json());
 
-  const limiter = rateLimit({
-    windowMs: 5 * 60 * 1000, // 5 minutes
-    max: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
-    standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
-    legacyHeaders: false, // Disable the `X-RateLimit-*` headers
-  });
-
-  app.use(limiter);
-
   if (process.env.NODE_ENV !== "test") {
     app.use(morgan("combined"));
   }
 
   if (process.env.NODE_ENV === "production") {
+    const limiter = rateLimit({
+      windowMs: 5 * 60 * 1000, // 5 minutes
+      max: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
+      standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+      legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+    });
+
+    app.use(limiter);
     app.use(compression());
     app.use(helmet());
   }
