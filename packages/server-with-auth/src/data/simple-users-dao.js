@@ -1,5 +1,7 @@
 import { Low, JSONFile } from "lowdb";
 import { v4 as uuidv4 } from "uuid";
+import shortid from "shortid";
+import bcrypt from "bcryptjs";
 
 export default class SimpleUsersDao {
   constructor(seeds = [], adapter = new JSONFile("./db.json")) {
@@ -33,11 +35,13 @@ export default class SimpleUsersDao {
   };
 
   getUserByUsernameAndPassword = (username, password) => {
-    return this.db.data.users
-      .filter((user) => {
-        return user.username === username && user.password === password;
-      })
-      .shift();
+    const user = this.getUserByUsername(username);
+
+    if (!bcrypt.compareSync(password, user.password)) {
+      return false;
+    }
+
+    return user;
   };
 
   getUserByVerificationToken = (token) => {
@@ -47,19 +51,40 @@ export default class SimpleUsersDao {
   };
 
   createUser = async (user) => {
-    const data = { ...user, id: uuidv4() };
+    const existing = this.getUserByUsername(user.username);
+
+    if (existing) {
+      throw new Error("This username is already taken.");
+    }
+
+    const now = new Date();
+    const data = {
+      ...user,
+      password: bcrypt.hashSync(user.password, 10),
+      id: uuidv4(),
+      verification_token: shortid.generate(),
+      created_at: now,
+      last_updated: now,
+    };
     this.db.data.users.push(data);
     await this.db.write();
     return data;
   };
 
   updateUser = async (userId, user) => {
+    const now = new Date();
     this.db.data.users = this.db.data.users.map((u) => {
       if (u.id === userId) {
+        // If the password has been set, encrypt it
+        if (user.password) {
+          user.password = bcrypt.hashSync(user.password, 10);
+        }
+
         return {
           ...u,
           ...user,
           id: userId,
+          last_updated: now,
         };
       }
       return u;

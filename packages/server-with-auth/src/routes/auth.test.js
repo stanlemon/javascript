@@ -10,12 +10,11 @@ const app = createAppServer({ ...users, start: false });
 describe("/auth", () => {
   let userId;
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     // Reset our users database before each test
     const user = await users.createUser({
       username: "test",
       password: "test",
-      verification_token: "abcdefghijklmnopqrstuvwxyz",
     });
 
     userId = user.id;
@@ -109,6 +108,7 @@ describe("/auth", () => {
 
   it("GET /verify verifies user", async () => {
     const user = users.getUserById(userId);
+
     expect(user.verification_token).not.toBe(null);
     expect(user.verified_date).toBeUndefined();
 
