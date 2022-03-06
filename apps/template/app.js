@@ -4,7 +4,7 @@ import {
   SimpleUsersDao,
 } from "@stanlemon/server-with-auth";
 
-const users = new UsersInMemory([
+const users = new SimpleUsersDao([
   {
     username: "user",
     password: "password",
