@@ -1,10 +1,12 @@
 import { createAppServer, asyncJsonHandler as handler } from "./src/index.js";
-import UsersInMemory from "./src/data/users-in-memory.js";
+import SimpleUsersDao from "./src/data/simple-users-dao.js";
 
-const users = new UsersInMemory({
-  username: "user",
-  password: "password",
-});
+const users = new SimpleUsersDao([
+  {
+    username: "user",
+    password: "password",
+  },
+]);
 
 const app = createAppServer({
   port: 3003,

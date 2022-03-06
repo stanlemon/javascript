@@ -1,15 +1,21 @@
-export default class UsersInMemory {
-  constructor(user) {
-    this.counter = 0;
-    this.users = [];
+import { Low, JSONFile } from "lowdb";
+import { v4 as uuidv4 } from "uuid";
 
-    if (user) {
-      this.createUser(user);
-    }
+export default class SimpleUsersDao {
+  constructor(seeds = [], adapter = new JSONFile("./db.json")) {
+    this.db = new Low(adapter);
+
+    this.db.read().then(() => {
+      this.db.data ||= { users: [] };
+
+      if (seeds.length > 0) {
+        seeds.forEach((user) => this.createUser(user));
+      }
+    });
   }
 
   getUserById = (userId) => {
-    return this.users
+    return this.db.data.users
       .filter((user) => {
         // This one can get gross with numerical ids
         // eslint-disable-next-line eqeqeq
@@ -19,7 +25,7 @@ export default class UsersInMemory {
   };
 
   getUserByUsername = (username) => {
-    return this.users
+    return this.db.data.users
       .filter((user) => {
         return user.username === username;
       })
@@ -27,7 +33,7 @@ export default class UsersInMemory {
   };
 
   getUserByUsernameAndPassword = (username, password) => {
-    return this.users
+    return this.db.data.users
       .filter((user) => {
         return user.username === username && user.password === password;
       })
@@ -35,20 +41,20 @@ export default class UsersInMemory {
   };
 
   getUserByVerificationToken = (token) => {
-    return this.users
+    return this.db.data.users
       .filter((user) => user.verification_token === token)
       .shift();
   };
 
-  createUser = (user) => {
-    this.counter++; // Should always be greater than 0
-    const data = { ...user, id: this.counter };
-    this.users.push(data);
+  createUser = async (user) => {
+    const data = { ...user, id: uuidv4() };
+    this.db.data.users.push(data);
+    await this.db.write();
     return data;
   };
 
-  updateUser = (userId, user) => {
-    this.users = this.users.map((u) => {
+  updateUser = async (userId, user) => {
+    this.db.data.users = this.db.data.users.map((u) => {
       if (u.id === userId) {
         return {
           ...u,
@@ -58,6 +64,7 @@ export default class UsersInMemory {
       }
       return u;
     });
+    await this.db.write();
     return this.getUserById(userId);
   };
 }
