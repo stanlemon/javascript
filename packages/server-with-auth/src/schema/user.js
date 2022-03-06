@@ -3,7 +3,7 @@ import Joi from "joi";
 const keys = {
   name: Joi.string().required().label("Name"),
   username: Joi.string().required().label("Username"),
-  email: Joi.string().email().label("Email address"),
+  email: Joi.string().email().required().label("Email address"),
   password: Joi.string()
     .allow("")
     .min(8)

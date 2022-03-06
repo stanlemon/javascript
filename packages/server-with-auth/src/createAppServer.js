@@ -10,6 +10,7 @@ import auth from "./routes/auth.js";
 
 dotenv.config();
 
+// TODO: Add option for schema
 export const DEFAULTS = {
   ...BASE_DEFAULTS,
   secure: [],
@@ -59,8 +60,8 @@ export default function createAppServer(options) {
       }
     )
   );
-  passport.serializeUser((user, done) => {
-    done(null, user.id);
+  passport.serializeUser((id, done) => {
+    done(null, id);
   });
   passport.deserializeUser((id, done) => {
     getUserById(id)
@@ -77,6 +78,7 @@ export default function createAppServer(options) {
   app.use(
     auth({
       secret,
+      getUserById,
       getUserByUsername,
       getUserByUsernameAndPassword,
       getUserByVerificationToken,

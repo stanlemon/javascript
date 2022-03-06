@@ -7,18 +7,19 @@ let users = new UsersInMemory();
 const app = createAppServer({ ...users, start: false });
 
 describe("/auth", () => {
+  let userId;
+
   beforeEach(() => {
     // Reset our users database before each test
-    users.users = [
-      {
-        id: 42,
-        username: "test",
-        email: "test@test.com",
-        name: "test",
-        password: "test",
-        verification_token: "abcdefghijklmnopqrstuvwxyz",
-      },
-    ];
+    const user = users.createUser({
+      username: "test",
+      email: "test@test.com",
+      name: "test",
+      password: "test",
+      verification_token: "abcdefghijklmnopqrstuvwxyz",
+    });
+
+    userId = user.id;
   });
 
   // Disabling this linting rule because it is unaware of the supertest assertions
@@ -43,8 +44,9 @@ describe("/auth", () => {
       .send(data)
       .expect(200)
       .then((res) => {
-        expect(res.body.errors).toBe(undefined);
-        expect(res.body.success).toBe(true);
+        expect(res.body.errors).toBeUndefined();
+        expect(res.body.token).not.toBeUndefined();
+        expect(res.body.user).not.toBeUndefined();
       });
   });
 
@@ -134,7 +136,7 @@ describe("/auth", () => {
   });
 
   it("GET /verify verifies email address", async () => {
-    const user = users.getUserById(42);
+    const user = users.getUserById(userId);
     expect(user.verification_token).not.toBe(null);
     expect(user.verified_date).toBeUndefined();
 
@@ -148,7 +150,7 @@ describe("/auth", () => {
         expect(res.body.success).toEqual(true);
       });
 
-    const refresh = await users.getUserById(42);
+    const refresh = await users.getUserById(userId);
 
     expect(refresh.verified_date).not.toBe(null);
 

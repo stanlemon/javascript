@@ -3,7 +3,9 @@ export default function Input({
   value = "",
   label,
   placeholder,
-  onChange,
+  onChange = () => {
+    /* noop */
+  },
   onEnter = () => {
     /* noop */
   },
@@ -12,8 +14,8 @@ export default function Input({
   value?: string;
   label?: string;
   placeholder?: string;
-  onChange: (value: string) => void;
-  onEnter: () => void;
+  onChange?: (value: string) => void;
+  onEnter?: () => void;
 }) {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     onChange(e.currentTarget.value);

@@ -13,6 +13,7 @@ import schema from "../../src/schema/user.js";
 /* eslint-disable max-lines-per-function */
 export default function authRoutes({
   secret,
+  getUserById,
   getUserByUsername,
   getUserByUsernameAndPassword,
   getUserByVerificationToken,
@@ -23,23 +24,35 @@ export default function authRoutes({
 
   router.get("/auth/session", (req, res, next) => {
     /* look at the 2nd parameter to the below call */
-    passport.authenticate("jwt", { session: false }, (err, user) => {
+    passport.authenticate("jwt", { session: false }, (err, userId) => {
       if (err) {
         return next(err);
       }
-      if (!user) {
+      if (!userId) {
         return res.status(401).json({
+          token: false,
           user: false,
         });
       }
 
-      req.logIn(user, (err) => {
+      req.logIn(userId, async (err) => {
         if (err) {
           return next(err);
         }
 
-        // Return back some of our details
-        res.status(200).json({ user: req.user });
+        const user = await getUserById(userId);
+
+        if (!user) {
+          return res.status(401).json({
+            token: false,
+            user: false,
+          });
+        } else {
+          const token = jwt.sign(user.id, secret);
+          res
+            .status(200)
+            .json({ token, user: formatOutput(user, ["password"]) });
+        }
       });
     })(req, res, next);
   });
@@ -61,11 +74,11 @@ export default function authRoutes({
       last_logged_in: makeDateString(),
     });
 
-    const token = jwt.sign(user, secret);
+    const token = jwt.sign(user.id, secret);
 
     res.json({
       token,
-      user: formatOutput(update),
+      user: formatOutput(update, ["password"]),
     });
   });
 
@@ -73,6 +86,7 @@ export default function authRoutes({
     req.logout();
 
     return res.status(401).json({
+      token: false,
       user: false,
     });
   });
@@ -102,7 +116,8 @@ export default function authRoutes({
         // TODO: Add hook for handling verification notification
         // user.verification_token
 
-        return { success: true };
+        const token = jwt.sign(user.id, secret);
+        return { token, user: formatOutput(user, ["password"]) };
       }
     )
   );

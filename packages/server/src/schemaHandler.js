@@ -16,7 +16,7 @@ export default function schemaHandler(schema, fn) {
           "any.invalid": "{{#label}} is invalid",
           "any.required": "{{#label}} is required",
           "boolean.base": "{{#label}} must be true or false",
-          "string.empty": "{{#label}} is not allowed to be empty",
+          "string.empty": "{{#label}} is required",
           "string.email": "{{#label}} must be a valid email address",
           "string.min":
             "{{#label}} must be at least {{#limit}} characters long",
