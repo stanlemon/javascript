@@ -5,7 +5,6 @@ import {
 } from "@stanlemon/server-with-auth";
 
 const users = new UsersInMemory({
-  id: 1,
   username: "user",
   password: "password",
   name: "Test User",

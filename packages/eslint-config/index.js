@@ -58,6 +58,9 @@ module.exports = {
         },
       },
       rules: {
+        // Empty functions are ok, especially for default values
+        "no-empty-function": "off",
+        "@typescript-eslint/no-empty-function": "off",
         // Requires 'public' before public methods
         "@typescript-eslint/explicit-member-accessibility": "off",
       },

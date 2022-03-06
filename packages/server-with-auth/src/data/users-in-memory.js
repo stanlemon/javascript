@@ -1,16 +1,19 @@
 export default class UsersInMemory {
   constructor(user) {
+    this.counter = 0;
     this.users = [];
 
     if (user) {
-      this.users.push(user);
+      this.createUser(user);
     }
   }
 
   getUserById = (userId) => {
     return this.users
       .filter((user) => {
-        return user.id === userId;
+        // This one can get gross with numerical ids
+        // eslint-disable-next-line eqeqeq
+        return user.id == userId;
       })
       .shift();
   };
@@ -38,8 +41,10 @@ export default class UsersInMemory {
   };
 
   createUser = (user) => {
-    this.users.push(user);
-    return user;
+    this.counter++; // Should always be greater than 0
+    const data = { ...user, id: this.counter };
+    this.users.push(data);
+    return data;
   };
 
   updateUser = (userId, user) => {

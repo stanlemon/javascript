@@ -2,7 +2,6 @@ import { createAppServer, asyncJsonHandler as handler } from "./src/index.js";
 import UsersInMemory from "./src/data/users-in-memory.js";
 
 const users = new UsersInMemory({
-  id: 1,
   username: "user",
   password: "password",
   name: "Test User",
