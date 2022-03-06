@@ -1,12 +1,7 @@
 import { createAppServer, asyncJsonHandler as handler } from "./src/index.js";
 import SimpleUsersDao from "./src/data/simple-users-dao.js";
 
-const users = new SimpleUsersDao([
-  {
-    username: "user",
-    password: "password",
-  },
-]);
+const users = new SimpleUsersDao();
 
 const app = createAppServer({
   port: 3003,
@@ -21,7 +16,7 @@ app.get(
 
 app.get(
   "/api/users",
-  handler(() => ({ users: users.users }))
+  handler(() => ({ users: users.db.data.users }))
 );
 
 app.get(

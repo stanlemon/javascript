@@ -1,5 +1,4 @@
 import { isEmpty } from "lodash-es";
-import { format } from "date-fns";
 import { Router } from "express";
 import passport from "passport";
 import jwt from "jsonwebtoken";
@@ -71,7 +70,7 @@ export default function authRoutes({
     }
 
     const update = await updateUser(user.id, {
-      last_logged_in: makeDateString(),
+      last_logged_in: new Date(),
     });
 
     const token = jwt.sign(user.id, secret);
@@ -129,22 +128,16 @@ export default function authRoutes({
         .json({ success: false, message: "Cannot verify user." });
     }
 
-    if (!isEmpty(user.verified_date)) {
+    if (user.verified_date) {
       return res
         .status(400)
         .send({ success: false, message: "User already verified." });
     }
 
-    await updateUser(user.id, { verified_date: makeDateString() });
+    await updateUser(user.id, { verified_date: new Date() });
 
     return res.send({ success: true, message: "User verified!" });
   });
 
   return router;
-}
-
-const SQL_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSSxxx";
-
-function makeDateString(d = new Date()) {
-  return format(d, SQL_DATE_FORMAT);
 }
