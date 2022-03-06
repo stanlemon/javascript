@@ -8,11 +8,11 @@ import {
   formatOutput,
   BadRequestException,
 } from "@stanlemon/server";
-import schema from "../../src/schema/user.js";
 
 /* eslint-disable max-lines-per-function */
 export default function authRoutes({
   secret,
+  schema,
   getUserById,
   getUserByUsername,
   getUserByUsernameAndPassword,
@@ -93,33 +93,29 @@ export default function authRoutes({
 
   router.post(
     "/auth/register",
-    schemaHandler(
-      // Modify the schema to make password required for this operation
-      schema.append({ password: schema._keys.password.required() }),
-      async (data) => {
-        const existing = await getUserByUsername(data.username);
+    schemaHandler(schema, async (data) => {
+      const existing = await getUserByUsername(data.username);
 
-        if (existing) {
-          throw new BadRequestException(
-            "A user with this username already exists"
-          );
-        }
-
-        const user = await createUser(data);
-
-        if (isEmpty(user)) {
-          return {
-            message: "An error has occurred",
-          };
-        }
-
-        // TODO: Add hook for handling verification notification
-        // user.verification_token
-
-        const token = jwt.sign(user.id, secret);
-        return { token, user: formatOutput(user, ["password"]) };
+      if (existing) {
+        throw new BadRequestException(
+          "A user with this username already exists"
+        );
       }
-    )
+
+      const user = await createUser(data);
+
+      if (isEmpty(user)) {
+        return {
+          message: "An error has occurred",
+        };
+      }
+
+      // TODO: Add hook for handling verification notification
+      // user.verification_token
+
+      const token = jwt.sign(user.id, secret);
+      return { token, user: formatOutput(user, ["password"]) };
+    })
   );
 
   router.get("/auth/verify/:token", async (req, res) => {

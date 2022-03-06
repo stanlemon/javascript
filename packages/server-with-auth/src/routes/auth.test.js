@@ -13,8 +13,6 @@ describe("/auth", () => {
     // Reset our users database before each test
     const user = users.createUser({
       username: "test",
-      email: "test@test.com",
-      name: "test",
       password: "test",
       verification_token: "abcdefghijklmnopqrstuvwxyz",
     });
@@ -26,14 +24,10 @@ describe("/auth", () => {
   /* eslint-disable jest/expect-expect */
   it("POST /register creates a user", async () => {
     const username = "test1";
-    const name = "Test Tester1";
-    const email = "test1@test.com";
     const password = "p@$$w0rd!";
 
     const data = {
       username,
-      name,
-      email,
       password,
     };
 
@@ -59,25 +53,6 @@ describe("/auth", () => {
       .then((res) => {
         expect(res.body.errors).not.toBe(undefined);
         expect(res.body.errors.username).not.toBe(undefined);
-        expect(res.body.errors.name).not.toBe(undefined);
-        expect(res.body.errors.password).not.toBe(undefined);
-      });
-  });
-
-  it("POST /register returns error on invalid email", async () => {
-    await request(app)
-      .post("/auth/register")
-      .send({
-        email: "not an email address",
-        name: "Test Tester",
-        password: "p@$$w0rd!",
-      })
-      .set("Content-Type", "application/json")
-      .set("Accept", "application/json")
-      .expect(400)
-      .then((res) => {
-        expect(res.body.errors).not.toBe(undefined);
-        expect(res.body.errors.email).not.toBe(undefined);
       });
   });
 
@@ -85,8 +60,7 @@ describe("/auth", () => {
     await request(app)
       .post("/auth/register")
       .send({
-        email: "test@test.com",
-        name: "Test Tester",
+        username: "testshort",
         password: "short",
       })
       .set("Content-Type", "application/json")
@@ -102,8 +76,7 @@ describe("/auth", () => {
     await request(app)
       .post("/auth/register")
       .send({
-        email: "test@test.com",
-        name: "Test Tester",
+        username: "testlong",
         password:
           "waytolongpasswordtobeusedforthisapplicationyoushouldtrysomethingmuchmuchshorter",
       })
@@ -121,8 +94,6 @@ describe("/auth", () => {
       .post("/auth/register")
       .send({
         username: "test",
-        email: "test@test.com",
-        name: "Test Tester",
         password: "p@$$w0rd!",
       })
       .set("Content-Type", "application/json")
@@ -135,12 +106,12 @@ describe("/auth", () => {
       });
   });
 
-  it("GET /verify verifies email address", async () => {
+  it("GET /verify verifies user", async () => {
     const user = users.getUserById(userId);
     expect(user.verification_token).not.toBe(null);
     expect(user.verified_date).toBeUndefined();
 
-    // First call will verify the email address
+    // First call will verify the user
     await request(app)
       .get("/auth/verify/" + user.verification_token)
       .set("Content-Type", "application/json")
@@ -154,7 +125,7 @@ describe("/auth", () => {
 
     expect(refresh.verified_date).not.toBe(null);
 
-    // Subsequent calls are not successful because the email address is already verified
+    // Subsequent calls are not successful because the user is already verified
     await request(app)
       .get("/auth/verify/" + user.verification_token)
       .set("Content-Type", "application/json")
