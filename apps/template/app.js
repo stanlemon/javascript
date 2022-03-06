@@ -1,13 +1,15 @@
 import {
   createAppServer,
   asyncJsonHandler as handler,
-  UsersInMemory,
+  SimpleUsersDao,
 } from "@stanlemon/server-with-auth";
 
-const users = new UsersInMemory({
-  username: "user",
-  password: "password",
-});
+const users = new UsersInMemory([
+  {
+    username: "user",
+    password: "password",
+  },
+]);
 
 const app = createAppServer({
   webpack: "http://localhost:8080",

@@ -1,17 +1,18 @@
 import request from "supertest";
+import { Memory } from "lowdb";
 import createAppServer from "../createAppServer";
-import UsersInMemory from "../data/users-in-memory.js";
+import SimpleUsersDao from "../data/simple-users-dao.js";
 
-let users = new UsersInMemory();
+let users = new SimpleUsersDao([], new Memory());
 
 const app = createAppServer({ ...users, start: false });
 
 describe("/auth", () => {
   let userId;
 
-  beforeEach(() => {
+  beforeEach(async () => {
     // Reset our users database before each test
-    const user = users.createUser({
+    const user = await users.createUser({
       username: "test",
       password: "test",
       verification_token: "abcdefghijklmnopqrstuvwxyz",
