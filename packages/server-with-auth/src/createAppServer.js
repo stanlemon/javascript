@@ -5,6 +5,7 @@ import {
 } from "@stanlemon/server";
 import passport from "passport";
 import { Strategy as JwtStrategy, ExtractJwt } from "passport-jwt";
+import defaultUserSchema from "./schema/user.js";
 import checkAuth from "./checkAuth.js";
 import auth from "./routes/auth.js";
 
@@ -14,6 +15,7 @@ dotenv.config();
 export const DEFAULTS = {
   ...BASE_DEFAULTS,
   secure: [],
+  schema: defaultUserSchema,
   getUserById: (userId) => {},
   getUserByUsername: (username) => {},
   getUserByUsernameAndPassword: (username, password) => {},
@@ -28,6 +30,7 @@ export default function createAppServer(options) {
     webpack,
     start,
     secure,
+    schema,
     getUserById,
     getUserByUsername,
     getUserByUsernameAndPassword,
@@ -78,6 +81,7 @@ export default function createAppServer(options) {
   app.use(
     auth({
       secret,
+      schema,
       getUserById,
       getUserByUsername,
       getUserByUsernameAndPassword,

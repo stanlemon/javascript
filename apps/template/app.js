@@ -7,7 +7,6 @@ import {
 const users = new UsersInMemory({
   username: "user",
   password: "password",
-  name: "Test User",
 });
 
 const app = createAppServer({
