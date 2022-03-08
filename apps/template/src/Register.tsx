@@ -4,7 +4,7 @@ import Input from "./Input";
 
 // eslint-disable-next-line max-lines-per-function
 export default function Register() {
-  const [error, setError] = useState<string | null>(null);
+  const [errors, setErrors] = useState<Record<string, string>>({});
   const [values, setValues] = useState<User>({
     name: "",
     email: "",
@@ -17,7 +17,7 @@ export default function Register() {
   };
 
   const onSubmit = () => {
-    setError(null);
+    setErrors({});
     fetch("/auth/register", {
       headers: {
         Accept: "application/json",
@@ -43,10 +43,10 @@ export default function Register() {
           status: number;
           data: Record<string, unknown>;
         }) => {
-          console.log(ok, status, data);
-
           if (ok) {
             setSession(data as Session);
+          } else {
+            setErrors((data as FormErrors).errors);
           }
         }
       )
@@ -57,32 +57,18 @@ export default function Register() {
 
   return (
     <div>
-      {error && (
-        <div>
-          <strong>{error}</strong>
-        </div>
-      )}
-      <Input
-        label="Name"
-        value={values.name || ""}
-        onChange={(value) => setValues({ ...values, name: value })}
-      />
-      <Input
-        type="email"
-        label="Email"
-        value={values.email || ""}
-        onChange={(value) => setValues({ ...values, email: value })}
-      />
       <Input
         label="Username"
         value={values.username}
         onChange={(value) => setValues({ ...values, username: value })}
+        error={errors.username}
       />
       <Input
         type="password"
         label="Password"
         value={values.password}
         onChange={(value) => setValues({ ...values, password: value })}
+        error={errors.password}
       />
       <button onClick={onSubmit}>Register</button>
     </div>
