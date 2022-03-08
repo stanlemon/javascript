@@ -4,12 +4,7 @@ import {
   SimpleUsersDao,
 } from "@stanlemon/server-with-auth";
 
-const users = new SimpleUsersDao([
-  {
-    username: "user",
-    password: "password",
-  },
-]);
+const users = new SimpleUsersDao();
 
 const app = createAppServer({
   webpack: "http://localhost:8080",

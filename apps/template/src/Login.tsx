@@ -71,6 +71,7 @@ export default function Login() {
         label="Password"
         value={values.password}
         onChange={(value) => setValues({ ...values, password: value })}
+        onEnter={onSubmit}
       />
       <button onClick={onSubmit}>Login</button>
     </div>

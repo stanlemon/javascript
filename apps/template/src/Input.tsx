@@ -9,6 +9,7 @@ export default function Input({
   onEnter = () => {
     /* noop */
   },
+  error,
 }: {
   type?: string;
   value?: string;
@@ -16,6 +17,7 @@ export default function Input({
   placeholder?: string;
   onChange?: (value: string) => void;
   onEnter?: () => void;
+  error?: string;
 }) {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     onChange(e.currentTarget.value);
@@ -37,6 +39,7 @@ export default function Input({
         placeholder={placeholder}
         value={value}
       />
+      {error && <div>{error}</div>}
     </>
   );
 }
