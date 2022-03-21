@@ -1,6 +1,6 @@
 {
   "engines": {
-    "node": ">=16.0"
+    "node": ">=16.13.0"
   },
   "workspaces": [
     "packages/*",
