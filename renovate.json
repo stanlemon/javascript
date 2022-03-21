@@ -6,5 +6,13 @@
   "rangeStrategy": "bump",
   "schedule": [
     "after 8am and before 5pm on Thursday"
+  ],
+  "packageRules": [
+    {
+      "packageNames": [
+        "node"
+      ],
+      "enabled": false
+    }
   ]
 }
