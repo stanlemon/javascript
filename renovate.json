@@ -1,0 +1,10 @@
+{
+  "extends": [
+    "config:base",
+    "group:allNonMajor"
+  ],
+  "rangeStrategy": "bump",
+  "schedule": [
+    "after 8am and before 5pm on Thursday"
+  ]
+}
