@@ -20,11 +20,11 @@
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.1.0",
-    "@fortawesome/free-solid-svg-icons": "^6.0.0",
-    "@fortawesome/react-fontawesome": "^0.1.17",
+    "@fortawesome/free-solid-svg-icons": "^6.1.0",
+    "@fortawesome/react-fontawesome": "^0.1.18",
     "@stanlemon/react-couchdb-authentication": "^0.7.2",
     "@stanlemon/react-pouchdb": "^0.3.3",
-    "@stanlemon/webdev": "^0.1.13",
+    "@stanlemon/webdev": "^0.1.15",
     "bulma": "^0.9.3",
     "date-fns": "^2.28.0",
     "pouchdb": "^7.2.2",
@@ -34,7 +34,7 @@
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.16.2",
-    "@testing-library/react": "^12.1.2",
+    "@testing-library/react": "^12.1.4",
     "@types/pouchdb": "^6.4.0",
     "@types/uuid": "^8.3.4",
     "identity-obj-proxy": "^3.0.0",
