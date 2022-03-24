@@ -19,8 +19,8 @@
     "lint:format": "eslint --fix --ext js,jsx,ts,tsx ./src/"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "^6.1.0",
-    "@fortawesome/free-solid-svg-icons": "^6.1.0",
+    "@fortawesome/fontawesome-svg-core": "^6.1.1",
+    "@fortawesome/free-solid-svg-icons": "^6.1.1",
     "@fortawesome/react-fontawesome": "^0.1.18",
     "@stanlemon/react-couchdb-authentication": "^0.7.2",
     "@stanlemon/react-pouchdb": "^0.3.3",
