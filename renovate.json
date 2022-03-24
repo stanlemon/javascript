@@ -3,9 +3,12 @@
     "config:base",
     "group:allNonMajor"
   ],
+  "bumpVersion": "patch",
   "rangeStrategy": "bump",
+  "rebaseWhen": "conflicted",
   "schedule": [
-    "after 8am and before 5pm on Thursday"
+    "after 5pm",
+    "every weekday"
   ],
   "packageRules": [
     {
@@ -15,13 +18,17 @@
       "enabled": false
     },
     {
+      "matchDatasources": [
+        "npm"
+      ],
       "matchUpdateTypes": [
         "minor",
         "patch",
         "pin",
         "digest"
       ],
-      "automerge": true
+      "automerge": true,
+      "automergeType": "branch"
     }
   ]
 }
