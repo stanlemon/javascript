@@ -27,7 +27,7 @@
     "morgan": "^1.10.0"
   },
   "devDependencies": {
-    "@stanlemon/eslint-config": "0.1.4",
+    "@stanlemon/eslint-config": "*",
     "nodemon": "^2.0.15"
   }
 }
