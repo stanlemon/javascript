@@ -3,12 +3,11 @@
     "config:base",
     "group:allNonMajor"
   ],
+  "timezone": "America/Indiana/Indianapolis",
   "bumpVersion": "patch",
   "rangeStrategy": "bump",
-  "rebaseWhen": "conflicted",
   "schedule": [
-    "after 5pm",
-    "every weekday"
+    "before 8am every weekday"
   ],
   "packageRules": [
     {
