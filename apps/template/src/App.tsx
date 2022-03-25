@@ -30,6 +30,7 @@ export type User = {
 };
 
 export default function App() {
+  const [initialized, setInitialized] = useState<boolean>(false);
   const [session, setSession] = useState<Session | null>(null);
   const [value, setValue] = useState<string>("");
   const [items, setItems] = useState<string[]>([]);
@@ -45,6 +46,8 @@ export default function App() {
       },
     })
       .then((response) => {
+        setInitialized(true);
+
         if (!response.ok) {
           throw new Error(response.statusText);
         }
@@ -63,6 +66,14 @@ export default function App() {
     setItems([...items, value]);
     setValue("");
   };
+
+  if (!initialized) {
+    return (
+      <div>
+        <em>Loading...</em>
+      </div>
+    );
+  }
 
   return (
     <SessionContext.Provider value={contextValue}>
@@ -87,6 +98,7 @@ export default function App() {
       </div>
       <Input
         label="Item"
+        name="item"
         value={value}
         onChange={(value) => setValue(value)}
         onEnter={addItem}

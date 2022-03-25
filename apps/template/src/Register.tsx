@@ -58,12 +58,14 @@ export default function Register() {
   return (
     <div>
       <Input
+        name="username"
         label="Username"
         value={values.username}
         onChange={(value) => setValues({ ...values, username: value })}
         error={errors.username}
       />
       <Input
+        name="password"
         type="password"
         label="Password"
         value={values.password}

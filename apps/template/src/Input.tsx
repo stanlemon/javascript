@@ -1,5 +1,6 @@
 export default function Input({
   type = "text",
+  name,
   value = "",
   label,
   placeholder,
@@ -12,6 +13,7 @@ export default function Input({
   error,
 }: {
   type?: string;
+  name: string;
   value?: string;
   label?: string;
   placeholder?: string;
@@ -31,9 +33,10 @@ export default function Input({
 
   return (
     <>
-      {label && <label>{label}</label>}
+      {label && <label htmlFor={name}>{label}</label>}
       <input
         type={type}
+        id={name}
         onChange={handleChange}
         onKeyPress={handleKeyPress}
         placeholder={placeholder}
