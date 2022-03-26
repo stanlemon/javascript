@@ -14,6 +14,7 @@
     "prepare": "husky install",
     "lint": "npm run lint --workspaces --if-present",
     "test": "npm run test --workspaces --if-present",
+    "build": "npm run build --workspaces --if-present",
     "publish": "node publish.js"
   }
 }
