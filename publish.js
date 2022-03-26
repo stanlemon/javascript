@@ -40,6 +40,10 @@ workspaces.forEach((workspace) => {
 
   const result = spawnSync("npm", ["publish", "--access=public", command]);
 
+  // Temporary
+  console.log(result.stderr);
+  console.log(result.stdout);
+
   if (result.status === 0) {
     console.log(`Published ${workspace}`);
   } else {
