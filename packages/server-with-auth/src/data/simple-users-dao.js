@@ -35,6 +35,10 @@ export default class SimpleUsersDao {
   };
 
   getUserByUsernameAndPassword = (username, password) => {
+    if (!username || !password) {
+      throw new Error("Username and password are required.");
+    }
+
     const user = this.getUserByUsername(username);
 
     if (!bcrypt.compareSync(password, user.password)) {
