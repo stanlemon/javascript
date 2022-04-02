@@ -60,7 +60,7 @@ export default function App() {
       .catch((err) => {
         console.error(err);
       });
-  }, [session?.token]);
+  }, [session?.token, initialized]);
 
   const addItem = () => {
     setItems([...items, value]);

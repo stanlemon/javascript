@@ -1,4 +1,10 @@
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import {
+  render,
+  screen,
+  fireEvent,
+  waitFor,
+  act,
+} from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import App from "./App";
 
@@ -19,7 +25,9 @@ global.fetch = jest.fn(() =>
 ) as jest.Mock;
 
 test("<App/>", async () => {
-  render(<App />);
+  act(() => {
+    render(<App />);
+  });
 
   // A fetch request will be made, and then the page will be initialized, wait for that
   await waitFor(() => {

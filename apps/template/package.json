@@ -1,6 +1,6 @@
 {
   "name": "@stanlemon/app-template",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "A template for creating apps using the webdev package.",
   "author": "Stan Lemon <stanlemon@users.noreply.github.com>",
   "license": "MIT",
@@ -11,6 +11,7 @@
     "webpack:serve": "webpack serve",
     "webpack:build": "NODE_ENV=production webpack",
     "test": "jest",
+    "test:watch": "jest -w",
     "test:coverage": "jest --coverage",
     "lint": "eslint --ext js,jsx,ts,tsx ./src/",
     "lint:format": "eslint --fix --ext js,jsx,ts,tsx ./src/"
