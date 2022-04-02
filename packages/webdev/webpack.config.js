@@ -1,5 +1,5 @@
 import path from "path";
-import { readFileSync } from "fs";
+import { readFileSync, existsSync } from "fs";
 import webpack from "webpack";
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import ReactRefreshWebpackPlugin from "@pmmmwh/react-refresh-webpack-plugin";
@@ -121,8 +121,8 @@ export default {
         }
         return new HtmlWebpackPlugin({
           filename: path.basename(html),
-          template: html,
           inject,
+          ...(existsSync(html) ? { template: html } : {}),
         });
       }),
       new webpack.DefinePlugin({
