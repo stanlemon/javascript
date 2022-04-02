@@ -36,7 +36,7 @@ test("<App/>", async () => {
   });
 
   // Type some data into the input
-  userEvent.type(screen.getByLabelText("Item"), "The first item");
+  await userEvent.type(screen.getByLabelText("Item"), "The first item");
 
   // Click the add button
   fireEvent.click(screen.getByText("Add", { selector: "button" }));
