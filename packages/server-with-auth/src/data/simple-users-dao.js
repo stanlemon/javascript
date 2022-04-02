@@ -35,8 +35,9 @@ export default class SimpleUsersDao {
   };
 
   getUserByUsernameAndPassword = (username, password) => {
+    // Treat this like a failed login.
     if (!username || !password) {
-      throw new Error("Username and password are required.");
+      return false;
     }
 
     const user = this.getUserByUsername(username);
