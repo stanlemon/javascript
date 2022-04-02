@@ -3,6 +3,9 @@ import { Memory } from "lowdb";
 import createAppServer from "../createAppServer";
 import SimpleUsersDao from "../data/simple-users-dao.js";
 
+// This suppresses a warning we don't need in tests
+process.env.JWT_SECRET = "SECRET";
+
 let users = new SimpleUsersDao([], new Memory());
 
 const app = createAppServer({ ...users, start: false });
