@@ -42,7 +42,7 @@ export default class SimpleUsersDao {
 
     const user = this.getUserByUsername(username);
 
-    if (!bcrypt.compareSync(password, user.password)) {
+    if (!user || !bcrypt.compareSync(password, user.password)) {
       return false;
     }
 
