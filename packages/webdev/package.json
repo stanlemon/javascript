@@ -1,6 +1,6 @@
 {
   "name": "@stanlemon/webdev",
-  "version": "0.1.28",
+  "version": "0.1.29",
   "description": "My typical web development setup, but without all the copy and paste.",
   "keywords": [
     "webpack",
@@ -31,7 +31,7 @@
     "@testing-library/react": "^13.0.0",
     "@testing-library/user-event": "^14.0.4",
     "@types/jest": "^27.4.1",
-    "@types/react": "^17.0.44",
+    "@types/react": "^18.0.1",
     "@types/react-dom": "^18.0.0",
     "@types/webpack": "^5.28.0",
     "@types/webpack-env": "^1.16.3",
