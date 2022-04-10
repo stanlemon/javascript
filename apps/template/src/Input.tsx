@@ -11,6 +11,7 @@ export default function Input({
     /* noop */
   },
   error,
+  ...attrs
 }: {
   type?: string;
   name: string;
@@ -30,7 +31,7 @@ export default function Input({
       onEnter();
     }
   };
-
+console.log(attrs)
   return (
     <>
       {label && <label htmlFor={name}>{label}</label>}
@@ -41,6 +42,7 @@ export default function Input({
         onKeyPress={handleKeyPress}
         placeholder={placeholder}
         value={value}
+        {...attrs}
       />
       {error && <div>{error}</div>}
     </>

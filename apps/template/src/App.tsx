@@ -22,6 +22,7 @@ export type Session = {
   token: string | null;
   user: User | null;
 };
+
 export type User = {
   name: string | null;
   email: string | null;
@@ -80,36 +81,60 @@ export default function App() {
       <Header />
       <div>
         {!session && (
-          <>
-            <p>
-              <em>You are not currently logged in.</em>
-            </p>
-            <Login />
-            <Spacer />
-            <Register />
-            <Spacer />
-          </>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              flexWrap: "wrap",
+              width: "100%",
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                flexBasis: "100%",
+                flex: 1,
+              }}
+            >
+              <h2>Login</h2>
+              <Login />
+            </div>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                flexBasis: "100%",
+                flex: 1,
+              }}
+            >
+              <h2>Register</h2>
+              <Register />
+            </div>
+          </div>
         )}
         {session?.user && (
-          <p>
-            <em>You logged in as {session.user.username}.</em>
-          </p>
+          <>
+            <p>
+              <em>You logged in as {session.user.username}.</em>
+            </p>
+            <Input
+              label="Item"
+              name="item"
+              value={value}
+              onChange={(value) => setValue(value)}
+              onEnter={addItem}
+            />
+            <button onClick={addItem}>Add</button>
+
+            <ul>
+              {items.map((item, i) => (
+                <li key={i}>{item}</li>
+              ))}
+            </ul>
+          </>
         )}
       </div>
-      <Input
-        label="Item"
-        name="item"
-        value={value}
-        onChange={(value) => setValue(value)}
-        onEnter={addItem}
-      />
-      <button onClick={addItem}>Add</button>
-
-      <ul>
-        {items.map((item, i) => (
-          <li key={i}>{item}</li>
-        ))}
-      </ul>
     </SessionContext.Provider>
   );
 }
