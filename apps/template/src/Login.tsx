@@ -66,6 +66,7 @@ export default function Login() {
         label="Username"
         value={values.username}
         onChange={(value) => setValues({ ...values, username: value })}
+        autoCapitalize="off"
       />
       <Input
         name="password"
