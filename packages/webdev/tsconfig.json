@@ -1,11 +1,15 @@
 {
   "compilerOptions": {
+    "noEmit": true,
     "target": "esnext",
     "lib": [
       "dom",
       "dom.iterable",
       "esnext"
     ],
+    "sourceMap": true,
+    "declaration": true,
+    "declarationMap": true,
     "allowJs": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
@@ -17,7 +21,6 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "noEmit": true,
     "jsx": "react-jsx"
   }
 }
