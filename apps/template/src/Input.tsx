@@ -1,3 +1,16 @@
+export interface Props
+  // Inherit everything from input except onChange which we simplify here
+  extends Omit<React.ComponentPropsWithRef<"input">, "onChange"> {
+  type?: string;
+  name: string;
+  value?: string;
+  label?: string;
+  placeholder?: string;
+  onChange?: (value: string) => void;
+  onEnter?: () => void;
+  error?: string;
+}
+
 export default function Input({
   type = "text",
   name,
@@ -11,16 +24,8 @@ export default function Input({
     /* noop */
   },
   error,
-}: {
-  type?: string;
-  name: string;
-  value?: string;
-  label?: string;
-  placeholder?: string;
-  onChange?: (value: string) => void;
-  onEnter?: () => void;
-  error?: string;
-}) {
+  ...attrs
+}: Props) {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     onChange(e.currentTarget.value);
   };
@@ -41,6 +46,7 @@ export default function Input({
         onKeyPress={handleKeyPress}
         placeholder={placeholder}
         value={value}
+        {...attrs}
       />
       {error && <div>{error}</div>}
     </>
