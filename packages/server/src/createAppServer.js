@@ -14,7 +14,7 @@ export default function createAppServer(options) {
   const { port, webpack, start } = { ...DEFAULTS, ...options };
 
   const app = express();
-  app.use(express.json());
+  app.use(express.json({ strict: false }));
 
   if (process.env.NODE_ENV !== "test") {
     app.use(morgan("combined"));

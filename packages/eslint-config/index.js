@@ -1,4 +1,13 @@
+const fs = require("fs");
+
 const dir = process.cwd();
+
+const tsconfig = dir + "/tsconfig.json";
+const tsconfigEslint = dir + "/tsconfig.eslint.json";
+
+// If there is a tsconfig.eslint file, use that instead of the main one
+// See: https://github.com/typescript-eslint/typescript-eslint/blob/main/docs/linting/TYPED_LINTING.md
+const tsProject = fs.existsSync(tsconfigEslint) ? tsconfigEslint : tsconfig;
 
 module.exports = {
   env: {
@@ -48,9 +57,9 @@ module.exports = {
       parser: "@typescript-eslint/parser",
       parserOptions: {
         // Lint with Type Information
-        // https://github.com/typescript-eslint/typescript-eslint/blob/master/docs/getting-started/linting/TYPED_LINTING.md
+        // https://github.com/typescript-eslint/typescript-eslint/blob/main/docs/linting/TYPED_LINTING.md
         tsconfigRootDir: dir,
-        project: dir + "/tsconfig.json",
+        project: tsProject,
       },
       settings: {
         "import/parsers": {
