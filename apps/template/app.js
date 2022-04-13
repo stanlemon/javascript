@@ -3,16 +3,28 @@ import {
   asyncJsonHandler as handler,
   SimpleUsersDao,
 } from "@stanlemon/server-with-auth";
-
-const users = new SimpleUsersDao();
+import { Low, JSONFile } from "lowdb";
 
 const app = createAppServer({
   webpack: "http://localhost:8080",
   secure: ["/api/"],
-  ...users,
+  ...new SimpleUsersDao(),
 });
 
+const db = new Low(new JSONFile("./db.json"));
+await db.read();
+db.data.items ||= [];
+
 app.get(
-  "/api/users",
-  handler(() => ({ users: users.users }))
+  "/api/items",
+  handler(() => ({ items: db.data.items }))
+);
+
+app.post(
+  "/api/items",
+  handler(async (item) => {
+    db.data.items.push(item);
+    await db.write();
+    return db.data.items;
+  })
 );

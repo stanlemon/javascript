@@ -18,6 +18,12 @@
       "enabled": false
     },
     {
+      "matchDepTypes": [
+        "peerDependencies"
+      ],
+      "rangeStrategy": "widen"
+    },
+    {
       "matchDatasources": [
         "npm"
       ],
