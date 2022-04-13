@@ -1,4 +1,4 @@
-import ReactDOM from "react-dom";
+import { createRoot } from "react-dom/client";
 
 type Props = {
   name: string;
@@ -8,4 +8,7 @@ function App({ name }: Props) {
   return <div>Hello {name}!</div>;
 }
 
-ReactDOM.render(<App name="world" />, document.getElementById("root"));
+const root = createRoot(
+  document.body.appendChild(document.createElement("div"))
+);
+root.render(<App name="world" />);
