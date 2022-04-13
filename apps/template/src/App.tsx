@@ -79,66 +79,68 @@ export default function App() {
   return (
     <SessionContext.Provider value={contextValue}>
       <Header />
-      <div>
-        {!session && (
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              flexWrap: "wrap",
-              width: "100%",
-            }}
-          >
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                flexBasis: "100%",
-                flex: 1,
-              }}
-            >
-              <h2>Login</h2>
-              <Login />
-            </div>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                flexBasis: "100%",
-                flex: 1,
-              }}
-            >
-              <h2>Register</h2>
-              <Register />
-            </div>
-          </div>
-        )}
-        {session?.user && (
-          <>
-            <p>
-              <em>You logged in as {session.user.username}.</em>
-            </p>
-            <Input
-              label="Item"
-              name="item"
-              value={value}
-              onChange={(value) => setValue(value)}
-              onEnter={addItem}
-            />
-            <button onClick={addItem}>Add</button>
-
-            <ul>
-              {items.map((item, i) => (
-                <li key={i}>{item}</li>
-              ))}
-            </ul>
-          </>
-        )}
-      </div>
+      {!session && (
+        <Row>
+          <Column>
+            <h2>Login</h2>
+            <Login />
+          </Column>
+          <Column>
+            <h2>Register</h2>
+            <Register />
+          </Column>
+        </Row>
+      )}
+      {session?.user && (
+        <>
+          <p>
+            <em>You logged in as {session.user.username}.</em>
+          </p>
+          <Input
+            label="Item"
+            name="item"
+            value={value}
+            onChange={(value) => setValue(value)}
+            onEnter={addItem}
+          />
+          <button onClick={addItem}>Add</button>
+          <ul>
+            {items.map((item, i) => (
+              <li key={i}>{item}</li>
+            ))}
+          </ul>
+        </>
+      )}
     </SessionContext.Provider>
   );
 }
 
-function Spacer() {
-  return <div style={{ minHeight: "2em" }} />;
+function Row({ children }: { children: React.ReactNode }) {
+  return (
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "row",
+        flexWrap: "wrap",
+        width: "100%",
+      }}
+    >
+      {children}
+    </div>
+  );
+}
+
+function Column({ children }: { children: React.ReactNode }) {
+  return (
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        flexBasis: "100%",
+        flex: 1,
+      }}
+    >
+      {children}
+    </div>
+  );
 }
