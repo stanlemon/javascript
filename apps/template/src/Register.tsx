@@ -63,6 +63,7 @@ export default function Register() {
         value={values.username}
         onChange={(value) => setValues({ ...values, username: value })}
         error={errors.username}
+        autoCapitalize="off"
       />
       <Input
         name="password"
