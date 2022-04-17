@@ -22,6 +22,7 @@ const WEBDEV_HTML = process.env.WEBDEV_HTML ?? "./index.html";
 // Proxy path's can be designated as path@host, separated by semi-colons
 // For example /api@http://localhost:3000;/auth@http://localhost:4000
 const WEBDEV_PROXY = process.env.WEBDEV_PROXY ?? "";
+const WEBPACK_PUBLIC_PATH = process.env.WEBPACK_PUBLIC_PATH ?? "/";
 const NODE_ENV = process.env.NODE_ENV ?? "development";
 
 const proxy = {};
@@ -42,6 +43,7 @@ export default {
   output: {
     filename: "[name].[contenthash].js",
     path: path.resolve("./", "dist"),
+    publicPath: WEBPACK_PUBLIC_PATH,
   },
   devtool: isDevelopment ? "eval-source-map" : "source-map",
   devServer: {
