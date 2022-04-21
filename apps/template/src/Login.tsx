@@ -1,19 +1,18 @@
 import { useState, useContext } from "react";
-import { Session, User, SessionContext, ErrorMessage } from "./App";
+import { ErrorMessage } from "./App";
+import { SessionContext, SessionData, UserData } from "./Session";
 import Input from "./Input";
 
 export default function Login() {
   const [error, setError] = useState<string | null>(null);
-  const [values, setValues] = useState<User>({
+  const [values, setValues] = useState<UserData>({
     name: "",
     email: "",
     username: "",
     password: "",
   });
 
-  const { setSession } = useContext(SessionContext) || {
-    setSession: () => {},
-  };
+  const { setSession } = useContext(SessionContext);
 
   const onSubmit = () => {
     setError(null);
@@ -43,7 +42,7 @@ export default function Login() {
           data: Record<string, unknown>;
         }) => {
           if (ok) {
-            setSession(data as Session);
+            setSession(data as SessionData);
           } else {
             setError((data as ErrorMessage).message);
           }

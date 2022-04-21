@@ -1,14 +1,10 @@
-import { useState, useEffect, createContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import "./App.less";
+import { SessionContext } from "./Session";
 import Header from "./Header";
 import Input from "./Input";
 import Login from "./Login";
 import Register from "./Register";
-
-export const SessionContext = createContext<{
-  session: Session | null;
-  setSession: React.Dispatch<React.SetStateAction<Session | null>>;
-} | null>(null);
 
 export type ErrorMessage = {
   message: string;
@@ -18,68 +14,35 @@ export type FormErrors = {
   errors: Record<string, string>;
 };
 
-export type Session = {
-  token: string | null;
-  user: User | null;
-};
-
-export type User = {
-  name: string | null;
-  email: string | null;
-  username: string;
-  password: string;
-};
-
 export default function App() {
-  const [initialized, setInitialized] = useState<boolean>(false);
-  const [session, setSession] = useState<Session | null>(null);
   const [value, setValue] = useState<string>("");
   const [items, setItems] = useState<string[]>([]);
 
-  const contextValue = { session, setSession };
+  const { session } = useContext(SessionContext);
 
+  const itemsJson = JSON.stringify(items);
   useEffect(() => {
-    fetch("/auth/session", {
-      headers: {
-        Authorization: `Bearer ${session?.token || ""}`,
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-    })
-      .then((response) => {
-        setInitialized(true);
-
-        if (!response.ok) {
-          throw new Error(response.statusText);
-        }
-        return response;
+    fetchApi("/api/items", session?.token || "")
+      .then((items: string[]) => {
+        setItems(items);
       })
-      .then((response) => response.json())
-      .then((session: Session) => {
-        setSession(session);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  }, [session?.token, initialized]);
+      .catch((err) => console.error(err));
+  }, [itemsJson, session?.token]);
 
   const addItem = () => {
-    setItems([...items, value]);
     setValue("");
+
+    fetchApi("/api/items", session?.token || "", "post", value)
+      .then((items: string[]) => {
+        setItems(items);
+      })
+      .catch((err) => console.error(err));
   };
 
-  if (!initialized) {
-    return (
-      <div>
-        <em>Loading...</em>
-      </div>
-    );
-  }
-
   return (
-    <SessionContext.Provider value={contextValue}>
+    <>
       <Header />
-      {!session && (
+      {!session.user && (
         <Row>
           <Column>
             <h2>Login</h2>
@@ -91,10 +54,10 @@ export default function App() {
           </Column>
         </Row>
       )}
-      {session?.user && (
+      {session.user && (
         <>
           <p>
-            <em>You logged in as {session.user.username}.</em>
+            <em>You logged in as {session.user?.username}</em>
           </p>
           <Input
             label="Item"
@@ -111,7 +74,7 @@ export default function App() {
           </ul>
         </>
       )}
-    </SessionContext.Provider>
+    </>
   );
 }
 
@@ -143,4 +106,28 @@ function Column({ children }: { children: React.ReactNode }) {
       {children}
     </div>
   );
+}
+
+function fetchApi(
+  url: string,
+  token: string,
+  method = "get",
+  data?: any
+): Promise<any> {
+  return fetch(url, {
+    method: method,
+    headers: {
+      Authorization: `Bearer ${token}`,
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(response.statusText);
+      }
+      return response;
+    })
+    .then((response) => response.json());
 }

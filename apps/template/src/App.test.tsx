@@ -7,40 +7,67 @@ import {
 } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import App from "./App";
+import { SessionContext } from "./Session";
 
-global.fetch = jest.fn(() =>
-  Promise.resolve({
+const output = ["item one", "item two"];
+global.fetch = jest.fn((url, opts: { method: string; body: string }) => {
+  if (opts.method === "post") {
+    output.push(JSON.parse(opts.body) as string);
+  }
+  return Promise.resolve({
     ok: true,
-    json: () =>
-      Promise.resolve({
-        token: "token",
-        user: {
-          name: "Test Tester",
-          email: "test@test.com",
-          username: "test",
-          password: "password",
-        },
-      }),
-  })
-) as jest.Mock;
+    json: () => Promise.resolve(output),
+  });
+}) as jest.Mock;
 
 test("<App/>", async () => {
   act(() => {
-    render(<App />);
+    render(
+      <SessionContext.Provider
+        value={{
+          session: {
+            token: "abcd",
+            user: {
+              username: "user",
+              password: "password",
+              name: "user",
+              email: "user@example.com",
+            },
+          },
+          setSession: () => {},
+        }}
+      >
+        <App />
+      </SessionContext.Provider>
+    );
   });
 
-  // A fetch request will be made, and then the page will be initialized, wait for that
-  await waitFor(() => {
-    // The header is present
-    expect(screen.getByRole("heading")).toHaveTextContent("Hello World!");
-  });
+  // The auth text is present
+  expect(screen.getByText("You logged in as user")).toBeInTheDocument();
+
+  // The header is present
+  expect(
+    screen.getByRole("heading", { name: "Hello World!" })
+  ).toBeInTheDocument();
+
+  expect(
+    await screen.findByText("item one", { selector: "li" })
+  ).toBeInTheDocument();
+
+  expect(
+    await screen.findByText("item two", { selector: "li" })
+  ).toBeInTheDocument();
 
   // Type some data into the input
-  await userEvent.type(screen.getByLabelText("Item"), "The first item");
+  await userEvent.type(screen.getByLabelText("Item"), "item three");
 
   // Click the add button
-  fireEvent.click(screen.getByText("Add", { selector: "button" }));
+  act(() => {
+    fireEvent.click(screen.getByText("Add", { selector: "button" }));
+  });
 
   // Now we should have a list item with the text we entered
-  expect(screen.getByRole("listitem")).toHaveTextContent("The first item");
+  expect(
+    await screen.findByText("item three", { selector: "li" })
+  ).toBeInTheDocument();
 });
