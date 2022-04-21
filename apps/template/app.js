@@ -5,19 +5,21 @@ import {
 } from "@stanlemon/server-with-auth";
 import { Low, JSONFile } from "lowdb";
 
+const adapter = new JSONFile("./db.json");
+
 const app = createAppServer({
   webpack: "http://localhost:8080",
   secure: ["/api/"],
-  ...new SimpleUsersDao(),
+  ...new SimpleUsersDao([], adapter),
 });
 
-const db = new Low(new JSONFile("./db.json"));
+const db = new Low(adapter);
 await db.read();
 db.data.items ||= [];
 
 app.get(
   "/api/items",
-  handler(() => ({ items: db.data.items }))
+  handler(() => db.data.items)
 );
 
 app.post(

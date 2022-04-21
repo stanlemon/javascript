@@ -1,10 +1,15 @@
 import { createRoot } from "react-dom/client";
 import App from "./App";
+import Session from "./Session";
 
 const root = createRoot(
   document.body.appendChild(document.createElement("div"))
 );
-root.render(<App />);
+root.render(
+  <Session>
+    <App />
+  </Session>
+);
 
 const link = document.createElement("link");
 link.setAttribute("rel", "stylesheet");

@@ -1,20 +1,19 @@
 import { useState, useContext } from "react";
-import { Session, User, SessionContext, FormErrors } from "./App";
+import { FormErrors } from "./App";
+import { SessionData, UserData, SessionContext } from "./Session";
 import Input from "./Input";
 
 // eslint-disable-next-line max-lines-per-function
 export default function Register() {
   const [errors, setErrors] = useState<Record<string, string>>({});
-  const [values, setValues] = useState<User>({
+  const [values, setValues] = useState<UserData>({
     name: "",
     email: "",
     username: "",
     password: "",
   });
 
-  const { setSession } = useContext(SessionContext) || {
-    setSession: () => {},
-  };
+  const { setSession } = useContext(SessionContext);
 
   const onSubmit = () => {
     setErrors({});
@@ -44,7 +43,7 @@ export default function Register() {
           data: Record<string, unknown>;
         }) => {
           if (ok) {
-            setSession(data as Session);
+            setSession(data as SessionData);
           } else {
             setErrors((data as FormErrors).errors);
           }
