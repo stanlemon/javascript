@@ -29,6 +29,7 @@
   },
   "devDependencies": {
     "@stanlemon/eslint-config": "*",
+    "@types/supertest": "^2.0.12",
     "nodemon": "^2.0.16",
     "supertest": "^6.2.3"
   }
