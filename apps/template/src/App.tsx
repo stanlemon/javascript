@@ -1,4 +1,4 @@
-import { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import "./App.less";
 import { SessionContext } from "./Session";
 import Header from "./Header";
@@ -6,7 +6,7 @@ import Input from "./Input";
 import Login from "./Login";
 import Register from "./Register";
 
-export type ErrorMessage = {
+export type ErrorResponse = {
   message: string;
 };
 
@@ -15,39 +15,67 @@ export type FormErrors = {
 };
 
 export default function App() {
-  const [value, setValue] = useState<string>("");
+  const [loaded, setLoaded] = useState<boolean>(false);
   const [items, setItems] = useState<string[]>([]);
+  const [error, setError] = useState<string | boolean>(false);
 
-  const { session } = useContext(SessionContext);
+  const { session, setSession } = useContext(SessionContext);
 
-  const itemsJson = JSON.stringify(items);
+  const catchError = (err: Error) => {
+    if (err.message === "Unauthorized") {
+      return;
+    }
+    setError(err.message);
+  };
+
   useEffect(() => {
-    fetchApi("/api/items", session?.token || "")
-      .then((items: string[]) => {
+    if (loaded) {
+      return;
+    }
+
+    fetchApi<string[], null>("/api/items", session?.token || "")
+      .then((items) => {
+        setLoaded(true);
         setItems(items);
       })
-      .catch((err) => console.error(err));
-  }, [itemsJson, session?.token]);
+      .catch(catchError);
+  });
 
-  const addItem = () => {
-    setValue("");
-
-    fetchApi("/api/items", session?.token || "", "post", value)
-      .then((items: string[]) => {
+  const saveItem = (item: string) => {
+    fetchApi<string[], string>("/api/items", session?.token || "", "post", item)
+      .then((items) => {
         setItems(items);
       })
-      .catch((err) => console.error(err));
+      .catch(catchError);
+  };
+
+  const deleteItem = (item: string) => {
+    fetchApi<string[], string>(
+      "/api/items/" + item,
+      session?.token || "",
+      "delete"
+    )
+      .then((items) => {
+        setItems(items);
+      })
+      .catch(catchError);
+  };
+
+  const logout = () => {
+    setSession({ token: null, user: null });
   };
 
   return (
     <>
       <Header />
+      <ErrorMessage error={error} />
       {!session.user && (
         <Row>
           <Column>
             <h2>Login</h2>
             <Login />
           </Column>
+          <Column />
           <Column>
             <h2>Register</h2>
             <Register />
@@ -57,63 +85,128 @@ export default function App() {
       {session.user && (
         <>
           <p>
-            <em>You logged in as {session.user?.username}</em>
+            <em>You are logged in as {session.user?.username}.</em>{" "}
+            <span style={{ cursor: "pointer" }} onClick={logout}>
+              (logout)
+            </span>
           </p>
-          <Input
-            label="Item"
-            name="item"
-            value={value}
-            onChange={(value) => setValue(value)}
-            onEnter={addItem}
-          />
-          <button onClick={addItem}>Add</button>
-          <ul>
-            {items.map((item, i) => (
-              <li key={i}>{item}</li>
-            ))}
-          </ul>
+          <ItemList items={items} saveItem={saveItem} deleteItem={deleteItem} />
         </>
       )}
+      <Spacer />
     </>
   );
 }
 
-function Row({ children }: { children: React.ReactNode }) {
+function ItemList({
+  items,
+  saveItem,
+  deleteItem,
+}: {
+  items: string[];
+  saveItem(item: string): void;
+  deleteItem(item: string): void;
+}) {
+  const [value, setValue] = useState<string>("");
+
+  const addItem = () => {
+    saveItem(value);
+    setValue("");
+  };
+
   return (
-    <div
-      style={{
+    <>
+      <h2>New Item</h2>
+      <Input
+        label="Item"
+        name="item"
+        value={value}
+        onChange={(value) => setValue(value)}
+        onEnter={addItem}
+      />
+      <button onClick={addItem}>Add</button>
+      <Spacer />
+      <h2>My Items</h2>
+      <ul style={{ padding: 0 }}>
+        {items.map((item, i) => (
+          <Row key={i} as="li">
+            <button
+              style={{ marginLeft: "auto", order: 2 }}
+              onClick={() => deleteItem(item)}
+            >
+              Delete
+            </button>
+            <div>{item}</div>
+          </Row>
+        ))}
+      </ul>
+    </>
+  );
+}
+
+export function Row({
+  as = "div",
+  children,
+}: {
+  as?: keyof JSX.IntrinsicElements;
+  children?: React.ReactNode;
+}) {
+  return React.createElement(
+    as,
+    {
+      style: {
         display: "flex",
         flexDirection: "row",
         flexWrap: "wrap",
         width: "100%",
-      }}
-    >
-      {children}
-    </div>
+      },
+    },
+    children
   );
 }
 
-function Column({ children }: { children: React.ReactNode }) {
-  return (
-    <div
-      style={{
+export function Spacer({ height = "2em" }: { height?: string | number }) {
+  return <div style={{ height, minHeight: height }} />;
+}
+
+export function Column({
+  as = "div",
+  children,
+}: {
+  as?: keyof JSX.IntrinsicElements;
+  children?: React.ReactNode;
+}) {
+  return React.createElement(
+    as,
+    {
+      style: {
         display: "flex",
         flexDirection: "column",
         flexBasis: "100%",
-        flex: 1,
-      }}
-    >
-      {children}
-    </div>
+        flex: "1 1 0",
+      },
+    },
+    children
   );
 }
 
-function fetchApi(
+export function ErrorMessage({ error }: { error: string | boolean }) {
+  if (error) {
+    return (
+      <p>
+        <strong>An error has occurred:</strong> {error}
+      </p>
+    );
+  }
+  return <></>;
+}
+
+function fetchApi<T, P>(
   url: string,
   token: string,
   method = "get",
-  data?: any
-): Promise<any> {
+  data?: P
+): Promise<T> {
   return fetch(url, {
     method: method,
     headers: {
@@ -122,12 +215,10 @@ function fetchApi(
       "Content-Type": "application/json",
     },
     body: JSON.stringify(data),
-  })
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error(response.statusText);
-      }
-      return response;
-    })
-    .then((response) => response.json());
+  }).then((response) => {
+    if (!response.ok) {
+      throw new Error(response.statusText);
+    }
+    return response.json() as Promise<T>;
+  });
 }

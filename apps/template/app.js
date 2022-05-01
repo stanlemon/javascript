@@ -30,3 +30,12 @@ app.post(
     return db.data.items;
   })
 );
+
+app.delete(
+  "/api/items/:item",
+  handler(async ({ item }) => {
+    db.data.items = db.data.items.filter((i) => i !== item);
+    await db.write();
+    return db.data.items;
+  })
+);

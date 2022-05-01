@@ -1,4 +1,5 @@
 import React, { useState, useEffect, createContext } from "react";
+import { ErrorMessage } from "./App";
 
 export const SessionContext = createContext<{
   session: SessionData;
@@ -23,8 +24,9 @@ export type UserData = {
   password: string;
 };
 
-export default function Session({ children }: { children: React.ReactChild }) {
+export default function Session({ children }: { children: React.ReactNode }) {
   const [initialized, setInitialized] = useState<boolean>(false);
+  const [error, setError] = useState<string | boolean>(false);
   const [session, setSession] = useState<SessionData>({
     token: null,
     user: null,
@@ -42,7 +44,7 @@ export default function Session({ children }: { children: React.ReactChild }) {
         setInitialized(true);
 
         if (!response.ok) {
-          throw new Error(response.statusText);
+          throw new ErrorMessage(response.statusText);
         }
         return response;
       })
@@ -50,10 +52,17 @@ export default function Session({ children }: { children: React.ReactChild }) {
       .then((session: SessionData) => {
         setSession(session);
       })
-      .catch((err) => {
-        console.error(err);
+      .catch((err: Error) => {
+        if (err.message === "Unauthorized") {
+          return;
+        }
+        setError(err.message);
       });
   }, [session?.token, initialized]);
+
+  if (error) {
+    return <ErrorMessage error={error} />;
+  }
 
   if (!initialized) {
     return (

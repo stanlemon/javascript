@@ -1,10 +1,11 @@
 import { useState, useContext } from "react";
-import { FormErrors } from "./App";
+import { FormErrors, ErrorMessage, Spacer } from "./App";
 import { SessionData, UserData, SessionContext } from "./Session";
 import Input from "./Input";
 
 // eslint-disable-next-line max-lines-per-function
 export default function Register() {
+  const [error, setError] = useState<string | boolean>(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [values, setValues] = useState<UserData>({
     name: "",
@@ -49,13 +50,15 @@ export default function Register() {
           }
         }
       )
-      .catch((err) => {
-        console.error("error", err);
+      .catch((err: Error) => {
+        // Put any generis error onto the username field
+        setError(err.message);
       });
   };
 
   return (
-    <div>
+    <>
+      <ErrorMessage error={error} />
       <Input
         name="username"
         label="Username"
@@ -72,7 +75,8 @@ export default function Register() {
         onChange={(value) => setValues({ ...values, password: value })}
         error={errors.password}
       />
+      <Spacer />
       <button onClick={onSubmit}>Register</button>
-    </div>
+    </>
   );
 }

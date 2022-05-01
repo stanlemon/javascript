@@ -1,5 +1,5 @@
 import { useState, useContext } from "react";
-import { ErrorMessage } from "./App";
+import { ErrorResponse, Spacer } from "./App";
 import { SessionContext, SessionData, UserData } from "./Session";
 import Input from "./Input";
 
@@ -44,17 +44,17 @@ export default function Login() {
           if (ok) {
             setSession(data as SessionData);
           } else {
-            setError((data as ErrorMessage).message);
+            setError((data as ErrorResponse).message);
           }
         }
       )
-      .catch((err) => {
-        console.error("error", err);
+      .catch((err: Error) => {
+        setError(err.message);
       });
   };
 
   return (
-    <div>
+    <>
       {error && (
         <div>
           <strong>{error}</strong>
@@ -75,7 +75,8 @@ export default function Login() {
         onChange={(value) => setValues({ ...values, password: value })}
         onEnter={onSubmit}
       />
+      <Spacer />
       <button onClick={onSubmit}>Login</button>
-    </div>
+    </>
   );
 }

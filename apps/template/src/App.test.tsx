@@ -15,42 +15,36 @@ global.fetch = jest.fn((url, opts: { method: string; body: string }) => {
 }) as jest.Mock;
 
 test("<App/>", async () => {
-  act(() => {
-    render(
-      <SessionContext.Provider
-        value={{
-          session: {
-            token: "abcd",
-            user: {
-              username: "user",
-              password: "password",
-              name: "user",
-              email: "user@example.com",
-            },
+  render(
+    <SessionContext.Provider
+      value={{
+        session: {
+          token: "abcd",
+          user: {
+            username: "user",
+            password: "password",
+            name: "user",
+            email: "user@example.com",
           },
-          setSession: () => {},
-        }}
-      >
-        <App />
-      </SessionContext.Provider>
-    );
-  });
+        },
+        setSession: () => {},
+      }}
+    >
+      <App />
+    </SessionContext.Provider>
+  );
 
   // The auth text is present
-  expect(screen.getByText("You logged in as user")).toBeInTheDocument();
+  expect(screen.getByText("You are logged in as user.")).toBeInTheDocument();
 
   // The header is present
   expect(
     screen.getByRole("heading", { name: "Hello World!" })
   ).toBeInTheDocument();
 
-  expect(
-    await screen.findByText("item one", { selector: "li" })
-  ).toBeInTheDocument();
+  expect(await screen.findByText("item one")).toBeInTheDocument();
 
-  expect(
-    await screen.findByText("item two", { selector: "li" })
-  ).toBeInTheDocument();
+  expect(await screen.findByText("item two")).toBeInTheDocument();
 
   // Type some data into the input
   await userEvent.type(screen.getByLabelText("Item"), "item three");
@@ -61,7 +55,5 @@ test("<App/>", async () => {
   });
 
   // Now we should have a list item with the text we entered
-  expect(
-    await screen.findByText("item three", { selector: "li" })
-  ).toBeInTheDocument();
+  expect(await screen.findByText("item three")).toBeInTheDocument();
 });
