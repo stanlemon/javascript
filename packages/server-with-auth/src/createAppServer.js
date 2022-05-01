@@ -5,6 +5,7 @@ import {
 } from "@stanlemon/server";
 import passport from "passport";
 import { Strategy as JwtStrategy, ExtractJwt } from "passport-jwt";
+import shortid from "shortid";
 import defaultUserSchema from "./schema/user.js";
 import checkAuth from "./checkAuth.js";
 import auth from "./routes/auth.js";
@@ -43,7 +44,7 @@ export default function createAppServer(options) {
     console.warn("You need to specify a secret.");
   }
 
-  const secret = process.env.JWT_SECRET || "YouNeedASecret";
+  const secret = process.env.JWT_SECRET || shortid.generate();
 
   const app = createBaseAppServer({ port, webpack, start });
 
