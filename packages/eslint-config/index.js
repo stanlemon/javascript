@@ -19,6 +19,7 @@ module.exports = {
   extends: [
     "react-app",
     "plugin:jest/recommended",
+    "plugin:jest-dom/recommended",
     "plugin:prettier/recommended",
   ],
   rules: {

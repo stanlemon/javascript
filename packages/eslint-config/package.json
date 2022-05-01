@@ -1,6 +1,6 @@
 {
   "name": "@stanlemon/eslint-config",
-  "version": "0.1.12",
+  "version": "0.1.13",
   "description": "My typical eslint setup, but without all the copy and paste.",
   "keywords": [
     "eslint"
@@ -24,6 +24,7 @@
     "eslint-config-react-app": "^7.0.1",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-jest": "^26.1.5",
+    "eslint-plugin-jest-dom": "^4.0.1",
     "eslint-plugin-jsx-a11y": "^6.5.1",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "^7.29.4",
