@@ -11,4 +11,4 @@ node_modules/
 **/dist/
 
 ## Test coverage
-**/.coverage/
+**/coverage/
