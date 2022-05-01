@@ -15,6 +15,7 @@
     "lint": "eslint --ext js,jsx,ts,tsx ./",
     "lint:format": "eslint --fix --ext js,jsx,ts,tsx ./",
     "test": "NODE_OPTIONS=--experimental-vm-modules jest --detectOpenHandles",
+    "test:coverage": "NODE_OPTIONS=--experimental-vm-modules jest --detectOpenHandles --coverage",
     "test:watch": "NODE_OPTIONS=--experimental-vm-modules jest --detectOpenHandles --watch"
   },
   "dependencies": {
