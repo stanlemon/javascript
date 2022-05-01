@@ -1,4 +1,4 @@
-import { isEmpty } from "lodash";
+import { isEmpty } from "lodash-es";
 import { Router } from "express";
 import passport from "passport";
 import jwt from "jsonwebtoken";

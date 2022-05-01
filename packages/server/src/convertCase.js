@@ -1,4 +1,4 @@
-import { isObject, isArray, isString } from "lodash";
+import { isObject, isString } from "lodash-es";
 
 export default function convertCase(obj, me, convert) {
   if (
@@ -8,9 +8,9 @@ export default function convertCase(obj, me, convert) {
     )
   ) {
     return new Date(obj);
-  } else if (isArray(obj)) {
+  } else if (Array.isArray(obj)) {
     return obj.map((i) => me(i));
-  } else if (isObject(obj) && !isArray(obj)) {
+  } else if (isObject(obj) && !Array.isArray(obj)) {
     const n = {};
     Object.keys(obj).forEach((k) => (n[convert(k)] = me(obj[k])));
     return n;

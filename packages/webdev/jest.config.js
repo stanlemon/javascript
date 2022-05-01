@@ -13,6 +13,7 @@ const esModules = [
   "uuid",
   "lowdb",
   "steno",
+  "lodash-es",
   "@stanlemon/server",
   "@stanlemon/server-with-auth",
 ].join("|");

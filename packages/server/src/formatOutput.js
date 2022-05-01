@@ -1,11 +1,4 @@
-import {
-  camelCase,
-  isPlainObject,
-  isArray,
-  isDate,
-  isEmpty,
-  omit,
-} from "lodash";
+import { camelCase, isPlainObject, isDate, isEmpty, omit } from "lodash-es";
 import convertCase from "./convertCase.js";
 
 export default function formatOutput(o, omittedFields = []) {
@@ -14,7 +7,7 @@ export default function formatOutput(o, omittedFields = []) {
   if (isDate(obj)) {
     return obj.toISOString();
   }
-  if (isArray(obj)) {
+  if (Array.isArray(obj)) {
     return obj.map((v) => formatOutput(v));
   }
   return convertCase(obj, formatOutput, camelCase);
