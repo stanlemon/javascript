@@ -1,4 +1,4 @@
-import { isObject, isArray, isString } from "lodash-es";
+import { isObject, isArray, isString } from "lodash";
 
 export default function convertCase(obj, me, convert) {
   if (

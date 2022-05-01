@@ -1,3 +1,6 @@
+/**
+ * @jest-environment node
+ */
 import request from "supertest";
 import { Memory } from "lowdb";
 import createAppServer from "../createAppServer";
@@ -8,7 +11,10 @@ process.env.JWT_SECRET = "SECRET";
 
 let users = new SimpleUsersDao([], new Memory());
 
+// We want to explicitly test functionality we disable during testing
+process.env.NODE_ENV = "override";
 const app = createAppServer({ ...users, start: false });
+process.env.NODE_ENV = "test";
 
 describe("/auth", () => {
   let userId;

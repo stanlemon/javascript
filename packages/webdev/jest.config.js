@@ -8,6 +8,15 @@ const babelOptions = JSON.parse(
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
+// These are packages we know ship with esmodules and need to be transformed
+const esModules = [
+  "uuid",
+  "lowdb",
+  "steno",
+  "@stanlemon/server",
+  "@stanlemon/server-with-auth",
+].join("|");
+
 export default {
   verbose: true,
   setupFilesAfterEnv: [path.resolve(__dirname, "./jest.setup.js")],
@@ -15,8 +24,8 @@ export default {
   transform: {
     "^.+\\.(js|jsx|ts|tsx)?$": ["babel-jest", babelOptions],
   },
-  // Some packages do not need to be transformed, we'll compile those as we go.
-  transformIgnorePatterns: ["node_modules/((?!uuid))"],
+  // Ignore transforms for node_modules, except...
+  transformIgnorePatterns: [`/node_modules/(?!${esModules})`],
   moduleFileExtensions: ["js", "jsx", "ts", "tsx"],
   moduleNameMapper: {
     "\\.(css|less|sass|scss)$": "identity-obj-proxy",

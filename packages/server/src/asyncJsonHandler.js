@@ -1,4 +1,4 @@
-import { isPlainObject } from "lodash-es";
+import { isPlainObject } from "lodash";
 import { formatInput } from "./index.js";
 import { formatOutput } from "./index.js";
 
@@ -37,10 +37,7 @@ export function asyncJsonHandler(fn) {
         return;
       }
 
-      if (
-        process.env.NODE_ENV === "development" ||
-        process.env.NODE_ENV === "test"
-      ) {
+      if (process.env.NODE_ENV !== "production") {
         // eslint-disable-next-line no-console
         console.error(ex);
 

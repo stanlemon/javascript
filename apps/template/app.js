@@ -3,19 +3,16 @@ import {
   asyncJsonHandler as handler,
   SimpleUsersDao,
 } from "@stanlemon/server-with-auth";
-import { Low, JSONFile } from "lowdb";
 
-const adapter = new JSONFile("./db.json");
-
+const dao = new SimpleUsersDao();
 const app = createAppServer({
   webpack: "http://localhost:8080",
   secure: ["/api/"],
-  ...new SimpleUsersDao([], adapter),
+  ...dao,
 });
 
-const db = new Low(adapter);
-await db.read();
-db.data.items ||= [];
+export const db = dao.getDb();
+db.read().then(() => (db.data.items = db.data.items || []));
 
 app.get(
   "/api/items",
@@ -24,18 +21,20 @@ app.get(
 
 app.post(
   "/api/items",
-  handler(async (item) => {
-    db.data.items.push(item);
+  handler(async ({ item }) => {
+    db.data.items.push({ item, id: dao.generateId() });
     await db.write();
     return db.data.items;
   })
 );
 
 app.delete(
-  "/api/items/:item",
-  handler(async ({ item }) => {
-    db.data.items = db.data.items.filter((i) => i !== item);
+  "/api/items/:id",
+  handler(async ({ id }) => {
+    db.data.items = db.data.items.filter((item) => id !== item.id);
     await db.write();
     return db.data.items;
   })
 );
+
+export default app;

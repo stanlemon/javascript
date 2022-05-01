@@ -33,7 +33,11 @@ export default function createAppServer(options) {
     app.use(helmet());
   }
 
-  if (webpack !== false && process.env.NODE_ENV !== "production") {
+  if (
+    webpack !== false &&
+    process.env.NODE_ENV !== "production" &&
+    process.env.NODE_ENV !== "test"
+  ) {
     app.get(
       "/*.js",
       createProxyMiddleware({
@@ -68,7 +72,8 @@ export default function createAppServer(options) {
     });
   });
 
-  if (start) {
+  // If we're set to start. Btw we never start in test.
+  if (start && process.env.NODE_ENV !== "test") {
     const server = app.listen(port);
 
     /* eslint-disable no-console */

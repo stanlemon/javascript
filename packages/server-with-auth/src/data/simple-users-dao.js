@@ -1,10 +1,13 @@
-import { Low, JSONFile } from "lowdb";
+import { Low, JSONFile, Memory } from "lowdb";
 import { v4 as uuidv4 } from "uuid";
 import shortid from "shortid";
 import bcrypt from "bcryptjs";
 
+const DEFAULT_ADAPTER =
+  process.env.NODE_ENV === "test" ? new Memory() : new JSONFile("./db.json");
+
 export default class SimpleUsersDao {
-  constructor(seeds = [], adapter = new JSONFile("./db.json")) {
+  constructor(seeds = [], adapter = DEFAULT_ADAPTER) {
     this.db = new Low(adapter);
 
     this.db.read().then(() => {
@@ -14,6 +17,18 @@ export default class SimpleUsersDao {
         seeds.forEach((user) => this.createUser(user));
       }
     });
+  }
+
+  getDb() {
+    return this.db;
+  }
+
+  generateId() {
+    return uuidv4();
+  }
+
+  generateVerificationToken() {
+    return shortid.generate();
   }
 
   getUserById = (userId) => {
@@ -66,8 +81,8 @@ export default class SimpleUsersDao {
     const data = {
       ...user,
       password: bcrypt.hashSync(user.password, 10),
-      id: uuidv4(),
-      verification_token: shortid.generate(),
+      id: this.generateId(),
+      verification_token: this.generateVerificationToken(),
       created_at: now,
       last_updated: now,
     };

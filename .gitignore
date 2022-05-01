@@ -13,5 +13,6 @@ node_modules/
 ## Test coverage
 **/coverage/
 
-packages/server-with-auth/db.json
-apps/template/db.json
+## Application files
+**/db.json
+**/.env

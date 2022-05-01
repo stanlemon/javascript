@@ -1,12 +1,15 @@
 import { render, screen, fireEvent, act } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import App from "./App";
+import App, { ItemData } from "./App";
 import { SessionContext } from "./Session";
 
-const output = ["item one", "item two"];
+const output = [
+  { id: "1", item: "item one" },
+  { id: "2", item: "item two" },
+];
 global.fetch = jest.fn((url, opts: { method: string; body: string }) => {
   if (opts.method === "post") {
-    output.push(JSON.parse(opts.body) as string);
+    output.push(JSON.parse(opts.body) as ItemData);
   }
   return Promise.resolve({
     ok: true,

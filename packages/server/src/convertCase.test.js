@@ -1,5 +1,5 @@
 import convertCase from "./convertCase";
-import { snakeCase } from "lodash-es";
+import { snakeCase } from "lodash";
 
 describe("convertCase()", () => {
   const convert = (obj) => convertCase(obj, convert, snakeCase);

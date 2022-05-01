@@ -1,4 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
+
 import "./App.less";
 import { SessionContext } from "./Session";
 import Header from "./Header";
@@ -14,9 +15,15 @@ export type FormErrors = {
   errors: Record<string, string>;
 };
 
+export type ItemData = {
+  id: string;
+  item: string;
+};
+
+// eslint-disable-next-line max-lines-per-function
 export default function App() {
   const [loaded, setLoaded] = useState<boolean>(false);
-  const [items, setItems] = useState<string[]>([]);
+  const [items, setItems] = useState<ItemData[]>([]);
   const [error, setError] = useState<string | boolean>(false);
 
   const { session, setSession } = useContext(SessionContext);
@@ -33,7 +40,7 @@ export default function App() {
       return;
     }
 
-    fetchApi<string[], null>("/api/items", session?.token || "")
+    fetchApi<ItemData[], null>("/api/items", session?.token || "")
       .then((items) => {
         setLoaded(true);
         setItems(items);
@@ -42,16 +49,23 @@ export default function App() {
   });
 
   const saveItem = (item: string) => {
-    fetchApi<string[], string>("/api/items", session?.token || "", "post", item)
+    fetchApi<ItemData[], { item: string }>(
+      "/api/items",
+      session?.token || "",
+      "post",
+      {
+        item,
+      }
+    )
       .then((items) => {
         setItems(items);
       })
       .catch(catchError);
   };
 
-  const deleteItem = (item: string) => {
-    fetchApi<string[], string>(
-      "/api/items/" + item,
+  const deleteItem = (id: string) => {
+    fetchApi<ItemData[], string>(
+      `/api/items/${id}`,
       session?.token || "",
       "delete"
     )
@@ -103,7 +117,7 @@ function ItemList({
   saveItem,
   deleteItem,
 }: {
-  items: string[];
+  items: ItemData[];
   saveItem(item: string): void;
   deleteItem(item: string): void;
 }) {
@@ -128,11 +142,11 @@ function ItemList({
       <Spacer />
       <h2>My Items</h2>
       <ul style={{ padding: 0 }}>
-        {items.map((item, i) => (
+        {items.map(({ item, id }, i) => (
           <Row key={i} as="li">
             <button
               style={{ marginLeft: "auto", order: 2 }}
-              onClick={() => deleteItem(item)}
+              onClick={() => deleteItem(id)}
             >
               Delete
             </button>

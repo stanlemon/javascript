@@ -5,7 +5,7 @@ import {
   isDate,
   isEmpty,
   omit,
-} from "lodash-es";
+} from "lodash";
 import convertCase from "./convertCase.js";
 
 export default function formatOutput(o, omittedFields = []) {

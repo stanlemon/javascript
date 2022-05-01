@@ -40,13 +40,17 @@ export default function createAppServer(options) {
     updateUser,
   } = { ...DEFAULTS, ...options };
 
+  const app = createBaseAppServer({ port, webpack, start });
+
+  if (process.env.NODE_ENV === "test") {
+    return app;
+  }
+
   if (!process.env.JWT_SECRET) {
     console.warn("You need to specify a secret.");
   }
 
   const secret = process.env.JWT_SECRET || shortid.generate();
-
-  const app = createBaseAppServer({ port, webpack, start });
 
   passport.use(
     "jwt",

@@ -1,4 +1,4 @@
-import { isArray, snakeCase } from "lodash-es";
+import { isArray, snakeCase } from "lodash";
 import convertCase from "./convertCase.js";
 
 export default function formatInput(obj) {
