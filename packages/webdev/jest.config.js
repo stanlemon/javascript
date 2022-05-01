@@ -15,6 +15,8 @@ export default {
   transform: {
     "^.+\\.(js|jsx|ts|tsx)?$": ["babel-jest", babelOptions],
   },
+  // Some packages do not need to be transformed, we'll compile those as we go.
+  transformIgnorePatterns: ["node_modules/((?!uuid))"],
   moduleFileExtensions: ["js", "jsx", "ts", "tsx"],
   moduleNameMapper: {
     "\\.(css|less|sass|scss)$": "identity-obj-proxy",

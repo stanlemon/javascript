@@ -5,11 +5,11 @@
       {
         "bugfixes": true,
         "targets": {
+          "node": "16.13.0",
           "browsers": [
             "last 1 year",
             "not dead",
             "not opera < 1000",
-            "not op_mob < 1000",
             "not Samsung < 1000"
           ]
         }

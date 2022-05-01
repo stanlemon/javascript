@@ -1,6 +1,6 @@
 {
   "name": "@stanlemon/webdev",
-  "version": "0.1.36",
+  "version": "0.1.37",
   "description": "My typical web development setup, but without all the copy and paste.",
   "keywords": [
     "webpack",
@@ -15,7 +15,7 @@
   },
   "type": "module",
   "scripts": {
-    "test": "WEBDEV_ENTRY=./test.tsx webpack build",
+    "test": "WEBDEV_ENTRY=./webpack.test.tsx webpack build",
     "lint": "eslint --ext js,jsx,ts,tsx ./",
     "lint:format": "eslint --fix --ext js,jsx,ts,tsx ./"
   },
