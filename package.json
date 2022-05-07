@@ -17,8 +17,5 @@
     "test:coverage": "npm run test:coverage --workspaces --if-present",
     "build": "npm run build --workspaces --if-present",
     "publish": "node publish.js"
-  },
-  "dependencies": {
-    "lodash-es": "^4.17.21"
   }
 }
