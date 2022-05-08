@@ -15,8 +15,6 @@ const esModules = [
   "lodash-es",
   "@stanlemon/server",
   "@stanlemon/server-with-auth",
-  "@stanlemon/react-pouchdb",
-  "@stanlemon/react-couchdb-authentication",
 ].join("|");
 
 module.exports = {
