@@ -16,3 +16,6 @@ node_modules/
 ## Application files
 **/db.json
 **/.env
+
+## Local pouchdb database
+packages/react-pouchdb/local
