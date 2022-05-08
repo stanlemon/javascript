@@ -12,7 +12,10 @@ const app = createAppServer({
 });
 
 export const db = dao.getDb();
-db.read().then(() => (db.data.items = db.data.items || []));
+db.read().then(() => {
+  if (!db.data) db.data = { items: [] };
+  db.data.items = db.data.items || [];
+});
 
 app.get(
   "/api/items",

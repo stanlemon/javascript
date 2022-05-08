@@ -8,7 +8,6 @@
     "type": "git",
     "url": "git@github.com:stanlemon/example-app.git"
   },
-  "type": "module",
   "scripts": {
     "start": "webpack serve",
     "build": "NODE_ENV=production webpack",
