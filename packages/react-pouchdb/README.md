@@ -1,7 +1,5 @@
 # React PouchDB Components
 
-![Tests](https://github.com/stanlemon/react-pouchdb/workflows/Tests/badge.svg)
-
 React components for interacting with [PouchDB](https://pouchdb.com) documents.  These components can be used to wrap parts of an application and both load and save state to a document.  These components can be used both with React and React Native.
 
 *These components have been written in typescript.*
@@ -42,6 +40,7 @@ To beging using, start with the `<Database />` component which must be used at t
 Any component can be wrapped in a `<Document />` which loads data from a PouchDB document, receives changes if that local PouchDB instance is syncing from a remote CouchDB instance, and provides a `putDocument()` method that can be used in place of `setState()` under most circumstances.
 
 Using a higher order function:
+
 ```jsx
 import { Counter } from "./Counter";
 const WrappedCounter = withDocument("counter", Counter);
@@ -49,6 +48,7 @@ const WrappedCounter = withDocument("counter", Counter);
 ```
 
 Using the component and wrapping children:
+
 ```jsx
 import { Counter } from "./Counter";
 <Document id="counter" loading={<div>Loading...</div>}>
@@ -57,6 +57,7 @@ import { Counter } from "./Counter";
 ```
 
 Using the component with the 'component' property
+
 ```jsx
 import { Counter } from "./Counter";
 <Document id="counter" component={<Counter />} />
@@ -85,28 +86,33 @@ npm install -g pouchdb-server
 ```
 
 Run `pouchdb-server`:
+
 ```shell
 pouchdb-server -m
 ```
+
 _The `-m` attribute stores data in memory only, if you would rather use sql do `npm install -g pouchdb-adapter-node-websql` and then use the `--sqlite` argument when starting the `pouchdb-server` instance instead of `-m`._
 
 ## Debug
 
-If you want to see every change that comes from CouchDB you can set `debug={true}` on the `<Database/>` component and they will be logged out to the console. _Do not do this in production!_
+If you want to see every change that comes from CouchDB you can set `debug={true}` on the `<Database/>` component and they will be logged out to the console. *Do not do this in production!*
 
 ## Build & Test
 
 To get started:
+
 ```shell
 npm install
 ```
 
 To build the library:
+
 ```shell
 npm run build
 ```
 
 To run the tests:
+
 ```shell
 npm run test
 ```
