@@ -6,11 +6,6 @@ import { LoginView } from "./LoginView";
 import { SignUp } from "./SignUp";
 import { SignUpView } from "./SignUpView";
 import { Buffer } from "buffer";
-import {
-  setIntervalAsync,
-  clearIntervalAsync,
-  SetIntervalAsyncTimer,
-} from "set-interval-async/dynamic";
 
 const ROUTE_LOGIN = "login";
 const ROUTE_SIGNUP = "signup";
@@ -170,7 +165,7 @@ export class Authentication extends React.Component<Props, State> {
     }>;
 
   #syncHandler?: PouchDB.Replication.Sync<Record<string, unknown>>;
-  #checkSessionInterval?: SetIntervalAsyncTimer;
+  #checkSessionInterval?: number;
 
   constructor(props: Props) {
     super(props);
@@ -474,14 +469,15 @@ export class Authentication extends React.Component<Props, State> {
   async componentDidMount(): Promise<void> {
     await this.checkSession();
 
-    this.#checkSessionInterval = setIntervalAsync(async () => {
-      await this.checkSession();
+    this.#checkSessionInterval = window.setInterval(() => {
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
+      this.checkSession();
     }, this.props.sessionInterval);
   }
 
   async componentWillUnmount(): Promise<void> {
     if (this.#checkSessionInterval) {
-      await clearIntervalAsync(this.#checkSessionInterval);
+      window.clearInterval(this.#checkSessionInterval);
     }
 
     // Will not be set if sync has been disabled
