@@ -18,6 +18,16 @@
       "enabled": false
     },
     {
+      "paths": [
+        "packages/react-pouchdb",
+        "packages/react-couchdb-authentication"
+      ],
+      "packageNames": [
+        "@types/node"
+      ],
+      "enabled": false
+    },
+    {
       "matchDepTypes": [
         "peerDependencies"
       ],
