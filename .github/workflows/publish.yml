@@ -29,14 +29,14 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Build
+        run: npm run build
+
       - name: Lint code
         run: npm run lint
 
       - name: Run tests
         run: npm run test
-
-      - name: Build
-        run: npm run build
 
       - name: Publish to npm
         run: npm run publish
