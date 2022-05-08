@@ -1,11 +1,3 @@
 {
-  "extends": "@stanlemon/webdev/tsconfig.json",
-  "references": [
-    {
-      "path": "../../packages/react-pouchdb/"
-    },
-    {
-      "path": "../../packages/react-couchdb-authentication/"
-    }
-  ]
+  "extends": "@stanlemon/webdev/tsconfig.json"
 }
