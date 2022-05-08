@@ -1,6 +1,6 @@
 {
   "name": "@stanlemon/react-pouchdb",
-  "version": "0.4.4",
+  "version": "0.4.5",
   "description": "React components for interacting with PouchDB.",
   "keywords": [
     "react",
@@ -35,7 +35,7 @@
     "react": ">=17.0.0"
   },
   "devDependencies": {
-    "@stanlemon/webdev": "^0.1.33",
+    "@stanlemon/webdev": "*",
     "@types/lodash": "^4.14.182",
     "@types/node": "^15.14.9",
     "@types/pouchdb": "^6.4.0",
