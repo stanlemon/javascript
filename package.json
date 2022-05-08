@@ -6,7 +6,6 @@
     "packages/*",
     "apps/*"
   ],
-  "type": "module",
   "devDependencies": {
     "husky": "^7.0.4"
   },

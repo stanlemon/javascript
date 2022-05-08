@@ -1,6 +1,6 @@
 {
   "name": "@stanlemon/react-pouchdb",
-  "version": "0.4.16",
+  "version": "0.4.17",
   "description": "React components for interacting with PouchDB.",
   "keywords": [
     "react",
@@ -13,10 +13,8 @@
     "type": "git",
     "url": "https://github.com/stanlemon/javascript/tree/main/packages/react-pouchdb"
   },
-  "type": "module",
-  "exports": {
-    ".": "./dist/index.js"
-  },
+  "type": "commonjs",
+  "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "files": [
     "dist/"
@@ -27,7 +25,7 @@
     "test:coverage": "jest --coverage",
     "lint": "eslint --ext js,jsx,ts,tsx ./src/ ./example/",
     "lint:format": "eslint --fix --ext js,jsx,ts,tsx ./src/ ./example/",
-    "build": "rimraf ./dist/; tsc; NODE_ENV=production babel --config-file ./.babelrc.json --plugins babel-plugin-add-import-extension --extensions=\".ts,.tsx\" ./src/ --out-dir ./dist/ --ignore  \"src /**/*.test.*\" --source-maps",
+    "build": "rimraf ./dist/; tsc; NODE_ENV=production babel --config-file ./.babelrc.json --extensions=\".ts,.tsx,.js.,.jsx\" ./src/ --out-dir ./dist/ --ignore  \"src /**/*.test.*\" --source-maps",
     "example": "WEBDEV_ENTRY=./example/Example.tsx webpack serve"
   },
   "peerDependencies": {
