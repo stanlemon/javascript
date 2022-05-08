@@ -2,12 +2,8 @@ const { readFileSync, readdirSync } = require("fs");
 const { spawnSync } = require("child_process");
 const path = require("path");
 
-function loadJSON(path) {
-  return JSON.parse(readFileSync(new URL(path, import.meta.url)));
-}
-
 // Load the root package file so we can iterate over configured workspaces
-const data = loadJSON("./package.json");
+const data = require("./package.json");
 
 let workspaces = [];
 
