@@ -1,4 +1,4 @@
-import { default as config } from "@stanlemon/webdev/webpack.config.js";
+const config = require("@stanlemon/webdev/webpack.config.js");
 
 config.devServer.proxy = {
   "/couchdb": {
@@ -9,4 +9,4 @@ config.devServer.proxy = {
   },
 };
 
-export default config;
+module.exports = config;

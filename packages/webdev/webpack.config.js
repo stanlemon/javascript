@@ -1,17 +1,15 @@
-import path from "path";
-import { readFileSync, existsSync } from "fs";
-import webpack from "webpack";
-import HtmlWebpackPlugin from "html-webpack-plugin";
-import ReactRefreshWebpackPlugin from "@pmmmwh/react-refresh-webpack-plugin";
-import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
-import { CleanWebpackPlugin } from "clean-webpack-plugin";
-import { config as dotenv } from "dotenv";
+const path = require("path");
+const { existsSync } = require("fs");
+const webpack = require("webpack");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
+const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+const { config } = require("dotenv");
 
-dotenv();
+config();
 
-const babelOptions = JSON.parse(
-  readFileSync(new URL("./.babelrc.json", import.meta.url))
-);
+const babelOptions = require("./.babelrc.json");
 
 // Entry points, which can be separated by a semi-colon
 const WEBDEV_ENTRY = process.env.WEBDEV_ENTRY ?? "./src/index.tsx";
@@ -37,7 +35,7 @@ WEBDEV_PROXY.split(";").forEach((entry) => {
 
 const isDevelopment = NODE_ENV !== "production";
 
-export default {
+module.exports = {
   mode: isDevelopment ? "development" : "production",
   entry: WEBDEV_ENTRY.split(";"),
   output: {

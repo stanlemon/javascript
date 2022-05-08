@@ -1,7 +1,6 @@
-import { readFileSync, readdirSync } from "fs";
-import { spawnSync } from "child_process";
-
-import path from "path";
+const { readFileSync, readdirSync } = require("fs");
+const { spawnSync } = require("child_process");
+const path = require("path");
 
 function loadJSON(path) {
   return JSON.parse(readFileSync(new URL(path, import.meta.url)));
