@@ -38,7 +38,7 @@ module.exports = {
     "no-console": "warn",
     // Requires the displayName property to be set, not ideal for stateless components
     "react/display-name": "off",
-    // Allow exporting of unamed objects as a default
+    // Allow exporting of unnamed objects as a default
     "import/no-anonymous-default-export": [
       "error",
       {

@@ -80,7 +80,7 @@ export function DocumentWithRows({
       <Wrapper
         id={id}
         component={children}
-        // This will be overriden by <Document />
+        // This will be overridden by <Document />
         putDocument={() => {
           // Empty
         }}

@@ -20,7 +20,7 @@ export class Aware extends React.Component<Props> {
       );
     }
 
-    throw new Error("A valid child componenet must be provided");
+    throw new Error("A valid child component must be provided");
   }
 }
 
