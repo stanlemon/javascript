@@ -1,6 +1,6 @@
 {
   "name": "@stanlemon/react-pouchdb-example",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A react app using pouchdb built in typescript",
   "author": "Stan Lemon <stanlemon@users.noreply.github.com",
   "license": "MIT",
@@ -11,7 +11,7 @@
   "scripts": {
     "start": "webpack serve",
     "build": "NODE_ENV=production webpack",
-    "tsc": "tsc --build tsconfig.json ./",
+    "tsc": "tsc",
     "test": "jest",
     "test:coverage": "jest --coverage",
     "lint": "eslint --ext js,jsx,ts,tsx ./src/",

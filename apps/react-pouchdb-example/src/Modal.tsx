@@ -7,7 +7,7 @@ export function Modal({
 }: {
   open?: boolean;
   onClose(): void;
-  children: React.ReactChild;
+  children: React.ReactElement;
 }): React.ReactElement {
   const className = open ? "modal is-active" : "modal";
 

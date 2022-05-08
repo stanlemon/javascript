@@ -3,7 +3,7 @@ import * as React from "react";
 import { DatabaseContext } from "./Database";
 
 interface Props {
-  children: React.ReactChild;
+  children: React.ReactElement;
 }
 
 export class Aware extends React.Component<Props> {

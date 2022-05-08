@@ -16,7 +16,7 @@ export type DocumentProps = {
   debug?: boolean;
   onConflict?: (yours: ExistingDoc, theirs: ExistingDoc) => ExistingDoc;
   loading?: React.ReactNode;
-  children?: React.ReactChild;
+  children?: React.ReactElement;
   component?: React.ReactNode;
 };
 
