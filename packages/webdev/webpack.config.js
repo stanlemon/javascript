@@ -93,6 +93,9 @@ export default {
             plugins: [isDevelopment && "react-refresh/babel"].filter(Boolean),
           },
         },
+        resolve: {
+          fullySpecified: false,
+        },
       },
       {
         test: /\.css$/i,
@@ -111,6 +114,7 @@ export default {
   resolve: {
     // Enable webpack to find files without these extensions
     extensions: [".tsx", ".ts", ".jsx", ".js"],
+    fullySpecified: false,
   },
   plugins: [
     ...[
