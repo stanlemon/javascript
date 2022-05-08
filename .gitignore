@@ -17,5 +17,6 @@ node_modules/
 **/db.json
 **/.env
 
-## Local pouchdb database
-packages/react-pouchdb/local
+## Pouchdb database files
+packages/react-pouchdb/local/
+local/

@@ -1,6 +1,6 @@
 {
   "name": "@stanlemon/webdev",
-  "version": "0.1.43",
+  "version": "0.1.46",
   "description": "My typical web development setup, but without all the copy and paste.",
   "keywords": [
     "webpack",
@@ -20,6 +20,7 @@
     "lint:format": "eslint --fix --ext js,jsx,ts,tsx ./"
   },
   "dependencies": {
+    "@babel/cli": "^7.17.10",
     "@babel/core": "^7.17.10",
     "@babel/preset-env": "^7.17.10",
     "@babel/preset-react": "^7.16.7",

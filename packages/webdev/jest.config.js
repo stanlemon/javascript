@@ -31,6 +31,7 @@ export default {
   moduleNameMapper: {
     "\\.(css|less|sass|scss)$": "identity-obj-proxy",
   },
+  testPathIgnorePatterns: ["/node_modules/", "/dist/"],
   coverageDirectory: "coverage",
   coverageReporters: ["json", "lcov", "text", "html"],
   collectCoverageFrom: [
