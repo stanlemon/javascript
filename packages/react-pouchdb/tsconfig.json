@@ -1,0 +1,14 @@
+{
+  "extends": "@stanlemon/webdev/tsconfig.json",
+  "compilerOptions": {
+    "noEmit": false,
+    "outDir": "./dist",
+  },
+  "include": [
+    "./src/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "./src/**/*.test.*",
+  ]
+}
