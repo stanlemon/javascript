@@ -1,6 +1,6 @@
 {
   "name": "@stanlemon/react-couchdb-authentication",
-  "version": "0.8.4",
+  "version": "0.8.5",
   "description": "React component for authenticating against a CouchDB user db and syncing it locally with PouchDB.",
   "keywords": [
     "react",
@@ -23,13 +23,13 @@
     "test:coverage": "jest --coverage",
     "lint": "eslint --ext js,jsx,ts,tsx ./src/ ./example/",
     "lint:format": "eslint --fix --ext js,jsx,ts,tsx ./src/ ./example/",
-    "build": "rm -rf ./dist/** && tsc",
+    "build": "tsc",
     "example": "WEBDEV_ENTRY=./example/Example.tsx webpack serve"
   },
   "author": "Stan Lemon <stanlemon@users.noreply.github.com>",
   "repository": {
     "type": "git",
-    "url": "https://github.com/stanlemon/react-couchdb-authentication"
+    "url": "https://github.com/stanlemon/javascript/tree/main/packages/react-couchdb-authentication"
   },
   "license": "MIT",
   "peerDependencies": {

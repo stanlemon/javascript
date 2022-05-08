@@ -1,6 +1,6 @@
 {
   "name": "@stanlemon/react-pouchdb",
-  "version": "0.4.5",
+  "version": "0.4.6",
   "description": "React components for interacting with PouchDB.",
   "keywords": [
     "react",
@@ -11,7 +11,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com:stanlemon/react-pouchdb-document"
+    "url": "https://github.com/stanlemon/javascript/tree/main/packages/react-pouchdb"
   },
   "type": "module",
   "exports": {
@@ -27,7 +27,7 @@
     "test:coverage": "jest --coverage",
     "lint": "eslint --ext js,jsx,ts,tsx ./src/ ./example/",
     "lint:format": "eslint --fix --ext js,jsx,ts,tsx ./src/ ./example/",
-    "build": "rm -rf ./dist/** && tsc",
+    "build": "tsc",
     "example": "WEBDEV_ENTRY=./example/Example.tsx webpack serve"
   },
   "peerDependencies": {
