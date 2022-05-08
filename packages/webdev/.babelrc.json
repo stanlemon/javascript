@@ -4,6 +4,7 @@
       "@babel/preset-env",
       {
         "bugfixes": true,
+        "modules": false,
         "targets": {
           "node": "16.13.0",
           "browsers": [

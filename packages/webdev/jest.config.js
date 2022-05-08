@@ -6,6 +6,11 @@ const babelOptions = JSON.parse(
   readFileSync(new URL("./.babelrc.json", import.meta.url))
 );
 
+// Disable using esmodules everywhere
+babelOptions.presets.find(
+  (preset) => preset[0] === "@babel/preset-env"
+)[1].modules = "auto";
+
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 // These are packages we know ship with esmodules and need to be transformed

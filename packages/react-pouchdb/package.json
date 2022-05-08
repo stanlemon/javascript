@@ -1,6 +1,6 @@
 {
   "name": "@stanlemon/react-pouchdb",
-  "version": "0.4.14",
+  "version": "0.4.15",
   "description": "React components for interacting with PouchDB.",
   "keywords": [
     "react",
@@ -27,7 +27,7 @@
     "test:coverage": "jest --coverage",
     "lint": "eslint --ext js,jsx,ts,tsx ./src/ ./example/",
     "lint:format": "eslint --fix --ext js,jsx,ts,tsx ./src/ ./example/",
-    "build": "tsc",
+    "build": "rimraf ./dist/; tsc; NODE_ENV=production babel --config-file ./.babelrc.json --plugins babel-plugin-add-import-extension --extensions=\".ts,.tsx\" ./src/ --out-dir ./dist/ --ignore  \"src /**/*.test.*\" --source-maps",
     "example": "WEBDEV_ENTRY=./example/Example.tsx webpack serve"
   },
   "peerDependencies": {
@@ -41,6 +41,7 @@
     "@types/pouchdb": "^6.4.0",
     "pouchdb": "^7.3.0",
     "pouchdb-adapter-memory": "^7.3.0",
+    "rimraf": "^3.0.2",
     "wait-for-expect": "^3.0.2"
   },
   "dependencies": {
