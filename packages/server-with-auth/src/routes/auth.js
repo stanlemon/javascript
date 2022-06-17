@@ -6,7 +6,7 @@ import {
   formatOutput,
   BadRequestException,
 } from "@stanlemon/server";
-import checkAuth from "../checkAuth";
+import checkAuth from "../checkAuth.js";
 
 /* eslint-disable max-lines-per-function */
 export default function authRoutes({
