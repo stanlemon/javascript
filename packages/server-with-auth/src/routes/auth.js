@@ -1,12 +1,12 @@
 import { isEmpty } from "lodash-es";
 import { Router } from "express";
-import passport from "passport";
 import jwt from "jsonwebtoken";
 import {
   schemaHandler,
   formatOutput,
   BadRequestException,
 } from "@stanlemon/server";
+import checkAuth from "../checkAuth";
 
 /* eslint-disable max-lines-per-function */
 export default function authRoutes({
@@ -21,33 +21,29 @@ export default function authRoutes({
 }) {
   const router = Router();
 
-  router.get(
-    "/auth/session",
-    passport.authenticate("jwt", { session: false }),
-    async (req, res) => {
-      const userId = req.user;
+  router.get("/auth/session", checkAuth(), async (req, res) => {
+    const userId = req.user;
 
-      if (!userId) {
-        res.status(401).json({
-          token: false,
-          user: false,
-        });
-        return;
-      }
-
-      const user = await getUserById(userId);
-
-      if (!user) {
-        res.status(401).json({
-          token: false,
-          user: false,
-        });
-      } else {
-        const token = jwt.sign(user.id, secret);
-        res.status(200).json({ token, user: formatOutput(user, ["password"]) });
-      }
+    if (!userId) {
+      res.status(401).json({
+        token: false,
+        user: false,
+      });
+      return;
     }
-  );
+
+    const user = await getUserById(userId);
+
+    if (!user) {
+      res.status(401).json({
+        token: false,
+        user: false,
+      });
+    } else {
+      const token = jwt.sign(user.id, secret);
+      res.status(200).json({ token, user: formatOutput(user, ["password"]) });
+    }
+  });
 
   router.post("/auth/login", async (req, res) => {
     const user = await getUserByUsernameAndPassword(
