@@ -1,22 +1,24 @@
-import { Low, JSONFile, Memory } from "lowdb";
+import { LowSync, JSONFileSync, MemorySync } from "lowdb";
 import { v4 as uuidv4 } from "uuid";
 import shortid from "shortid";
 import bcrypt from "bcryptjs";
 
 const DEFAULT_ADAPTER =
-  process.env.NODE_ENV === "test" ? new Memory() : new JSONFile("./db.json");
+  process.env.NODE_ENV === "test"
+    ? new MemorySync()
+    : new JSONFileSync("./db.json");
 
 export default class SimpleUsersDao {
   constructor(seeds = [], adapter = DEFAULT_ADAPTER) {
-    this.db = new Low(adapter);
+    this.db = new LowSync(adapter);
 
-    this.db.read().then(() => {
-      this.db.data ||= { users: [] };
+    this.db.read();
 
-      if (seeds.length > 0) {
-        seeds.forEach((user) => this.createUser(user));
-      }
-    });
+    this.db.data ||= { users: [] };
+
+    if (seeds.length > 0) {
+      seeds.forEach((user) => this.createUser(user));
+    }
   }
 
   getDb() {
@@ -70,7 +72,7 @@ export default class SimpleUsersDao {
       .shift();
   };
 
-  createUser = async (user) => {
+  createUser = (user) => {
     const existing = this.getUserByUsername(user.username);
 
     if (existing) {
@@ -87,11 +89,11 @@ export default class SimpleUsersDao {
       last_updated: now,
     };
     this.db.data.users.push(data);
-    await this.db.write();
+    this.db.write();
     return data;
   };
 
-  updateUser = async (userId, user) => {
+  updateUser = (userId, user) => {
     const now = new Date();
     this.db.data.users = this.db.data.users.map((u) => {
       if (u.id === userId) {
@@ -109,7 +111,7 @@ export default class SimpleUsersDao {
       }
       return u;
     });
-    await this.db.write();
+    this.db.write();
     return this.getUserById(userId);
   };
 }

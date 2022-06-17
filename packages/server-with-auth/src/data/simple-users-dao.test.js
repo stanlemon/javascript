@@ -1,7 +1,7 @@
 /**
  * @jest-environment node
  */
-import { Memory } from "lowdb";
+import { MemorySync } from "lowdb";
 import SimpleUsersDao from "./simple-users-dao.js";
 
 describe("simple-users-dao", () => {
@@ -15,7 +15,7 @@ describe("simple-users-dao", () => {
 
   beforeEach(() => {
     // Before each test reset our users database
-    users = new SimpleUsersDao([], new Memory());
+    users = new SimpleUsersDao([], new MemorySync());
   });
 
   it("creates a user", async () => {

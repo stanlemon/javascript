@@ -5,16 +5,13 @@ import {
 } from "@stanlemon/server-with-auth";
 
 const dao = new SimpleUsersDao();
+export const db = dao.getDb();
+db.data.items = db.data.items || [];
+
 const app = createAppServer({
   webpack: "http://localhost:8080",
   secure: ["/api/"],
   ...dao,
-});
-
-export const db = dao.getDb();
-db.read().then(() => {
-  if (!db.data) db.data = { items: [] };
-  db.data.items = db.data.items || [];
 });
 
 app.get(

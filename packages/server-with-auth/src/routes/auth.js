@@ -21,40 +21,33 @@ export default function authRoutes({
 }) {
   const router = Router();
 
-  router.get("/auth/session", (req, res, next) => {
-    /* look at the 2nd parameter to the below call */
-    passport.authenticate("jwt", { session: false }, (err, userId) => {
-      if (err) {
-        return next(err);
-      }
+  router.get(
+    "/auth/session",
+    passport.authenticate("jwt", { session: false }),
+    async (req, res) => {
+      const userId = req.user;
+
       if (!userId) {
-        return res.status(401).json({
+        res.status(401).json({
           token: false,
           user: false,
         });
+        return;
       }
 
-      req.logIn(userId, async (err) => {
-        if (err) {
-          return next(err);
-        }
+      const user = await getUserById(userId);
 
-        const user = await getUserById(userId);
-
-        if (!user) {
-          return res.status(401).json({
-            token: false,
-            user: false,
-          });
-        } else {
-          const token = jwt.sign(user.id, secret);
-          res
-            .status(200)
-            .json({ token, user: formatOutput(user, ["password"]) });
-        }
-      });
-    })(req, res, next);
-  });
+      if (!user) {
+        res.status(401).json({
+          token: false,
+          user: false,
+        });
+      } else {
+        const token = jwt.sign(user.id, secret);
+        res.status(200).json({ token, user: formatOutput(user, ["password"]) });
+      }
+    }
+  );
 
   router.post("/auth/login", async (req, res) => {
     const user = await getUserByUsernameAndPassword(
