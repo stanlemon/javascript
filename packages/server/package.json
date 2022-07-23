@@ -1,6 +1,6 @@
 {
   "name": "@stanlemon/server",
-  "version": "0.2.10",
+  "version": "0.2.11",
   "description": "A basic express web server setup.",
   "author": "Stan Lemon <stanlemon@users.noreply.github.com>",
   "license": "MIT",
@@ -23,8 +23,8 @@
     "compression": "^1.7.4",
     "dotenv": "16.0.1",
     "express": "^4.18.1",
-    "express-rate-limit": "^6.4.0",
-    "helmet": "^5.1.0",
+    "express-rate-limit": "^6.5.1",
+    "helmet": "^5.1.1",
     "http-proxy-middleware": "^2.0.6",
     "joi": "^17.6.0",
     "lodash": "^4.17.21",
