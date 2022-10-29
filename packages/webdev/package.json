@@ -1,6 +1,6 @@
 {
   "name": "@stanlemon/webdev",
-  "version": "0.1.77",
+  "version": "0.1.78",
   "description": "My typical web development setup, but without all the copy and paste.",
   "keywords": [
     "webpack",
@@ -35,7 +35,7 @@
     "@types/webpack": "^5.28.0",
     "@types/webpack-env": "^1.18.0",
     "babel-jest": "^29.2.2",
-    "babel-loader": "^8.2.5",
+    "babel-loader": "^9.0.0",
     "clean-webpack-plugin": "^4.0.0",
     "css-loader": "^6.7.1",
     "dotenv": "^16.0.3",
