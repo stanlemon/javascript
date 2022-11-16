@@ -1,4 +1,5 @@
-import { LowSync, JSONFileSync, MemorySync } from "lowdb";
+import { LowSync, MemorySync } from "lowdb";
+import { JSONFileSync } from "lowdb-node";
 import { v4 as uuidv4 } from "uuid";
 import shortid from "shortid";
 import bcrypt from "bcryptjs";
