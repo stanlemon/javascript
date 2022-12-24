@@ -1,6 +1,6 @@
 {
   "name": "@stanlemon/server-with-auth",
-  "version": "0.1.22",
+  "version": "0.1.23",
   "description": "A basic express web server setup with authentication baked in.",
   "author": "Stan Lemon <stanlemon@users.noreply.github.com>",
   "license": "MIT",
@@ -26,7 +26,7 @@
     "lowdb": "^5.0.5",
     "lowdb-node": "^3.0.2",
     "passport": "^0.6.0",
-    "passport-jwt": "^4.0.0",
+    "passport-jwt": "^4.0.1",
     "shortid": "^2.2.16",
     "uuid": "^8.3.2"
   },
