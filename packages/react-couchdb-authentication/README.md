@@ -37,7 +37,7 @@ The `<Authentication/>` component is easy to use, simply wrap your `<App />` and
   url="http://localhost:5984"
   login={<Login />}
   signup={<SignUp />}
-/>
+>
   <h1>Authenticated!</h1>
 </Authentication>
 ```
