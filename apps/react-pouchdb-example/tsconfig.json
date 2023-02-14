@@ -1,3 +1,6 @@
 {
-  "extends": "@stanlemon/webdev/tsconfig.json"
+  "extends": "@stanlemon/webdev/tsconfig.json",
+  "compilerOptions": {
+    "skipLibCheck": true // This is due to an issue with the buffer library
+  }
 }
