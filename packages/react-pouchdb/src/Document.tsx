@@ -68,7 +68,7 @@ export function withDocument<P>(
       "loading",
       documentPropKeys
     ) as PassThruDocumentProps;
-    const componentProps = omit(props, documentPropKeys) as P;
+    const componentProps = omit(props, documentPropKeys) as P & object;
     return (
       <Document id={id} {...documentProps}>
         <WrappedComponent {...componentProps} />

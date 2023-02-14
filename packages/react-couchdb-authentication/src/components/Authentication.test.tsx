@@ -26,6 +26,9 @@ const couchDbUrl = process.env.COUCHDB_URL || "http://localhost:5984/";
 
 describe("<Authentication />", () => {
   it("Throws an error when a database is not specified", () => {
+    const oldConsoleError = console.error;
+    console.error = jest.fn();
+
     const t = (): void => {
       render(
         <Authentication
@@ -39,6 +42,8 @@ describe("<Authentication />", () => {
     };
 
     expect(t).toThrow("A url to a couchdb instance is required");
+
+    console.error = oldConsoleError;
   });
 
   it("Component has <Loading /> when initialized", async () => {
