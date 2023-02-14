@@ -77,7 +77,8 @@ export class Database extends React.Component<DatabaseProps> {
     // Create our new local database
     if (
       typeof this.props.database === "object" &&
-      this.props.database.constructor.name === "PouchDB"
+      (this.props.database.constructor.name === "PouchDB" ||
+        props.database instanceof PouchDB)
     ) {
       this.db = this.props.database;
     } else {
