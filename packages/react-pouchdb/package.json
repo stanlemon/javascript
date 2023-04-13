@@ -1,6 +1,6 @@
 {
   "name": "@stanlemon/react-pouchdb",
-  "version": "0.4.25",
+  "version": "0.4.26",
   "description": "React components for interacting with PouchDB.",
   "keywords": [
     "react",
@@ -39,7 +39,7 @@
     "@types/pouchdb": "^6.4.0",
     "pouchdb": "^8.0.1",
     "pouchdb-adapter-memory": "^8.0.1",
-    "rimraf": "^4.4.1",
+    "rimraf": "^5.0.0",
     "wait-for-expect": "^3.0.2"
   },
   "dependencies": {
