@@ -11,11 +11,9 @@ const DEFAULT_ADAPTER =
 
 export default class SimpleUsersDao {
   constructor(seeds = [], adapter = DEFAULT_ADAPTER) {
-    this.db = new LowSync(adapter);
+    this.db = new LowSync(adapter, { users: [] });
 
     this.db.read();
-
-    this.db.data ||= { users: [] };
 
     if (seeds.length > 0) {
       seeds.forEach((user) => this.createUser(user));

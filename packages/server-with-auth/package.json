@@ -23,7 +23,7 @@
     "@stanlemon/webdev": "*",
     "bcryptjs": "^2.4.3",
     "jsonwebtoken": "^9.0.0",
-    "lowdb": "^5.1.0",
+    "lowdb": "^6.0.1",
     "lowdb-node": "^3.0.2",
     "passport": "^0.6.0",
     "passport-jwt": "^4.0.1",
