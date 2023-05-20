@@ -1,6 +1,6 @@
 {
   "name": "@stanlemon/webdev",
-  "version": "0.1.100",
+  "version": "0.1.101",
   "description": "My typical web development setup, but without all the copy and paste.",
   "keywords": [
     "webpack",
@@ -37,7 +37,7 @@
     "babel-jest": "^29.5.0",
     "babel-loader": "^9.1.2",
     "clean-webpack-plugin": "^4.0.0",
-    "css-loader": "^6.7.3",
+    "css-loader": "^6.7.4",
     "dotenv": "^16.0.3",
     "html-webpack-plugin": "^5.5.1",
     "identity-obj-proxy": "^3.0.0",
@@ -47,9 +47,9 @@
     "less-loader": "^11.1.0",
     "prettier": "^2.8.8",
     "react-refresh": "^0.14.0",
-    "style-loader": "^3.3.2",
+    "style-loader": "^3.3.3",
     "typescript": "^5.0.4",
-    "webpack": "^5.82.1",
+    "webpack": "^5.83.1",
     "webpack-bundle-analyzer": "^4.8.0",
     "webpack-cli": "^5.1.1",
     "webpack-dev-server": "^4.15.0"
