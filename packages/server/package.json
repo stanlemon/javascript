@@ -1,6 +1,6 @@
 {
   "name": "@stanlemon/server",
-  "version": "0.2.31",
+  "version": "0.2.32",
   "description": "A basic express web server setup.",
   "author": "Stan Lemon <stanlemon@users.noreply.github.com>",
   "license": "MIT",
@@ -33,7 +33,7 @@
   },
   "devDependencies": {
     "@stanlemon/eslint-config": "*",
-    "@types/lodash": "^4.14.194",
+    "@types/lodash": "^4.14.195",
     "nodemon": "^2.0.22"
   }
 }
