@@ -45,28 +45,16 @@ module.exports = {
         allowObject: true,
       },
     ],
+    "prettier/prettier": [
+      "error",
+      {
+        trailingComma: "es5",
+      },
+    ],
   },
   overrides: [
     {
       files: ["**/*.{ts,tsx}"],
-      plugins: ["@typescript-eslint"],
-      extends: [
-        "plugin:@typescript-eslint/eslint-recommended",
-        "plugin:@typescript-eslint/recommended",
-        "plugin:@typescript-eslint/recommended-requiring-type-checking",
-      ],
-      parser: "@typescript-eslint/parser",
-      parserOptions: {
-        // Lint with Type Information
-        // https://github.com/typescript-eslint/typescript-eslint/blob/main/docs/linting/TYPED_LINTING.md
-        tsconfigRootDir: dir,
-        project: tsProject,
-      },
-      settings: {
-        "import/parsers": {
-          "@typescript-eslint/parser": [".ts", ".tsx"],
-        },
-      },
       rules: {
         // Empty functions are ok, especially for default values
         "no-empty-function": "off",
