@@ -1,6 +1,6 @@
 {
   "name": "@stanlemon/react-couchdb-authentication",
-  "version": "0.8.60",
+  "version": "0.8.61",
   "description": "React component for authenticating against a CouchDB user db and syncing it locally with PouchDB.",
   "keywords": [
     "react",
@@ -36,7 +36,7 @@
   },
   "devDependencies": {
     "@stanlemon/webdev": "*",
-    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^14.0.0",
     "@types/async-retry": "^1.4.5",
     "@types/isomorphic-fetch": "^0.0.36",
