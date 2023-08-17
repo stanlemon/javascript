@@ -1,6 +1,6 @@
 {
   "name": "@stanlemon/webdev",
-  "version": "0.1.116",
+  "version": "0.1.117",
   "description": "My typical web development setup, but without all the copy and paste.",
   "keywords": [
     "webpack",
@@ -27,7 +27,7 @@
     "@babel/preset-react": "^7.22.5",
     "@babel/preset-typescript": "^7.22.5",
     "@peculiar/webcrypto": "^1.4.3",
-    "@pmmmwh/react-refresh-webpack-plugin": "^0.5.10",
+    "@pmmmwh/react-refresh-webpack-plugin": "^0.5.11",
     "@stanlemon/eslint-config": "*",
     "@testing-library/jest-dom": "^5.17.0",
     "@types/jest": "^29.5.3",
@@ -46,7 +46,7 @@
     "jest-environment-jsdom": "^29.6.2",
     "less": "^4.2.0",
     "less-loader": "^11.1.3",
-    "prettier": "^3.0.1",
+    "prettier": "^3.0.2",
     "react-refresh": "^0.14.0",
     "style-loader": "^3.3.3",
     "typescript": "^5.1.6",
