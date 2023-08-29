@@ -1,6 +1,5 @@
 import * as React from "react";
 import { render, act, screen, waitFor } from "@testing-library/react";
-import "@testing-library/jest-dom/extend-expect";
 import PouchDB from "pouchdb";
 import { App } from "./App";
 // https://github.com/facebook/jest/issues/11511#issuecomment-853355787
