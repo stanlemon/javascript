@@ -1,7 +1,6 @@
 import { LowSync, MemorySync } from "lowdb";
 import { JSONFileSync } from "lowdb-node";
 import { v4 as uuidv4 } from "uuid";
-import shortid from "shortid";
 import bcrypt from "bcryptjs";
 
 const DEFAULT_ADAPTER =
@@ -29,7 +28,7 @@ export default class SimpleUsersDao {
   }
 
   generateVerificationToken() {
-    return shortid.generate();
+    return uuidv4();
   }
 
   getUserById = (userId) => {
