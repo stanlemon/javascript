@@ -1,4 +1,3 @@
-import React from "react";
 import { Counter } from "./Counter";
 import { render, fireEvent, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";

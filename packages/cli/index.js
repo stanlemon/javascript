@@ -51,7 +51,7 @@ yargs(process.argv.slice(2))
           preserveTimestamps: true,
           recursive: true,
         },
-        (e) => {
+        () => {
           console.log("All done!");
         }
       );

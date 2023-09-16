@@ -1,4 +1,3 @@
-import * as React from "react";
 import { render, act, screen, waitFor } from "@testing-library/react";
 import PouchDB from "pouchdb";
 import { App } from "./App";

@@ -1,27 +1,29 @@
-const fs = require("fs");
-
-const dir = process.cwd();
-
-const tsconfig = dir + "/tsconfig.json";
-const tsconfigEslint = dir + "/tsconfig.eslint.json";
-
-// If there is a tsconfig.eslint file, use that instead of the main one
-// See: https://github.com/typescript-eslint/typescript-eslint/blob/main/docs/linting/TYPED_LINTING.md
-const tsProject = fs.existsSync(tsconfigEslint) ? tsconfigEslint : tsconfig;
-
 module.exports = {
   env: {
-    es2021: true,
+    es2022: true,
     browser: true,
     node: true,
     jest: true,
   },
+  parserOptions: {
+    sourceType: "module",
+  },
   extends: [
-    "react-app",
+    "eslint:recommended",
     "plugin:jest/recommended",
     "plugin:jest-dom/recommended",
     "plugin:prettier/recommended",
+    "plugin:react/recommended",
+    "plugin:react/jsx-runtime",
+    "typescript",
+    "typescript/react",
   ],
+  plugins: ["import"],
+  settings: {
+    react: {
+      version: "detect",
+    },
+  },
   rules: {
     // Requires strict equality
     eqeqeq: "error",
@@ -38,6 +40,9 @@ module.exports = {
     "no-console": "warn",
     // Requires the displayName property to be set, not ideal for stateless components
     "react/display-name": "off",
+    "react/react-in-jsx-scope": "off",
+    "react/jsx-uses-react": "off",
+    "react/prop-types": "off",
     // Allow exporting of unnamed objects as a default
     "import/no-anonymous-default-export": [
       "error",
@@ -45,12 +50,18 @@ module.exports = {
         allowObject: true,
       },
     ],
+    "import/first": "error",
+    "import/no-amd": "error",
+    "import/no-webpack-loader-syntax": "error",
+    "import/no-unused-modules": "error",
     "prettier/prettier": [
       "error",
       {
         trailingComma: "es5",
       },
     ],
+    "no-unused-vars": "warn",
+    "@typescript-eslint/no-unused-vars": "warn",
   },
   overrides: [
     {
