@@ -1,7 +1,8 @@
 import { createAppServer, asyncJsonHandler as handler } from "./src/index.js";
-import LowDBUserDao from "./src/data/lowdb-user-dao.js";
+import LowDBUserDao, { createDb } from "./src/data/lowdb-user-dao.js";
 
-const dao = new LowDBUserDao();
+const db = createDb();
+const dao = new LowDBUserDao(db);
 
 const app = createAppServer({
   port: 3003,
@@ -24,5 +25,5 @@ app.get(
 // Secure endpoint
 app.get(
   "/api/users",
-  handler(() => ({ users: dao.getDB().data.users }))
+  handler(() => ({ users: db.data.users }))
 );

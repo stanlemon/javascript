@@ -2,7 +2,7 @@
  * @jest-environment node
  */
 import request from "supertest";
-import app, { db } from "./app.js";
+import { app, db } from "./app.js";
 
 describe("/app", () => {
   afterEach(() => {

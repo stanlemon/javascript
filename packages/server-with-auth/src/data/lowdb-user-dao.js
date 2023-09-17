@@ -4,27 +4,40 @@ import { v4 as uuidv4 } from "uuid";
 import bcrypt from "bcryptjs";
 import UserDao from "./user-dao.js";
 
-const DEFAULT_ADAPTER =
-  process.env.NODE_ENV === "test"
-    ? new MemorySync()
-    : new JSONFileSync("./db.json");
+export function createInMemoryDb() {
+  return new LowSync(new MemorySync(), {});
+}
+
+export function createJsonFileDb(filename = "./db.json") {
+  return new LowSync(new JSONFileSync(filename), {});
+}
+
+/**
+ * Create a database based on the environment.
+ * Test environment (NODE_ENV=test) will use {MemorySync}.
+ * @returns {LowSync} Database
+ */
+export function createDb() {
+  return process.env.NODE_ENV === "test"
+    ? createInMemoryDb()
+    : createJsonFileDb();
+}
 
 export default class LowDBUserDao extends UserDao {
   #db;
 
-  constructor(seeds = [], adapter = DEFAULT_ADAPTER) {
+  constructor(db = createDb()) {
     super();
 
-    this.#db = new LowSync(adapter, { users: [] });
+    if (!(db instanceof LowSync)) {
+      throw new Error("The db object must be of type LowSync.");
+    }
+
+    this.#db = db;
     this.#db.read();
 
-    if (seeds.length > 0) {
-      seeds.forEach((user) => this.createUser(user));
-    }
-  }
-
-  getDB() {
-    return this.#db;
+    // Default data, ensure that users is an array if it is not already
+    this.#db.data.users = db.data.users || [];
   }
 
   /** @inheritdoc */

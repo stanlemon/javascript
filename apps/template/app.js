@@ -1,15 +1,17 @@
 import {
   createAppServer,
   asyncJsonHandler as handler,
+  createDb,
   LowDBUserDao,
 } from "@stanlemon/server-with-auth";
 import { v4 as uuid } from "uuid";
 
-const dao = new LowDBUserDao();
-export const db = dao.getDB();
+export const db = createDb();
+const dao = new LowDBUserDao(db);
+
 db.data.items = db.data.items || [];
 
-const app = createAppServer({
+export const app = createAppServer({
   webpack: "http://localhost:8080",
   secure: ["/api/"],
   dao,
@@ -37,5 +39,3 @@ app.delete(
     return db.data.items;
   })
 );
-
-export default app;

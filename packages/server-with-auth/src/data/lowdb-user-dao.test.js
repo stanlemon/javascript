@@ -1,8 +1,7 @@
 /**
  * @jest-environment node
  */
-import { MemorySync } from "lowdb";
-import LowDBUserDao from "./lowdb-user-dao.js";
+import LowDBUserDao, { createInMemoryDb } from "./lowdb-user-dao.js";
 
 describe("lowdb-user-dao", () => {
   // This is a user that we will reuse in our tests
@@ -11,12 +10,15 @@ describe("lowdb-user-dao", () => {
     password: "password",
   };
 
+  /** @type {LowSync} */
+  let db;
   /** @type {LowDBUserDao} */
   let dao;
 
   beforeEach(() => {
     // Before each test reset our users database
-    dao = new LowDBUserDao([], new MemorySync());
+    db = createInMemoryDb();
+    dao = new LowDBUserDao(db);
   });
 
   it("creates a user", async () => {
@@ -97,13 +99,13 @@ describe("lowdb-user-dao", () => {
   it("deletes a user by id", async () => {
     const user = await dao.createUser(data);
 
-    expect(dao.getDB().data.users).toHaveLength(1);
+    expect(db.data.users).toHaveLength(1);
 
     const deleted = dao.deleteUser(user.id);
 
     expect(deleted).toBe(true);
     expect(dao.getUserById(user.id)).toBeUndefined();
 
-    expect(dao.getDB().data.users).toHaveLength(0);
+    expect(db.data.users).toHaveLength(0);
   });
 });

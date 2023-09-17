@@ -2,14 +2,13 @@
  * @jest-environment node
  */
 import request from "supertest";
-import { MemorySync } from "lowdb";
 import createAppServer from "../createAppServer";
-import LowDBUserDao from "../data/lowdb-user-dao.js";
+import LowDBUserDao, { createInMemoryDb } from "../data/lowdb-user-dao.js";
 
 // This suppresses a warning we don't need in tests
 process.env.JWT_SECRET = "SECRET";
 
-let dao = new LowDBUserDao([], new MemorySync());
+let dao = new LowDBUserDao(createInMemoryDb());
 
 // We want to explicitly test functionality we disable during testing
 process.env.NODE_ENV = "override";
