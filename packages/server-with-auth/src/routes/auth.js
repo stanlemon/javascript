@@ -7,18 +7,14 @@ import {
   BadRequestException,
 } from "@stanlemon/server";
 import checkAuth from "../checkAuth.js";
+import UserDao from "../data/user-dao.js";
 
 /* eslint-disable max-lines-per-function */
-export default function authRoutes({
-  secret,
-  schema,
-  getUserById,
-  getUserByUsername,
-  getUserByUsernameAndPassword,
-  getUserByVerificationToken,
-  createUser,
-  updateUser,
-}) {
+export default function authRoutes({ secret, schema, dao }) {
+  if (!(dao instanceof UserDao)) {
+    throw new Error("The dao object must be of type UserDao.");
+  }
+
   const router = Router();
 
   router.get("/auth/session", checkAuth(), async (req, res) => {
@@ -32,7 +28,7 @@ export default function authRoutes({
       return;
     }
 
-    const user = await getUserById(userId);
+    const user = await dao.getUserById(userId);
 
     if (!user) {
       res.status(401).json({
@@ -46,7 +42,7 @@ export default function authRoutes({
   });
 
   router.post("/auth/login", async (req, res) => {
-    const user = await getUserByUsernameAndPassword(
+    const user = await dao.getUserByUsernameAndPassword(
       req.body.username,
       req.body.password
     );
@@ -58,7 +54,7 @@ export default function authRoutes({
       return;
     }
 
-    const update = await updateUser(user.id, {
+    const update = await dao.updateUser(user.id, {
       last_logged_in: new Date(),
     });
 
@@ -82,7 +78,7 @@ export default function authRoutes({
   router.post(
     "/auth/register",
     schemaHandler(schema, async (data) => {
-      const existing = await getUserByUsername(data.username);
+      const existing = await dao.getUserByUsername(data.username);
 
       if (existing) {
         throw new BadRequestException(
@@ -90,7 +86,7 @@ export default function authRoutes({
         );
       }
 
-      const user = await createUser(data);
+      const user = await dao.createUser(data);
 
       if (isEmpty(user)) {
         return {
@@ -109,7 +105,7 @@ export default function authRoutes({
   router.get("/auth/verify/:token", async (req, res) => {
     const { token } = req.params;
 
-    const user = await getUserByVerificationToken(token);
+    const user = await dao.getUserByVerificationToken(token);
 
     if (isEmpty(user)) {
       return res
@@ -123,7 +119,7 @@ export default function authRoutes({
         .send({ success: false, message: "User already verified." });
     }
 
-    await updateUser(user.id, { verified_date: new Date() });
+    await dao.updateUser(user.id, { verified_date: new Date() });
 
     return res.send({ success: true, message: "User verified!" });
   });

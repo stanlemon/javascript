@@ -4,16 +4,16 @@
 import request from "supertest";
 import { MemorySync } from "lowdb";
 import createAppServer from "../createAppServer";
-import SimpleUsersDao from "../data/simple-users-dao.js";
+import LowDBUserDao from "../data/lowdb-user-dao.js";
 
 // This suppresses a warning we don't need in tests
 process.env.JWT_SECRET = "SECRET";
 
-let users = new SimpleUsersDao([], new MemorySync());
+let dao = new LowDBUserDao([], new MemorySync());
 
 // We want to explicitly test functionality we disable during testing
 process.env.NODE_ENV = "override";
-const app = createAppServer({ ...users, start: false });
+const app = createAppServer({ dao, start: false });
 process.env.NODE_ENV = "test";
 
 describe("/auth", () => {
@@ -21,7 +21,7 @@ describe("/auth", () => {
 
   beforeAll(async () => {
     // Reset our users database before each test
-    const user = await users.createUser({
+    const user = await dao.createUser({
       username: "test",
       password: "test",
     });
@@ -116,7 +116,7 @@ describe("/auth", () => {
   });
 
   it("GET /verify verifies user", async () => {
-    const user = users.getUserById(userId);
+    const user = dao.getUserById(userId);
 
     expect(user.verification_token).not.toBe(null);
     expect(user.verified_date).toBeUndefined();
@@ -131,7 +131,7 @@ describe("/auth", () => {
         expect(res.body.success).toEqual(true);
       });
 
-    const refresh = await users.getUserById(userId);
+    const refresh = await dao.getUserById(userId);
 
     expect(refresh.verified_date).not.toBe(null);
 

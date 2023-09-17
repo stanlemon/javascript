@@ -1,17 +1,18 @@
 import {
   createAppServer,
   asyncJsonHandler as handler,
-  SimpleUsersDao,
+  LowDBUserDao,
 } from "@stanlemon/server-with-auth";
+import { v4 as uuid } from "uuid";
 
-const dao = new SimpleUsersDao();
-export const db = dao.getDb();
+const dao = new LowDBUserDao();
+export const db = dao.getDB();
 db.data.items = db.data.items || [];
 
 const app = createAppServer({
   webpack: "http://localhost:8080",
   secure: ["/api/"],
-  ...dao,
+  dao,
 });
 
 app.get(
@@ -22,7 +23,7 @@ app.get(
 app.post(
   "/api/items",
   handler(async ({ item }) => {
-    db.data.items.push({ item, id: dao.generateId() });
+    db.data.items.push({ item, id: uuid() });
     await db.write();
     return db.data.items;
   })
