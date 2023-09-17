@@ -1,6 +1,6 @@
 {
   "name": "@stanlemon/app-template",
-  "version": "0.2.51",
+  "version": "0.3.0",
   "description": "A template for creating apps using the webdev package.",
   "author": "Stan Lemon <stanlemon@users.noreply.github.com>",
   "license": "MIT",
@@ -11,6 +11,7 @@
     "tsc": "tsc",
     "webpack:serve": "webpack serve",
     "webpack:build": "NODE_ENV=production webpack",
+    "dev": "concurrently \"npm run webpack:serve\" \"npm run start\"",
     "test": "jest",
     "test:watch": "jest -w",
     "test:coverage": "jest --coverage",
@@ -28,6 +29,7 @@
     "@testing-library/user-event": "^14.5.1",
     "@types/react": "^18.2.21",
     "@types/react-dom": "^18.2.7",
+    "concurrently": "^8.2.1",
     "supertest": "^6.3.3"
   }
 }

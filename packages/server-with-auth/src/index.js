@@ -13,3 +13,4 @@ export { default as checkAuth } from "./checkAuth.js";
 export { default as createAppServer } from "./createAppServer.js";
 export { default as schema } from "./schema/user.js";
 export { default as SimpleUsersDao } from "./data/simple-users-dao.js";
+export { default as LowDBUserDao } from "./data/lowdb-user-dao.js";

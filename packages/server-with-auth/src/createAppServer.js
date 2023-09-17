@@ -5,39 +5,50 @@ import {
 } from "@stanlemon/server";
 import passport from "passport";
 import { Strategy as JwtStrategy, ExtractJwt } from "passport-jwt";
+import { v4 as uuid } from "uuid";
+import Joi from "joi";
 import defaultUserSchema from "./schema/user.js";
 import checkAuth from "./checkAuth.js";
 import auth from "./routes/auth.js";
+import UserDao from "./data/user-dao.js";
 
 dotenv.config();
 
-// TODO: Add option for schema
 export const DEFAULTS = {
   ...BASE_DEFAULTS,
   secure: [],
   schema: defaultUserSchema,
-  getUserById: (userId) => {},
-  getUserByUsername: (username) => {},
-  getUserByUsernameAndPassword: (username, password) => {},
-  getUserByVerificationToken: (token) => {},
-  createUser: (user) => {},
-  updateUser: (userId, user) => {},
+  dao: new UserDao(),
 };
 
+/**
+ * Create an app server with authentication.
+ * @param {number} options.port Port to listen on
+ * @param {boolean} options.webpack Whether or not to create a proxy for webpack
+ * @param {string[]} options.secure Paths that require authentication
+ * @param {Joi.Schema} options.schema Joi schema for user object
+ * @param {UserDao} options.dao Data access object for user interactions
+ * @returns {import("express").Express} Express app
+ */
 export default function createAppServer(options) {
-  const {
-    port,
-    webpack,
-    start,
-    secure,
-    schema,
-    getUserById,
-    getUserByUsername,
-    getUserByUsernameAndPassword,
-    getUserByVerificationToken,
-    createUser,
-    updateUser,
-  } = { ...DEFAULTS, ...options };
+  const { port, webpack, start, secure, schema, dao } = {
+    ...DEFAULTS,
+    ...options,
+  };
+
+  if (!(dao instanceof UserDao)) {
+    throw new Error("The dao object must be of type UserDao.");
+  }
+
+  if (!Joi.isSchema(schema)) {
+    throw new Error("The schema object must be of type Joi schema.");
+  }
+
+  if (!schema.describe().keys.username || !schema.describe().keys.password) {
+    throw new Error(
+      "The schema object must have a username and password defined."
+    );
+  }
 
   const app = createBaseAppServer({ port, webpack, start });
 
@@ -46,15 +57,10 @@ export default function createAppServer(options) {
   }
 
   if (!process.env.JWT_SECRET) {
-    console.warn("You need to specify a secret.");
+    console.warn("You need to specify a JWT secret!");
   }
 
-  const badSecret = "YOU_NEED_TO_SPECIFY_A_JWT_SECRET";
-  const secret = process.env.JWT_SECRET || badSecret;
-
-  if (secret === badSecret) {
-    console.warn("You need to specify a JWT secret.");
-  }
+  const secret = process.env.JWT_SECRET || uuid();
 
   passport.use(
     "jwt",
@@ -76,7 +82,8 @@ export default function createAppServer(options) {
     done(null, id);
   });
   passport.deserializeUser((id, done) => {
-    getUserById(id)
+    dao
+      .getUserById(id)
       .then((user) => {
         // An undefined user means we couldn't find it, so the session is invalid
         done(null, user === undefined ? false : user);
@@ -91,12 +98,7 @@ export default function createAppServer(options) {
     auth({
       secret,
       schema,
-      getUserById,
-      getUserByUsername,
-      getUserByUsernameAndPassword,
-      getUserByVerificationToken,
-      createUser,
-      updateUser,
+      dao,
     })
   );
 

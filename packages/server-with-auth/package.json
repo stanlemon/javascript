@@ -1,6 +1,6 @@
 {
   "name": "@stanlemon/server-with-auth",
-  "version": "0.1.30",
+  "version": "0.2.0",
   "description": "A basic express web server setup with authentication baked in.",
   "author": "Stan Lemon <stanlemon@users.noreply.github.com>",
   "license": "MIT",
