@@ -42,72 +42,82 @@ export default class LowDBUserDao extends UserDao {
 
   /** @inheritdoc */
   getUserById(userId) {
-    return this.#db.data.users
-      .filter((user) => {
-        // This one can get gross with numerical ids
-        // eslint-disable-next-line eqeqeq
-        return user.id == userId;
-      })
-      .shift();
+    return new Promise((resolve) => {
+      resolve(
+        this.#db.data.users
+          .filter((user) => {
+            // This one can get gross with numerical ids
+            // eslint-disable-next-line eqeqeq
+            return user.id == userId;
+          })
+          .shift()
+      );
+    });
   }
 
   /** @inheritdoc */
   getUserByUsername(username) {
-    return this.#db.data.users
-      .filter((user) => {
-        return user.username === username;
-      })
-      .shift();
+    return new Promise((resolve) => {
+      resolve(
+        this.#db.data.users
+          .filter((user) => {
+            return user.username === username;
+          })
+          .shift()
+      );
+    });
   }
 
   /** @inheritdoc */
   getUserByUsernameAndPassword(username, password) {
     // Treat this like a failed login.
     if (!username || !password) {
-      return false;
+      return new Promise((resolve) => {
+        resolve(false);
+      });
     }
 
-    const user = this.getUserByUsername(username);
-
-    if (!user || !bcrypt.compareSync(password, user.password)) {
-      return false;
-    }
-
-    return user;
+    return this.getUserByUsername(username).then((user) => {
+      if (!user || !bcrypt.compareSync(password, user.password)) {
+        return false;
+      }
+      return user;
+    });
   }
 
   /** @inheritdoc */
   getUserByVerificationToken(token) {
-    return this.#db.data.users
-      .filter((user) => user.verification_token === token)
-      .shift();
+    return new Promise((resolve) => {
+      resolve(
+        this.#db.data.users
+          .filter((user) => user.verification_token === token)
+          .shift()
+      );
+    });
   }
 
   /** @inheritdoc */
   createUser(user) {
-    const existing = this.getUserByUsername(user.username);
+    return this.getUserByUsername(user.username).then((existing) => {
+      if (existing) {
+        throw new Error("This username is already taken.");
+      }
 
-    if (existing) {
-      throw new Error("This username is already taken.");
-    }
+      const data = {
+        ...user,
+        password: bcrypt.hashSync(user.password, 10),
+        id: uuidv4(),
+        verification_token: uuidv4(),
+      };
+      this.#db.data.users.push(data);
+      this.#db.write();
 
-    const now = new Date();
-    const data = {
-      ...user,
-      password: bcrypt.hashSync(user.password, 10),
-      id: uuidv4(),
-      verification_token: uuidv4(),
-      created_at: now,
-      last_updated: now,
-    };
-    this.#db.data.users.push(data);
-    this.#db.write();
-    return data;
+      return data;
+    });
   }
 
   /** @inheritdoc */
   updateUser(userId, user) {
-    const now = new Date();
     this.#db.data.users = this.#db.data.users.map((u) => {
       if (u.id === userId) {
         // If the password has been set, encrypt it
@@ -119,19 +129,23 @@ export default class LowDBUserDao extends UserDao {
           ...u,
           ...user,
           id: userId,
-          last_updated: now,
         };
       }
       return u;
     });
     this.#db.write();
-    return this.getUserById(userId);
+
+    return new Promise((resolve) => {
+      resolve(this.getUserById(userId));
+    });
   }
 
   /** @inheritdoc */
   deleteUser(userId) {
     this.#db.data.users = this.#db.data.users.filter((u) => u.id !== userId);
     this.#db.write();
-    return true;
+    return new Promise((resolve) => {
+      resolve(true);
+    });
   }
 }

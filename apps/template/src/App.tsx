@@ -5,7 +5,7 @@ import { SessionContext } from "./Session";
 import Header from "./Header";
 import Input from "./Input";
 import Login from "./Login";
-import Register from "./Register";
+import SignUp from "./SignUp";
 
 export type ErrorResponse = {
   message: string;
@@ -91,8 +91,8 @@ export default function App() {
           </Column>
           <Column />
           <Column>
-            <h2>Register</h2>
-            <Register />
+            <h2>Sign Up</h2>
+            <SignUp />
           </Column>
         </Row>
       )}

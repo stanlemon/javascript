@@ -35,3 +35,5 @@ app.post(
   // You can also use async/await
   handler(async ({ name }) => await Promise.resolve({ hello: name || "Stan" }))
 );
+
+app.catch404s();

@@ -1,5 +1,7 @@
 import dotenv from "dotenv";
 import express from "express";
+import bodyParser from "body-parser";
+import cookieParser from "cookie-parser";
 import compression from "compression";
 import helmet from "helmet";
 import morgan from "morgan";
@@ -10,11 +12,30 @@ dotenv.config();
 
 export const DEFAULTS = { port: 3000, webpack: false, start: true };
 
+/**
+ * @typedef {object} AppAddons
+ * @property {function} start Start the server
+ * @property {function} catch404s Enable the 404 handler, only call this after you have added all of your routers.
+ *
+ * @typedef {import("express").Express & AppAddons} AppServer
+ */
+
+/**
+ * Create an express application server.
+ * @param {object} options
+ * @param {number} options.port Port to listen on
+ * @param {boolean} options.webpack Whether or not to create a proxy for webpack
+ * @param {boolean} options.start Whether or not to start the server
+ * @returns {AppServer} Pre-configured express app server with extra helper methods
+ */
 export default function createAppServer(options) {
   const { port, webpack, start } = { ...DEFAULTS, ...options };
 
   const app = express();
-  app.use(express.json({ strict: false }));
+  app.use(bodyParser.urlencoded({ extended: true }));
+  app.use(bodyParser.json());
+  app.use(cookieParser());
+  app.use(express.json());
 
   if (process.env.NODE_ENV !== "test") {
     app.use(morgan("combined"));
@@ -66,14 +87,13 @@ export default function createAppServer(options) {
     app.use(express.static("./dist"));
   }
 
-  app.get("/health", (req, res) => {
+  app.get("/ping", (req, res) => {
     res.json({
       success: true,
     });
   });
 
-  // If we're set to start. Btw we never start in test.
-  if (start && process.env.NODE_ENV !== "test") {
+  app.start = () => {
     const server = app.listen(port);
 
     /* eslint-disable no-console */
@@ -85,6 +105,18 @@ export default function createAppServer(options) {
         : server.address().address,
       server.address().port
     );
+  };
+
+  app.catch404s = () => {
+    // Handling 404
+    app.use(function (req, res, next) {
+      res.status(404).json({ error: "Not Found" });
+    });
+  };
+
+  // If we're set to start. Btw we never start in test.
+  if (start && process.env.NODE_ENV !== "test") {
+    app.start();
   }
 
   return app;

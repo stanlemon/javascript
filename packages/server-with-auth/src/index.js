@@ -11,8 +11,9 @@ export {
 } from "@stanlemon/server";
 export { default as checkAuth } from "./checkAuth.js";
 export { default as createAppServer } from "./createAppServer.js";
-export { default as schema } from "./schema/user.js";
+export { default as SCHEMAS, PASSWORD, createSchemas } from "./schema/index.js";
 export { default as SimpleUsersDao } from "./data/simple-users-dao.js";
+export { EVENTS, ROUTES, HIDDEN_FIELDS } from "./constants.js";
 export {
   default as LowDBUserDao,
   createDb,

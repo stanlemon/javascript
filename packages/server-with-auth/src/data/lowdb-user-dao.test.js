@@ -29,10 +29,8 @@ describe("lowdb-user-dao", () => {
     expect(user.password).not.toEqual(data.password);
     // These fields are added by the create process
     expect(user.verification_token).not.toBeUndefined();
-    expect(user.created_at).not.toBeUndefined();
-    expect(user.last_updated).not.toBeUndefined();
 
-    const refresh = dao.getUserByUsername(data.username);
+    const refresh = await dao.getUserByUsername(data.username);
 
     // If we retrieve the user by username, it matches the object we got when we created it
     expect(refresh).toMatchObject(user);
@@ -57,7 +55,7 @@ describe("lowdb-user-dao", () => {
   it("retrieve user by username and password", async () => {
     const user1 = await dao.createUser(data);
 
-    const user2 = dao.getUserByUsernameAndPassword(
+    const user2 = await dao.getUserByUsernameAndPassword(
       data.username,
       data.password
     );
@@ -68,7 +66,7 @@ describe("lowdb-user-dao", () => {
   it("retrieve user by username and wrong password fails", async () => {
     await dao.createUser(data);
 
-    const user2 = dao.getUserByUsernameAndPassword(
+    const user2 = await dao.getUserByUsernameAndPassword(
       data.username,
       "wrong password"
     );
@@ -79,19 +77,25 @@ describe("lowdb-user-dao", () => {
   it("retrieve user by username and undefined password fails", async () => {
     await dao.createUser(data);
 
-    const user2 = dao.getUserByUsernameAndPassword(data.username, undefined);
+    const user2 = await dao.getUserByUsernameAndPassword(
+      data.username,
+      undefined
+    );
 
     expect(user2).toBe(false);
   });
 
   it("retrieve user by username that does not exist fails", async () => {
-    const user = dao.getUserByUsernameAndPassword("notarealuser", "password");
+    const user = await dao.getUserByUsernameAndPassword(
+      "notarealuser",
+      "password"
+    );
 
     expect(user).toBe(false);
   });
 
   it("retrieve user by username that is undefined fails", async () => {
-    const user = dao.getUserByUsernameAndPassword(undefined, "password");
+    const user = await dao.getUserByUsernameAndPassword(undefined, "password");
 
     expect(user).toBe(false);
   });
@@ -101,10 +105,13 @@ describe("lowdb-user-dao", () => {
 
     expect(db.data.users).toHaveLength(1);
 
-    const deleted = dao.deleteUser(user.id);
+    const deleted = await dao.deleteUser(user.id);
 
     expect(deleted).toBe(true);
-    expect(dao.getUserById(user.id)).toBeUndefined();
+
+    const reloaded = await dao.getUserById(user.id);
+
+    expect(reloaded).toBeUndefined();
 
     expect(db.data.users).toHaveLength(0);
   });

@@ -4,12 +4,20 @@ import { formatOutput } from "./index.js";
 
 export default asyncJsonHandler;
 
+/**
+ * Handler for JSON responses.
+ * This method ensures data formatting using {formatInput} and {formatOutput}.
+ * Callbacks that are wrapped by this handler receive an additional argument {input} which contains the formatted input data.
+ * If the request is a GET, the {input} is the request.params object.
+ * If the request is a POST or PUT, the {input} is the request.body object.
+ * @param {function} Express route handler function
+ */
 export function asyncJsonHandler(fn) {
-  return async (req, res /*, next */) => {
-    const input = buildInput(req);
-
+  return async (req, res, next) => {
     try {
-      const output = await fn(input);
+      const input = buildInput(req);
+
+      const output = await fn(input, req, res, next);
 
       // If a value is returned we'll assume that we need to render it as JSON
       if (output !== undefined) {
@@ -50,23 +58,12 @@ export function asyncJsonHandler(fn) {
 }
 
 function buildInput(req) {
-  const query = isPlainObject(req.query) ? req.query : {};
-  const params = isPlainObject(req.params) ? req.params : {};
-
   if (req.method === "POST" || req.method === "PUT") {
-    const body = formatInput(req.body);
-
-    // This is a weird payload, don't try any of our append magic
-    if (!isPlainObject(body)) {
-      return body;
-    }
-
-    // Always make sure the request parameters override everything else
-    // eg. a param for 'id' is not overridden by a query string 'id' or 'req.body.id'
-    return { ...body, ...query, ...params };
+    return formatInput(req.body);
+  } else if (req.method === "GET" || req.method === "DELETE") {
+    const params = isPlainObject(req.params) ? req.params : {};
+    return formatInput(params);
   }
-
-  return params;
 }
 
 function formatError(ex) {

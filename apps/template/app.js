@@ -1,20 +1,35 @@
+import EventEmitter from "node:events";
 import {
   createAppServer,
   asyncJsonHandler as handler,
   createDb,
+  EVENTS as AUTH_EVENTS,
   LowDBUserDao,
 } from "@stanlemon/server-with-auth";
 import { v4 as uuid } from "uuid";
+import { omit } from "lodash-es";
 
 export const db = createDb();
 const dao = new LowDBUserDao(db);
 
 db.data.items = db.data.items || [];
 
+const eventEmitter = new EventEmitter();
+Object.values(AUTH_EVENTS).forEach((event) => {
+  eventEmitter.on(event, (user) => {
+    console.log(
+      `Event = ${event}, User = ${JSON.stringify(
+        omit(user, ["password", "verification_token"])
+      )}`
+    );
+  });
+});
+
 export const app = createAppServer({
   webpack: "http://localhost:8080",
   secure: ["/api/"],
   dao,
+  eventEmitter,
 });
 
 app.get(
@@ -39,3 +54,5 @@ app.delete(
     return db.data.items;
   })
 );
+
+app.catch404s();

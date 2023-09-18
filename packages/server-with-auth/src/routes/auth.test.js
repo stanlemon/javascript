@@ -30,31 +30,37 @@ describe("/auth", () => {
 
   // Disabling this linting rule because it is unaware of the supertest assertions
   /* eslint-disable jest/expect-expect */
-  it("POST /register creates a user", async () => {
+  it("POST /signup creates a user", async () => {
     const username = "test1";
     const password = "p@$$w0rd!";
+    const fullName = "Test User";
 
     const data = {
       username,
       password,
+      fullName, // Not in the schema, should be discarded
     };
 
     await request(app)
-      .post("/auth/register")
+      .post("/auth/signup")
       .set("Content-Type", "application/json")
       .set("Accept", "application/json")
       .send(data)
       .expect(200)
       .then((res) => {
+        expect(res.body.user.username).toEqual(username);
+        expect(res.body.user.createdAt).not.toBeUndefined();
+        expect(res.body.user.lastUpdated).not.toBeUndefined();
+        expect(res.body.user.fullName).toBeUndefined();
         expect(res.body.errors).toBeUndefined();
         expect(res.body.token).not.toBeUndefined();
         expect(res.body.user).not.toBeUndefined();
       });
   });
 
-  it("POST /register returns error on empty data", async () => {
+  it("POST /signup returns error on empty data", async () => {
     await request(app)
-      .post("/auth/register")
+      .post("/auth/signup")
       .set("Content-Type", "application/json")
       .set("Accept", "application/json")
       .expect(400)
@@ -64,9 +70,9 @@ describe("/auth", () => {
       });
   });
 
-  it("POST /register returns error on short password", async () => {
+  it("POST /signup returns error on short password", async () => {
     await request(app)
-      .post("/auth/register")
+      .post("/auth/signup")
       .send({
         username: "testshort",
         password: "short",
@@ -80,9 +86,9 @@ describe("/auth", () => {
       });
   });
 
-  it("POST /register returns error on too long password", async () => {
+  it("POST /signup returns error on too long password", async () => {
     await request(app)
-      .post("/auth/register")
+      .post("/auth/signup")
       .send({
         username: "testlong",
         password:
@@ -97,9 +103,9 @@ describe("/auth", () => {
       });
   });
 
-  it("POST /register returns error on already taken username", async () => {
+  it("POST /signup returns error on already taken username", async () => {
     await request(app)
-      .post("/auth/register")
+      .post("/auth/signup")
       .send({
         username: "test",
         password: "p@$$w0rd!",
@@ -115,7 +121,7 @@ describe("/auth", () => {
   });
 
   it("GET /verify verifies user", async () => {
-    const user = dao.getUserById(userId);
+    const user = await dao.getUserById(userId);
 
     expect(user.verification_token).not.toBe(null);
     expect(user.verified_date).toBeUndefined();
@@ -147,4 +153,9 @@ describe("/auth", () => {
         });
       });
   });
+
+  // TODO: Add test for getting user
+  // TODO: Add test for deleting user
+  // TODO: Add test for updating user
+  // TODO: Add test for resetting password
 });
