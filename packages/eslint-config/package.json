@@ -1,6 +1,6 @@
 {
   "name": "@stanlemon/eslint-config",
-  "version": "0.1.88",
+  "version": "0.1.89",
   "description": "My typical eslint setup, but without all the copy and paste.",
   "keywords": [
     "eslint"
@@ -17,8 +17,8 @@
   },
   "dependencies": {
     "@babel/eslint-parser": "^7.22.15",
-    "@typescript-eslint/eslint-plugin": "^6.7.0",
-    "@typescript-eslint/parser": "^6.7.0",
+    "@typescript-eslint/eslint-plugin": "^6.7.2",
+    "@typescript-eslint/parser": "^6.7.2",
     "eslint": "^8.49.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-config-react": "^1.1.7",
