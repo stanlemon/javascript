@@ -1,6 +1,6 @@
 {
   "name": "@stanlemon/app-template",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "description": "A template for creating apps using the webdev package.",
   "author": "Stan Lemon <stanlemon@users.noreply.github.com>",
   "license": "MIT",
@@ -27,8 +27,8 @@
   "devDependencies": {
     "@testing-library/react": "^14.0.0",
     "@testing-library/user-event": "^14.5.1",
-    "@types/react": "^18.2.22",
-    "@types/react-dom": "^18.2.7",
+    "@types/react": "^18.2.23",
+    "@types/react-dom": "^18.2.8",
     "concurrently": "^8.2.1",
     "supertest": "^6.3.3"
   }
