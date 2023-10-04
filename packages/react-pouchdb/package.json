@@ -1,6 +1,6 @@
 {
   "name": "@stanlemon/react-pouchdb",
-  "version": "0.4.44",
+  "version": "0.4.45",
   "description": "React components for interacting with PouchDB.",
   "keywords": [
     "react",
@@ -35,7 +35,7 @@
   "devDependencies": {
     "@stanlemon/webdev": "*",
     "@types/lodash-es": "^4.17.9",
-    "@types/node": "^18.18.1",
+    "@types/node": "^18.18.3",
     "@types/pouchdb": "^6.4.0",
     "pouchdb": "^8.0.1",
     "pouchdb-adapter-memory": "^8.0.1",
