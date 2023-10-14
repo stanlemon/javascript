@@ -1,6 +1,6 @@
 {
   "name": "@stanlemon/react-pouchdb-example",
-  "version": "0.1.68",
+  "version": "0.1.69",
   "description": "A react app using pouchdb built in typescript",
   "author": "Stan Lemon <stanlemon@users.noreply.github.com",
   "license": "MIT",
@@ -34,7 +34,7 @@
   "devDependencies": {
     "@testing-library/jest-dom": "^6.1.4",
     "@testing-library/react": "^14.0.0",
-    "@types/node": "^18.18.4",
+    "@types/node": "^18.18.5",
     "@types/pouchdb": "^6.4.0",
     "@types/uuid": "^9.0.5",
     "identity-obj-proxy": "^3.0.0",
