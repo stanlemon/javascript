@@ -148,4 +148,11 @@ export default class LowDBUserDao extends UserDao {
       resolve(true);
     });
   }
+
+  /** @inheritdoc */
+  getAllUsers() {
+    return new Promise((resolve) => {
+      resolve(this.#db.data.users || []);
+    });
+  }
 }

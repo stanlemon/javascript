@@ -1,24 +1,28 @@
 /**
  * @jest-environment node
  */
-import LowDBUserDao, { createInMemoryDb } from "./lowdb-user-dao.js";
+import KnexUserDao, { createBetterSqlite3Db } from "./knex-user-dao.js";
 
-describe("lowdb-user-dao", () => {
+describe("knex-user-dao", () => {
   // This is a user that we will reuse in our tests
   const data = {
     username: "test",
     password: "password",
   };
 
-  /** @type {LowSync} */
+  /** @type {Knex} */
   let db;
-  /** @type {LowDBUserDao} */
+  /** @type {KnexUserDao} */
   let dao;
 
-  beforeEach(() => {
+  beforeEach(async () => {
     // Before each test reset our users database
-    db = createInMemoryDb();
-    dao = new LowDBUserDao(db);
+    db = await createBetterSqlite3Db();
+    dao = new KnexUserDao(db);
+  });
+
+  afterEach(async () => {
+    db.destroy();
   });
 
   it("creates a user", async () => {
@@ -103,7 +107,7 @@ describe("lowdb-user-dao", () => {
   it("updates a user", async () => {
     const user = await dao.createUser(data);
 
-    expect(user.name).toBeUndefined(); // TODO: This should be santiized by the schema, always
+    expect(user.name).toBeNull();
 
     const name = "Test User";
 

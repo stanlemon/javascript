@@ -21,7 +21,7 @@ export default class UserDao {
   /**
    * Get user by id.
    * @param {string|int} userId Identifier to get user by
-   * @returns {Promise<User>} User object
+   * @returns {Promise<User|boolean>} User object or false
    */
   // eslint-disable-next-line no-unused-vars
   getUserById(userId) {
@@ -31,7 +31,7 @@ export default class UserDao {
   /**
    * Get user by username.
    * @param {string} username Username
-   * @returns {Promise<User>} User object
+   * @returns {Promise<User|boolean>} User object or false
    */
   // eslint-disable-next-line no-unused-vars
   getUserByUsername(username) {
@@ -42,7 +42,7 @@ export default class UserDao {
    * Get user by username and password.
    * @param {string} username Username
    * @param {string} password Password
-   * @returns {Promise<User>} User object
+   * @returns {Promise<User|boolean>} User object or false
    */
   // eslint-disable-next-line no-unused-vars
   getUserByUsernameAndPassword(username, password) {
@@ -52,7 +52,7 @@ export default class UserDao {
   /**
    * Get user by verification token.
    * @param {string} token User verification token
-   * @returns {Promise<User>} User object
+   * @returns {Promise<User|boolean>} User object or false
    */
   // eslint-disable-next-line no-unused-vars
   getUserByVerificationToken(token) {
@@ -62,7 +62,7 @@ export default class UserDao {
   /**
    * Create a new user.
    * @param {User} user User
-   * @returns {Promise<User>} User object
+   * @returns {Promise<User|boolean>} User object or false
    */
   // eslint-disable-next-line no-unused-vars
   createUser(user) {
@@ -86,6 +86,14 @@ export default class UserDao {
    * @return {Promise<boolean>} True if successful, false if not
    */
   deleteUser(userId) {
+    this.#error();
+  }
+
+  /**
+   * Get all users in the database.
+   * @return {Promise<User[]|false>} True if successful, false if not
+   */
+  getAllUsers() {
     this.#error();
   }
 }

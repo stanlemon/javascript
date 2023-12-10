@@ -34,6 +34,8 @@
   "devDependencies": {
     "@stanlemon/eslint-config": "*",
     "@types/supertest": "^6.0.2",
+    "better-sqlite3": "^9.2.2",
+    "knex": "^3.1.0",
     "nodemon": "^3.0.2",
     "supertest": "^6.3.3"
   }
