@@ -30,6 +30,20 @@ export const CHANGE_PASSWORD = Joi.object({
 export const USER = Joi.object({});
 
 /**
+ * For use by the DAO to make sure the data shape is correct.
+ */
+export const DAO = Joi.object({
+  id: Joi.string().uuid().label("ID").default("").required(),
+  username: Joi.string().label("Username").default("").required(),
+  password: Joi.string().label("Password").default("").required(),
+  verification_token: Joi.string().label("Verification Token").default(""),
+  verify_at: Joi.date().label("Date Verified").default(null),
+  last_logged_in: Joi.date().label("Date Last Logged In").default(null),
+  created_at: Joi.date().label("Date Created").default(null).required(),
+  last_updated: Joi.date().label("Date Last Updated").default(null).required(),
+});
+
+/**
  * Base schemas mapped to routes.
  */
 const SCHEMAS = {
@@ -51,5 +65,6 @@ export function createSchemas(user = {}) {
     ...SCHEMAS,
     [ROUTES.SIGNUP]: SCHEMAS[[ROUTES.SIGNUP]].append(user),
     [ROUTES.USER]: SCHEMAS[[ROUTES.USER]].append(user),
+    dao: DAO.append(user),
   };
 }

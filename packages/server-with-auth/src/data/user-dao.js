@@ -5,9 +5,9 @@
  * @property {string} password Password
  * @property {string} verification_token Verification token
  * @property {date} verify_at Date verified
+ * @property {date} last_logged_in Date last logged in
  * @property {date} created_at Date created
  * @property {date} last_updated Date last updated
- * @property {date} last_logged_in Date last logged in
  */
 export default class UserDao {
   constructor() {}
