@@ -7,7 +7,6 @@ import {
   schemaHandler,
   formatOutput,
   BadRequestException,
-  formatInput,
 } from "@stanlemon/server";
 import checkAuth from "../checkAuth.js";
 import checkUserDao from "../utilities/checkUserDao.js";

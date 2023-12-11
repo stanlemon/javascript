@@ -100,7 +100,7 @@ export default function createAppServer(options) {
       .getUserById(id)
       .then((user) => {
         // An undefined user means we couldn't find it, so the session is invalid
-        done(null, user === undefined ? false : user);
+        done(null, !user ? false : user);
       })
       .catch((error) => {
         done(error, null);
