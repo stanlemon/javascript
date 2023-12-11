@@ -132,7 +132,10 @@ export default class KnexUserDao extends UserDao {
 
   async getAllUsers() {
     const users = await this.#db("users").select();
-    console.log(users);
     return users;
+  }
+
+  close() {
+    this.#db.destroy();
   }
 }

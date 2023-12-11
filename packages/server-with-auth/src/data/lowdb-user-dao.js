@@ -155,4 +155,7 @@ export default class LowDBUserDao extends UserDao {
       resolve(this.#db.data.users || []);
     });
   }
+
+  /** @inheritdoc */
+  close() {}
 }

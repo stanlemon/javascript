@@ -96,4 +96,11 @@ export default class UserDao {
   getAllUsers() {
     this.#error();
   }
+
+  /**
+   * Close the dao and do any necessary cleanup.
+   */
+  close() {
+    this.#error();
+  }
 }
