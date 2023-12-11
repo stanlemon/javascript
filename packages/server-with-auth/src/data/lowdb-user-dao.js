@@ -103,11 +103,15 @@ export default class LowDBUserDao extends UserDao {
         throw new Error("This username is already taken.");
       }
 
+      const now = new Date();
+
       const data = {
         ...user,
         password: bcrypt.hashSync(user.password, 10),
         id: uuidv4(),
         verification_token: uuidv4(),
+        created_at: now,
+        last_updated: now,
       };
       this.#db.data.users.push(data);
       this.#db.write();
@@ -129,6 +133,8 @@ export default class LowDBUserDao extends UserDao {
           ...u,
           ...user,
           id: userId,
+          last_updated: new Date(),
+          created_at: u.created_at, // Always preserve created_at
         };
       }
       return u;

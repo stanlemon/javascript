@@ -18,8 +18,10 @@ export async function createBetterSqlite3Db() {
     table.string("email").nullable();
     table.string("name").nullable();
     table.string("verification_token").notNullable();
-    table.boolean("active").defaultTo(true).notNullable();
-    // TODO: Add dates
+    table.dateTime("verified_date").nullable();
+    table.dateTime("last_login").nullable();
+    table.dateTime("created_at").notNullable();
+    table.dateTime("last_updated").notNullable();
   });
 
   return db;
@@ -37,10 +39,7 @@ export default class KnexUserDao extends UserDao {
 
   /** @inheritdoc */
   async getUserById(userId) {
-    return await this.#db("users")
-      .select()
-      .where({ id: userId, active: true })
-      .first();
+    return await this.#db("users").select().where({ id: userId }).first();
   }
 
   /** @inheritdoc */
@@ -48,7 +47,7 @@ export default class KnexUserDao extends UserDao {
     const user = await this.#db
       .select()
       .from("users")
-      .where({ username: username, active: true })
+      .where({ username: username })
       .first();
 
     return !user ? false : user;
@@ -78,7 +77,7 @@ export default class KnexUserDao extends UserDao {
 
     const user = await this.#db("users")
       .select()
-      .where({ verification_token: token, active: true })
+      .where({ verification_token: token })
       .first();
 
     return !user ? false : user;
@@ -91,13 +90,15 @@ export default class KnexUserDao extends UserDao {
     if (existing) {
       throw new Error("This username is already taken.");
     }
+    const now = new Date();
 
     const data = {
       ...user,
       password: bcrypt.hashSync(user.password, 10),
       id: uuidv4(),
       verification_token: uuidv4(),
-      active: true,
+      created_at: now,
+      last_updated: now,
     };
 
     await this.#db("users").insert(data);

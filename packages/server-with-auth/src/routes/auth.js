@@ -115,11 +115,8 @@ export default function authRoutes({ secret, schemas, dao, eventEmitter }) {
       throw new BadRequestException("A user with this username already exists");
     }
 
-    const now = new Date();
     const user = await dao.createUser({
       ...data,
-      created_at: now,
-      last_updated: now,
     });
 
     if (isEmpty(user)) {
@@ -198,7 +195,6 @@ export default function authRoutes({ secret, schemas, dao, eventEmitter }) {
         return;
       }
 
-      const now = new Date();
       const input = {
         ...omit(data, [
           "id",
@@ -210,7 +206,6 @@ export default function authRoutes({ secret, schemas, dao, eventEmitter }) {
           "verification_token",
           "verified_date",
         ]),
-        last_updated: now,
       };
 
       const updated = await dao.updateUser(user.id, input);
