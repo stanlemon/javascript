@@ -229,16 +229,17 @@ export default function authRoutes({ secret, schemas, dao, eventEmitter }) {
     res.status(200).json({ success: deleted });
   });
 
-  // TODO: Implement password reset
   router.post(
     ROUTES.PASSWORD,
     checkAuth(),
     schemaHandler(schemas[ROUTES.PASSWORD], async (data, req, res) => {
-      const user = await dao.getUserById(req.user);
+      const currentUser = await dao.getUserById(req.user);
+      const user = await dao.getUserByUsernameAndPassword(
+        currentUser.username,
+        data.current_password // Reminder: Joi will switch the casing
+      );
 
-      if (
-        !dao.getUserByUsernameAndPassword(user.username, data.currentPassword)
-      ) {
+      if (!user) {
         res.status(400).json({
           errors: {
             currentPassword: "Current password is incorrect",
@@ -247,21 +248,33 @@ export default function authRoutes({ secret, schemas, dao, eventEmitter }) {
         return;
       }
 
-      await dao.updateUser(user.id, {
+      const success = await dao.updateUser(user.id, {
         password: data.password,
       });
 
-      eventEmitter.emit(EVENTS.USER_PASSWORD, data.username);
+      if (success) {
+        eventEmitter.emit(EVENTS.USER_PASSWORD, data.username);
+      }
+
+      return { success: success };
+    })
+  );
+
+  // TODO: This is a placeholder for a password reset request, you should implement the event handler to handle this.
+  router.get(
+    ROUTES.RESET,
+    schemaHandler(schemas[ROUTES.RESET], async (data) => {
+      eventEmitter.emit(EVENTS.USER_RESET_REQUESTED, data.username);
 
       return { success: true };
     })
   );
 
-  // This is a placeholder for a password reset request, you should implement the event handler to handle this.
+  // TODO: This is a placeholder for a password reset completion, you should implement the event handler to handle this.
   router.post(
     ROUTES.RESET,
     schemaHandler(schemas[ROUTES.RESET], async (data) => {
-      eventEmitter.emit(EVENTS.USER_RESET_REQUESTED, data.username);
+      eventEmitter.emit(EVENTS.USER_RESET_COMPLETED, data.username);
 
       return { success: true };
     })

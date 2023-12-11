@@ -51,4 +51,9 @@ export const EVENTS = {
    * This is not a managed lifecycle event, you'll need to implement this!
    */
   USER_RESET_REQUESTED: "user.reset.requested",
+  /**
+   * When a user reset is completed.
+   * This is not a managed lifecycle event, you'll need to implement this!
+   */
+  USER_RESET_COMPLETED: "user.reset.completed",
 };
