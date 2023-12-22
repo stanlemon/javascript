@@ -18,8 +18,8 @@ export type SessionData = {
 };
 
 export type UserData = {
-  name: string | null;
-  email: string | null;
+  name: string;
+  email: string;
   username: string;
   password: string;
 };

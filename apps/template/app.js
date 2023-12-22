@@ -1,11 +1,14 @@
 import EventEmitter from "node:events";
 import {
   createAppServer,
+  createSchemas,
   asyncJsonHandler as handler,
   createDb,
+  ROUTES,
   EVENTS as AUTH_EVENTS,
   LowDBUserDao,
 } from "@stanlemon/server-with-auth";
+import Joi from "joi";
 import { v4 as uuid } from "uuid";
 import { omit } from "lodash-es";
 
@@ -30,6 +33,10 @@ export const app = createAppServer({
   secure: ["/api/"],
   dao,
   eventEmitter,
+  schemas: createSchemas({
+    name: Joi.string().required().label("Name"),
+    email: Joi.string().email().required().label("Email"),
+  }),
 });
 
 app.get(

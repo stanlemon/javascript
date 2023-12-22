@@ -17,6 +17,7 @@ export default function SignUp() {
   const { setSession } = useContext(SessionContext);
 
   const onSubmit = () => {
+    console.log(values);
     setErrors({});
     fetch("/auth/signup", {
       headers: {
@@ -65,6 +66,22 @@ export default function SignUp() {
         value={values.username}
         onChange={(value) => setValues({ ...values, username: value })}
         error={errors.username}
+        autoCapitalize="off"
+      />
+      <Input
+        name="name"
+        label="Name"
+        value={values.name}
+        onChange={(value) => setValues({ ...values, name: value })}
+        error={errors.name}
+        autoCapitalize="off"
+      />
+      <Input
+        name="email"
+        label="Email"
+        value={values.email}
+        onChange={(value) => setValues({ ...values, email: value })}
+        error={errors.email}
         autoCapitalize="off"
       />
       <Input
