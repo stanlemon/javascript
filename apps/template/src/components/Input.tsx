@@ -1,3 +1,4 @@
+import React from "react";
 export interface Props
   // Inherit everything from input except onChange which we simplify here
   extends Omit<React.ComponentPropsWithRef<"input">, "onChange"> {
@@ -11,7 +12,7 @@ export interface Props
   error?: string;
 }
 
-export default function Input({
+export function Input({
   type = "text",
   name,
   value = "",
@@ -52,3 +53,5 @@ export default function Input({
     </>
   );
 }
+
+export default Input;

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, createContext } from "react";
-import { ErrorMessage } from "./App";
+import { ErrorMessage } from "./components/";
 
 export const SessionContext = createContext<{
   session: SessionData;

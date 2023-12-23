@@ -1,10 +1,12 @@
 import { useState, useContext } from "react";
-import { ErrorResponse, Spacer } from "./App";
-import { SessionContext, SessionData, UserData } from "./Session";
-import Input from "./Input";
+import { FormErrors } from "../App";
+import { Input, ErrorMessage, Spacer } from "../components/";
+import { SessionData, UserData, SessionContext } from "../Session";
 
-export default function Login() {
-  const [error, setError] = useState<string | null>(null);
+// eslint-disable-next-line max-lines-per-function
+export function SignUp() {
+  const [error, setError] = useState<string | boolean>(false);
+  const [errors, setErrors] = useState<Record<string, string>>({});
   const [values, setValues] = useState<UserData>({
     name: "",
     email: "",
@@ -15,8 +17,9 @@ export default function Login() {
   const { setSession } = useContext(SessionContext);
 
   const onSubmit = () => {
-    setError(null);
-    fetch("/auth/login", {
+    console.log(values);
+    setErrors({});
+    fetch("/auth/signup", {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
@@ -44,27 +47,41 @@ export default function Login() {
           if (ok) {
             setSession(data as SessionData);
           } else {
-            setError((data as ErrorResponse).message);
+            setErrors((data as FormErrors).errors);
           }
         }
       )
       .catch((err: Error) => {
+        // Put any generis error onto the username field
         setError(err.message);
       });
   };
 
   return (
     <>
-      {error && (
-        <div>
-          <strong>{error}</strong>
-        </div>
-      )}
+      <ErrorMessage error={error} />
       <Input
         name="username"
         label="Username"
         value={values.username}
         onChange={(value) => setValues({ ...values, username: value })}
+        error={errors.username}
+        autoCapitalize="off"
+      />
+      <Input
+        name="name"
+        label="Name"
+        value={values.name}
+        onChange={(value) => setValues({ ...values, name: value })}
+        error={errors.name}
+        autoCapitalize="off"
+      />
+      <Input
+        name="email"
+        label="Email"
+        value={values.email}
+        onChange={(value) => setValues({ ...values, email: value })}
+        error={errors.email}
         autoCapitalize="off"
       />
       <Input
@@ -73,10 +90,12 @@ export default function Login() {
         label="Password"
         value={values.password}
         onChange={(value) => setValues({ ...values, password: value })}
-        onEnter={onSubmit}
+        error={errors.password}
       />
       <Spacer />
-      <button onClick={onSubmit}>Login</button>
+      <button onClick={onSubmit}>Sign Up</button>
     </>
   );
 }
+
+export default SignUp;

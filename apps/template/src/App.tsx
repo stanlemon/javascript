@@ -1,11 +1,15 @@
-import React, { useState, useContext, useEffect } from "react";
-
+import { useState, useContext, useEffect } from "react";
 import "./App.less";
 import { SessionContext } from "./Session";
-import Header from "./Header";
-import Input from "./Input";
-import Login from "./Login";
-import SignUp from "./SignUp";
+import {
+  Column,
+  ErrorMessage,
+  Header,
+  Input,
+  Row,
+  Spacer,
+} from "./components/";
+import { Login, SignUp } from "./views/";
 
 export type ErrorResponse = {
   message: string;
@@ -156,63 +160,6 @@ function ItemList({
       </ul>
     </>
   );
-}
-
-export function Row({
-  as = "div",
-  children,
-}: {
-  as?: keyof JSX.IntrinsicElements;
-  children?: React.ReactNode;
-}) {
-  return React.createElement(
-    as,
-    {
-      style: {
-        display: "flex",
-        flexDirection: "row",
-        flexWrap: "wrap",
-        width: "100%",
-      },
-    },
-    children
-  );
-}
-
-export function Spacer({ height = "2em" }: { height?: string | number }) {
-  return <div style={{ height, minHeight: height }} />;
-}
-
-export function Column({
-  as = "div",
-  children,
-}: {
-  as?: keyof JSX.IntrinsicElements;
-  children?: React.ReactNode;
-}) {
-  return React.createElement(
-    as,
-    {
-      style: {
-        display: "flex",
-        flexDirection: "column",
-        flexBasis: "100%",
-        flex: "1 1 0",
-      },
-    },
-    children
-  );
-}
-
-export function ErrorMessage({ error }: { error: string | boolean }) {
-  if (error) {
-    return (
-      <p>
-        <strong>An error has occurred:</strong> {error}
-      </p>
-    );
-  }
-  return <></>;
 }
 
 function fetchApi<T, P>(
