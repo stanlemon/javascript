@@ -44,7 +44,7 @@ export default function Session({ children }: { children: React.ReactNode }) {
         setInitialized(true);
 
         if (!response.ok) {
-          throw new ErrorMessage(response.statusText);
+          throw response.statusText;
         }
         return response;
       })

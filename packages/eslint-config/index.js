@@ -43,6 +43,7 @@ module.exports = {
     "react/react-in-jsx-scope": "off",
     "react/jsx-uses-react": "off",
     "react/prop-types": "off",
+    "react/no-unescaped-entities": ["error", { forbid: [">", "}"] }],
     // Allow exporting of unnamed objects as a default
     "import/no-anonymous-default-export": [
       "error",

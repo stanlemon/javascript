@@ -1,4 +1,5 @@
 import { useState, useContext, useEffect } from "react";
+import { Switch, Route, Link } from "wouter";
 import "./App.less";
 import { SessionContext } from "./Session";
 import {
@@ -9,7 +10,7 @@ import {
   Row,
   Spacer,
 } from "./components/";
-import { Login, SignUp } from "./views/";
+import { Login, SignUp, Profile } from "./views/";
 
 export type ErrorResponse = {
   message: string;
@@ -101,15 +102,27 @@ export default function App() {
         </Row>
       )}
       {session.user && (
-        <>
-          <p>
-            <em>You are logged in as {session.user?.username}.</em>{" "}
-            <span style={{ cursor: "pointer" }} onClick={logout}>
-              (logout)
-            </span>
-          </p>
-          <ItemList items={items} saveItem={saveItem} deleteItem={deleteItem} />
-        </>
+        <Switch>
+          <Route path="/">
+            <p>
+              <em>
+                You are logged in as{" "}
+                <Link href="/profile">{session.user?.username}</Link>.
+              </em>{" "}
+              <span style={{ cursor: "pointer" }} onClick={logout}>
+                (logout)
+              </span>
+            </p>
+            <ItemList
+              items={items}
+              saveItem={saveItem}
+              deleteItem={deleteItem}
+            />
+          </Route>
+          <Route path="/profile">
+            <Profile />
+          </Route>
+        </Switch>
       )}
       <Spacer />
     </>

@@ -23,7 +23,8 @@
     "@stanlemon/server-with-auth": "*",
     "@stanlemon/webdev": "*",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "wouter": "^2.12.1"
   },
   "devDependencies": {
     "@testing-library/react": "^14.1.2",

@@ -1,8 +1,7 @@
 import { useState, useContext } from "react";
 import { ErrorResponse } from "../App";
-import { Spacer } from "../components/";
+import { Input, Spacer } from "../components/";
 import { SessionContext, SessionData, UserData } from "../Session";
-import Input from "../components/Input";
 
 export function Login() {
   const [error, setError] = useState<string | null>(null);
