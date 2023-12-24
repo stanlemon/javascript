@@ -1,4 +1,5 @@
 import { useState, useContext, useEffect } from "react";
+import { useCookies } from "react-cookie";
 import { Switch, Route, Link } from "wouter";
 import "./App.less";
 import { SessionContext } from "./Session";
@@ -32,6 +33,8 @@ export default function App() {
   const [error, setError] = useState<string | boolean>(false);
 
   const { session, setSession } = useContext(SessionContext);
+
+  const [cookies, setCookie, removeCookie] = useCookies(["session_token"]);
 
   const catchError = (err: Error) => {
     if (err.message === "Unauthorized") {
@@ -81,6 +84,7 @@ export default function App() {
   };
 
   const logout = () => {
+    removeCookie("session_token", { path: "/" });
     setSession({ token: null, user: null });
   };
 

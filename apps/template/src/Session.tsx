@@ -1,4 +1,5 @@
 import React, { useState, useEffect, createContext } from "react";
+import { useCookies } from "react-cookie";
 import { ErrorMessage } from "./components/";
 
 export const SessionContext = createContext<{
@@ -31,11 +32,12 @@ export default function Session({ children }: { children: React.ReactNode }) {
     token: null,
     user: null,
   });
+  const [cookies, setCookie] = useCookies(["session_token"]);
 
   useEffect(() => {
     fetch("/auth/session", {
       headers: {
-        Authorization: `Bearer ${session.token || ""}`,
+        Authorization: `Bearer ${session.token || cookies.session_token || ""}`,
         Accept: "application/json",
         "Content-Type": "application/json",
       },
@@ -50,6 +52,7 @@ export default function Session({ children }: { children: React.ReactNode }) {
       })
       .then((response) => response.json())
       .then((session: SessionData) => {
+        setCookie("session_token", session.token, { path: "/" });
         setSession(session);
       })
       .catch((err: Error) => {
