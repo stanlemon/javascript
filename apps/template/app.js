@@ -62,4 +62,5 @@ app.delete(
   })
 );
 
-app.catch404s();
+app.spa();
+app.catch404s("/api/*");

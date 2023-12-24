@@ -39,7 +39,7 @@ module.exports = {
   mode: isDevelopment ? "development" : "production",
   entry: WEBDEV_ENTRY.split(";"),
   output: {
-    filename: "[name].[contenthash].js",
+    filename: "static/[name].[contenthash].js",
     path: path.resolve("./", "dist"),
     publicPath: WEBPACK_PUBLIC_PATH,
   },
@@ -63,7 +63,7 @@ module.exports = {
             );
           },
           chunks: "initial",
-          filename: "react.[contenthash].js",
+          filename: "static/react.[contenthash].js",
           priority: 1,
           maxInitialRequests: 2,
           minChunks: 1,
@@ -72,6 +72,7 @@ module.exports = {
           test: /[\\/]node_modules[\\/]/,
           name: "vendors",
           chunks: "all",
+          filename: "static/vendors.[contenthash].js",
         },
       },
     },
@@ -123,8 +124,9 @@ module.exports = {
           html = html.substring(1);
           inject = false;
         }
+
         return new HtmlWebpackPlugin({
-          filename: path.basename(html),
+          filename: path.resolve("./", "dist", html),
           inject,
           ...(existsSync(html) ? { template: html } : {}),
         });
@@ -134,7 +136,7 @@ module.exports = {
       }),
     ],
     ...[
-      !isDevelopment &&
+      isDevelopment &&
         new BundleAnalyzerPlugin({
           analyzerMode: "static",
           openAnalyzer: false,

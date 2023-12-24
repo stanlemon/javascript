@@ -1,0 +1,22 @@
+GET http://localhost:3003/hello
+
+###
+
+GET http://localhost:3003/hello/Stan
+
+###
+
+GET http://localhost:3003/hello/Sara
+
+###
+
+POST http://localhost:3003/hello HTTP/1.1
+Content-Type: application/json
+
+{
+  "name": "Lucy"
+}
+
+###
+
+GET http://localhost:3003/doesNotExist

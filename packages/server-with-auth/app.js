@@ -57,4 +57,4 @@ app.get(
   }))
 );
 
-app.catch404s();
+app.catch404s("/api/*");

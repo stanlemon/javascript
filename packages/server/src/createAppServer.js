@@ -1,5 +1,5 @@
 import dotenv from "dotenv";
-import express from "express";
+import express, { Router } from "express";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import compression from "compression";
@@ -7,8 +7,11 @@ import helmet from "helmet";
 import morgan from "morgan";
 import rateLimit from "express-rate-limit";
 import { createProxyMiddleware } from "http-proxy-middleware";
+import path from "path";
 
 dotenv.config();
+
+const NODE_ENV = process.env.NODE_ENV ?? "development";
 
 export const DEFAULTS = { port: 3000, webpack: false, start: true };
 
@@ -28,8 +31,12 @@ export const DEFAULTS = { port: 3000, webpack: false, start: true };
  * @param {boolean} options.start Whether or not to start the server
  * @returns {AppServer} Pre-configured express app server with extra helper methods
  */
+// eslint-disable-next-line max-lines-per-function
 export default function createAppServer(options) {
   const { port, webpack, start } = { ...DEFAULTS, ...options };
+
+  const useWebpack =
+    webpack !== false && NODE_ENV !== "production" && NODE_ENV !== "test";
 
   const app = express();
   app.use(bodyParser.urlencoded({ extended: true }));
@@ -37,11 +44,11 @@ export default function createAppServer(options) {
   app.use(cookieParser());
   app.use(express.json());
 
-  if (process.env.NODE_ENV !== "test") {
+  if (NODE_ENV !== "test") {
     app.use(morgan("combined"));
   }
 
-  if (process.env.NODE_ENV === "production") {
+  if (NODE_ENV === "production") {
     const limiter = rateLimit({
       windowMs: 5 * 60 * 1000, // 5 minutes
       max: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
@@ -54,13 +61,17 @@ export default function createAppServer(options) {
     app.use(helmet());
   }
 
-  if (
-    webpack !== false &&
-    process.env.NODE_ENV !== "production" &&
-    process.env.NODE_ENV !== "test"
-  ) {
+  app.get("/ping", (req, res) => {
+    res.json({
+      success: true,
+    });
+  });
+
+  if (useWebpack) {
+    console.info("Proxying webpack dev server");
+
     app.get(
-      "/*.js",
+      "/static/*",
       createProxyMiddleware({
         target: webpack,
         changeOrigin: true,
@@ -87,17 +98,11 @@ export default function createAppServer(options) {
     app.use(express.static("./dist"));
   }
 
-  app.get("/ping", (req, res) => {
-    res.json({
-      success: true,
-    });
-  });
-
   app.start = () => {
     const server = app.listen(port);
 
     /* eslint-disable no-console */
-    console.log("Starting in %s mode", process.env.NODE_ENV);
+    console.log("Starting in %s mode on port %s", NODE_ENV, port);
     console.log(
       "Listening at http://%s:%s",
       server.address().address === "::"
@@ -107,15 +112,32 @@ export default function createAppServer(options) {
     );
   };
 
-  app.catch404s = () => {
-    // Handling 404
-    app.use(function (req, res, next) {
+  app.spa = () => {
+    if (useWebpack) {
+      app.get(
+        "*",
+        createProxyMiddleware({
+          target: webpack,
+          changeOrigin: true,
+        })
+      );
+    } else {
+      app.get(`*`, function (req, res, next) {
+        res.sendFile(path.resolve("./", "dist", "index.html"));
+      });
+    }
+  };
+
+  app.catch404s = (path = "/*") => {
+    const router = Router();
+    router.use((req, res, next) => {
       res.status(404).json({ error: "Not Found" });
     });
+    app.use(path, router);
   };
 
   // If we're set to start. Btw we never start in test.
-  if (start && process.env.NODE_ENV !== "test") {
+  if (start && NODE_ENV !== "test") {
     app.start();
   }
 
