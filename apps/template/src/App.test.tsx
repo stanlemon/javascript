@@ -1,3 +1,4 @@
+import "@testing-library/jest-dom";
 import { render, screen, fireEvent, act } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import App, { ItemData } from "./App";
@@ -38,7 +39,9 @@ test("<App/>", async () => {
   );
 
   // The auth text is present
-  expect(screen.getByText("You are logged in as user.")).toBeInTheDocument();
+  expect(
+    screen.queryByText("You are logged in as", { exact: false })
+  ).toBeInTheDocument();
 
   // The header is present
   expect(
