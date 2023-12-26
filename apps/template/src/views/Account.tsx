@@ -1,14 +1,46 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { SessionContext } from "../Session";
 import { Header, Input, Spacer } from "../components";
 
+export type ProfileData = {
+  name: string;
+  email: string;
+};
+export const DEFAULT_PROFILE_DATA: ProfileData = {
+  name: "",
+  email: "",
+};
+
+export type PasswordData = {
+  current_password: string;
+  new_password1: string;
+  new_password2: string;
+};
+
+export const DEFAULT_PASSWORD_DATA: PasswordData = {
+  current_password: "",
+  new_password1: "",
+  new_password2: "",
+};
+
 export function Account() {
   const { session } = useContext(SessionContext);
-  const setValue = (value: string) => {
-    console.info(value);
+  const [profile, setProfile] = useState<ProfileData>(DEFAULT_PROFILE_DATA);
+  const [password, setPassword] = useState<PasswordData>(DEFAULT_PASSWORD_DATA);
+
+  const storeProfile = (key: keyof ProfileData, value: string) => {
+    setProfile({ ...profile, [key]: value });
   };
-  const saveProfile = () => {};
-  const updatePassword = () => {};
+  const saveProfile = () => {
+    console.log(profile);
+  };
+
+  const storePassword = (key: keyof PasswordData, value: string) => {
+    setPassword({ ...password, [key]: value });
+  };
+  const savePassword = () => {
+    console.log(password);
+  };
 
   return (
     <>
@@ -17,14 +49,14 @@ export function Account() {
       <Input
         name="name"
         label="Name"
-        value={session.user?.name ?? ""}
-        onChange={(value) => setValue(value)}
+        value={profile.name}
+        onChange={(value) => storeProfile("name", value)}
       />
       <Input
         name="email"
         label="Email"
-        value={session.user?.email ?? ""}
-        onChange={(value) => setValue(value)}
+        value={profile.email}
+        onChange={(value) => storeProfile("email", value)}
       />
       <button onClick={saveProfile}>Save</button>
 
@@ -34,25 +66,25 @@ export function Account() {
         name="current_password"
         type="password"
         label="Current Password"
-        value={""}
-        onChange={(value) => setValue(value)}
+        value={password.current_password ?? ""}
+        onChange={(value) => storePassword("current_password", value)}
       />
       <Input
         name="new_password1"
         type="password"
         label="New Password"
-        value={""}
-        onChange={(value) => setValue(value)}
+        value={password.new_password1 ?? ""}
+        onChange={(value) => storePassword("new_password1", value)}
       />
       <Input
         name="new_password2"
         type="password"
         label="Repeat New Password"
-        value={""}
-        onChange={(value) => setValue(value)}
+        value={password.new_password2 ?? ""}
+        onChange={(value) => storePassword("new_password2", value)}
       />
 
-      <button onClick={updatePassword}>Update</button>
+      <button onClick={savePassword}>Update</button>
     </>
   );
 }
