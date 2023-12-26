@@ -2,6 +2,8 @@ import { createRoot } from "react-dom/client";
 import App from "./App";
 import Session from "./Session";
 
+document.title = "App";
+
 const root = createRoot(
   document.body.appendChild(document.createElement("div"))
 );
