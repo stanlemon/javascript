@@ -37,7 +37,7 @@ module.exports = {
       },
     ],
     // Linting shouldn't break on this, but we also want to discourage using console logging
-    "no-console": "warn",
+    "no-console": ["warn", { allow: ["warn", "error"] }],
     // Requires the displayName property to be set, not ideal for stateless components
     "react/display-name": "off",
     "react/react-in-jsx-scope": "off",
@@ -62,7 +62,10 @@ module.exports = {
       },
     ],
     "no-unused-vars": ["warn", { ignoreRestSiblings: true, args: "none" }],
-    "@typescript-eslint/no-unused-vars": "warn",
+    "@typescript-eslint/no-unused-vars": [
+      "warn",
+      { ignoreRestSiblings: true, args: "none" },
+    ],
   },
   overrides: [
     {

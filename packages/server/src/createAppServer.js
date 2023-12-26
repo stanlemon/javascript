@@ -102,8 +102,8 @@ export default function createAppServer(options) {
     const server = app.listen(port);
 
     /* eslint-disable no-console */
-    console.log("Starting in %s mode on port %s", NODE_ENV, port);
-    console.log(
+    console.info("Starting in %s mode on port %s", NODE_ENV, port);
+    console.info(
       "Listening at http://%s:%s",
       server.address().address === "::"
         ? "localhost"

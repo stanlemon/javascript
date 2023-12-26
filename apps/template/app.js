@@ -19,7 +19,7 @@ db.data.items = db.data.items || [];
 const eventEmitter = new EventEmitter();
 Object.values(AUTH_EVENTS).forEach((event) => {
   eventEmitter.on(event, (user) => {
-    console.log(
+    console.info(
       `Event = ${event}, User = ${JSON.stringify(
         omit(user, ["password", "verification_token"])
       )}`

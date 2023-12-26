@@ -17,7 +17,6 @@ export function SignUp() {
   const { setSession } = useContext(SessionContext);
 
   const onSubmit = () => {
-    console.log(values);
     setErrors({});
     fetch("/auth/signup", {
       headers: {

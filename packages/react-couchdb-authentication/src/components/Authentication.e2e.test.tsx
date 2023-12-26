@@ -31,7 +31,7 @@ describe("<Authentication /> with CouchDB instance", () => {
     const isCouchDbUp = await checkCouchDb();
     if (!isCouchDbUp) {
       /* eslint-disable no-console */
-      console.log(
+      console.warn(
         "Skipping the end to end test because I do not have a CouchDB instance to work with."
       );
       return;

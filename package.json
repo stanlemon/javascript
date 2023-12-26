@@ -11,7 +11,7 @@
   },
   "scripts": {
     "prepare": "husky install",
-    "lint": "npm run lint --workspaces --if-present",
+    "lint": "eslint --ext .js,.ts,.tsx --ignore-path .gitignore .",
     "test": "npm run test --workspaces --if-present",
     "test:coverage": "npm run test:coverage --workspaces --if-present",
     "build": "npm run build --workspaces --if-present",

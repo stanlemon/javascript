@@ -14,7 +14,7 @@ const dao = new LowDBUserDao(db);
 const eventEmitter = new EventEmitter();
 Object.values(EVENTS).forEach((event) => {
   eventEmitter.on(event, (user) => {
-    console.log(
+    console.info(
       `Event = ${event}, User = ${JSON.stringify(
         omit(user, ["password", "verification_token"])
       )}`

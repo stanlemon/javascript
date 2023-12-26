@@ -1,4 +1,4 @@
-const { readFileSync, readdirSync } = require("fs");
+const { readdirSync } = require("fs");
 const { spawnSync } = require("child_process");
 const path = require("path");
 
@@ -34,10 +34,6 @@ workspaces.forEach((workspace) => {
   const command = `--workspace=${workspace}`;
 
   const result = spawnSync("npm", ["publish", "--access=public", command]);
-
-  // Temporary
-  console.log(result.stderr.toString());
-  console.log(result.stdout.toString());
 
   if (result.status === 0) {
     console.log(`Published ${workspace}`);

@@ -1,17 +1,10 @@
-import { useState, useContext, useEffect } from "react";
+import { useState, useContext } from "react";
 import { useCookies } from "react-cookie";
 import { Switch, Route, Link } from "wouter";
 import "./App.less";
 import { SessionContext } from "./Session";
-import {
-  Column,
-  ErrorMessage,
-  Header,
-  Input,
-  Row,
-  Spacer,
-} from "./components/";
-import { Login, SignUp, Profile } from "./views/";
+import { Column, ErrorMessage, Header, Row, Spacer } from "./components/";
+import { Login, SignUp, Items, Account } from "./views/";
 
 export type ErrorResponse = {
   message: string;
@@ -21,67 +14,10 @@ export type FormErrors = {
   errors: Record<string, string>;
 };
 
-export type ItemData = {
-  id: string;
-  item: string;
-};
-
-// eslint-disable-next-line max-lines-per-function
 export default function App() {
-  const [loaded, setLoaded] = useState<boolean>(false);
-  const [items, setItems] = useState<ItemData[]>([]);
-  const [error, setError] = useState<string | boolean>(false);
-
+  const [error] = useState<string | boolean>(false);
   const { session, setSession } = useContext(SessionContext);
-
-  const [cookies, setCookie, removeCookie] = useCookies(["session_token"]);
-
-  const catchError = (err: Error) => {
-    if (err.message === "Unauthorized") {
-      return;
-    }
-    setError(err.message);
-  };
-
-  useEffect(() => {
-    if (loaded) {
-      return;
-    }
-
-    fetchApi<ItemData[], null>("/api/items", session?.token || "")
-      .then((items) => {
-        setLoaded(true);
-        setItems(items);
-      })
-      .catch(catchError);
-  });
-
-  const saveItem = (item: string) => {
-    fetchApi<ItemData[], { item: string }>(
-      "/api/items",
-      session?.token || "",
-      "post",
-      {
-        item,
-      }
-    )
-      .then((items) => {
-        setItems(items);
-      })
-      .catch(catchError);
-  };
-
-  const deleteItem = (id: string) => {
-    fetchApi<ItemData[], string>(
-      `/api/items/${id}`,
-      session?.token || "",
-      "delete"
-    )
-      .then((items) => {
-        setItems(items);
-      })
-      .catch(catchError);
-  };
+  const [, , removeCookie] = useCookies(["session_token"]);
 
   const logout = () => {
     removeCookie("session_token", { path: "/" });
@@ -106,97 +42,27 @@ export default function App() {
         </Row>
       )}
       {session.user && (
-        <Switch>
-          <Route path="/">
-            <p>
-              <em>
-                You are logged in as{" "}
-                <Link href="/profile">{session.user?.username}</Link>.
-              </em>{" "}
-              <span style={{ cursor: "pointer" }} onClick={logout}>
-                (logout)
-              </span>
-            </p>
-            <ItemList
-              items={items}
-              saveItem={saveItem}
-              deleteItem={deleteItem}
-            />
-          </Route>
-          <Route path="/profile">
-            <Profile />
-          </Route>
-        </Switch>
+        <>
+          <p>
+            <em>
+              You are logged in as{" "}
+              <Link href="/account">{session.user?.username}</Link>.
+            </em>{" "}
+            <span style={{ cursor: "pointer" }} onClick={logout}>
+              (logout)
+            </span>
+          </p>
+          <Switch>
+            <Route path="/">
+              <Items />
+            </Route>
+            <Route path="/account">
+              <Account />
+            </Route>
+          </Switch>
+          <Spacer />
+        </>
       )}
-      <Spacer />
     </>
   );
-}
-
-function ItemList({
-  items,
-  saveItem,
-  deleteItem,
-}: {
-  items: ItemData[];
-  saveItem(item: string): void;
-  deleteItem(item: string): void;
-}) {
-  const [value, setValue] = useState<string>("");
-
-  const addItem = () => {
-    saveItem(value);
-    setValue("");
-  };
-
-  return (
-    <>
-      <h2>New Item</h2>
-      <Input
-        label="Item"
-        name="item"
-        value={value}
-        onChange={(value) => setValue(value)}
-        onEnter={addItem}
-      />
-      <button onClick={addItem}>Add</button>
-      <Spacer />
-      <h2>My Items</h2>
-      <ul style={{ padding: 0 }}>
-        {items.map(({ item, id }, i) => (
-          <Row key={i} as="li">
-            <button
-              style={{ marginLeft: "auto", order: 2 }}
-              onClick={() => deleteItem(id)}
-            >
-              Delete
-            </button>
-            <div>{item}</div>
-          </Row>
-        ))}
-      </ul>
-    </>
-  );
-}
-
-function fetchApi<T, P>(
-  url: string,
-  token: string,
-  method = "get",
-  data?: P
-): Promise<T> {
-  return fetch(url, {
-    method: method,
-    headers: {
-      Authorization: `Bearer ${token}`,
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
-  }).then((response) => {
-    if (!response.ok) {
-      throw new Error(response.statusText);
-    }
-    return response.json() as Promise<T>;
-  });
 }
