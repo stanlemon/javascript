@@ -4,7 +4,6 @@ import {
   createSchemas,
   asyncJsonHandler as handler,
   createDb,
-  ROUTES,
   EVENTS as AUTH_EVENTS,
   LowDBUserDao,
 } from "@stanlemon/server-with-auth";
@@ -37,6 +36,7 @@ export const app = createAppServer({
     name: Joi.string().required().label("Name"),
     email: Joi.string().email().required().label("Email"),
   }),
+  jwtExpireInMinutes: 3, // Customize the jwt session window, default is 10
 });
 
 app.get(

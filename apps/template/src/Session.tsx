@@ -32,9 +32,14 @@ export default function Session({ children }: { children: React.ReactNode }) {
     token: null,
     user: null,
   });
-  const [cookies, setCookie] = useCookies(["session_token"]);
+  const [cookies, setCookie, removeCookie] = useCookies(["session_token"]);
 
   useEffect(() => {
+    const clearSession = () => {
+      removeCookie("session_token", { path: "/" });
+      setSession({ token: null, user: null });
+    };
+
     const checkSession = () => {
       fetch("/auth/session", {
         headers: {
@@ -49,18 +54,18 @@ export default function Session({ children }: { children: React.ReactNode }) {
           setInitialized(true);
 
           if (!response.ok) {
-            throw response.statusText;
+            throw new Error(response.statusText);
           }
           return response;
         })
         .then((response) => response.json())
         .then((session: SessionData) => {
-          console.log("Session token:", session.token);
           setCookie("session_token", session.token, { path: "/" });
           setSession(session);
         })
         .catch((err: Error) => {
           if (err.message === "Unauthorized") {
+            clearSession();
             return;
           }
           setError(err.message);
@@ -69,7 +74,8 @@ export default function Session({ children }: { children: React.ReactNode }) {
 
     checkSession();
 
-    const intervalId = setInterval(checkSession, 10 * 1000);
+    // Refresh the session every 30 seconds
+    const intervalId = setInterval(checkSession, 1000 * 30);
 
     return () => clearInterval(intervalId);
   }, [session?.token, initialized]);

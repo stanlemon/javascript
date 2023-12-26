@@ -24,6 +24,7 @@ export const DEFAULTS = {
   schemas: SCHEMAS,
   dao: new UserDao(),
   eventEmitter: new EventEmitter(),
+  jwtExpireInMinutes: 10,
 };
 
 /**
@@ -38,7 +39,16 @@ export const DEFAULTS = {
  */
 /* eslint-disable max-lines-per-function */
 export default function createAppServer(options) {
-  const { port, webpack, start, secure, schemas, dao, eventEmitter } = {
+  const {
+    port,
+    webpack,
+    start,
+    secure,
+    schemas,
+    dao,
+    eventEmitter,
+    jwtExpireInMinutes,
+  } = {
     ...DEFAULTS,
     ...options,
   };
@@ -60,6 +70,7 @@ export default function createAppServer(options) {
     console.warn("You need to specify a JWT secret!");
   }
 
+  // These secrets will not be stable between restarts
   const cookieSecret = process.env.COOKIE_SECRET || uuid();
   const jwtSecret = process.env.JWT_SECRET || uuid();
 
@@ -82,7 +93,7 @@ export default function createAppServer(options) {
         secretOrKey: jwtSecret,
         // NOTE: Setting options like 'issuer' here must also be set when the token is signed below
         jsonWebTokenOptions: {
-          expiresIn: "120m", // 2 hours
+          expiresIn: `${jwtExpireInMinutes}m`,
         },
       },
       (payload, done) => {
@@ -91,11 +102,11 @@ export default function createAppServer(options) {
     )
   );
 
-  passport.serializeUser((id, done) => {
-    done(null, id);
+  passport.serializeUser((user, done) => {
+    done(null, user);
   });
 
-  passport.deserializeUser((id, done) => {
+  passport.deserializeUser(({ id }, done) => {
     dao
       .getUserById(id)
       .then((user) => {
@@ -123,6 +134,7 @@ export default function createAppServer(options) {
       schemas,
       dao,
       eventEmitter,
+      jwtExpireInMinutes,
     })
   );
 

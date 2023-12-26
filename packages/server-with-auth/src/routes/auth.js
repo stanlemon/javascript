@@ -20,10 +20,17 @@ import { HIDDEN_FIELDS, ROUTES, EVENTS } from "../constants.js";
  * @param {Object.<string, Joi.Schema>} options.schemas Object map of routes to schema for validating route inputs.
  * @param {import("../data/user-dao.js").default} options.dao Dao to use for various user operations
  * @param {EventEmitter} options.eventEmitter  Event emitter that can be used to hook into user operations
+ * @param {number} options.jwtExpireInMinutes Number of minutes before a JWT token expires
  * @returns {Express.Router}
  */
 /* eslint-disable max-lines-per-function */
-export default function authRoutes({ secret, schemas, dao, eventEmitter }) {
+export default function authRoutes({
+  secret,
+  schemas,
+  dao,
+  eventEmitter,
+  jwtExpireInMinutes,
+}) {
   checkUserDao(dao);
   checkSchemas(schemas);
 
@@ -33,8 +40,15 @@ export default function authRoutes({ secret, schemas, dao, eventEmitter }) {
 
   const router = Router();
 
+  const makeJwtToken = (user) => {
+    const token = jwt.sign({ ...user }, secret, {
+      expiresIn: 60 * jwtExpireInMinutes,
+    });
+    return token;
+  };
+
   router.get(ROUTES.SESSION, checkAuth(), async (req, res) => {
-    const userId = req.user;
+    const userId = req.user.id;
 
     if (!userId) {
       res.status(401).json({
@@ -52,7 +66,7 @@ export default function authRoutes({ secret, schemas, dao, eventEmitter }) {
         user: false,
       });
     } else {
-      const token = jwt.sign(user.id, secret);
+      const token = makeJwtToken(user);
       res.status(200).json({ token, user: formatOutput(user, HIDDEN_FIELDS) });
     }
   });
@@ -79,7 +93,7 @@ export default function authRoutes({ secret, schemas, dao, eventEmitter }) {
             last_logged_in: new Date(),
           })
           .then((update) => {
-            const token = jwt.sign(user.id, secret);
+            const token = makeJwtToken(user);
 
             eventEmitter.emit(EVENTS.USER_LOGIN, user);
 
@@ -100,7 +114,7 @@ export default function authRoutes({ secret, schemas, dao, eventEmitter }) {
       console.warn("Logout attempted, but there is no logout function.");
     }
 
-    eventEmitter.emit(EVENTS.USER_LOGOUT, req.user);
+    eventEmitter.emit(EVENTS.USER_LOGOUT, req.user.id);
 
     return res.status(401).json({
       token: false,
@@ -127,7 +141,7 @@ export default function authRoutes({ secret, schemas, dao, eventEmitter }) {
 
     eventEmitter.emit(EVENTS.USER_CREATED, user);
 
-    const token = jwt.sign(user.id, secret);
+    const token = makeJwtToken(user);
     return { token, user: formatOutput(user, HIDDEN_FIELDS) };
   });
 
@@ -160,7 +174,7 @@ export default function authRoutes({ secret, schemas, dao, eventEmitter }) {
   });
 
   router.get(ROUTES.USER, checkAuth(), async (req, res) => {
-    const userId = req.user;
+    const userId = req.user.id;
 
     if (!userId) {
       res.status(401).json({
@@ -186,7 +200,7 @@ export default function authRoutes({ secret, schemas, dao, eventEmitter }) {
     ROUTES.USER,
     checkAuth(),
     schemaHandler(schemas[ROUTES.USER], async (data, req, res) => {
-      const user = await dao.getUserById(req.user);
+      const user = await dao.getUserById(req.user.id);
 
       if (!user) {
         res.status(404).json({
@@ -217,9 +231,9 @@ export default function authRoutes({ secret, schemas, dao, eventEmitter }) {
   );
 
   router.delete(ROUTES.USER, checkAuth(), async (req, res) => {
-    const deleted = await dao.deleteUser(req.user);
+    const deleted = await dao.deleteUser(req.user.id);
 
-    eventEmitter.emit(EVENTS.USER_DELETED, req.user, deleted);
+    eventEmitter.emit(EVENTS.USER_DELETED, req.user.id, deleted);
 
     res.status(200).json({ success: deleted });
   });
@@ -228,7 +242,7 @@ export default function authRoutes({ secret, schemas, dao, eventEmitter }) {
     ROUTES.PASSWORD,
     checkAuth(),
     schemaHandler(schemas[ROUTES.PASSWORD], async (data, req, res) => {
-      const currentUser = await dao.getUserById(req.user);
+      const currentUser = await dao.getUserById(req.user.id);
       const user = await dao.getUserByUsernameAndPassword(
         currentUser.username,
         data.current_password // Reminder: Joi will switch the casing
