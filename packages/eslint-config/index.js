@@ -61,7 +61,7 @@ module.exports = {
         trailingComma: "es5",
       },
     ],
-    "no-unused-vars": "warn",
+    "no-unused-vars": ["warn", { ignoreRestSiblings: true, args: "none" }],
     "@typescript-eslint/no-unused-vars": "warn",
   },
   overrides: [

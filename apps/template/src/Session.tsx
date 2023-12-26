@@ -35,32 +35,43 @@ export default function Session({ children }: { children: React.ReactNode }) {
   const [cookies, setCookie] = useCookies(["session_token"]);
 
   useEffect(() => {
-    fetch("/auth/session", {
-      headers: {
-        Authorization: `Bearer ${session.token || cookies.session_token || ""}`,
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-    })
-      .then((response) => {
-        setInitialized(true);
+    const checkSession = () => {
+      fetch("/auth/session", {
+        headers: {
+          Authorization: `Bearer ${
+            session.token || cookies.session_token || ""
+          }`,
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      })
+        .then((response) => {
+          setInitialized(true);
 
-        if (!response.ok) {
-          throw response.statusText;
-        }
-        return response;
-      })
-      .then((response) => response.json())
-      .then((session: SessionData) => {
-        setCookie("session_token", session.token, { path: "/" });
-        setSession(session);
-      })
-      .catch((err: Error) => {
-        if (err.message === "Unauthorized") {
-          return;
-        }
-        setError(err.message);
-      });
+          if (!response.ok) {
+            throw response.statusText;
+          }
+          return response;
+        })
+        .then((response) => response.json())
+        .then((session: SessionData) => {
+          console.log("Session token:", session.token);
+          setCookie("session_token", session.token, { path: "/" });
+          setSession(session);
+        })
+        .catch((err: Error) => {
+          if (err.message === "Unauthorized") {
+            return;
+          }
+          setError(err.message);
+        });
+    };
+
+    checkSession();
+
+    const intervalId = setInterval(checkSession, 10 * 1000);
+
+    return () => clearInterval(intervalId);
   }, [session?.token, initialized]);
 
   if (error) {
