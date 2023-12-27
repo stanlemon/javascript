@@ -1,4 +1,5 @@
 {
+  "type": "module",
   "engines": {
     "node": ">=18.0"
   },
@@ -12,8 +13,9 @@
   "scripts": {
     "prepare": "husky install",
     "lint": "eslint --ext .js,.ts,.tsx --ignore-path .gitignore .",
-    "test": "npm run test --workspaces --if-present",
-    "test:coverage": "npm run test:coverage --workspaces --if-present",
+    "test": "npm run build && jest --detectOpenHandles --silent",
+    "test:watch": "npm run build && jest --silent -w",
+    "test:coverage": "npm run build && jest --silent --coverage",
     "build": "npm run build --workspaces --if-present",
     "publish": "node publish.js"
   }

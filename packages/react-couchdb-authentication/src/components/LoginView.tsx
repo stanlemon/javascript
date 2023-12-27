@@ -33,7 +33,7 @@ export function LoginView(props: LoginViewProps): React.ReactElement {
           type="text"
           value={props.username}
           onChange={props.setUsername}
-          onKeyPress={hitEnter}
+          onKeyDown={hitEnter}
         />
       </p>
       <p>
@@ -43,7 +43,7 @@ export function LoginView(props: LoginViewProps): React.ReactElement {
           type="password"
           value={props.password}
           onChange={props.setPassword}
-          onKeyPress={hitEnter}
+          onKeyDown={hitEnter}
         />
       </p>
 

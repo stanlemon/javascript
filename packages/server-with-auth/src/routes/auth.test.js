@@ -264,7 +264,7 @@ describe("/auth", () => {
     const username = "test" + uuidv4();
     const password1 = "FirstP@ssw0rd";
     const password2 = "SecondP@ssw0rd";
-    const data = { password: password2, currentPassword: password1 };
+    const data = { password: password2, current_password: password1 };
 
     const { token } = await signupAndLogin(username, password1);
 

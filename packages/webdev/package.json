@@ -15,7 +15,7 @@
   },
   "type": "commonjs",
   "scripts": {
-    "test": "WEBDEV_ENTRY=./webpack.test.tsx webpack build",
+    "build": "WEBDEV_ENTRY=./example.tsx webpack build",
     "lint": "eslint --ext js,jsx,ts,tsx ./",
     "lint:format": "eslint --fix --ext js,jsx,ts,tsx ./"
   },

@@ -1,7 +1,8 @@
 import "@testing-library/jest-dom";
 import { render, screen, fireEvent, act } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import App, { ItemData } from "./App";
+import App from "./App";
+import { ItemData } from "./views";
 import { SessionContext } from "./Session";
 
 const output = [

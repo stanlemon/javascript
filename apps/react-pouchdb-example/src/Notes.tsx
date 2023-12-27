@@ -82,7 +82,7 @@ export class Notes extends React.Component<Props, State> {
             <textarea
               className="textarea"
               onChange={this.updateNote}
-              onKeyPress={this.addNoteWithEnter}
+              onKeyDown={this.addNoteWithEnter}
               value={this.state.note}
             />
           </div>

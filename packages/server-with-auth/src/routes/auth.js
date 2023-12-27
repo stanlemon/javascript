@@ -78,17 +78,17 @@ export default function authRoutes({
         return next(err);
       }
       if (!user) {
-        res.status(401).json({
+        return res.status(401).json({
           message: "Incorrect username or password.",
         });
       }
 
-      req.logIn(user, (err) => {
+      return req.logIn(user, (err) => {
         if (err) {
           return next(err);
         }
 
-        dao
+        return dao
           .updateUser(user.id, {
             last_logged_in: new Date(),
           })
@@ -97,7 +97,7 @@ export default function authRoutes({
 
             eventEmitter.emit(EVENTS.USER_LOGIN, user);
 
-            res.json({
+            return res.json({
               token,
               user: formatOutput(update, HIDDEN_FIELDS),
             });
@@ -251,7 +251,7 @@ export default function authRoutes({
       if (!user) {
         res.status(400).json({
           errors: {
-            currentPassword: "Current password is incorrect",
+            current_password: "Current password is incorrect",
           },
         });
         return;

@@ -24,7 +24,7 @@ export const RESET_PASSWORD = Joi.object({
 
 export const CHANGE_PASSWORD = Joi.object({
   password: PASSWORD,
-  currentPassword: PASSWORD,
+  current_password: PASSWORD.label("Current Password"),
 });
 
 export const USER = Joi.object({});

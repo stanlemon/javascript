@@ -30,7 +30,7 @@ export function Input({
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     onChange(e.currentTarget.value);
   };
-  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>): void => {
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>): void => {
     if (e.key === "Enter") {
       e.preventDefault();
       onEnter();
@@ -38,19 +38,19 @@ export function Input({
   };
 
   return (
-    <>
+    <div style={{ marginBottom: ".75em" }}>
       {label && <label htmlFor={name}>{label}</label>}
       <input
         type={type}
         id={name}
         onChange={handleChange}
-        onKeyPress={handleKeyPress}
+        onKeyDown={handleKeyDown}
         placeholder={placeholder}
         value={value}
         {...attrs}
       />
-      {error && <div>{error}</div>}
-    </>
+      {error && <div style={{ color: "red" }}>{error}</div>}
+    </div>
   );
 }
 

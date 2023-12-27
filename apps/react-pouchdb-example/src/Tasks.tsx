@@ -100,7 +100,7 @@ export class Tasks extends React.Component<Props, State> {
               className="input"
               type="text"
               onChange={this.updateTask}
-              onKeyPress={this.addTaskWithEnter}
+              onKeyDown={this.addTaskWithEnter}
               value={this.state.name}
             />
           </div>
