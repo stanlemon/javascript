@@ -1,7 +1,3 @@
-/**
- * @jest-environment jsdom
- */
-/* eslint-disable max-lines-per-function */
 import PouchDB from "pouchdb";
 import {
   fireEvent,

@@ -32,7 +32,6 @@ export const DEFAULT_PASSWORD_DATA: PasswordData = {
   new_password2: "",
 };
 
-// eslint-disable-next-line max-lines-per-function
 export function Account() {
   const { session } = useContext(SessionContext);
   const [profile, setProfile] = useState<ProfileData>({

@@ -27,7 +27,6 @@ export default function schemaHandler(schema, fn) {
         },
       });
 
-      // eslint-disable-next-line require-atomic-updates
       req.body = value;
 
       // Wrap all of these in our async handler

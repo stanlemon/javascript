@@ -1,4 +1,3 @@
-/* eslint-disable max-lines-per-function */
 import React from "react";
 import PouchDB from "pouchdb";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";

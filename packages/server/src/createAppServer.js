@@ -68,6 +68,7 @@ export default function createAppServer(options) {
   });
 
   if (useWebpack) {
+    // eslint-disable-next-line no-console
     console.info("Proxying webpack dev server");
 
     app.get(
@@ -101,8 +102,9 @@ export default function createAppServer(options) {
   app.start = () => {
     const server = app.listen(port);
 
-    /* eslint-disable no-console */
+    // eslint-disable-next-line no-console
     console.info("Starting in %s mode on port %s", NODE_ENV, port);
+    // eslint-disable-next-line no-console
     console.info(
       "Listening at http://%s:%s",
       server.address().address === "::"

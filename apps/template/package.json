@@ -18,7 +18,7 @@
     "test:watch": "jest -w",
     "test:coverage": "jest --coverage",
     "lint": "eslint --ext js,jsx,ts,tsx ./src/",
-    "lint:format": "eslint --fix --ext js,jsx,ts,tsx ./src/"
+    "lint:fix": "eslint --fix --ext js,jsx,ts,tsx ./src/"
   },
   "dependencies": {
     "@stanlemon/server-with-auth": "*",

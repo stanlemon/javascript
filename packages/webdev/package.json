@@ -17,7 +17,7 @@
   "scripts": {
     "build": "WEBDEV_ENTRY=./example.tsx webpack build",
     "lint": "eslint --ext js,jsx,ts,tsx ./",
-    "lint:format": "eslint --fix --ext js,jsx,ts,tsx ./"
+    "lint:fix": "eslint --fix --ext js,jsx,ts,tsx ./"
   },
   "dependencies": {
     "@babel/cli": "^7.23.4",

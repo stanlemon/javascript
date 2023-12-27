@@ -1,6 +1,5 @@
 import merge from "./merge";
 
-//eslint-disable-next-line max-lines-per-function
 test("merge", () => {
   const a = {
     one: "one1",

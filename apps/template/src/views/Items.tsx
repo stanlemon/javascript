@@ -8,7 +8,6 @@ export type ItemData = {
   item: string;
 };
 
-// eslint-disable-next-line max-lines-per-function
 export function Items() {
   const { session } = useContext(SessionContext);
   const [, setError] = useState<string | boolean>(false);

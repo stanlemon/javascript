@@ -9,7 +9,7 @@ import { fileURLToPath } from "url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-// eslint-disable-next-line no-unused-expressions
+/* eslint no-console: off */
 yargs(process.argv.slice(2))
   .scriptName("lemon")
   .usage("$0 <cmd> [args]")

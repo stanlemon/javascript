@@ -3,7 +3,6 @@ import { FormErrors } from "../App";
 import { Input, ErrorMessage, Spacer } from "../components/";
 import { SessionData, UserData, SessionContext } from "../Session";
 
-// eslint-disable-next-line max-lines-per-function
 export function SignUp() {
   const [error, setError] = useState<string | boolean>(false);
   const [errors, setErrors] = useState<Record<string, string>>({});

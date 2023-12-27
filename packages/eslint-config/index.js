@@ -1,3 +1,12 @@
+const fs = require("fs");
+
+// A package can define a custom tsconfig just for eslint, and if they do we should use it
+const tsconfigPath = fs.existsSync("./tsconfig.eslint.json")
+  ? "./tsconfig.eslint.json"
+  : "./tsconfig.json";
+// Does the desired tsconfig exist?
+const tsconfigExists = fs.existsSync(tsconfigPath);
+
 module.exports = {
   env: {
     es2022: true,
@@ -5,8 +14,10 @@ module.exports = {
     node: true,
     jest: true,
   },
+  ...(tsconfigExists && { parser: "@typescript-eslint/parser" }),
   parserOptions: {
     sourceType: "module",
+    ...(tsconfigExists && { project: tsconfigPath }),
   },
   extends: [
     "eslint:recommended",
@@ -18,7 +29,7 @@ module.exports = {
     "typescript",
     "typescript/react",
   ],
-  plugins: ["import"],
+  plugins: ["import", ...(tsconfigExists ? ["deprecation"] : [])],
   settings: {
     react: {
       version: "detect",
@@ -66,6 +77,7 @@ module.exports = {
       "warn",
       { ignoreRestSiblings: true, args: "none" },
     ],
+    ...(tsconfigExists && { "deprecation/deprecation": "warn" }),
   },
   overrides: [
     {
@@ -79,12 +91,12 @@ module.exports = {
       },
     },
     {
-      files: ["**/*.jsx", "**/.tsx"],
+      files: ["**/*.jsx", "**/*.tsx"],
       rules: {
         "max-lines-per-function": [
           "error",
           {
-            max: 160,
+            max: 160, // Twice as long as normal
             skipBlankLines: true,
             skipComments: true,
           },
@@ -92,10 +104,11 @@ module.exports = {
       },
     },
     {
-      files: ["**/*.test.*"],
+      files: ["**/*.test.js", "**/*.test.ts", "**/*.test.tsx"],
       rules: {
         "max-lines-per-function": "off",
       },
     },
   ],
+  ignorePatterns: [".eslintrc.js", "dist/", "node_modules/"],
 };

@@ -13,7 +13,7 @@
   "scripts": {
     "start": "NODE_ENV=development nodemon --ignore db.json ./app.js",
     "lint": "eslint --ext js,jsx,ts,tsx ./",
-    "lint:format": "eslint --fix --ext js,jsx,ts,tsx ./",
+    "lint:fix": "eslint --fix --ext js,jsx,ts,tsx ./",
     "test": "jest --detectOpenHandles",
     "test:coverage": "jest --detectOpenHandles --coverage",
     "test:watch": "jest --detectOpenHandles --watch"

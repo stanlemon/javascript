@@ -13,7 +13,7 @@ package.json
     "build": "NODE_ENV=production webpack",
     "test": "jest",
     "lint": "eslint --ext js,jsx,ts,tsx ./src/",
-    "lint:format": "eslint --fix --ext js,jsx,ts,tsx ./src/"
+    "lint:fix": "eslint --fix --ext js,jsx,ts,tsx ./src/"
   },
   "dependencies": {
     "@stanlemon/webdev": "*"

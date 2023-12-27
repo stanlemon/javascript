@@ -1,3 +1,4 @@
+/* eslint no-console: off */
 const { readdirSync } = require("fs");
 const { spawnSync } = require("child_process");
 const path = require("path");

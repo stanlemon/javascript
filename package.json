@@ -13,10 +13,13 @@
   "scripts": {
     "prepare": "husky install",
     "lint": "eslint --ext .js,.ts,.tsx --ignore-path .gitignore .",
+    "lint:fix": "eslint --fix --ext .js,.ts,.tsx --ignore-path .gitignore .",
     "test": "npm run build && jest --detectOpenHandles --silent",
     "test:watch": "npm run build && jest --silent -w",
     "test:coverage": "npm run build && jest --silent --coverage",
     "build": "npm run build --workspaces --if-present",
-    "publish": "node publish.js"
+    "publish": "node publish.js",
+    "workspaces:lint": "npm run lint --workspaces --if-present",
+    "workspaces:test": "npm run test --workspaces --if-present"
   }
 }

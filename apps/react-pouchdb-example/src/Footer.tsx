@@ -1,4 +1,6 @@
-export function Footer(): JSX.Element {
+import { ReactElement } from "react";
+
+export function Footer(): ReactElement {
   return (
     <footer className="footer">
       <div className="content has-text-centered">

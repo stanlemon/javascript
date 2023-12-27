@@ -4,7 +4,7 @@ export function Row({
   as = "div",
   children,
 }: {
-  as?: keyof JSX.IntrinsicElements;
+  as?: keyof React.JSX.IntrinsicElements;
   children?: React.ReactNode;
 }) {
   return React.createElement(

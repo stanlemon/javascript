@@ -23,7 +23,6 @@ export default class UserDao {
    * @param {string|int} userId Identifier to get user by
    * @returns {Promise<User|boolean>} User object or false
    */
-  // eslint-disable-next-line no-unused-vars
   getUserById(userId) {
     this.#error();
   }
@@ -33,7 +32,6 @@ export default class UserDao {
    * @param {string} username Username
    * @returns {Promise<User|boolean>} User object or false
    */
-  // eslint-disable-next-line no-unused-vars
   getUserByUsername(username) {
     this.#error();
   }
@@ -44,7 +42,6 @@ export default class UserDao {
    * @param {string} password Password
    * @returns {Promise<User|boolean>} User object or false
    */
-  // eslint-disable-next-line no-unused-vars
   getUserByUsernameAndPassword(username, password) {
     this.#error();
   }
@@ -54,7 +51,6 @@ export default class UserDao {
    * @param {string} token User verification token
    * @returns {Promise<User|boolean>} User object or false
    */
-  // eslint-disable-next-line no-unused-vars
   getUserByVerificationToken(token) {
     this.#error();
   }
@@ -64,7 +60,6 @@ export default class UserDao {
    * @param {User} user User
    * @returns {Promise<User|boolean>} User object or false
    */
-  // eslint-disable-next-line no-unused-vars
   createUser(user) {
     this.#error();
   }
@@ -75,7 +70,6 @@ export default class UserDao {
    * @param {User} user User object
    * @returns {Promise<User>} User object
    */
-  // eslint-disable-next-line no-unused-vars
   updateUser(userId, user) {
     this.#error();
   }
