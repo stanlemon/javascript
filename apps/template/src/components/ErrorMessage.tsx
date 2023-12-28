@@ -1,7 +1,11 @@
-export function ErrorMessage({ error }: { error: string | boolean }) {
+export function ErrorMessage({
+  error,
+}: {
+  error: string | boolean | undefined | null;
+}) {
   if (error) {
     return (
-      <p>
+      <p style={{ color: "red" }}>
         <strong>An error has occurred:</strong> {error}
       </p>
     );

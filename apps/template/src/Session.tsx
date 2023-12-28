@@ -34,44 +34,42 @@ export default function Session({ children }: { children: React.ReactNode }) {
   });
   const [cookies, setCookie, removeCookie] = useCookies(["session_token"]);
 
-  useEffect(() => {
-    const clearSession = () => {
-      removeCookie("session_token", { path: "/" });
-      setSession({ token: null, user: null });
-    };
+  const clearSession = () => {
+    removeCookie("session_token", { path: "/" });
+    setSession({ token: null, user: null });
+  };
 
-    const checkSession = () => {
-      fetch("/auth/session", {
-        headers: {
-          Authorization: `Bearer ${
-            session.token || cookies.session_token || ""
-          }`,
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
+  const checkSession = () => {
+    fetch("/auth/session", {
+      headers: {
+        Authorization: `Bearer ${session.token || cookies.session_token || ""}`,
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => {
+        setInitialized(true);
+
+        if (!response.ok) {
+          throw new Error(response.statusText);
+        }
+        return response;
       })
-        .then((response) => {
-          setInitialized(true);
+      .then((response) => response.json())
+      .then((session: SessionData) => {
+        setCookie("session_token", session.token, { path: "/" });
+        setSession(session);
+      })
+      .catch((err: Error) => {
+        if (err.message === "Unauthorized") {
+          clearSession();
+          return;
+        }
+        setError(err.message);
+      });
+  };
 
-          if (!response.ok) {
-            throw new Error(response.statusText);
-          }
-          return response;
-        })
-        .then((response) => response.json())
-        .then((session: SessionData) => {
-          setCookie("session_token", session.token, { path: "/" });
-          setSession(session);
-        })
-        .catch((err: Error) => {
-          if (err.message === "Unauthorized") {
-            clearSession();
-            return;
-          }
-          setError(err.message);
-        });
-    };
-
+  useEffect(() => {
     checkSession();
 
     // Refresh the session every 30 seconds
@@ -92,7 +90,10 @@ export default function Session({ children }: { children: React.ReactNode }) {
     );
   }
 
-  const contextValue = { session, setSession };
+  const contextValue = {
+    session,
+    setSession,
+  };
 
   return (
     <SessionContext.Provider value={contextValue}>

@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { SessionContext } from "../Session";
+import { SessionContext, UserData } from "../Session";
 import { Header, Input, Spacer } from "../components";
 import fetchApi, { ApiError } from "../helpers/fetchApi";
 
@@ -33,7 +33,7 @@ export const DEFAULT_PASSWORD_DATA: PasswordData = {
 };
 
 export function Account() {
-  const { session } = useContext(SessionContext);
+  const { session, setSession } = useContext(SessionContext);
   const [profile, setProfile] = useState<ProfileData>({
     ...DEFAULT_PROFILE_DATA,
     name: session.user?.name ?? "",
@@ -55,6 +55,10 @@ export function Account() {
     )
       .then((user) => {
         setProfile(user);
+        setSession({
+          ...session,
+          user: { ...session.user, ...user } as UserData,
+        });
         setErrors({});
       })
       .catch((err: ApiError) => {
@@ -97,7 +101,9 @@ export function Account() {
 
   return (
     <>
-      <Header>Account for "{session.user?.username ?? ""}"</Header>
+      <Header>
+        Account for "{session.user?.name ?? session.user?.username ?? ""}"
+      </Header>
       <Header level={2}>Profile</Header>
       <Input
         name="name"
