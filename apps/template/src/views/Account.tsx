@@ -11,22 +11,27 @@ type Errors = {
   repeat_password?: string;
 };
 
-export type ProfileData = {
+export type ProfileForm = {
   name: string;
   email: string;
 };
-export const DEFAULT_PROFILE_DATA: ProfileData = {
+export const DEFAULT_PROFILE_DATA: ProfileForm = {
   name: "",
   email: "",
 };
 
-export type PasswordData = {
+export type PasswordForm = {
   current_password: string;
   new_password1: string;
   new_password2: string;
 };
 
-export const DEFAULT_PASSWORD_DATA: PasswordData = {
+export type PasswordRequest = {
+  current_password: string;
+  password: string;
+};
+
+export const DEFAULT_PASSWORD_DATA: PasswordForm = {
   current_password: "",
   new_password1: "",
   new_password2: "",
@@ -34,20 +39,20 @@ export const DEFAULT_PASSWORD_DATA: PasswordData = {
 
 export function Account() {
   const { session, setSession } = useContext(SessionContext);
-  const [profile, setProfile] = useState<ProfileData>({
+  const [profile, setProfile] = useState<ProfileForm>({
     ...DEFAULT_PROFILE_DATA,
     name: session.user?.name ?? "",
     email: session.user?.email ?? "",
   });
-  const [password, setPassword] = useState<PasswordData>(DEFAULT_PASSWORD_DATA);
+  const [password, setPassword] = useState<PasswordForm>(DEFAULT_PASSWORD_DATA);
   const [errors, setErrors] = useState<Errors>({});
 
-  const storeProfile = (key: keyof ProfileData, value: string) => {
+  const storeProfile = (key: keyof ProfileForm, value: string) => {
     setProfile({ ...profile, [key]: value });
   };
   const saveProfile = () => {
     setErrors({});
-    fetchApi<ProfileData, ProfileData>(
+    fetchApi<ProfileForm, ProfileForm>(
       "/auth/user",
       session?.token || "",
       "put",
@@ -68,7 +73,7 @@ export function Account() {
       });
   };
 
-  const storePassword = (key: keyof PasswordData, value: string) => {
+  const storePassword = (key: keyof PasswordForm, value: string) => {
     setPassword({ ...password, [key]: value });
   };
   const savePassword = () => {
@@ -79,7 +84,7 @@ export function Account() {
       return;
     }
 
-    fetchApi<PasswordData, { current_password: string; password: string }>(
+    fetchApi<PasswordForm, PasswordRequest>(
       "/auth/password",
       session?.token || "",
       "post",

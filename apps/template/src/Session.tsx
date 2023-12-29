@@ -1,4 +1,4 @@
-import React, { useState, useEffect, createContext } from "react";
+import React, { useState, useEffect, useContext, createContext } from "react";
 import { useCookies } from "react-cookie";
 import { ErrorMessage } from "./components/";
 
@@ -26,12 +26,17 @@ export type UserData = {
 };
 
 export default function Session({ children }: { children: React.ReactNode }) {
+  return (
+    <SessionAware>
+      <SessionLoader>{children}</SessionLoader>
+    </SessionAware>
+  );
+}
+
+export function SessionLoader({ children }: { children: React.ReactNode }) {
   const [initialized, setInitialized] = useState<boolean>(false);
   const [error, setError] = useState<string | boolean>(false);
-  const [session, setSession] = useState<SessionData>({
-    token: null,
-    user: null,
-  });
+  const { session, setSession } = useContext(SessionContext);
   const [cookies, setCookie, removeCookie] = useCookies(["session_token"]);
 
   const clearSession = () => {
@@ -90,13 +95,22 @@ export default function Session({ children }: { children: React.ReactNode }) {
     );
   }
 
-  const contextValue = {
-    session,
-    setSession,
-  };
+  return children;
+}
+
+export function SessionAware({ children }: { children: React.ReactNode }) {
+  const [session, setSession] = useState<SessionData>({
+    token: null,
+    user: null,
+  });
 
   return (
-    <SessionContext.Provider value={contextValue}>
+    <SessionContext.Provider
+      value={{
+        session,
+        setSession,
+      }}
+    >
       {children}
     </SessionContext.Provider>
   );

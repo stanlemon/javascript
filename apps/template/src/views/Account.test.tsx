@@ -1,31 +1,26 @@
 import "@testing-library/jest-dom";
-import {
-  act,
-  render,
-  screen,
-  fireEvent,
-  waitFor,
-} from "@testing-library/react";
+import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import Account from "./Account";
-import { SessionContext, SessionData } from "../Session";
+import Account, { PasswordForm, PasswordRequest, ProfileForm } from "./Account";
+import { SessionAware } from "../Session";
+import fetchApi from "../helpers/fetchApi";
 
-import { useState } from "react";
-
-jest.mock("../helpers/fetchApi", () => {
-  return {
-    __esModule: true,
-    default: jest.fn(() => {
-      return Promise.resolve({
-        name: "Jean Luc Picard",
-        email: "jeanluc@starfleet.com",
-      });
-    }),
-  };
-});
+jest.mock("../helpers/fetchApi");
 
 describe("<Account/>", () => {
-  it("works", async () => {
+  beforeEach(() => {
+    jest.resetAllMocks();
+  });
+
+  it("profile updated", async () => {
+    const mockedFetchApi = fetchApi as jest.MockedFunction<
+      typeof fetchApi<ProfileForm, ProfileForm>
+    >;
+    mockedFetchApi.mockResolvedValue({
+      name: "Jean Luc Picard",
+      email: "jeanluc@starfleet.com",
+    });
+
     render(
       <SessionAware>
         <Account />
@@ -46,22 +41,47 @@ describe("<Account/>", () => {
       ).toBeInTheDocument();
     });
   });
-});
 
-function SessionAware({ children }: { children: React.ReactNode }) {
-  const [session, setSession] = useState<SessionData>({
-    token: null,
-    user: null,
+  it("password changed", async () => {
+    const mockedFetchApi = fetchApi as jest.MockedFunction<
+      typeof fetchApi<PasswordForm, PasswordRequest>
+    >;
+    mockedFetchApi.mockResolvedValue(null);
+
+    render(
+      <SessionAware>
+        <Account />
+      </SessionAware>
+    );
+
+    expect(screen.getByText('Account for ""')).toBeInTheDocument();
+    expect(screen.getByText("Profile")).toBeInTheDocument();
+    expect(screen.getByText("Password")).toBeInTheDocument();
+
+    const current_password = "P@ssw0rd1";
+    const password = "P@ssw0rd2";
+
+    await userEvent.type(
+      screen.getByLabelText("Current Password"),
+      current_password
+    );
+
+    await userEvent.type(screen.getByLabelText("New Password"), password);
+
+    await userEvent.type(
+      screen.getByLabelText("Repeat New Password"),
+      password
+    );
+
+    fireEvent.click(screen.getByText("Update", { selector: "button" }));
+
+    await waitFor(() => {
+      expect(mockedFetchApi.mock.calls).toHaveLength(1);
+    });
+
+    expect(mockedFetchApi.mock.calls[0][3]).toEqual({
+      current_password,
+      password,
+    });
   });
-
-  return (
-    <SessionContext.Provider
-      value={{
-        session,
-        setSession,
-      }}
-    >
-      {children}
-    </SessionContext.Provider>
-  );
-}
+});
