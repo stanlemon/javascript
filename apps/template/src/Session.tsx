@@ -65,13 +65,7 @@ export function SessionLoader({ children }: { children: React.ReactNode }) {
     error,
     setError,
   } = useContext(SessionContext);
-  const [cookies, setCookie, removeCookie] = useCookies(["session_token"]);
-
-  const clearSession = () => {
-    removeCookie("session_token", { path: "/" });
-    setToken(null);
-    setUser(null);
-  };
+  const [cookies, setCookie] = useCookies(["session_token"]);
 
   const checkSession = () => {
     fetchApi<SessionData, null>("/auth/session", token || cookies.session_token)

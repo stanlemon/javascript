@@ -13,7 +13,7 @@ export const DEFAULT_PROFILE_DATA: ProfileForm = {
 };
 
 export function Profile() {
-  const { token, user, setUser } = useContext(SessionContext);
+  const { token, user, setUser, setMessage } = useContext(SessionContext);
   const [errors, setErrors] = useState<Partial<ProfileForm>>({});
   const [profile, setProfile] = useState<ProfileForm>({
     ...DEFAULT_PROFILE_DATA,
@@ -32,6 +32,7 @@ export function Profile() {
         setProfile(newProfile);
         setUser(newProfile);
         setErrors({});
+        setMessage("Profile saved.");
       })
       .catch((err: ApiError) => {
         if (err.code === 400) {

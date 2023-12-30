@@ -4,3 +4,4 @@ export * from "./Items";
 export * from "./Account";
 export * from "./Password";
 export * from "./Profile";
+export * from "./Verify";

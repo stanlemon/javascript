@@ -1,10 +1,17 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { useCookies } from "react-cookie";
 import { Switch, Route, Link } from "wouter";
 import "./App.less";
 import { SessionContext } from "./Session";
-import { Column, ErrorMessage, Header, Row, Spacer } from "./components/";
-import { Login, SignUp, Items, Account } from "./views/";
+import {
+  Column,
+  ErrorMessage,
+  SuccessMessage,
+  Header,
+  Row,
+  Spacer,
+} from "./components/";
+import { Login, SignUp, Verify, Items, Account } from "./views/";
 
 export type ErrorResponse = {
   message: string;
@@ -15,7 +22,8 @@ export type FormErrors = {
 };
 
 export default function App() {
-  const { error, user, setUser, setToken } = useContext(SessionContext);
+  const { error, message, user, setUser, setToken, setMessage } =
+    useContext(SessionContext);
   const [, , removeCookie] = useCookies(["session_token"]);
 
   const logout = () => {
@@ -24,22 +32,41 @@ export default function App() {
     setUser(null);
   };
 
+  useEffect(() => {
+    // After 10 seconds, clear out any messages
+    const timer = setTimeout(() => {
+      setMessage(null);
+    }, 1000 * 10);
+
+    return () => clearTimeout(timer);
+  });
+
   return (
     <>
       <Header />
       <ErrorMessage error={error} />
+      <SuccessMessage message={message} />
       {!user && (
-        <Row>
-          <Column>
-            <h2>Login</h2>
-            <Login />
-          </Column>
-          <Column />
-          <Column>
-            <h2>Sign Up</h2>
-            <SignUp />
-          </Column>
-        </Row>
+        <Switch>
+          <Route path="/">
+            <Row>
+              <Column>
+                <h2>Login</h2>
+                <Login />
+              </Column>
+              <Column />
+              <Column>
+                <h2>Sign Up</h2>
+                <SignUp />
+              </Column>
+            </Row>
+          </Route>
+          <Route path="/verify/:token">
+            {({ token: verificationToken }: { token: string }) => (
+              <Verify token={verificationToken} />
+            )}
+          </Route>
+        </Switch>
       )}
       {user && (
         <>
