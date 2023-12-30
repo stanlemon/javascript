@@ -4,12 +4,11 @@ import {
   createSchemas,
   asyncJsonHandler as handler,
   createDb,
-  EVENTS as AUTH_EVENTS,
+  EVENTS,
   LowDBUserDao,
 } from "@stanlemon/server-with-auth";
 import Joi from "joi";
 import { v4 as uuid } from "uuid";
-import { omit } from "lodash-es";
 
 export const db = createDb();
 const dao = new LowDBUserDao(db);
@@ -17,15 +16,10 @@ const dao = new LowDBUserDao(db);
 db.data.items = db.data.items || [];
 
 const eventEmitter = new EventEmitter();
-Object.values(AUTH_EVENTS).forEach((event) => {
-  eventEmitter.on(event, (user) => {
-    // eslint-disable-next-line no-console
-    console.info(
-      `Event = ${event}, User = ${JSON.stringify(
-        omit(user, ["password", "verification_token"])
-      )}`
-    );
-  });
+eventEmitter.on(EVENTS.USER_CREATED, (user) => {
+  // eslint-disable-next-line no-console
+  console.log("New user signed up!", user);
+  // Now send an email so they can verify!
 });
 
 export const app = createAppServer({

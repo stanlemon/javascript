@@ -95,7 +95,7 @@ export default function authRoutes({
           .then((update) => {
             const token = makeJwtToken(user);
 
-            eventEmitter.emit(EVENTS.USER_LOGIN, user);
+            eventEmitter.emit(EVENTS.USER_LOGIN, omit(user, ["password"]));
 
             return res.json({
               token,
@@ -139,7 +139,7 @@ export default function authRoutes({
       };
     }
 
-    eventEmitter.emit(EVENTS.USER_CREATED, user);
+    eventEmitter.emit(EVENTS.USER_CREATED, omit(user, ["password"]));
 
     const token = makeJwtToken(user);
     return { token, user: formatOutput(user, HIDDEN_FIELDS) };
@@ -168,7 +168,7 @@ export default function authRoutes({
 
     await dao.updateUser(user.id, { verified_date: new Date() });
 
-    eventEmitter.emit(EVENTS.USER_VERIFIED, user);
+    eventEmitter.emit(EVENTS.USER_VERIFIED, omit(user, ["password"]));
 
     return res.send({ success: true, message: "User verified!" });
   });
@@ -224,7 +224,7 @@ export default function authRoutes({
 
       const updated = await dao.updateUser(user.id, input);
 
-      eventEmitter.emit(EVENTS.USER_UPDATED, user);
+      eventEmitter.emit(EVENTS.USER_UPDATED, omit(user, ["password"]));
 
       res.status(200).json(formatOutput(updated, HIDDEN_FIELDS));
     })
@@ -262,7 +262,7 @@ export default function authRoutes({
       });
 
       if (success) {
-        eventEmitter.emit(EVENTS.USER_PASSWORD, data.username);
+        eventEmitter.emit(EVENTS.USER_PASSWORD, omit(user, ["password"]));
       }
 
       return { success: success };
@@ -273,7 +273,9 @@ export default function authRoutes({
   router.get(
     ROUTES.RESET,
     schemaHandler(schemas[ROUTES.RESET], async (data) => {
-      eventEmitter.emit(EVENTS.USER_RESET_REQUESTED, data.username);
+      const user = await dao.getUserByUsername(data.username);
+
+      eventEmitter.emit(EVENTS.USER_RESET_REQUESTED, omit(user, ["password"]));
 
       return { success: true };
     })
@@ -283,7 +285,9 @@ export default function authRoutes({
   router.post(
     ROUTES.RESET,
     schemaHandler(schemas[ROUTES.RESET], async (data) => {
-      eventEmitter.emit(EVENTS.USER_RESET_COMPLETED, data.username);
+      const user = await dao.getUserByUsername(data.username);
+
+      eventEmitter.emit(EVENTS.USER_RESET_COMPLETED, omit(user, ["password"]));
 
       return { success: true };
     })
