@@ -4,32 +4,40 @@ export function fetchApi<T, P>(
   method = "get",
   data?: P
 ): Promise<T> {
-  return fetch(url, {
-    method: method,
-    headers: {
-      Authorization: `Bearer ${token ?? ""}`,
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
-  })
-    .then((response) =>
-      response.text().then((body) => ({
-        ok: response.ok,
-        status: response.status,
-        statusText: response.statusText,
-        body,
-      }))
-    )
-    .then(({ ok, status, statusText, body }) => {
-      if (!ok) {
-        throw new ApiError(status, statusText, quietJSONParse(body));
-      }
+  return (
+    fetch(url, {
+      method: method,
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        // Only send the authorization header if we have a bearer token
+        ...(token ? { Authorization: `Bearer ${token ?? ""}` } : {}),
+      },
+      body: JSON.stringify(data),
+    })
+      // This allows us to have both the status code and the body
+      .then((response) =>
+        response.text().then((body) => ({
+          ok: response.ok,
+          status: response.status,
+          statusText: response.statusText,
+          body,
+        }))
+      )
+      .then(({ ok, status, statusText, body }) => {
+        if (!ok) {
+          throw new ApiError(status, statusText, quietJSONParse(body));
+        }
 
-      return JSON.parse(body) as T;
-    });
+        return JSON.parse(body) as T;
+      })
+  );
 }
-
+/**
+ * Parse JSON and eat any parse errors.
+ * @param body text
+ * @returns json or null
+ */
 function quietJSONParse<T>(body: string): T | null {
   try {
     return JSON.parse(body);

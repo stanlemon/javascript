@@ -123,7 +123,8 @@ describe("/auth", () => {
       .expect(400)
       .then((res) => {
         expect(res.body).toEqual({
-          error: "Bad Request: A user with this username already exists",
+          success: false,
+          message: "A user with this username already exists.",
         });
       });
   });

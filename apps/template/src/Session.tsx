@@ -36,7 +36,7 @@ export const SessionContext = createContext<SessionContextData>(
   DEFAULT_SESSION_CONTEXT_DATA
 );
 
-type SessionData = {
+export type SessionData = {
   token: string | null;
   user: ProfileData | null;
 };

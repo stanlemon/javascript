@@ -9,7 +9,7 @@ export interface Props
   placeholder?: string;
   onChange?: (value: string) => void;
   onEnter?: () => void;
-  error?: string;
+  error?: string | null | undefined;
 }
 
 export function Input({

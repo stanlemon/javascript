@@ -1,5 +1,12 @@
+import Joi from "joi";
 import asyncJsonHandler from "./asyncJsonHandler.js";
 
+/**
+ *
+ * @param {Joi.Schema} schema
+ * @param {*} fn
+ * @returns
+ */
 export default function schemaHandler(schema, fn) {
   return async (req, res, next) => {
     // Validate the input schema
@@ -32,12 +39,14 @@ export default function schemaHandler(schema, fn) {
       // Wrap all of these in our async handler
       await asyncJsonHandler(fn)(req, res, next);
     } catch (error) {
-      res.status(400).json({
-        errors: Object.assign.apply(
-          null,
-          error.details.map((d) => ({ [d.path]: d.message }))
-        ),
-      });
+      if (error instanceof Joi.ValidationError) {
+        res.status(400).json({
+          errors: Object.assign.apply(
+            null,
+            error.details.map((d) => ({ [d.path]: d.message }))
+          ),
+        });
+      }
     }
   };
 }

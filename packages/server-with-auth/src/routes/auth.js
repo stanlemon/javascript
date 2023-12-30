@@ -3,11 +3,7 @@ import { isEmpty, omit } from "lodash-es";
 import { Router } from "express";
 import passport from "passport";
 import jwt from "jsonwebtoken";
-import {
-  schemaHandler,
-  formatOutput,
-  BadRequestException,
-} from "@stanlemon/server";
+import { schemaHandler, formatOutput } from "@stanlemon/server";
 import checkAuth from "../checkAuth.js";
 import checkUserDao from "../utilities/checkUserDao.js";
 import checkSchemas from "../utilities/checkSchemas.js";
@@ -79,6 +75,7 @@ export default function authRoutes({
       }
       if (!user) {
         return res.status(401).json({
+          success: false,
           message: "Incorrect username or password.",
         });
       }
@@ -122,32 +119,37 @@ export default function authRoutes({
     });
   });
 
-  const signup = schemaHandler(schemas[ROUTES.SIGNUP], async (data) => {
-    const existing = await dao.getUserByUsername(data.username);
+  router.post(
+    ROUTES.SIGNUP,
+    schemaHandler(schemas[ROUTES.SIGNUP], async (data, req, res) => {
+      const existing = await dao.getUserByUsername(data.username);
 
-    if (existing) {
-      throw new BadRequestException("A user with this username already exists");
-    }
+      if (existing) {
+        res.status(400).json({
+          success: false,
+          message: "A user with this username already exists.",
+        });
+        return;
+      }
 
-    const user = await dao.createUser({
-      ...data,
-    });
+      const user = await dao.createUser({
+        ...data,
+      });
 
-    if (isEmpty(user)) {
-      return {
-        message: "An error has occurred",
-      };
-    }
+      if (isEmpty(user)) {
+        res.status(400).json({
+          success: false,
+          message: "An error has occurred",
+        });
+        return;
+      }
 
-    eventEmitter.emit(EVENTS.USER_CREATED, omit(user, ["password"]));
+      eventEmitter.emit(EVENTS.USER_CREATED, omit(user, ["password"]));
 
-    const token = makeJwtToken(user);
-    return { token, user: formatOutput(user, HIDDEN_FIELDS) };
-  });
-
-  router.post(ROUTES.SIGNUP, signup);
-  // Deprecated endpoint /register
-  router.post(ROUTES.REGISTER, signup);
+      const token = makeJwtToken(user);
+      return { token, user: formatOutput(user, HIDDEN_FIELDS) };
+    })
+  );
 
   router.get(ROUTES.VERIFY, async (req, res) => {
     const { token } = req.params;
@@ -204,7 +206,8 @@ export default function authRoutes({
 
       if (!user) {
         res.status(404).json({
-          error: "Not Found",
+          success: false,
+          message: "Not Found",
         });
         return;
       }
@@ -250,6 +253,7 @@ export default function authRoutes({
 
       if (!user) {
         res.status(400).json({
+          success: false,
           errors: {
             current_password: "Current password is incorrect",
           },

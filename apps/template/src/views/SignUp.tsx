@@ -1,7 +1,11 @@
 import { useState, useContext } from "react";
-import { FormErrors } from "../App";
 import { Input, Spacer } from "../components/";
-import { SessionContext, ProfileData } from "../Session";
+import { SessionContext, ProfileData, SessionData } from "../Session";
+import fetchApi, { ApiError } from "../helpers/fetchApi";
+
+export type FormErrors = {
+  errors: Record<string, string>;
+};
 
 export type SignUpForm = {
   name: string;
@@ -23,40 +27,15 @@ export function SignUp() {
 
   const onSubmit = () => {
     setErrors({});
-    fetch("/auth/signup", {
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      method: "POST",
-      body: JSON.stringify(values),
-    })
-      .then((response) =>
-        response.json().then((data: Record<string, unknown>) => ({
-          ok: response.ok,
-          status: response.status,
-          data,
-        }))
-      )
-      .then(
-        ({
-          ok,
-          data,
-        }: {
-          ok: boolean;
-          status: number;
-          data: Record<string, unknown>;
-        }) => {
-          if (ok) {
-            setToken(data.token as string);
-            setUser(data.user as ProfileData);
-          } else {
-            setErrors((data as FormErrors).errors);
-          }
+    fetchApi<SessionData, SignUpForm>("/auth/signup", null, "post", values)
+      .then((session: SessionData) => {
+        setToken(session.token as string);
+        setUser(session.user as ProfileData);
+      })
+      .catch((err: ApiError) => {
+        if (err.message !== "Unauthorized") {
+          setError(err.body.message as string);
         }
-      )
-      .catch((err: Error) => {
-        setError(err.message);
       });
   };
 
@@ -67,7 +46,7 @@ export function SignUp() {
         label="Username"
         value={values.username}
         onChange={(value) => setValues({ ...values, username: value })}
-        error={errors.username}
+        error={errors?.username}
         autoCapitalize="off"
       />
       <Input
@@ -75,7 +54,7 @@ export function SignUp() {
         label="Name"
         value={values.name}
         onChange={(value) => setValues({ ...values, name: value })}
-        error={errors.name}
+        error={errors?.name}
         autoCapitalize="off"
       />
       <Input
@@ -83,7 +62,7 @@ export function SignUp() {
         label="Email"
         value={values.email}
         onChange={(value) => setValues({ ...values, email: value })}
-        error={errors.email}
+        error={errors?.email}
         autoCapitalize="off"
       />
       <Input
@@ -92,7 +71,7 @@ export function SignUp() {
         label="Password"
         value={values.password}
         onChange={(value) => setValues({ ...values, password: value })}
-        error={errors.password}
+        error={errors?.password}
       />
       <Spacer />
       <button onClick={onSubmit}>Sign Up</button>

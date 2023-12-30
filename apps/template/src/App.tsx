@@ -13,14 +13,6 @@ import {
 } from "./components/";
 import { Login, SignUp, Verify, Items, Account } from "./views/";
 
-export type ErrorResponse = {
-  message: string;
-};
-
-export type FormErrors = {
-  errors: Record<string, string>;
-};
-
 export default function App() {
   const { error, message, user, setUser, setToken, setMessage } =
     useContext(SessionContext);

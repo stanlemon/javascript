@@ -21,7 +21,7 @@ export const DEFAULT_PASSWORD_DATA: PasswordForm = {
 };
 
 export function Password() {
-  const { token, setMessage } = useContext(SessionContext);
+  const { token, setMessage, setError } = useContext(SessionContext);
   const [password, setPassword] = useState<PasswordForm>(DEFAULT_PASSWORD_DATA);
   const [errors, setErrors] = useState<Partial<PasswordForm>>({});
 
@@ -44,6 +44,7 @@ export function Password() {
         setPassword(DEFAULT_PASSWORD_DATA);
         setErrors({});
         setMessage("Password updated.");
+        setError(null);
       })
       .catch((err: ApiError) => {
         if (err.code === 400) {

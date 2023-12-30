@@ -1,7 +1,7 @@
 import { useState, useContext } from "react";
-import { ErrorResponse } from "../App";
 import { Input, Spacer } from "../components/";
-import { ProfileData, SessionContext } from "../Session";
+import { ProfileData, SessionContext, SessionData } from "../Session";
+import fetchApi, { ApiError } from "../helpers/fetchApi";
 
 export type LoginForm = {
   username: string;
@@ -18,40 +18,16 @@ export function Login() {
 
   const onSubmit = () => {
     setError(null);
-    fetch("/auth/login", {
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      method: "POST",
-      body: JSON.stringify(values),
-    })
-      .then((response) =>
-        response.json().then((data: Record<string, unknown>) => ({
-          ok: response.ok,
-          status: response.status,
-          data,
-        }))
-      )
-      .then(
-        ({
-          ok,
-          data,
-        }: {
-          ok: boolean;
-          status: number;
-          data: Record<string, unknown>;
-        }) => {
-          if (ok) {
-            setToken(data.token as string);
-            setUser(data.user as ProfileData);
-          } else {
-            setError((data as ErrorResponse).message);
-          }
+    fetchApi<SessionData, LoginForm>("/auth/login", null, "post", values)
+      .then((session: SessionData) => {
+        setToken(session.token as string);
+        setUser(session.user as ProfileData);
+        setError(null);
+      })
+      .catch((err: ApiError) => {
+        if (err.message === "Unauthorized") {
+          setError(err.body.message as string);
         }
-      )
-      .catch((err: Error) => {
-        setError(err.message);
       });
   };
 
