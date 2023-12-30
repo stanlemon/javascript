@@ -9,28 +9,18 @@ export type ItemData = {
 };
 
 export function Items() {
-  const { session } = useContext(SessionContext);
-  const [, setError] = useState<string | boolean>(false);
-  const [loaded, setLoaded] = useState<boolean>(false);
+  const { token, setError } = useContext(SessionContext);
   const [items, setItems] = useState<ItemData[]>([]);
   const [value, setValue] = useState<string>("");
 
   const catchError = (err: Error) => {
-    if (err.message === "Unauthorized") {
-      return;
-    }
     setError(err.message);
   };
 
   const saveItem = (item: string) => {
-    fetchApi<ItemData[], { item: string }>(
-      "/api/items",
-      session?.token || "",
-      "post",
-      {
-        item,
-      }
-    )
+    fetchApi<ItemData[], { item: string }>("/api/items", token, "post", {
+      item,
+    })
       .then((items) => {
         setItems(items);
       })
@@ -38,11 +28,7 @@ export function Items() {
   };
 
   const deleteItem = (id: string) => {
-    fetchApi<ItemData[], string>(
-      `/api/items/${id}`,
-      session?.token || "",
-      "delete"
-    )
+    fetchApi<ItemData[], string>(`/api/items/${id}`, token, "delete")
       .then((items) => {
         setItems(items);
       })
@@ -58,17 +44,12 @@ export function Items() {
   };
 
   useEffect(() => {
-    if (loaded) {
-      return;
-    }
-
-    fetchApi<ItemData[], null>("/api/items", session?.token || "")
+    fetchApi<ItemData[], null>("/api/items", token)
       .then((items) => {
-        setLoaded(true);
-        setItems(items);
+        setItems(items ?? []);
       })
       .catch(catchError);
-  });
+  }, []);
 
   return (
     <>

@@ -1,32 +1,51 @@
 import React, { useState, useEffect, useContext, createContext } from "react";
-import { useCookies } from "react-cookie";
+import { CookiesProvider, useCookies } from "react-cookie";
 import { ErrorMessage } from "./components/";
+import fetchApi from "./helpers/fetchApi";
 
-export const SessionContext = createContext<{
-  session: SessionData;
-  setSession: React.Dispatch<React.SetStateAction<SessionData>>;
-}>({
-  session: {
-    token: null,
-    user: null,
-  },
-  setSession: () => {},
-});
-
-export type SessionData = {
+type SessionContextProperties = {
+  initialized: boolean;
   token: string | null;
-  user: UserData | null;
+  user: ProfileData | null;
+  error: string | null;
+  message: string | null;
+};
+
+export type SessionContextData = SessionContextProperties & {
+  setInitialized: React.Dispatch<React.SetStateAction<boolean>>;
+  setToken: React.Dispatch<React.SetStateAction<string | null>>;
+  setUser: (user: ProfileData | null) => void;
+  setError: React.Dispatch<React.SetStateAction<string | null>>;
+  setMessage: React.Dispatch<React.SetStateAction<string | null>>;
+};
+
+const DEFAULT_SESSION_CONTEXT_DATA: SessionContextData = {
+  initialized: false,
+  setInitialized: () => {},
+  token: null,
+  setToken: () => {},
+  user: null,
+  setUser: () => {},
+  error: null,
+  setError: () => {},
+  message: null,
+  setMessage: () => {},
+};
+
+export const SessionContext = createContext<SessionContextData>(
+  DEFAULT_SESSION_CONTEXT_DATA
+);
+
+type SessionData = {
+  token: string | null;
+  user: ProfileData | null;
 };
 
 export type ProfileData = {
+  username: string;
   name: string;
   email: string;
 };
-
-export type UserData = {
-  username: string;
-  password: string;
-} & ProfileData;
 
 export default function Session({ children }: { children: React.ReactNode }) {
   return (
@@ -37,56 +56,54 @@ export default function Session({ children }: { children: React.ReactNode }) {
 }
 
 export function SessionLoader({ children }: { children: React.ReactNode }) {
-  const [initialized, setInitialized] = useState<boolean>(false);
-  const [error, setError] = useState<string | boolean>(false);
-  const { session, setSession } = useContext(SessionContext);
+  const {
+    initialized,
+    setInitialized,
+    token,
+    setToken,
+    setUser,
+    error,
+    setError,
+  } = useContext(SessionContext);
   const [cookies, setCookie, removeCookie] = useCookies(["session_token"]);
 
   const clearSession = () => {
     removeCookie("session_token", { path: "/" });
-    setSession({ token: null, user: null });
+    setToken(null);
+    setUser(null);
   };
 
   const checkSession = () => {
-    fetch("/auth/session", {
-      headers: {
-        Authorization: `Bearer ${session.token || cookies.session_token || ""}`,
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-    })
-      .then((response) => {
-        setInitialized(true);
-
-        if (!response.ok) {
-          throw new Error(response.statusText);
-        }
-        return response;
-      })
-      .then((response) => response.json())
+    fetchApi<SessionData, null>("/auth/session", token || cookies.session_token)
       .then((session: SessionData) => {
-        setCookie("session_token", session.token, { path: "/" });
-        setSession(session);
-      })
-      .catch((err: Error) => {
-        if (err.message === "Unauthorized") {
-          clearSession();
-          return;
+        if (session) {
+          setCookie("session_token", session.token, { path: "/" });
+          setToken(session.token);
+          setUser(session.user);
         }
-        setError(err.message);
+      })
+      .catch((err) => {
+        if (err.message !== "Unauthorized") {
+          setError(err.message);
+        }
+      })
+      .finally(() => {
+        setInitialized(true);
       });
   };
 
   useEffect(() => {
-    checkSession();
+    if (!initialized) {
+      checkSession();
+    }
 
     // Refresh the session every 30 seconds
     const intervalId = setInterval(checkSession, 1000 * 30);
 
     return () => clearInterval(intervalId);
-  }, [session?.token, initialized]);
+  }, [token]);
 
-  if (error) {
+  if (!initialized && error) {
     return <ErrorMessage error={error} />;
   }
 
@@ -101,17 +118,43 @@ export function SessionLoader({ children }: { children: React.ReactNode }) {
   return children;
 }
 
-export function SessionAware({ children }: { children: React.ReactNode }) {
-  const [session, setSession] = useState<SessionData>({
-    token: null,
-    user: null,
-  });
+export function SessionAware({
+  initialized: defaultInitialized = false,
+  token: defaultToken = null,
+  user: defaultUser = null,
+  error: defaultError = null,
+  message: defaultMessage = null,
+  children,
+}: Partial<SessionContextProperties> & { children: React.ReactNode }) {
+  const [initialized, setInitialized] = useState<boolean>(defaultInitialized);
+  const [token, setToken] = useState<string | null>(defaultToken);
+  const [user, setUser] = useState<ProfileData | null>(defaultUser);
+  const [error, setError] = useState<string | null>(defaultError);
+  const [message, setMessage] = useState<string | null>(defaultMessage);
 
   return (
     <SessionContext.Provider
       value={{
-        session,
-        setSession,
+        initialized,
+        setInitialized,
+        token,
+        setToken,
+        user,
+        // Allow for partial setting of user data
+        setUser: (user: ProfileData | null) => {
+          if (!user) {
+            setUser(null);
+            return;
+          }
+          setUser((oldUser: React.SetStateAction<ProfileData | null>) => ({
+            ...oldUser,
+            ...user,
+          }));
+        },
+        error,
+        setError,
+        message,
+        setMessage,
       }}
     >
       {children}

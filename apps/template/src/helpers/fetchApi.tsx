@@ -13,25 +13,29 @@ export function fetchApi<T, P>(
     },
     body: JSON.stringify(data),
   })
-    .then((response) => {
-      return Promise.all([
-        new Promise<Response>((resolve, reject) => {
-          resolve(response);
-        }),
-        response.json() as Promise<T>,
-      ]);
-    })
-    .then(([response, json]) => {
-      if (!response.ok) {
-        throw new ApiError(
-          response.status,
-          response.statusText,
-          json as Record<string, unknown>
-        );
+    .then((response) =>
+      response.text().then((body) => ({
+        ok: response.ok,
+        status: response.status,
+        statusText: response.statusText,
+        body,
+      }))
+    )
+    .then(({ ok, status, statusText, body }) => {
+      if (!ok) {
+        throw new ApiError(status, statusText, quietJSONParse(body));
       }
 
-      return json;
+      return JSON.parse(body) as T;
     });
+}
+
+function quietJSONParse<T>(body: string): T | null {
+  try {
+    return JSON.parse(body);
+  } catch (err) {
+    return null;
+  }
 }
 
 export default fetchApi;
@@ -49,9 +53,13 @@ export class ApiError extends Error {
     return this.#body;
   }
 
-  constructor(code: number, message: string, body: Record<string, unknown>) {
+  constructor(
+    code: number,
+    message: string,
+    body: Record<string, unknown> | null
+  ) {
     super(message);
     this.#code = code;
-    this.#body = body;
+    this.#body = body ?? {};
   }
 }

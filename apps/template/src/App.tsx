@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useContext } from "react";
 import { useCookies } from "react-cookie";
 import { Switch, Route, Link } from "wouter";
 import "./App.less";
@@ -15,20 +15,20 @@ export type FormErrors = {
 };
 
 export default function App() {
-  const [error] = useState<string | boolean>(false);
-  const { session, setSession } = useContext(SessionContext);
+  const { error, user, setUser, setToken } = useContext(SessionContext);
   const [, , removeCookie] = useCookies(["session_token"]);
 
   const logout = () => {
     removeCookie("session_token", { path: "/" });
-    setSession({ token: null, user: null });
+    setToken(null);
+    setUser(null);
   };
 
   return (
     <>
       <Header />
       <ErrorMessage error={error} />
-      {!session.user && (
+      {!user && (
         <Row>
           <Column>
             <h2>Login</h2>
@@ -41,12 +41,12 @@ export default function App() {
           </Column>
         </Row>
       )}
-      {session.user && (
+      {user && (
         <>
           <p>
             <em>
-              You are logged in as{" "}
-              <Link href="/account">{session.user?.username}</Link>.
+              You are logged in as <Link href="/account">{user?.username}</Link>
+              .
             </em>{" "}
             <span style={{ cursor: "pointer" }} onClick={logout}>
               (logout)

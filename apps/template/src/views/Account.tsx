@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { ProfileData, SessionContext, UserData } from "../Session";
+import { ProfileData, SessionContext } from "../Session";
 import { Header, Input, Spacer } from "../components";
 import fetchApi, { ApiError } from "../helpers/fetchApi";
 
@@ -11,7 +11,10 @@ type Errors = {
   repeat_password?: string;
 };
 
-export type ProfileForm = ProfileData;
+export type ProfileForm = {
+  name: string;
+  email: string;
+};
 export const DEFAULT_PROFILE_DATA: ProfileForm = {
   name: "",
   email: "",
@@ -35,11 +38,11 @@ export const DEFAULT_PASSWORD_DATA: PasswordForm = {
 };
 
 export function Account() {
-  const { session, setSession } = useContext(SessionContext);
+  const { token, user, setUser } = useContext(SessionContext);
   const [profile, setProfile] = useState<ProfileForm>({
     ...DEFAULT_PROFILE_DATA,
-    name: session.user?.name ?? "",
-    email: session.user?.email ?? "",
+    name: user?.name ?? "",
+    email: user?.email ?? "",
   });
   const [password, setPassword] = useState<PasswordForm>(DEFAULT_PASSWORD_DATA);
   const [errors, setErrors] = useState<Errors>({});
@@ -49,18 +52,10 @@ export function Account() {
   };
   const saveProfile = () => {
     setErrors({});
-    fetchApi<ProfileForm, ProfileForm>(
-      "/auth/user",
-      session?.token || "",
-      "put",
-      profile
-    )
-      .then((user) => {
-        setProfile(user);
-        setSession({
-          ...session,
-          user: { ...session.user, ...user } as UserData,
-        });
+    fetchApi<ProfileData, ProfileForm>("/auth/user", token, "put", profile)
+      .then((newProfile) => {
+        setProfile(newProfile);
+        setUser(newProfile);
         setErrors({});
       })
       .catch((err: ApiError) => {
@@ -81,15 +76,10 @@ export function Account() {
       return;
     }
 
-    fetchApi<null, PasswordRequest>(
-      "/auth/password",
-      session?.token || "",
-      "post",
-      {
-        current_password: password.current_password,
-        password: password.new_password1,
-      }
-    )
+    fetchApi<null, PasswordRequest>("/auth/password", token, "post", {
+      current_password: password.current_password,
+      password: password.new_password1,
+    })
       .then(() => {
         setPassword(DEFAULT_PASSWORD_DATA);
         setErrors({});
@@ -103,9 +93,7 @@ export function Account() {
 
   return (
     <>
-      <Header>
-        Account for "{session.user?.name ?? session.user?.username ?? ""}"
-      </Header>
+      <Header>Account for "{user?.name ?? user?.username ?? ""}"</Header>
       <Header level={2}>Profile</Header>
       <Input
         name="name"

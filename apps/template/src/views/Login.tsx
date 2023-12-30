@@ -1,18 +1,20 @@
 import { useState, useContext } from "react";
 import { ErrorResponse } from "../App";
 import { Input, Spacer } from "../components/";
-import { SessionContext, SessionData, UserData } from "../Session";
+import { ProfileData, SessionContext } from "../Session";
+
+export type LoginForm = {
+  username: string;
+  password: string;
+};
 
 export function Login() {
-  const [error, setError] = useState<string | null>(null);
-  const [values, setValues] = useState<UserData>({
-    name: "",
-    email: "",
+  const [values, setValues] = useState<LoginForm>({
     username: "",
     password: "",
   });
 
-  const { setSession } = useContext(SessionContext);
+  const { setToken, setUser, setError } = useContext(SessionContext);
 
   const onSubmit = () => {
     setError(null);
@@ -34,7 +36,6 @@ export function Login() {
       .then(
         ({
           ok,
-          status,
           data,
         }: {
           ok: boolean;
@@ -42,7 +43,8 @@ export function Login() {
           data: Record<string, unknown>;
         }) => {
           if (ok) {
-            setSession(data as SessionData);
+            setToken(data.token as string);
+            setUser(data.user as ProfileData);
           } else {
             setError((data as ErrorResponse).message);
           }
@@ -55,11 +57,6 @@ export function Login() {
 
   return (
     <>
-      {error && (
-        <div>
-          <strong>{error}</strong>
-        </div>
-      )}
       <Input
         name="username"
         label="Username"

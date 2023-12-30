@@ -1,19 +1,25 @@
 import { useState, useContext } from "react";
 import { FormErrors } from "../App";
-import { Input, ErrorMessage, Spacer } from "../components/";
-import { SessionData, UserData, SessionContext } from "../Session";
+import { Input, Spacer } from "../components/";
+import { SessionContext, ProfileData } from "../Session";
+
+export type SignUpForm = {
+  name: string;
+  email: string;
+  username: string;
+  password: string;
+};
 
 export function SignUp() {
-  const [error, setError] = useState<string | boolean>(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
-  const [values, setValues] = useState<UserData>({
+  const [values, setValues] = useState<SignUpForm>({
     name: "",
     email: "",
     username: "",
     password: "",
   });
 
-  const { setSession } = useContext(SessionContext);
+  const { setToken, setUser, setError } = useContext(SessionContext);
 
   const onSubmit = () => {
     setErrors({});
@@ -35,7 +41,6 @@ export function SignUp() {
       .then(
         ({
           ok,
-          status,
           data,
         }: {
           ok: boolean;
@@ -43,21 +48,20 @@ export function SignUp() {
           data: Record<string, unknown>;
         }) => {
           if (ok) {
-            setSession(data as SessionData);
+            setToken(data.token as string);
+            setUser(data.user as ProfileData);
           } else {
             setErrors((data as FormErrors).errors);
           }
         }
       )
       .catch((err: Error) => {
-        // Put any generis error onto the username field
         setError(err.message);
       });
   };
 
   return (
     <>
-      <ErrorMessage error={error} />
       <Input
         name="username"
         label="Username"
