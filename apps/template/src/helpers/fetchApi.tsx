@@ -1,13 +1,13 @@
 export function fetchApi<T, P>(
   url: string,
-  token: string,
+  token: string | null = null,
   method = "get",
   data?: P
 ): Promise<T> {
   return fetch(url, {
     method: method,
     headers: {
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${token ?? ""}`,
       Accept: "application/json",
       "Content-Type": "application/json",
     },

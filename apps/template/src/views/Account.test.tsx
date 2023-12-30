@@ -1,7 +1,7 @@
 import "@testing-library/jest-dom";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import Account, { PasswordForm, PasswordRequest, ProfileForm } from "./Account";
+import Account, { PasswordRequest, ProfileForm } from "./Account";
 import { SessionAware } from "../Session";
 import fetchApi from "../helpers/fetchApi";
 
@@ -44,7 +44,7 @@ describe("<Account/>", () => {
 
   it("password changed", async () => {
     const mockedFetchApi = fetchApi as jest.MockedFunction<
-      typeof fetchApi<PasswordForm, PasswordRequest>
+      typeof fetchApi<null, PasswordRequest>
     >;
     mockedFetchApi.mockResolvedValue(null);
 

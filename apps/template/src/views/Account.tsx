@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { SessionContext, UserData } from "../Session";
+import { ProfileData, SessionContext, UserData } from "../Session";
 import { Header, Input, Spacer } from "../components";
 import fetchApi, { ApiError } from "../helpers/fetchApi";
 
@@ -11,10 +11,7 @@ type Errors = {
   repeat_password?: string;
 };
 
-export type ProfileForm = {
-  name: string;
-  email: string;
-};
+export type ProfileForm = ProfileData;
 export const DEFAULT_PROFILE_DATA: ProfileForm = {
   name: "",
   email: "",
@@ -84,7 +81,7 @@ export function Account() {
       return;
     }
 
-    fetchApi<PasswordForm, PasswordRequest>(
+    fetchApi<null, PasswordRequest>(
       "/auth/password",
       session?.token || "",
       "post",

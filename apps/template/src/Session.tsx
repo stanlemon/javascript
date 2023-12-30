@@ -18,12 +18,15 @@ export type SessionData = {
   user: UserData | null;
 };
 
-export type UserData = {
+export type ProfileData = {
   name: string;
   email: string;
+};
+
+export type UserData = {
   username: string;
   password: string;
-};
+} & ProfileData;
 
 export default function Session({ children }: { children: React.ReactNode }) {
   return (
