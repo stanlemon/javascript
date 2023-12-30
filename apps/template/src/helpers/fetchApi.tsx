@@ -1,6 +1,6 @@
 export function fetchApi<T, P>(
   url: string,
-  token: string | null = null,
+  token: string | null | undefined = null,
   method = "get",
   data?: P
 ): Promise<T> {

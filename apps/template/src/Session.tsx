@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext, createContext } from "react";
-import { CookiesProvider, useCookies } from "react-cookie";
+import { useCookies } from "react-cookie";
 import { ErrorMessage } from "./components/";
 import fetchApi from "./helpers/fetchApi";
 
