@@ -1,13 +1,13 @@
 /**
  * @jest-environment node
  */
-import LowDBUserDao, { createInMemoryDb } from "./lowdb-user-dao.js";
+import LowDBUserDao, { createInMemoryLowDb } from "./lowdb-user-dao.js";
 import KnexUserDao, { createBetterSqlite3Db } from "./knex-user-dao.js";
 
 describe("user-dao", () => {
   createUserDaoTests("lowdb-user-dao", async () => {
     return new Promise((resolve) => {
-      resolve(new LowDBUserDao(createInMemoryDb()));
+      resolve(new LowDBUserDao(createInMemoryLowDb()));
     });
   });
 

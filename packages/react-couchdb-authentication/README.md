@@ -1,5 +1,7 @@
 # React CouchDB Authentication Component
 
+[![npm version](https://badge.fury.io/js/%40stanlemon%2Freact-couchdb-authentication.svg)](https://badge.fury.io/js/%40stanlemon%2Freact-couchdb-authentication)
+
 React component for streamlining user authentication against an [Apache CouchDB](http://couchdb.apache.org) instance.
 If you're building a React application and want to let the _amazing_ CouchDB be your backend, you can
 take advantage of CouchDB's userdb feature, and with this component streamline using CouchDB to sign up

@@ -4,11 +4,11 @@ import { v4 as uuidv4 } from "uuid";
 import bcrypt from "bcryptjs";
 import UserDao from "./user-dao.js";
 
-export function createInMemoryDb() {
+export function createInMemoryLowDb() {
   return new LowSync(new MemorySync(), {});
 }
 
-export function createJsonFileDb(filename = "./db.json") {
+export function createJsonFileLowDb(filename = "./db.json") {
   return new LowSync(new JSONFileSync(filename), {});
 }
 
@@ -17,16 +17,16 @@ export function createJsonFileDb(filename = "./db.json") {
  * Test environment (NODE_ENV=test) will use {MemorySync}.
  * @returns {LowSync} Database
  */
-export function createDb() {
+export function createLowDb() {
   return process.env.NODE_ENV === "test"
-    ? createInMemoryDb()
-    : createJsonFileDb();
+    ? createInMemoryLowDb()
+    : createJsonFileLowDb();
 }
 
 export default class LowDBUserDao extends UserDao {
   #db;
 
-  constructor(db = createDb()) {
+  constructor(db = createLowDb()) {
     super();
 
     if (!(db instanceof LowSync)) {

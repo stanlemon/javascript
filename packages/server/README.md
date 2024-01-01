@@ -1,5 +1,7 @@
 # Express App Server
 
+[![npm version](https://badge.fury.io/js/%40stanlemon%2Fserver.svg)](https://badge.fury.io/js/%40stanlemon%2Fserver)
+
 This is a base express app server that is wired up with sensible defaults, like compression, json support and serving the `dist` folder statically.
 
 It also include a function called `asyncJsonHandler` which is a wrapper for most express requests. It standardizes input/output as JSON, accepting camel case properties and snake casing them for output. It also covers a bunch of standard error behaviors.

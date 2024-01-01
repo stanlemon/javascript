@@ -1,5 +1,7 @@
 # ESLint Config
 
+[![npm version](https://badge.fury.io/js/%40stanlemon%2Feslint-config.svg)](https://badge.fury.io/js/%40stanlemon%2Feslint-config)
+
 ESLint is great, but it takes a lot to setup! This is my attempt to create a package that contains all of the dependencies I need, plus a simple config to use.
 
 To use this, simply create the following file:

@@ -3,14 +3,14 @@ import {
   createAppServer,
   createSchemas,
   asyncJsonHandler as handler,
-  createDb,
+  createLowDb,
   EVENTS,
   LowDBUserDao,
 } from "@stanlemon/server-with-auth";
 import Joi from "joi";
 import { v4 as uuid } from "uuid";
 
-export const db = createDb();
+export const db = createLowDb();
 const dao = new LowDBUserDao(db);
 
 db.data.items = db.data.items || [];

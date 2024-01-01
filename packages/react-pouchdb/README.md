@@ -1,5 +1,7 @@
 # React PouchDB Components
 
+[![npm version](https://badge.fury.io/js/%40stanlemon%2Freact-pouchdb.svg)](https://badge.fury.io/js/%40stanlemon%2Freact-pouchdb)
+
 React components for interacting with [PouchDB](https://pouchdb.com) documents.  These components can be used to wrap parts of an application and both load and save state to a document.  These components can be used both with React and React Native.
 
 *These components have been written in typescript.*

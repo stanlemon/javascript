@@ -1,5 +1,7 @@
 # Webdev
 
+[![npm version](https://badge.fury.io/js/%40stanlemon%2Fwebdev.svg)](https://badge.fury.io/js/%40stanlemon%2Fwebdev)
+
 This repository contains all of my usual environment setup for babel, webpack and jest for developing React apps. I got tired of copying and pasting the same config files everywhere, so I put this together.
 
 To get started, either copy [apps/template](../../apps/template/) or create these files:

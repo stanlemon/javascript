@@ -16,7 +16,7 @@ export { default as SimpleUsersDao } from "./data/simple-users-dao.js";
 export { EVENTS, ROUTES, HIDDEN_FIELDS } from "./constants.js";
 export {
   default as LowDBUserDao,
-  createDb,
-  createInMemoryDb,
-  createJsonFileDb,
+  createLowDb,
+  createInMemoryLowDb,
+  createJsonFileLowDb,
 } from "./data/lowdb-user-dao.js";

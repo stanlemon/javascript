@@ -6,10 +6,11 @@ import {
   asyncJsonHandler as handler,
   createSchemas,
   EVENTS,
+  LowDBUserDao,
+  createLowDb,
 } from "./src/index.js";
-import LowDBUserDao, { createDb } from "./src/data/lowdb-user-dao.js";
 
-const db = createDb();
+const db = createLowDb();
 const dao = new LowDBUserDao(db);
 const eventEmitter = new EventEmitter();
 Object.values(EVENTS).forEach((event) => {
