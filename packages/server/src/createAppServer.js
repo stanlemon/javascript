@@ -1,6 +1,5 @@
 import dotenv from "dotenv";
 import express, { Router } from "express";
-import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import compression from "compression";
 import helmet from "helmet";
@@ -39,10 +38,9 @@ export default function createAppServer(options) {
     webpack !== false && NODE_ENV !== "production" && NODE_ENV !== "test";
 
   const app = express();
-  app.use(bodyParser.urlencoded({ extended: true }));
-  app.use(bodyParser.json());
-  app.use(cookieParser());
+  app.use(express.urlencoded({ extended: true }));
   app.use(express.json());
+  app.use(cookieParser());
 
   if (NODE_ENV !== "test") {
     app.use(morgan("combined"));
