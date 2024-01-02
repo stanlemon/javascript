@@ -1,10 +1,11 @@
 /* eslint no-console: off */
-const { readdirSync } = require("fs");
-const { spawnSync } = require("child_process");
-const path = require("path");
+import { readdirSync, readFileSync } from "fs";
+import { spawnSync } from "child_process";
+import path from "path";
 
 // Load the root package file so we can iterate over configured workspaces
-const data = require("./package.json");
+const packageJSON = readFileSync("./package.json");
+const data = JSON.parse(packageJSON);
 
 let workspaces = [];
 
