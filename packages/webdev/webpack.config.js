@@ -126,7 +126,7 @@ module.exports = {
         }
 
         return new HtmlWebpackPlugin({
-          filename: path.resolve("./", "dist", html),
+          filename: path.basename(html),
           inject,
           ...(existsSync(html) ? { template: html } : {}),
         });
