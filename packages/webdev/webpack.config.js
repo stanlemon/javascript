@@ -11,8 +11,20 @@ config();
 
 const babelOptions = require("./.babelrc.json");
 
+function getWebdevEntry() {
+  if (process.env.WEBDEV_ENTRY) {
+    return process.env.WEBDEV_ENTRY;
+  } else if (existsSync("./src/index.tsx")) {
+    return "./src/index.tsx";
+  } else if (existsSync("./src/index.ts")) {
+    return "./src/index.ts";
+  } else {
+    return "./src/index.js";
+  }
+}
+
 // Entry points, which can be separated by a semi-colon
-const WEBDEV_ENTRY = process.env.WEBDEV_ENTRY ?? "./src/index.tsx";
+const WEBDEV_ENTRY = getWebdevEntry();
 // HTML pages to create, which can be separated by a semi-colon
 // If you prefix a page with a ! it will disable script injection
 // The filename from the supplied path is used as the filename of the resulting file
