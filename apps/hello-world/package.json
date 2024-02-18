@@ -1,0 +1,23 @@
+{
+  "name": "@stanlemon/hello-world",
+  "version": "0.1.0",
+  "description": "A hello world example using the webdev package.",
+  "author": "Stan Lemon <stanlemon@users.noreply.github.com>",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "start": "webpack serve",
+    "build": "webpack",
+    "lint": "eslint --ext js,jsx,ts,tsx ./src/",
+    "lint:fix": "eslint --fix --ext js,jsx,ts,tsx ./src/"
+  },
+  "dependencies": {
+    "@stanlemon/webdev": "*",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.55",
+    "@types/react-dom": "^18.2.19"
+  }
+}
