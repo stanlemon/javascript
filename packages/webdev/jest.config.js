@@ -8,11 +8,13 @@ babelOptions.presets.find(
 )[1].modules = "auto";
 
 // These are packages we know ship with esmodules and need to be transformed
+// TODO: Add an easy way to supply one's own esModules to be transformed by Jest
 const esModules = [
   "uuid",
   "lowdb",
-  "steno",
+  "steno", // Used by lowdb
   "lodash-es",
+  "wouter", // Used by @atanlemon/app-template
   "@stanlemon/server",
   "@stanlemon/server-with-auth",
 ].join("|");
