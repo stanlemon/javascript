@@ -1,6 +1,6 @@
 {
   "name": "@stanlemon/webdev",
-  "version": "0.1.168",
+  "version": "0.1.169",
   "description": "My typical web development setup, but without all the copy and paste.",
   "keywords": [
     "webpack",
@@ -21,9 +21,9 @@
   },
   "dependencies": {
     "@babel/cli": "^7.23.9",
-    "@babel/core": "^7.23.9",
+    "@babel/core": "^7.24.0",
     "@babel/plugin-transform-private-property-in-object": "^7.23.4",
-    "@babel/preset-env": "^7.23.9",
+    "@babel/preset-env": "^7.24.0",
     "@babel/preset-react": "^7.23.3",
     "@babel/preset-typescript": "^7.23.3",
     "@peculiar/webcrypto": "^1.4.5",
@@ -31,7 +31,7 @@
     "@stanlemon/eslint-config": "*",
     "@testing-library/jest-dom": "^6.4.2",
     "@types/jest": "^29.5.12",
-    "@types/react": "^18.2.58",
+    "@types/react": "^18.2.61",
     "@types/react-dom": "^18.2.19",
     "@types/webpack": "^5.28.5",
     "@types/webpack-env": "^1.18.4",
