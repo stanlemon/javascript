@@ -1,6 +1,6 @@
 {
   "name": "@stanlemon/webdev",
-  "version": "0.1.169",
+  "version": "0.1.170",
   "description": "My typical web development setup, but without all the copy and paste.",
   "keywords": [
     "webpack",
@@ -31,8 +31,8 @@
     "@stanlemon/eslint-config": "*",
     "@testing-library/jest-dom": "^6.4.2",
     "@types/jest": "^29.5.12",
-    "@types/react": "^18.2.61",
-    "@types/react-dom": "^18.2.19",
+    "@types/react": "^18.2.64",
+    "@types/react-dom": "^18.2.21",
     "@types/webpack": "^5.28.5",
     "@types/webpack-env": "^1.18.4",
     "babel-jest": "^29.7.0",
@@ -48,14 +48,14 @@
     "less-loader": "^12.2.0",
     "react-refresh": "^0.14.0",
     "style-loader": "^3.3.4",
-    "typescript": "^5.3.3",
+    "typescript": "^5.4.2",
     "webpack": "^5.90.3",
     "webpack-bundle-analyzer": "^4.10.1",
     "webpack-cli": "^5.1.4",
     "webpack-dev-server": "^5.0.2"
   },
   "devDependencies": {
-    "@types/react-dom": "^18.2.19",
+    "@types/react-dom": "^18.2.21",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
