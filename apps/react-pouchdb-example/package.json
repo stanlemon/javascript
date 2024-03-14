@@ -1,6 +1,6 @@
 {
   "name": "@stanlemon/react-pouchdb-example",
-  "version": "0.1.100",
+  "version": "0.1.101",
   "description": "A react app using pouchdb built in typescript",
   "author": "Stan Lemon <stanlemon@users.noreply.github.com",
   "license": "MIT",
@@ -25,7 +25,7 @@
     "@stanlemon/react-pouchdb": "*",
     "@stanlemon/webdev": "*",
     "bulma": "^0.9.4",
-    "date-fns": "^3.3.1",
+    "date-fns": "^3.4.0",
     "pouchdb": "^8.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -34,7 +34,7 @@
   "devDependencies": {
     "@testing-library/jest-dom": "^6.4.2",
     "@testing-library/react": "^14.2.1",
-    "@types/node": "^20.11.25",
+    "@types/node": "^20.11.27",
     "@types/pouchdb": "^6.4.2",
     "@types/uuid": "^9.0.8",
     "identity-obj-proxy": "^3.0.0",
