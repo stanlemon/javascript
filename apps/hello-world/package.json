@@ -1,6 +1,6 @@
 {
   "name": "@stanlemon/hello-world",
-  "version": "0.1.10",
+  "version": "0.1.11",
   "description": "A hello world example using the webdev package.",
   "author": "Stan Lemon <stanlemon@users.noreply.github.com>",
   "license": "MIT",
@@ -18,6 +18,6 @@
   },
   "devDependencies": {
     "@types/react": "^18.2.73",
-    "@types/react-dom": "^18.2.22"
+    "@types/react-dom": "^18.2.23"
   }
 }
