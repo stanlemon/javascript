@@ -1,6 +1,6 @@
 {
   "name": "@stanlemon/webdev",
-  "version": "0.1.182",
+  "version": "0.1.183",
   "description": "My typical web development setup, but without all the copy and paste.",
   "keywords": [
     "webpack",
@@ -29,7 +29,7 @@
     "@peculiar/webcrypto": "^1.5.0",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.15",
     "@stanlemon/eslint-config": "*",
-    "@testing-library/jest-dom": "^6.4.5",
+    "@testing-library/jest-dom": "^6.4.6",
     "@types/jest": "^29.5.12",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
@@ -49,7 +49,7 @@
     "react-refresh": "^0.14.2",
     "style-loader": "^4.0.0",
     "typescript": "^5.4.5",
-    "webpack": "^5.91.0",
+    "webpack": "^5.92.0",
     "webpack-bundle-analyzer": "^4.10.2",
     "webpack-cli": "^5.1.4",
     "webpack-dev-server": "^5.0.4"
