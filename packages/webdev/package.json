@@ -1,6 +1,6 @@
 {
   "name": "@stanlemon/webdev",
-  "version": "0.1.184",
+  "version": "0.1.185",
   "description": "My typical web development setup, but without all the copy and paste.",
   "keywords": [
     "webpack",
@@ -48,7 +48,7 @@
     "less-loader": "^12.2.0",
     "react-refresh": "^0.14.2",
     "style-loader": "^4.0.0",
-    "typescript": "^5.4.5",
+    "typescript": "^5.5.2",
     "webpack": "^5.92.1",
     "webpack-bundle-analyzer": "^4.10.2",
     "webpack-cli": "^5.1.4",
