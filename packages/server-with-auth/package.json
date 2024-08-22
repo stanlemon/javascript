@@ -1,6 +1,6 @@
 {
   "name": "@stanlemon/server-with-auth",
-  "version": "0.3.15",
+  "version": "0.3.16",
   "description": "A basic express web server setup with authentication baked in.",
   "author": "Stan Lemon <stanlemon@users.noreply.github.com>",
   "license": "MIT",
@@ -34,7 +34,7 @@
   "devDependencies": {
     "@stanlemon/eslint-config": "*",
     "@types/supertest": "^6.0.2",
-    "better-sqlite3": "^11.1.2",
+    "better-sqlite3": "^11.2.1",
     "knex": "^3.1.0",
     "nodemon": "^3.1.4",
     "supertest": "^7.0.0"
