@@ -1,6 +1,6 @@
 {
   "name": "@stanlemon/server-with-auth",
-  "version": "0.3.18",
+  "version": "0.3.19",
   "description": "A basic express web server setup with authentication baked in.",
   "author": "Stan Lemon <stanlemon@users.noreply.github.com>",
   "license": "MIT",
@@ -36,7 +36,7 @@
     "@types/supertest": "^6.0.2",
     "better-sqlite3": "^11.3.0",
     "knex": "^3.1.0",
-    "nodemon": "^3.1.6",
+    "nodemon": "^3.1.7",
     "supertest": "^7.0.0"
   }
 }

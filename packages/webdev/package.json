@@ -1,6 +1,6 @@
 {
   "name": "@stanlemon/webdev",
-  "version": "0.1.197",
+  "version": "0.1.198",
   "description": "My typical web development setup, but without all the copy and paste.",
   "keywords": [
     "webpack",
@@ -31,7 +31,7 @@
     "@stanlemon/eslint-config": "*",
     "@testing-library/jest-dom": "^6.5.0",
     "@types/jest": "^29.5.13",
-    "@types/react": "^18.3.7",
+    "@types/react": "^18.3.8",
     "@types/react-dom": "^18.3.0",
     "@types/webpack": "^5.28.5",
     "@types/webpack-env": "^1.18.5",
