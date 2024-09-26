@@ -1,4 +1,5 @@
 import { useState, useContext } from "react";
+import { useCookies } from "react-cookie";
 import { Input, Spacer } from "../components/";
 import { ProfileData, SessionContext, SessionData } from "../Session";
 import fetchApi, { ApiError } from "../helpers/fetchApi";
@@ -13,6 +14,7 @@ export function Login() {
     username: "",
     password: "",
   });
+  const [_, setCookie] = useCookies(["session_token"]);
 
   const { setToken, setUser, setError } = useContext(SessionContext);
 
@@ -22,6 +24,7 @@ export function Login() {
       .then((session: SessionData) => {
         setToken(session.token as string);
         setUser(session.user as ProfileData);
+        setCookie("session_token", session.token);
         setError(null);
       })
       .catch((err: ApiError) => {

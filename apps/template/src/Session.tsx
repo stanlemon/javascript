@@ -71,7 +71,7 @@ export function SessionLoader({ children }: { children: React.ReactNode }) {
     fetchApi<SessionData, null>("/auth/session", token || cookies.session_token)
       .then((session: SessionData) => {
         if (session) {
-          setCookie("session_token", session.token, { path: "/" });
+          setCookie("session_token", session.token);
           setToken(session.token);
           setUser(session.user);
         }
