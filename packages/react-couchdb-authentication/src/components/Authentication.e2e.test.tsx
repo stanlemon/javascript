@@ -10,7 +10,7 @@ if (!window.setImmediate) {
   window.setImmediate = window.setTimeout as unknown as typeof setImmediate;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 PouchDB.plugin(require("pouchdb-adapter-memory"));
 
 const couchDbUrl = process.env.COUCHDB_URL || "http://localhost:5984/";
@@ -19,7 +19,7 @@ const checkCouchDb = async () => {
   try {
     await fetch(couchDbUrl);
     return true;
-  } catch (e) {
+  } catch (err) {
     return false;
   }
 };

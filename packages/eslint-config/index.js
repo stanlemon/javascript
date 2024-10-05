@@ -72,10 +72,23 @@ module.exports = {
         trailingComma: "es5",
       },
     ],
-    "no-unused-vars": ["warn", { ignoreRestSiblings: true, args: "none" }],
+    "no-unused-vars": [
+      "warn",
+      {
+        caughtErrors: "none",
+        destructuredArrayIgnorePattern: "^_",
+        ignoreRestSiblings: true,
+        args: "none",
+      },
+    ],
     "@typescript-eslint/no-unused-vars": [
       "warn",
-      { ignoreRestSiblings: true, args: "none" },
+      {
+        caughtErrors: "none",
+        destructuredArrayIgnorePattern: "^_",
+        ignoreRestSiblings: true,
+        args: "none",
+      },
     ],
     ...(tsconfigExists && { "deprecation/deprecation": "warn" }),
   },
