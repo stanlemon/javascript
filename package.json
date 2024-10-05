@@ -11,7 +11,7 @@
     "husky": "^9.1.6"
   },
   "scripts": {
-    "prepare": "husky install",
+    "prepare": "husky",
     "lint": "eslint --ext .js,.ts,.tsx --ignore-path .gitignore .",
     "lint:fix": "eslint --fix --ext .js,.ts,.tsx --ignore-path .gitignore .",
     "test": "npm run build && jest --detectOpenHandles --silent",
