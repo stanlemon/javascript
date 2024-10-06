@@ -190,7 +190,6 @@ export class Authentication extends React.Component<Props, State> {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private error(...args: any[]): void {
     if (this.props.debug) {
-      // eslint-disable-next-line no-console
       console.error.apply(null, args);
     }
   }

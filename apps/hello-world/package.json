@@ -8,8 +8,8 @@
   "scripts": {
     "start": "webpack serve",
     "build": "webpack",
-    "lint": "eslint --ext js,jsx,ts,tsx ./src/",
-    "lint:fix": "eslint --fix --ext js,jsx,ts,tsx ./src/"
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix ."
   },
   "dependencies": {
     "@stanlemon/webdev": "*",

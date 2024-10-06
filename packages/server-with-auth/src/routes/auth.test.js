@@ -26,7 +26,6 @@ process.env.NODE_ENV = "test";
 
 describe("/auth", () => {
   // Disabling this linting rule because it is unaware of the supertest assertions
-  /* eslint-disable jest/expect-expect */
   it("POST /signup creates a user", async () => {
     const username = "test" + uuidv4();
     const password = "p@$$w0rd!";

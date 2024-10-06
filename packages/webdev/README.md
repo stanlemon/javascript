@@ -14,8 +14,8 @@ package.json
     "start": "webpack serve",
     "build": "NODE_ENV=production webpack",
     "test": "jest",
-    "lint": "eslint --ext js,jsx,ts,tsx ./src/",
-    "lint:fix": "eslint --fix --ext js,jsx,ts,tsx ./src/"
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix ."
   },
   "dependencies": {
     "@stanlemon/webdev": "*"

@@ -5,15 +5,15 @@
   "author": "Stan Lemon <stanlemon@users.noreply.github.com>",
   "license": "MIT",
   "engines": {
-    "node": ">=18.0"
+    "node": ">=20.0"
   },
   "type": "module",
   "main": "./src/index.js",
   "exports": "./src/index.js",
   "scripts": {
     "start": "NODE_ENV=development nodemon --ignore db.json ./app.js",
-    "lint": "eslint --ext js,jsx,ts,tsx ./",
-    "lint:fix": "eslint --fix --ext js,jsx,ts,tsx ./",
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix .",
     "test": "jest --detectOpenHandles",
     "test:coverage": "jest --detectOpenHandles --coverage",
     "test:watch": "jest --detectOpenHandles --watch"

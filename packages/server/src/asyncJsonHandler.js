@@ -45,7 +45,6 @@ export function asyncJsonHandler(fn) {
       }
 
       if (process.env.NODE_ENV !== "production") {
-        // eslint-disable-next-line no-console
         console.error(ex);
 
         res.status(500).json({ error: formatError(ex) });
