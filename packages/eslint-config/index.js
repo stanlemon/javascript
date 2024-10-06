@@ -29,7 +29,7 @@ module.exports = {
     "typescript",
     "typescript/react",
   ],
-  plugins: ["import", ...(tsconfigExists ? ["deprecation"] : [])],
+  plugins: ["import"],
   settings: {
     react: {
       version: "detect",
@@ -90,7 +90,6 @@ module.exports = {
         args: "none",
       },
     ],
-    ...(tsconfigExists && { "deprecation/deprecation": "warn" }),
   },
   overrides: [
     {
