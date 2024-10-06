@@ -23,8 +23,8 @@
     "test": "jest",
     "test:watch": "jest -w",
     "test:coverage": "jest --coverage",
-    "lint": "eslint --ext js,jsx,ts,tsx ./src/ ./example/",
-    "lint:fix": "eslint --fix --ext js,jsx,ts,tsx ./src/ ./example/",
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix .",
     "build": "rimraf ./dist/; tsc; NODE_ENV=production babel --config-file ./.babelrc.json --extensions=\".ts,.tsx,.js.,.jsx\" ./src/ --out-dir ./dist/ --ignore  \"src /**/*.test.*\" --source-maps",
     "example": "WEBDEV_ENTRY=./example/Example.tsx webpack serve"
   },

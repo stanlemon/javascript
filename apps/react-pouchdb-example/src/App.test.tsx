@@ -10,7 +10,6 @@ PouchDB.plugin(PouchDBMemoryAdapter);
 window.setImmediate = setImmediate;
 
 describe("<App />", () => {
-  // eslint-disable-next-line jest/expect-expect
   it("renders", async () => {
     const db = new PouchDB("test", {
       adapter: "memory",

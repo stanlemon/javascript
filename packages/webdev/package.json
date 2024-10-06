@@ -11,13 +11,13 @@
   "author": "Stan Lemon <stanlemon@users.noreply.github.com>",
   "license": "MIT",
   "engines": {
-    "node": ">=18.0"
+    "node": ">=20.0"
   },
   "type": "commonjs",
   "scripts": {
     "build": "WEBDEV_ENTRY=./example.tsx webpack build",
-    "lint": "eslint --ext js,jsx,ts,tsx ./",
-    "lint:fix": "eslint --fix --ext js,jsx,ts,tsx ./"
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix ."
   },
   "dependencies": {
     "@babel/cli": "^7.25.6",

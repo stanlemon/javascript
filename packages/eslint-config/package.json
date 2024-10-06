@@ -1,6 +1,6 @@
 {
   "name": "@stanlemon/eslint-config",
-  "version": "0.1.159",
+  "version": "2.0.0",
   "description": "My typical eslint setup, but without all the copy and paste.",
   "keywords": [
     "eslint"
@@ -8,18 +8,18 @@
   "author": "Stan Lemon <stanlemon@users.noreply.github.com>",
   "license": "MIT",
   "engines": {
-    "node": ">=18.0"
+    "node": ">=20.0"
   },
-  "type": "commonjs",
+  "type": "module",
+  "main": "./eslint.config.js",
   "scripts": {
-    "lint": "eslint --ext js,jsx,ts,tsx ./",
-    "lint:fix": "eslint --fix --ext js,jsx,ts,tsx ./"
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix ."
   },
   "dependencies": {
-    "@babel/eslint-parser": "^7.25.1",
-    "@typescript-eslint/eslint-plugin": "^8.6.0",
-    "@typescript-eslint/parser": "^8.6.0",
-    "eslint": "^8.57.1",
+    "@eslint/js": "^9.12.0",
+    "@types/eslint__js": "^8.42.3",
+    "eslint": "^9.12.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-config-react": "^1.1.7",
     "eslint-config-typescript": "^3.0.0",
@@ -27,9 +27,11 @@
     "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-jest": "^28.8.3",
     "eslint-plugin-jest-dom": "^5.4.0",
-    "eslint-plugin-jsx-a11y": "^6.10.0",
     "eslint-plugin-prettier": "^5.2.1",
-    "eslint-plugin-react": "^7.36.1",
-    "prettier": "^3.3.3"
+    "eslint-plugin-react": "^7.37.1",
+    "globals": "^15.10.0",
+    "prettier": "^3.3.3",
+    "typescript": "^5.6.2",
+    "typescript-eslint": "^8.8.0"
   }
 }

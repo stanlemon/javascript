@@ -225,7 +225,6 @@ export class Document extends React.PureComponent<
       })
       .catch(
         (err: { status: number; message: string; reason: string }): void => {
-          // eslint-disable-next-line no-console
           console.error("An error occurred while putting a document", err);
 
           if (err.status === 409) {

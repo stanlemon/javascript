@@ -29,7 +29,6 @@ describe("<Authentication /> with CouchDB instance", () => {
   it("Can submit <Signup />, create user doc, logout and then <Login />", async () => {
     const isCouchDbUp = await checkCouchDb();
     if (!isCouchDbUp) {
-      /* eslint-disable no-console */
       console.warn(
         "Skipping the end to end test because I do not have a CouchDB instance to work with."
       );
