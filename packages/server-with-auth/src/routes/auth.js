@@ -69,7 +69,7 @@ export default function authRoutes({
 
   router.post(ROUTES.LOGIN, (req, res, next) => {
     // Customizing the login so we can send a proper JSON response when unable to login
-    passport.authenticate("local", (err, user, info) => {
+    passport.authenticate("local", (err, user) => {
       if (err) {
         return next(err);
       }
