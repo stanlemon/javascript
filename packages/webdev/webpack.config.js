@@ -4,7 +4,6 @@ const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
 const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
-const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const { config } = require("dotenv");
 
 config();
@@ -51,6 +50,7 @@ module.exports = {
   mode: isDevelopment ? "development" : "production",
   entry: WEBDEV_ENTRY.split(";"),
   output: {
+    clean: true,
     filename: "static/[name].[contenthash].js",
     path: path.resolve("./", "dist"),
     publicPath: WEBPACK_PUBLIC_PATH,
@@ -129,7 +129,6 @@ module.exports = {
   },
   plugins: [
     ...[
-      new CleanWebpackPlugin(),
       ...WEBDEV_HTML.split(";").map((html) => {
         let inject = true;
         if (html.substring(0, 1) === "!") {
