@@ -12,8 +12,8 @@
   },
   "scripts": {
     "prepare": "husky",
-    "lint": "eslint --ext .js,.ts,.tsx --ignore-path .gitignore .",
-    "lint:fix": "eslint --fix --ext .js,.ts,.tsx --ignore-path .gitignore .",
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix .",
     "test": "npm run build && jest --detectOpenHandles --silent",
     "test:watch": "npm run build && jest --silent -w",
     "test:coverage": "npm run build && jest --silent --coverage",
