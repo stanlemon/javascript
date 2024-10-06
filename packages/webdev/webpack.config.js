@@ -2,7 +2,6 @@ const path = require("path");
 const { existsSync } = require("fs");
 const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
 const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
 const { config } = require("dotenv");
 
@@ -153,6 +152,5 @@ module.exports = {
           openAnalyzer: false,
         }),
     ].filter(Boolean),
-    ...[isDevelopment && new ReactRefreshWebpackPlugin()].filter(Boolean),
   ],
 };

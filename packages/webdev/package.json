@@ -1,6 +1,6 @@
 {
   "name": "@stanlemon/webdev",
-  "version": "0.1.199",
+  "version": "0.1.200",
   "description": "My typical web development setup, but without all the copy and paste.",
   "keywords": [
     "webpack",
@@ -27,7 +27,6 @@
     "@babel/preset-react": "^7.24.7",
     "@babel/preset-typescript": "^7.24.7",
     "@peculiar/webcrypto": "^1.5.0",
-    "@pmmmwh/react-refresh-webpack-plugin": "^0.5.15",
     "@stanlemon/eslint-config": "*",
     "@testing-library/jest-dom": "^6.5.0",
     "babel-jest": "^29.7.0",
