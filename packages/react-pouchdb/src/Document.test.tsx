@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 import PouchDB from "pouchdb";
 import { render, fireEvent, waitFor, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
@@ -10,7 +10,7 @@ import { getPouchDb, Loading } from "./test-utils";
 type TestComponentProps = {
   value?: string;
 } & PuttableProps;
-class TestComponent extends React.Component<TestComponentProps> {
+class TestComponent extends Component<TestComponentProps> {
   static defaultProps = {
     value: "",
     putDocument: () => {

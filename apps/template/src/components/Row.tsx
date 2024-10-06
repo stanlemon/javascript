@@ -1,4 +1,4 @@
-import React from "react";
+import React, { createElement } from "react";
 
 export function Row({
   as = "div",
@@ -7,7 +7,7 @@ export function Row({
   as?: keyof React.JSX.IntrinsicElements;
   children?: React.ReactNode;
 }) {
-  return React.createElement(
+  return createElement(
     as,
     {
       style: {

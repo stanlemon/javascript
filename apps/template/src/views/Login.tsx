@@ -2,7 +2,7 @@ import { useState, useContext } from "react";
 import { useCookies } from "react-cookie";
 import { Input, Spacer } from "../components/";
 import { ProfileData, SessionContext, SessionData } from "../Session";
-import fetchApi, { ApiError } from "../helpers/fetchApi";
+import { fetchApi, ApiError } from "../helpers/fetchApi";
 
 export type LoginForm = {
   username: string;

@@ -1,5 +1,5 @@
 import { useContext, useEffect } from "react";
-import fetchApi, { ApiError } from "../helpers/fetchApi";
+import { fetchApi, ApiError } from "../helpers/fetchApi";
 import { SessionContext } from "../Session";
 
 export function Verify({ token = null }: { token: string | null }) {

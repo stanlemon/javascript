@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import { ProfileData, SessionContext } from "../Session";
 import { Header, Input } from "../components";
-import fetchApi, { ApiError } from "../helpers/fetchApi";
+import { fetchApi, ApiError } from "../helpers/fetchApi";
 
 export type ProfileForm = {
   name: string;

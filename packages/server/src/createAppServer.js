@@ -1,14 +1,19 @@
-import dotenv from "dotenv";
-import express, { Router } from "express";
+import { config } from "dotenv";
+import express, {
+  Router,
+  json,
+  urlencoded,
+  static as serveStatic,
+} from "express";
 import cookieParser from "cookie-parser";
 import compression from "compression";
 import helmet from "helmet";
 import morgan from "morgan";
-import rateLimit from "express-rate-limit";
+import { rateLimit } from "express-rate-limit";
 import { createProxyMiddleware } from "http-proxy-middleware";
 import path from "path";
 
-dotenv.config();
+config();
 
 const NODE_ENV = process.env.NODE_ENV ?? "development";
 
@@ -38,8 +43,8 @@ export default function createAppServer(options) {
     webpack !== false && NODE_ENV !== "production" && NODE_ENV !== "test";
 
   const app = express();
-  app.use(express.urlencoded({ extended: true }));
-  app.use(express.json());
+  app.use(urlencoded({ extended: true }));
+  app.use(json());
   app.use(cookieParser());
 
   if (NODE_ENV !== "test") {
@@ -94,7 +99,7 @@ export default function createAppServer(options) {
       })
     );
   } else if (webpack !== false) {
-    app.use(express.static("./dist"));
+    app.use(serveStatic("./dist"));
   }
 
   app.start = () => {

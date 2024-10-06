@@ -1,5 +1,5 @@
-import Joi from "joi";
-import asyncJsonHandler from "./asyncJsonHandler.js";
+import { ValidationError } from "joi";
+import { asyncJsonHandler } from "./asyncJsonHandler.js";
 
 /**
  *
@@ -39,7 +39,7 @@ export default function schemaHandler(schema, fn) {
       // Wrap all of these in our async handler
       await asyncJsonHandler(fn)(req, res, next);
     } catch (error) {
-      if (error instanceof Joi.ValidationError) {
+      if (error instanceof ValidationError) {
         res.status(400).json({
           errors: Object.assign.apply(
             null,

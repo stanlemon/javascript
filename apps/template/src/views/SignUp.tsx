@@ -1,7 +1,7 @@
 import { useState, useContext } from "react";
 import { Input, Spacer } from "../components/";
 import { SessionContext, ProfileData, SessionData } from "../Session";
-import fetchApi, { ApiError } from "../helpers/fetchApi";
+import { fetchApi, ApiError } from "../helpers/fetchApi";
 
 export type FormErrors = {
   errors: Record<string, string>;

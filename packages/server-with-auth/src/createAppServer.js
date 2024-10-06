@@ -1,5 +1,5 @@
 import EventEmitter from "node:events";
-import dotenv from "dotenv";
+import { config } from "dotenv";
 import {
   createAppServer as createBaseAppServer,
   DEFAULTS as BASE_DEFAULTS,
@@ -16,7 +16,7 @@ import UserDao from "./data/user-dao.js";
 import checkUserDao from "./utilities/checkUserDao.js";
 import checkSchemas from "./utilities/checkSchemas.js";
 
-dotenv.config();
+config();
 
 export const DEFAULTS = {
   ...BASE_DEFAULTS,

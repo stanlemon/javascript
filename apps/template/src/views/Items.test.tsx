@@ -1,9 +1,9 @@
 import "@testing-library/jest-dom";
 import { render, screen, fireEvent } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import Items, { ItemData } from "./Items";
+import { Items, ItemData } from "./Items";
 import { SessionAware } from "../Session";
-import fetchApi from "../helpers/fetchApi";
+import { fetchApi } from "../helpers/fetchApi";
 
 jest.mock("../helpers/fetchApi");
 

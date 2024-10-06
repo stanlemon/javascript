@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext, createContext } from "react";
 import { useCookies } from "react-cookie";
 import { ErrorMessage } from "./components/";
-import fetchApi from "./helpers/fetchApi";
+import { fetchApi } from "./helpers/fetchApi";
 
 type SessionContextProperties = {
   initialized: boolean;

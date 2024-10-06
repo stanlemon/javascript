@@ -3,7 +3,7 @@ import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { Account, PasswordRequest, ProfileForm } from "./";
 import { SessionAware } from "../Session";
-import fetchApi from "../helpers/fetchApi";
+import { fetchApi } from "../helpers/fetchApi";
 
 jest.mock("../helpers/fetchApi");
 

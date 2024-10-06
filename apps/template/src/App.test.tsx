@@ -3,7 +3,7 @@ import { render, screen, waitFor } from "@testing-library/react";
 import App from "./App";
 import { ItemData } from "./views";
 import { SessionAware } from "./Session";
-import fetchApi from "./helpers/fetchApi";
+import { fetchApi } from "./helpers/fetchApi";
 
 jest.mock("./helpers/fetchApi");
 
