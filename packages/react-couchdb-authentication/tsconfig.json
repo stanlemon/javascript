@@ -3,8 +3,7 @@
   "compilerOptions": {
     "noEmit": false,
     "emitDeclarationOnly": true,
-    "outDir": "./dist",
-    "skipLibCheck": true // This is due to an issue with the buffer library
+    "outDir": "./dist"
   },
   "include": [
     "./src/**/*"

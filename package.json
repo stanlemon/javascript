@@ -18,6 +18,7 @@
     "test:watch": "npm run build && jest --silent -w",
     "test:coverage": "npm run build && jest --silent --coverage",
     "build": "npm run build --workspaces --if-present",
+    "tsc": "npm run tsc --workspaces --if-present",
     "publish": "node publish.js",
     "workspaces:lint": "npm run lint --workspaces --if-present",
     "workspaces:test": "npm run test --workspaces --if-present"

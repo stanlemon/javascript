@@ -8,6 +8,7 @@
   "scripts": {
     "start": "webpack serve",
     "build": "webpack",
+    "tsc": "tsc",
     "lint": "eslint .",
     "lint:fix": "eslint --fix ."
   },

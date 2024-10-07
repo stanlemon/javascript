@@ -469,7 +469,6 @@ export class Authentication extends React.Component<Props, State> {
     await this.checkSession();
 
     this.#checkSessionInterval = window.setInterval(() => {
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       this.checkSession();
     }, this.props.sessionInterval);
   }
