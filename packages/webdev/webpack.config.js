@@ -33,15 +33,18 @@ const WEBDEV_PROXY = process.env.WEBDEV_PROXY ?? "";
 const WEBPACK_PUBLIC_PATH = process.env.WEBPACK_PUBLIC_PATH ?? "/";
 const NODE_ENV = process.env.NODE_ENV ?? "development";
 
-const proxy = {};
-WEBDEV_PROXY.split(";").forEach((entry) => {
-  if (entry.indexOf("@") === -1) {
-    return;
-  }
-  const path = entry.substring(0, entry.indexOf("@"));
-  const host = entry.substring(entry.indexOf("@") + 1);
-  proxy[path] = host;
-});
+const proxy = WEBDEV_PROXY.split(";")
+  .map((entry) => {
+    if (entry.indexOf("@") === -1) {
+      return null;
+    }
+    const path = entry.substring(0, entry.indexOf("@"));
+    const host = entry.substring(entry.indexOf("@") + 1);
+
+    return { context: [path], target: host };
+  })
+  // Remove any nulls
+  .filter((e) => e !== null);
 
 const isDevelopment = NODE_ENV !== "production";
 
@@ -100,7 +103,6 @@ module.exports = {
           loader: "babel-loader",
           options: {
             ...babelOptions,
-            plugins: [isDevelopment && "react-refresh/babel"].filter(Boolean),
           },
         },
         resolve: {

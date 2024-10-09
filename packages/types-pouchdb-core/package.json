@@ -1,49 +1,15 @@
 {
-  "//": [
-    "This package is taken from https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/pouchdb-core",
-    "It removes 'Buffer' from the global scope, as it causes all kinds of problems for tsc.",
-    "For example https://github.com/DefinitelyTyped/DefinitelyTyped/discussions/62134",
-    "And also https://stackoverflow.com/questions/68833139/cannot-export-buffer-only-local-declarations-can-be-exported-from-a-module"
+  "name": "@stanlemon/types-pouchdb-core",
+  "version": "0.0.1",
+  "description": "Alternative Typescript types for use with PouchDB, forked from DefinitelyTyped.",
+  "keywords": [
+    "typescript",
+    "pouchdb"
   ],
-  "private": true,
-  "name": "@types/pouchdb-core",
-  "version": "999",
-  "projects": [
-    "https://pouchdb.com/",
-    "https://github.com/pouchdb/pouchdb"
-  ],
-  "dependencies": {
-    "@types/debug": "*",
-    "@types/pouchdb-find": "*"
-  },
-  "owners": [
-    {
-      "name": "Simon Paulger",
-      "githubUsername": "spaulg"
-    },
-    {
-      "name": "Jakub Navratil",
-      "githubUsername": "trubit"
-    },
-    {
-      "name": "Brian Geppert",
-      "githubUsername": "geppy"
-    },
-    {
-      "name": "Frederico Galvão",
-      "githubUsername": "fredgalvao"
-    },
-    {
-      "name": "Tobias Bales",
-      "githubUsername": "TobiasBales"
-    },
-    {
-      "name": "Sebastián Ramírez",
-      "githubUsername": "tiangolo"
-    },
-    {
-      "name": "Katy Moe",
-      "githubUsername": "kmoe"
-    }
-  ]
+  "author": "Stan Lemon <stanlemon@users.noreply.github.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/stanlemon/javascript/tree/main/packages/types-pouchdb-core"
+  }
 }

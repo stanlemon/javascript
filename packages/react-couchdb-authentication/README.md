@@ -78,3 +78,20 @@ You can run tests by doing:
 ```
 
 _Tests require a working CouchDB instance._
+
+## Typescript
+
+If you use Typescript you may run into an issue with the PouchDB types conflicting with the Node types. You can fix this by adding the following to your package.json to override `@types/pouchdb-core` where the problem exists.
+
+```json
+{
+  "devDependencies": {
+    "@types/pouchdb": "^7.0.0"
+  },
+  "overrides": {
+    "@types/pouchdb-core": {
+      "@stanlemon/types-pouchdb-core": "0.0.1"
+    }
+  }
+}
+```
