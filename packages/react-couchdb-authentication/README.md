@@ -86,12 +86,11 @@ If you use Typescript you may run into an issue with the PouchDB types conflicti
 ```json
 {
   "devDependencies": {
-    "@types/pouchdb": "^7.0.0"
+    "@types/pouchdb": "^6.4.2",
+    "@types/debug": "^4.1.12"
   },
   "overrides": {
-    "@types/pouchdb-core": {
-      "@stanlemon/types-pouchdb-core": "0.0.1"
-    }
+    "@types/pouchdb-core": "npm:@stanlemon/types-pouchdb-core@^0.0.1"
   }
 }
 ```
