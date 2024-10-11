@@ -1,13 +1,12 @@
-const path = require("path");
-const { existsSync } = require("fs");
-const webpack = require("webpack");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
-const { config } = require("dotenv");
+import path from "path";
+import { existsSync } from "fs";
+import webpack from "webpack";
+import HtmlWebpackPlugin from "html-webpack-plugin";
+import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
+import { config } from "dotenv";
+import babelOptions from "./.babelrc.json" assert { type: "json" };
 
 config();
-
-const babelOptions = require("./.babelrc.json");
 
 function getWebdevEntry() {
   if (process.env.WEBDEV_ENTRY) {
@@ -48,7 +47,7 @@ const proxy = WEBDEV_PROXY.split(";")
 
 const isDevelopment = NODE_ENV !== "production";
 
-module.exports = {
+export default {
   mode: isDevelopment ? "development" : "production",
   entry: WEBDEV_ENTRY.split(";"),
   output: {

@@ -1,1 +1,1 @@
-module.exports = require("@stanlemon/webdev/webpack.config.js");
+export { default } from "@stanlemon/webdev/webpack.config.js";

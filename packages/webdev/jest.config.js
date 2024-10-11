@@ -1,6 +1,5 @@
-const path = require("path");
-
-const babelOptions = require("./.babelrc.json");
+import path from "path";
+import babelOptions from "./.babelrc.json" assert { type: "json" };
 
 // Disable using esmodules everywhere
 babelOptions.presets.find(
@@ -19,9 +18,9 @@ const esModules = [
   "@stanlemon/server-with-auth",
 ].join("|");
 
-module.exports = {
+export default {
   verbose: true,
-  setupFilesAfterEnv: [path.resolve(__dirname, "./jest.setup.js")],
+  setupFilesAfterEnv: [path.resolve(import.meta.dirname, "./jest.setup.js")],
   testEnvironment: "jsdom",
   transform: {
     "^.+\\.(js|jsx|ts|tsx)?$": ["babel-jest", babelOptions],
@@ -32,7 +31,7 @@ module.exports = {
   moduleNameMapper: {
     "\\.(css|less|sass|scss)$": "identity-obj-proxy",
     // Force module uuid to resolve with the CJS entry point, because Jest does not support package.json.exports. See https://github.com/uuidjs/uuid/issues/451
-    uuid: require.resolve("uuid"),
+    "^uuid$": "uuid",
   },
   testPathIgnorePatterns: ["/node_modules/", "/dist/"],
   coverageDirectory: "coverage",

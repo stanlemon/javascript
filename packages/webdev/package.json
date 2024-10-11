@@ -1,6 +1,6 @@
 {
   "name": "@stanlemon/webdev",
-  "version": "0.1.201",
+  "version": "0.2.0",
   "description": "My typical web development setup, but without all the copy and paste.",
   "keywords": [
     "webpack",
@@ -13,11 +13,13 @@
   "engines": {
     "node": ">=20.0"
   },
-  "type": "commonjs",
+  "type": "module",
   "scripts": {
     "build": "WEBDEV_ENTRY=./example.tsx webpack build",
     "lint": "eslint .",
-    "lint:fix": "eslint --fix ."
+    "lint:fix": "eslint --fix .",
+    "test": "jest",
+    "tsc": "tsc"
   },
   "dependencies": {
     "@babel/cli": "^7.25.6",

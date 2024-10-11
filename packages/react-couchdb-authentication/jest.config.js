@@ -1,1 +1,1 @@
-module.exports = require("@stanlemon/webdev/jest.config.js");
+export { default } from "@stanlemon/webdev/jest.config.js";

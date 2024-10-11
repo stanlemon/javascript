@@ -1,4 +1,6 @@
 import PouchDB from "pouchdb";
+import PouchDBMemoryAdapter from "pouchdb-adapter-memory";
+
 import {
   fireEvent,
   render,
@@ -14,8 +16,7 @@ if (!window.setImmediate) {
   window.setImmediate = window.setTimeout as unknown as typeof setImmediate;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-PouchDB.plugin(require("pouchdb-adapter-memory"));
+PouchDB.plugin(PouchDBMemoryAdapter);
 
 const couchDbUrl = process.env.COUCHDB_URL || "http://localhost:5984/";
 
