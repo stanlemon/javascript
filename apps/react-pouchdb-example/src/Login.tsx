@@ -1,7 +1,7 @@
 import * as React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faLock } from "@fortawesome/free-solid-svg-icons";
-import { LoginViewProps as Props } from "@stanlemon/react-couchdb-authentication/dist/components/LoginView";
+import { LoginViewProps as Props } from "@stanlemon/react-couchdb-authentication";
 
 export function Login(props: Props): React.ReactElement {
   return (

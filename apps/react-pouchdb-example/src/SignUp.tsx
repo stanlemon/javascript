@@ -1,7 +1,7 @@
 import * as React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faEnvelope, faLock } from "@fortawesome/free-solid-svg-icons";
-import { SignUpViewProps as Props } from "@stanlemon/react-couchdb-authentication/dist/components/SignUpView";
+import { SignUpViewProps as Props } from "@stanlemon/react-couchdb-authentication";
 
 export function SignUp(props: Props): React.ReactElement {
   return (
