@@ -17,6 +17,7 @@
     "test": "npm run build && jest --detectOpenHandles --silent",
     "test:watch": "npm run build && jest --silent -w",
     "test:coverage": "npm run build && jest --silent --coverage",
+    "clean": "npm run clean --workspaces --if-present",
     "build": "npm run build --workspaces --if-present",
     "tsc": "npm run tsc --workspaces --if-present",
     "publish": "node publish.js",
