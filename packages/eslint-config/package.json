@@ -1,6 +1,6 @@
 {
   "name": "@stanlemon/eslint-config",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "My typical eslint setup, but without all the copy and paste.",
   "keywords": [
     "eslint"
@@ -29,9 +29,9 @@
     "eslint-plugin-jest-dom": "^5.4.0",
     "eslint-plugin-prettier": "^5.2.1",
     "eslint-plugin-react": "^7.37.1",
-    "globals": "^15.10.0",
+    "globals": "^15.11.0",
     "prettier": "^3.3.3",
-    "typescript": "^5.6.2",
-    "typescript-eslint": "^8.8.0"
+    "typescript": "^5.6.3",
+    "typescript-eslint": "^8.8.1"
   }
 }

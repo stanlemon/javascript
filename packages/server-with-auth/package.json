@@ -1,6 +1,6 @@
 {
   "name": "@stanlemon/server-with-auth",
-  "version": "0.3.20",
+  "version": "0.3.21",
   "description": "A basic express web server setup with authentication baked in.",
   "author": "Stan Lemon <stanlemon@users.noreply.github.com>",
   "license": "MIT",
@@ -22,7 +22,7 @@
     "@stanlemon/server": "*",
     "@stanlemon/webdev": "*",
     "bcryptjs": "^2.4.3",
-    "express-session": "^1.18.0",
+    "express-session": "^1.18.1",
     "jsonwebtoken": "^9.0.2",
     "lowdb": "^7.0.1",
     "lowdb-node": "^3.0.2",
