@@ -14,6 +14,7 @@ const esModules = [
   "steno", // Used by lowdb
   "lodash-es",
   "wouter", // Used by @atanlemon/app-template
+  "@stanlemon/webdev",
   "@stanlemon/server",
   "@stanlemon/server-with-auth",
 ].join("|");
