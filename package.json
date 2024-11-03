@@ -23,5 +23,8 @@
     "publish": "node publish.js",
     "workspaces:lint": "npm run lint --workspaces --if-present",
     "workspaces:test": "npm run test --workspaces --if-present"
+  },
+  "overrides": {
+    "@types/pouchdb-core": "npm:@stanlemon/types-pouchdb-core@^0.0.1"
   }
 }
