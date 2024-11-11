@@ -1,6 +1,6 @@
 {
   "name": "@stanlemon/eslint-config",
-  "version": "2.0.3",
+  "version": "3.0.0",
   "description": "My typical eslint setup, but without all the copy and paste.",
   "keywords": [
     "eslint"
@@ -11,7 +11,12 @@
     "node": ">=20.0"
   },
   "type": "module",
-  "main": "./eslint.config.js",
+  "exports": {
+    ".": {
+      "require": "./eslint.config.cjs",
+      "import": "./eslint.config.mjs"
+    }
+  },
   "scripts": {
     "lint": "eslint .",
     "lint:fix": "eslint --fix ."
