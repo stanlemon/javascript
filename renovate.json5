@@ -180,7 +180,25 @@
       "major": {
         "automerge": false // Manual review required via PR
       }
-    }
+    },
+    // Enable docker and pin digests
+    {
+      "matchManagers": [
+        "dockerfile"
+      ],
+      "groupName": "Docker image updates",
+      "pinDigests": true,
+      "automerge": true
+    },
+    // Enable GitHub Actions and but do not pin digests
+    {
+      "matchManagers": [
+        "github-actions"
+      ],
+      "groupName": "GitHub Actions updates",
+      "pinDigests": false,
+      "automerge": true
+    },
   ],
   // Security vulnerability handling
   "vulnerabilityAlerts": {
@@ -215,6 +233,5 @@
   // Docker-specific settings
   "docker": {
     "enabled": true,
-    "pinDigests": true // Pin digests for reproducibility
-  }
+  },
 }
