@@ -2,7 +2,7 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   // Base configuration presets for recommended settings
   "extends": [
-    "config:base", // Default base configuration
+    "config:recommended", // Default base configuration
     ":dependencyDashboard", // Enables Renovate dashboard
     ":semanticCommits", // Uses semantic commit messages
     ":semanticPrefixFix", // Adds semantic prefix for fixes
@@ -10,7 +10,7 @@
     "docker:enableMajor", // Enables Docker major version upgrades
     ":automergePatch", // Enables automerging of patch updates
     ":automergeMinor", // Enables automerging of minor updates
-    ":automergePR", // Configures PR-based automerging
+    ":automergePr", // Configures PR-based automerging
     ":maintainLockFilesWeekly", // Weekly lock file maintenance
     ":preserveSemverRanges", // Preserves semver ranges in package.json
     "npm:unpublishSafe", // Adds safety check for npm unpublished versions
