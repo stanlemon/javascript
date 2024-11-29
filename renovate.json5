@@ -1,26 +1,26 @@
 {
   // Validate against Renovate JSON schema
-  $schema: "https://docs.renovatebot.com/renovate-schema.json",
+  $schema: 'https://docs.renovatebot.com/renovate-schema.json',
 
   // Base configuration presets
   extends: [
-    "config:base",              // Core preset
-    ":enablePreCommit",         // Enable pre-commit hook updates
-    ":preserveSemverRanges",    // Keep existing semver range operators
-    ":maintainLockFilesWeekly", // Update lock files weekly
-    ":combinePatchMinorReleases", // Combine patch and minor releases
-    "docker:enableMajor",       // Enable major Docker updates
-    "docker:pinDigests",        // Pin Docker digests
-    "npm:unpublishSafe",        // Protect against npm unpublishing
-    ":separateMajorReleases"    // Handle major updates separately
+    'config:base',              // Core preset
+    ':enablePreCommit',         // Enable pre-commit hook updates
+    ':preserveSemverRanges',    // Keep existing semver range operators
+    ':maintainLockFilesWeekly', // Update lock files weekly
+    ':combinePatchMinorReleases', // Combine patch and minor releases
+    'docker:enableMajor',       // Enable major Docker updates
+    'docker:pinDigests',        // Pin Docker digests
+    'npm:unpublishSafe',        // Protect against npm unpublishing
+    ':separateMajorReleases'    // Handle major updates separately
   ],
 
   // Set timezone to Indianapolis
-  timezone: "America/Indiana/Indianapolis",
+  timezone: 'America/Indiana/Indianapolis',
 
   // Version management strategies
-  rangeStrategy: "bump",        // Bump ranges to next version
-  bumpVersion: "patch",         // Use patch version for bumping
+  rangeStrategy: 'bump',        // Bump ranges to next version
+  bumpVersion: 'patch',         // Use patch version for bumping
 
   // Enable dependency dashboard for overview
   dependencyDashboard: true,
@@ -29,72 +29,78 @@
   prConcurrentLimit: 10,
 
   // Rebase strategy
-  rebaseWhen: "auto",
+  rebaseWhen: 'auto',
 
   // Package update rules
   packageRules: [
     {
       // Group all non-major dependencies
-      matchUpdateTypes: ["minor", "patch"],
-      matchCurrentVersion: "!/^0/",    // Exclude 0.x versions
-      excludePackagePatterns: ["^@stanlemon/"],
-      groupName: "non-major dependencies",
+      matchUpdateTypes: ['minor', 'patch'],
+      matchCurrentVersion: '!/^0/',    // Exclude 0.x versions
+      groupName: 'non-major dependencies',
       stabilityDays: 7,                // Wait 7 days before updating
-      schedule: ["after 10am and before 4pm on saturday"],
+      schedule: ['after 10am and before 4pm on saturday'],
       automerge: true,
-      automergeType: "branch"
+      automergeType: 'branch',
+      matchPackageNames: [
+        '!/^@stanlemon//',
+      ],
     },
     {
       // Group all eslint related packages
-      matchPackagePatterns: ["^eslint"],
-      groupName: "eslint packages",
-      schedule: ["after 10am and before 4pm on saturday"]
+      matchPackagePatterns: [
+        '/^eslint/',
+      ],
+      groupName: 'eslint packages',
+      schedule: ['after 10am and before 4pm on saturday']
     },
     {
       // Handle major updates separately
-      matchUpdateTypes: ["major"],
-      excludePackagePatterns: ["^@stanlemon/"],
-      groupName: "major updates",
+      matchUpdateTypes: ['major'],
+      groupName: 'major updates',
       stabilityDays: 30,               // One month waiting period
-      schedule: ["after 10am and before 4pm on saturday"]
+      schedule: ['after 10am and before 4pm on saturday'],
+      matchPackageNames: [
+        '!/^@stanlemon//',
+      ],
     },
     {
       // Special handling for Node.js updates
-      matchPackageNames: ["node"],
-      matchManagers: ["dockerfile", "npm"],
+      matchPackageNames: ['node'],
+      matchManagers: ['dockerfile', 'npm'],
       stabilityDays: 60,               // Two month waiting period
-      allowedVersions: "/^[1-9][0-9]*[02468]\\./", // LTS versions only
+      allowedVersions: '/^[1-9][0-9]*[02468]\\./', // LTS versions only
       major: {
         automerge: false               // Require manual review for major node updates
       }
     },
     {
       // Special handling for @stanlemon packages
-      matchPackagePatterns: ["^@stanlemon/"],
+      matchPackagePatterns: ['^@stanlemon/'],
       stabilityDays: 0,                // No waiting period
       automerge: true,
-      automergeType: "branch"          // Merge immediately via branch
+      automergeType: 'branch'          // Merge immediately via branch
     },
     {
       // Automerge rules for minor/patch updates
-      matchUpdateTypes: ["patch", "minor"],
-      matchCurrentVersion: "!/^0/",    // Exclude 0.x versions
+      matchUpdateTypes: ['patch', 'minor'],
+      matchCurrentVersion: '!/^0/',    // Exclude 0.x versions
       automerge: true,
-      automergeType: "branch"
+      automergeType: 'branch'
     }
   ],
 
   // Security update configuration
   vulnerabilityAlerts: {
     enabled: true,
-    labels: ["security"],
+    labels: ['security'],
     automerge: true,               // Automerge security updates
-    schedule: "at any time"        // Process security updates immediately
+    schedule: 'at any time'        // Process security updates immediately
   },
 
   // Lock file maintenance
   lockFileMaintenance: {
     enabled: true,
-    schedule: ["after 10am and before 4pm on saturday"]
+    schedule: ['after 10am and before 4pm on saturday']
   }
 }
