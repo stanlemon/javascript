@@ -34,6 +34,18 @@
   // Package update rules
   packageRules: [
     {
+      // Require all status checks to pass for all types of updates
+      "matchUpdateTypes": [
+        "major",
+        "minor",
+        "patch",
+        "pin",
+        "digest",
+        "lockFileMaintenance"
+      ],
+      "requiredStatusChecks": ["*"],
+    },
+    {
       // Group all non-major dependencies
       matchUpdateTypes: ['minor', 'patch'],
       matchCurrentVersion: '!/^0/',    // Exclude 0.x versions
@@ -87,6 +99,12 @@
       matchCurrentVersion: '!/^0/',    // Exclude 0.x versions
       automerge: true,
       automergeType: 'branch'
+    },
+    {
+      // Automerge rules for lock file maintenance
+      "matchUpdateTypes": ["lockFileMaintenance"],
+      "automerge": true,
+      "automergeType": "branch"
     }
   ],
 
