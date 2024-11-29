@@ -12,7 +12,7 @@
     'docker:enableMajor',       // Enable major Docker updates
     'docker:pinDigests',        // Pin Docker digests
     'npm:unpublishSafe',        // Protect against npm unpublishing
-    ':separateMajorReleases'    // Handle major updates separately
+    ':separateMajorReleases',    // Handle major updates separately
   ],
 
   // Set timezone to Indianapolis
@@ -34,24 +34,17 @@
   // Package update rules
   packageRules: [
     {
-      // Require all status checks to pass for all types of updates
-      "matchUpdateTypes": [
-        "major",
-        "minor",
-        "patch",
-        "pin",
-        "digest",
-        "lockFileMaintenance"
-      ],
-      "requiredStatusChecks": ["*"],
-    },
-    {
       // Group all non-major dependencies
-      matchUpdateTypes: ['minor', 'patch'],
+      matchUpdateTypes: [
+        'minor',
+        'patch',
+        ],
       matchCurrentVersion: '!/^0/',    // Exclude 0.x versions
       groupName: 'non-major dependencies',
       minimumReleaseAge: '7 days',                // Wait 7 days before updating
-      schedule: ['after 10am and before 4pm on saturday'],
+      schedule: [
+        'after 10am and before 4pm on saturday',
+        ],
       automerge: true,
       automergeType: 'branch',
       matchPackageNames: [
@@ -64,61 +57,83 @@
         '/^eslint/',
       ],
       groupName: 'eslint packages',
-      schedule: ['after 10am and before 4pm on saturday']
+      schedule: [
+        'after 10am and before 4pm on saturday',
+      ],
     },
     {
       // Handle major updates separately
-      matchUpdateTypes: ['major'],
+      matchUpdateTypes: [
+        'major',
+        ],
       groupName: 'major updates',
       minimumReleaseAge: '30 days',               // One month waiting period
-      schedule: ['after 10am and before 4pm on saturday'],
+      schedule: [
+        'after 10am and before 4pm on saturday',
+      ],
       matchPackageNames: [
         '!/^@stanlemon//',
       ],
     },
     {
       // Special handling for Node.js updates
-      matchPackageNames: ['node'],
-      matchManagers: ['dockerfile', 'npm'],
+      matchPackageNames: [
+        'node',
+      ],
+      matchManagers: [
+        'dockerfile',
+        'npm',
+      ],
       minimumReleaseAge: '60 days',               // Two month waiting period
       allowedVersions: '/^[1-9][0-9]*[02468]\\./', // LTS versions only
       major: {
-        automerge: false               // Require manual review for major node updates
-      }
+        automerge: false,               // Require manual review for major node updates
+      },
     },
     {
       // Special handling for @stanlemon packages
-      matchPackagePatterns: ['^@stanlemon/'],
+      matchPackagePatterns: [
+        '^@stanlemon/',
+      ],
       minimumReleaseAge: null,                // No waiting period
       automerge: true,
-      automergeType: 'branch'          // Merge immediately via branch
+      automergeType: 'branch',          // Merge immediately via branch
     },
     {
       // Automerge rules for minor/patch updates
-      matchUpdateTypes: ['patch', 'minor'],
+      matchUpdateTypes: [
+        'patch',
+        'minor',
+      ],
       matchCurrentVersion: '!/^0/',    // Exclude 0.x versions
       automerge: true,
       automergeType: 'branch'
     },
     {
       // Automerge rules for lock file maintenance
-      "matchUpdateTypes": ["lockFileMaintenance"],
-      "automerge": true,
-      "automergeType": "branch"
-    }
+      matchUpdateTypes: [
+        'lockFileMaintenance',
+      ],
+      automerge: true,
+      automergeType: 'branch',
+    },
   ],
 
   // Security update configuration
   vulnerabilityAlerts: {
     enabled: true,
-    labels: ['security'],
+    labels: [
+      'security',
+    ],
     automerge: true,               // Automerge security updates
-    schedule: 'at any time'        // Process security updates immediately
+    schedule: 'at any time',        // Process security updates immediately
   },
 
   // Lock file maintenance
   lockFileMaintenance: {
     enabled: true,
-    schedule: ['after 10am and before 4pm on saturday']
-  }
+    schedule: [
+      'after 10am and before 4pm on saturday',
+    ],
+  },
 }
