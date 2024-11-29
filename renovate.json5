@@ -38,13 +38,13 @@
       matchUpdateTypes: [
         'minor',
         'patch',
-        ],
+      ],
       matchCurrentVersion: '!/^0/',    // Exclude 0.x versions
       groupName: 'non-major dependencies',
       minimumReleaseAge: '7 days',                // Wait 7 days before updating
       schedule: [
         'after 10am and before 4pm on saturday',
-        ],
+      ],
       automerge: true,
       automergeType: 'branch',
       matchPackageNames: [
@@ -53,19 +53,19 @@
     },
     {
       // Group all eslint related packages
-      matchPackagePatterns: [
-        '/^eslint/',
-      ],
       groupName: 'eslint packages',
       schedule: [
         'after 10am and before 4pm on saturday',
+      ],
+      matchPackagePatterns: [
+        '/^eslint/',
       ],
     },
     {
       // Handle major updates separately
       matchUpdateTypes: [
         'major',
-        ],
+      ],
       groupName: 'major updates',
       minimumReleaseAge: '30 days',               // One month waiting period
       schedule: [
@@ -92,12 +92,13 @@
     },
     {
       // Special handling for @stanlemon packages
-      matchPackagePatterns: [
-        '^@stanlemon/',
-      ],
+      groupName: 'my own packages',
       minimumReleaseAge: null,                // No waiting period
       automerge: true,
       automergeType: 'branch',          // Merge immediately via branch
+      matchPackagePatterns: [
+        '^@stanlemon/',
+      ],
     },
     {
       // Automerge rules for minor/patch updates
@@ -107,7 +108,7 @@
       ],
       matchCurrentVersion: '!/^0/',    // Exclude 0.x versions
       automerge: true,
-      automergeType: 'branch'
+      automergeType: 'branch',
     },
     {
       // Automerge rules for lock file maintenance
