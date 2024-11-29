@@ -4,7 +4,7 @@
 
   // Base configuration presets
   extends: [
-    'config:base',              // Core preset
+    'config:recommended',              // Core preset
     ':enablePreCommit',         // Enable pre-commit hook updates
     ':preserveSemverRanges',    // Keep existing semver range operators
     ':maintainLockFilesWeekly', // Update lock files weekly
