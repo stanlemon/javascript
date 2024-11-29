@@ -38,7 +38,7 @@
       matchUpdateTypes: ['minor', 'patch'],
       matchCurrentVersion: '!/^0/',    // Exclude 0.x versions
       groupName: 'non-major dependencies',
-      stabilityDays: 7,                // Wait 7 days before updating
+      minimumReleaseAge: '7 days',                // Wait 7 days before updating
       schedule: ['after 10am and before 4pm on saturday'],
       automerge: true,
       automergeType: 'branch',
@@ -58,7 +58,7 @@
       // Handle major updates separately
       matchUpdateTypes: ['major'],
       groupName: 'major updates',
-      stabilityDays: 30,               // One month waiting period
+      minimumReleaseAge: '30 days',               // One month waiting period
       schedule: ['after 10am and before 4pm on saturday'],
       matchPackageNames: [
         '!/^@stanlemon//',
@@ -68,7 +68,7 @@
       // Special handling for Node.js updates
       matchPackageNames: ['node'],
       matchManagers: ['dockerfile', 'npm'],
-      stabilityDays: 60,               // Two month waiting period
+      minimumReleaseAge: '60 days',               // Two month waiting period
       allowedVersions: '/^[1-9][0-9]*[02468]\\./', // LTS versions only
       major: {
         automerge: false               // Require manual review for major node updates
@@ -77,7 +77,7 @@
     {
       // Special handling for @stanlemon packages
       matchPackagePatterns: ['^@stanlemon/'],
-      stabilityDays: 0,                // No waiting period
+      minimumReleaseAge: null,                // No waiting period
       automerge: true,
       automergeType: 'branch'          // Merge immediately via branch
     },
