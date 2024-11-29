@@ -1,47 +1,31 @@
 {
-  // Validate against Renovate JSON schema
   $schema: 'https://docs.renovatebot.com/renovate-schema.json',
-
-  // Base configuration presets
   extends: [
-    'config:recommended',              // Core preset
-    ':enablePreCommit',         // Enable pre-commit hook updates
-    ':preserveSemverRanges',    // Keep existing semver range operators
-    ':maintainLockFilesWeekly', // Update lock files weekly
-    ':combinePatchMinorReleases', // Combine patch and minor releases
-    'docker:enableMajor',       // Enable major Docker updates
-    'docker:pinDigests',        // Pin Docker digests
-    'npm:unpublishSafe',        // Protect against npm unpublishing
-    ':separateMajorReleases',    // Handle major updates separately
+    'config:recommended',
+    ':enablePreCommit',
+    ':preserveSemverRanges',
+    ':maintainLockFilesWeekly',
+    ':combinePatchMinorReleases',
+    'docker:enableMajor',
+    'docker:pinDigests',
+    'npm:unpublishSafe',
+    ':separateMajorReleases',
   ],
-
-  // Set timezone to Indianapolis
   timezone: 'America/Indiana/Indianapolis',
-
-  // Version management strategies
-  rangeStrategy: 'bump',        // Bump ranges to next version
-  bumpVersion: 'patch',         // Use patch version for bumping
-
-  // Enable dependency dashboard for overview
+  rangeStrategy: 'bump',
+  bumpVersion: 'patch',
   dependencyDashboard: true,
-
-  // Limit concurrent PRs to avoid overwhelming CI
   prConcurrentLimit: 10,
-
-  // Rebase strategy
   rebaseWhen: 'auto',
-
-  // Package update rules
   packageRules: [
     {
-      // Group all non-major dependencies
       matchUpdateTypes: [
         'minor',
         'patch',
       ],
-      matchCurrentVersion: '!/^0/',    // Exclude 0.x versions
+      matchCurrentVersion: '!/^0/',
       groupName: 'non-major dependencies',
-      minimumReleaseAge: '7 days',                // Wait 7 days before updating
+      minimumReleaseAge: '7 days',
       schedule: [
         'after 10am and before 4pm on saturday',
       ],
@@ -52,22 +36,20 @@
       ],
     },
     {
-      // Group all eslint related packages
       groupName: 'eslint packages',
       schedule: [
         'after 10am and before 4pm on saturday',
       ],
-      matchPackagePatterns: [
-        '/^eslint/',
+      matchPackageNames: [
+        '//^eslint//',
       ],
     },
     {
-      // Handle major updates separately
       matchUpdateTypes: [
         'major',
       ],
       groupName: 'major updates',
-      minimumReleaseAge: '30 days',               // One month waiting period
+      minimumReleaseAge: '30 days',
       schedule: [
         'after 10am and before 4pm on saturday',
       ],
@@ -76,7 +58,6 @@
       ],
     },
     {
-      // Special handling for Node.js updates
       matchPackageNames: [
         'node',
       ],
@@ -84,34 +65,31 @@
         'dockerfile',
         'npm',
       ],
-      minimumReleaseAge: '60 days',               // Two month waiting period
-      allowedVersions: '/^[1-9][0-9]*[02468]\\./', // LTS versions only
+      minimumReleaseAge: '60 days',
+      allowedVersions: '/^[1-9][0-9]*[02468]\\./',
       major: {
-        automerge: false,               // Require manual review for major node updates
+        automerge: false,
       },
     },
     {
-      // Special handling for @stanlemon packages
       groupName: 'my own packages',
-      minimumReleaseAge: null,                // No waiting period
+      minimumReleaseAge: null,
       automerge: true,
-      automergeType: 'branch',          // Merge immediately via branch
-      matchPackagePatterns: [
-        '^@stanlemon/',
+      automergeType: 'branch',
+      matchPackageNames: [
+        '/^@stanlemon//',
       ],
     },
     {
-      // Automerge rules for minor/patch updates
       matchUpdateTypes: [
         'patch',
         'minor',
       ],
-      matchCurrentVersion: '!/^0/',    // Exclude 0.x versions
+      matchCurrentVersion: '!/^0/',
       automerge: true,
       automergeType: 'branch',
     },
     {
-      // Automerge rules for lock file maintenance
       matchUpdateTypes: [
         'lockFileMaintenance',
       ],
@@ -119,18 +97,14 @@
       automergeType: 'branch',
     },
   ],
-
-  // Security update configuration
   vulnerabilityAlerts: {
     enabled: true,
     labels: [
       'security',
     ],
-    automerge: true,               // Automerge security updates
-    schedule: 'at any time',        // Process security updates immediately
+    automerge: true,
+    schedule: 'at any time',
   },
-
-  // Lock file maintenance
   lockFileMaintenance: {
     enabled: true,
     schedule: [
