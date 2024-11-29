@@ -61,7 +61,7 @@
     {
       // Special handling for Node.js updates
       matchPackageNames: ["node"],
-      matchManagers: ["docker", "npm"],
+      matchManagers: ["dockerfile", "npm"],
       stabilityDays: 60,               // Two month waiting period
       allowedVersions: "/^[1-9][0-9]*[02468]\\./", // LTS versions only
       major: {
