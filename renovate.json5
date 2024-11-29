@@ -1,237 +1,100 @@
 {
-  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  // Base configuration presets for recommended settings
-  "extends": [
-    "config:recommended", // Default base configuration
-    ":dependencyDashboard", // Enables Renovate dashboard
-    ":semanticCommits", // Uses semantic commit messages
-    ":semanticPrefixFix", // Adds semantic prefix for fixes
-    "helpers:pinGitHubActionDigests", // Pins GitHub Action versions
-    "docker:enableMajor", // Enables Docker major version upgrades
-    ":automergePatch", // Enables automerging of patch updates
-    ":automergeMinor", // Enables automerging of minor updates
-    ":automergePr", // Configures PR-based automerging
-    ":maintainLockFilesWeekly", // Weekly lock file maintenance
-    ":preserveSemverRanges", // Preserves semver ranges in package.json
-    "npm:unpublishSafe", // Adds safety check for npm unpublished versions
-    "workarounds:all" // Applies known workarounds
+  // Validate against Renovate JSON schema
+  $schema: "https://docs.renovatebot.com/renovate-schema.json",
+
+  // Base configuration presets
+  extends: [
+    "config:base",              // Core preset
+    ":enablePreCommit",         // Enable pre-commit hook updates
+    ":preserveSemverRanges",    // Keep existing semver range operators
+    ":maintainLockFilesWeekly", // Update lock files weekly
+    ":combinePatchMinorReleases", // Combine patch and minor releases
+    "docker:enableMajor",       // Enable major Docker updates
+    "docker:pinDigests",        // Pin Docker digests
+    "npm:unpublishSafe",        // Protect against npm unpublishing
+    ":separateMajorReleases"    // Handle major updates separately
   ],
-  // General settings
-  "timezone": "America/Indiana/Indianapolis",
-  "rangeStrategy": "bump", // Updates version ranges to next matching version
-  "bumpVersion": "patch", // Default version bump type
-  // Default required status checks for all PRs
-  "requiredStatusChecks": [
-    "test",
-    "build",
-    "lint"
-  ],
-  // Package rules for different update types and package groups
-  "packageRules": [
+
+  // Set timezone to Indianapolis
+  timezone: "America/Indiana/Indianapolis",
+
+  // Version management strategies
+  rangeStrategy: "bump",        // Bump ranges to next version
+  bumpVersion: "patch",         // Use patch version for bumping
+
+  // Enable dependency dashboard for overview
+  dependencyDashboard: true,
+
+  // Limit concurrent PRs to avoid overwhelming CI
+  prConcurrentLimit: 10,
+
+  // Rebase strategy
+  rebaseWhen: "auto",
+
+  // Package update rules
+  packageRules: [
     {
-      // @stanlemon packages - immediate processing
-      "matchPackagePatterns": [
-        "^@stanlemon/"
-      ],
-      "stabilityDays": 0, // No waiting period
-      "schedule": "at any time", // Process immediately
-      "automerge": true,
-      "automergeType": "branch",
-      "automergeStrategy": "squash",
-      "requiredStatusChecks": [
-        "test",
-        "build",
-        "lint"
-      ],
-      "prPriority": 5 // Higher priority for processing
+      // Group all non-major dependencies
+      matchUpdateTypes: ["minor", "patch"],
+      matchCurrentVersion: "!/^0/",    // Exclude 0.x versions
+      excludePackagePatterns: ["^@stanlemon/"],
+      groupName: "non-major dependencies",
+      stabilityDays: 7,                // Wait 7 days before updating
+      schedule: ["after 10am and before 4pm on saturday"],
+      automerge: true,
+      automergeType: "branch"
     },
     {
-      // Non-major dependencies group
-      "matchPackagePatterns": [
-        "*"
-      ],
-      "stabilityDays": 7, // Wait 7 days after release
-      "groupName": "non-major dependencies",
-      "schedule": [
-        "after 10:00 before 16:00 on saturday"
-      ],
-      "groupSlug": "all-minor-patch",
-      "excludePackagePatterns": [ // Packages to exclude from this group
-        "^@typescript-eslint/",
-        "^eslint",
-        "node",
-        "^@stanlemon/" // Exclude from general grouping
-      ],
-      "matchUpdateTypes": [
-        "patch",
-        "minor"
-      ],
-      "automerge": true,
-      "automergeType": "pr", // Use PR-based automerging
-      "automergeStrategy": "squash",
-      "requiredStatusChecks": [
-        "test",
-        "build",
-        "lint"
-      ]
+      // Group all eslint related packages
+      matchPackagePatterns: ["^eslint"],
+      groupName: "eslint packages",
+      schedule: ["after 10am and before 4pm on saturday"]
     },
     {
-      // ESLint packages group
-      "matchPackagePatterns": [
-        "^@typescript-eslint/",
-        "^eslint"
-      ],
-      "groupName": "eslint packages",
-      "groupSlug": "eslint",
-      "schedule": [
-        "after 10:00 before 16:00 on saturday"
-      ],
-      "automerge": true,
-      "automergeType": "pr", // Use PR-based automerging
-      "requiredStatusChecks": [
-        "test",
-        "build",
-        "lint"
-      ]
+      // Handle major updates separately
+      matchUpdateTypes: ["major"],
+      excludePackagePatterns: ["^@stanlemon/"],
+      groupName: "major updates",
+      stabilityDays: 30,               // One month waiting period
+      schedule: ["after 10am and before 4pm on saturday"]
     },
     {
-      // Major version updates - requires manual review
-      "matchUpdateTypes": [
-        "major"
-      ],
-      "groupName": "major dependencies",
-      "schedule": [
-        "after 10:00 before 16:00 on saturday"
-      ],
-      "stabilityDays": 30, // Wait 30 days after release
-      "automerge": false, // Manual review required via PR
-      "commitMessagePrefix": "feat(deps)!: " // Breaking change prefix
-    },
-    {
-      // Node.js version updates
-      "matchPackageNames": [
-        "node"
-      ],
-      "matchManagers": [
-        "dockerfile",
-        "docker-compose",
-        "github-actions",
-        "npm"
-      ],
-      "stabilityDays": 60, // Wait 60 days after release
-      "schedule": [
-        "after 10:00 before 16:00 on saturday"
-      ],
-      "versioning": "node",
-      "allowedVersions": "/^[1-9][0-9]*[02468]\\./", // Only LTS versions
-      "major": {
-        "automerge": false // Manual review required via PR
+      // Special handling for Node.js updates
+      matchPackageNames: ["node"],
+      matchManagers: ["docker", "npm"],
+      stabilityDays: 60,               // Two month waiting period
+      allowedVersions: "/^[1-9][0-9]*[02468]\\./", // LTS versions only
+      major: {
+        automerge: false               // Require manual review for major node updates
       }
     },
     {
-      // Dev dependencies
-      "matchDepTypes": [
-        "devDependencies"
-      ],
-      "automerge": true,
-      "automergeType": "pr", // Use PR-based automerging
-      "requiredStatusChecks": [
-        "test",
-        "build",
-        "lint"
-      ]
+      // Special handling for @stanlemon packages
+      matchPackagePatterns: ["^@stanlemon/"],
+      stabilityDays: 0,                // No waiting period
+      automerge: true,
+      automergeType: "branch"          // Merge immediately via branch
     },
     {
-      // Regular dependencies patch/minor updates
-      "matchUpdateTypes": [
-        "patch",
-        "minor"
-      ],
-      "matchCurrentVersion": "!/^0/", // Exclude 0.x versions
-      "automerge": true,
-      "automergeType": "pr", // Use PR-based automerging
-      "requiredStatusChecks": [
-        "test",
-        "build",
-        "lint"
-      ]
-    },
-    {
-      // 0.x version major updates
-      "matchUpdateTypes": [
-        "major"
-      ],
-      "matchCurrentVersion": "/^0/", // Only 0.x versions
-      "automerge": false // Manual review required via PR
-    },
-    {
-      // Docker image updates
-      "matchDatasources": [
-        "docker"
-      ],
-      "versioning": "docker",
-      "automerge": true,
-      "automergeType": "pr", // Use PR-based automerging
-      "requiredStatusChecks": [
-        "test",
-        "build",
-        "lint"
-      ],
-      "major": {
-        "automerge": false // Manual review required via PR
-      }
-    },
-    // Enable docker and pin digests
-    {
-      "matchManagers": [
-        "dockerfile"
-      ],
-      "groupName": "Docker image updates",
-      "pinDigests": true,
-      "automerge": true
-    },
-    // Enable GitHub Actions and but do not pin digests
-    {
-      "matchManagers": [
-        "github-actions"
-      ],
-      "groupName": "GitHub Actions updates",
-      "pinDigests": false,
-      "automerge": true
-    },
+      // Automerge rules for minor/patch updates
+      matchUpdateTypes: ["patch", "minor"],
+      matchCurrentVersion: "!/^0/",    // Exclude 0.x versions
+      automerge: true,
+      automergeType: "branch"
+    }
   ],
-  // Security vulnerability handling
-  "vulnerabilityAlerts": {
-    "enabled": true,
-    "labels": [
-      "security"
-    ],
-    "schedule": "at any time", // Process immediately
-    "automerge": true,
-    "automergeType": "pr", // Use PR-based automerging
-    "requiredStatusChecks": [
-      "test",
-      "build",
-      "lint"
-    ],
-    "assignees": [
-      "@team-security"
-    ]
+
+  // Security update configuration
+  vulnerabilityAlerts: {
+    enabled: true,
+    labels: ["security"],
+    automerge: true,               // Automerge security updates
+    schedule: "at any time"        // Process security updates immediately
   },
+
   // Lock file maintenance
-  "lockFileMaintenance": {
-    "enabled": true,
-    "schedule": [
-      "after 10:00 before 16:00 on saturday"
-    ]
-  },
-  // Rate limiting settings
-  "prHourlyLimit": 4, // Max 4 PRs per hour
-  "prConcurrentLimit": 10, // Max 10 open PRs at once
-  "branchConcurrentLimit": 20, // Max 20 concurrent branches
-  "minimumReleaseAge": "7 days", // Minimum age for all updates
-  // Docker-specific settings
-  "docker": {
-    "enabled": true,
-  },
+  lockFileMaintenance: {
+    enabled: true,
+    schedule: ["after 10am and before 4pm on saturday"]
+  }
 }
