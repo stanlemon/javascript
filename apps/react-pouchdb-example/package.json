@@ -18,6 +18,9 @@
     "lint": "eslint .",
     "lint:fix": "eslint --fix ."
   },
+  "engines": {
+    "node": "^20.0.0"
+  },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.6.0",
     "@fortawesome/free-solid-svg-icons": "^6.6.0",

@@ -13,6 +13,9 @@
     "lint:fix": "eslint --fix .",
     "test": "jest"
   },
+  "engines": {
+    "node": "^20.0.0"
+  },
   "dependencies": {
     "@stanlemon/webdev": "*",
     "react": "^18.3.1",

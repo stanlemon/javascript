@@ -32,6 +32,9 @@
     "tsc": "tsc",
     "example": "WEBDEV_ENTRY=./example/Example.tsx webpack serve"
   },
+  "engines": {
+    "node": "^20.0.0"
+  },
   "peerDependencies": {
     "pouchdb": ">=8.0.0",
     "react": ">=17.0.0"

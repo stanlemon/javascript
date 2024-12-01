@@ -11,5 +11,8 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/stanlemon/javascript/tree/main/packages/types-pouchdb-core"
+  },
+  "engines": {
+    "node": "^20.0.0"
   }
 }

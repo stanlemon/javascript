@@ -34,6 +34,9 @@
     "url": "https://github.com/stanlemon/javascript/tree/main/packages/react-couchdb-authentication"
   },
   "license": "MIT",
+  "engines": {
+    "node": "^20.0.0"
+  },
   "peerDependencies": {
     "pouchdb": ">=8.0.0",
     "react": ">=17.0.0"
