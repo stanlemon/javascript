@@ -31,6 +31,18 @@
   // Rebase strategy
   rebaseWhen: 'auto',
 
+  // Default schedule for when to run updates
+  schedule: [
+    'after 7am and before 4pm on saturday',
+  ],
+
+  // Wait 7 days before updating packages
+  minimumReleaseAge: '7 days',
+
+  // Automerge on by default via a branch
+  automerge: true,
+  automergeType: 'branch',
+
   // Package update rules
   packageRules: [
     {
@@ -41,12 +53,6 @@
       ],
       matchCurrentVersion: '!/^0/',    // Exclude 0.x versions
       groupName: 'non-major dependencies',
-      minimumReleaseAge: '7 days',                // Wait 7 days before updating
-      schedule: [
-        'after 10am and before 4pm on saturday',
-      ],
-      automerge: true,
-      automergeType: 'branch',
       matchPackageNames: [
         '!/^@stanlemon//',
       ],
@@ -54,9 +60,6 @@
     {
       // Group all eslint related packages
       groupName: 'eslint packages',
-      schedule: [
-        'after 10am and before 4pm on saturday',
-      ],
       matchPackageNames: [
         '//^eslint//',
       ],
@@ -68,9 +71,6 @@
       ],
       groupName: 'major updates',
       minimumReleaseAge: '30 days',               // One month waiting period
-      schedule: [
-        'after 10am and before 4pm on saturday',
-      ],
       matchPackageNames: [
         '!/^@stanlemon//',
       ],
@@ -85,39 +85,34 @@
         'npm',
         'nvm',
       ],
-      minimumReleaseAge: '60 days',               // Two month waiting period
+      minimumReleaseAge: '30 days',               // Two month waiting period
       allowedVersions: '/^[1-9][0-9]*[02468]\\./', // LTS versions only
       major: {
-        automerge: false,               // Require manual review for major node updates
+        automerge: false, // Require manual review
       },
     },
     {
       // Special handling for @stanlemon packages
       groupName: 'my own packages',
       minimumReleaseAge: null,                // No waiting period
-      automerge: true,
-      automergeType: 'branch',          // Merge immediately via branch
       matchPackageNames: [
         '/^@stanlemon//',
       ],
     },
     {
-      // Automerge rules for minor/patch updates
+      // Minor/patch updates
+      groupName: 'minor/patch updates',
       matchUpdateTypes: [
         'patch',
         'minor',
       ],
       matchCurrentVersion: '!/^0/',    // Exclude 0.x versions
-      automerge: true,
-      automergeType: 'branch',
     },
     {
-      // Automerge rules for lock file maintenance
+      groupName: 'lock file maintenance',
       matchUpdateTypes: [
         'lockFileMaintenance',
       ],
-      automerge: true,
-      automergeType: 'branch',
     },
   ],
 
@@ -127,15 +122,11 @@
     labels: [
       'security',
     ],
-    automerge: true,               // Automerge security updates
     schedule: 'at any time',        // Process security updates immediately
   },
 
   // Lock file maintenance
   lockFileMaintenance: {
     enabled: true,
-    schedule: [
-      'after 10am and before 4pm on saturday',
-    ],
   },
 }
