@@ -83,6 +83,7 @@
       matchManagers: [
         'dockerfile',
         'npm',
+        'nvm',
       ],
       minimumReleaseAge: '60 days',               // Two month waiting period
       allowedVersions: '/^[1-9][0-9]*[02468]\\./', // LTS versions only
