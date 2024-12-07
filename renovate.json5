@@ -4,12 +4,13 @@
 
   // Base configuration presets
   extends: [
-    'config:recommended',              // Core preset
-    ':enablePreCommit',         // Enable pre-commit hook updates
+    'config:recommended', // Core preset
+    ':configMigration', // Migrate renovate configuration when necessary
+    ':enablePreCommit', // Enable pre-commit hook updates
     ':combinePatchMinorReleases', // Combine patch and minor releases
-    ':separateMajorReleases',    // Handle major updates separately
-    'docker:enableMajor',       // Enable major Docker updates
-    'docker:pinDigests',        // Pin Docker digests
+    ':separateMajorReleases', // Handle major updates separately
+    'docker:enableMajor', // Enable major Docker updates
+    'docker:pinDigests', // Pin Docker digests
   ],
 
   // Set timezone to Indianapolis
