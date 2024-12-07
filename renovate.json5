@@ -17,8 +17,8 @@
   timezone: 'America/Indiana/Indianapolis',
 
   // Version management strategies
-  rangeStrategy: 'bump',        // Bump ranges to next version
-  bumpVersion: 'patch',         // Use patch version for bumping
+  rangeStrategy: 'bump', // Bump ranges to next version
+  bumpVersion: 'patch', // Use patch version for bumping
 
   // Enable dependency dashboard for overview
   dependencyDashboard: true,
@@ -31,7 +31,7 @@
 
   // Default schedule for when to run updates
   schedule: [
-    'after 7am and before 4pm on saturday',
+    'after 8am and before 8pm on saturday',
   ],
 
   // Wait 7 days before updating packages
@@ -49,7 +49,7 @@
         'minor',
         'patch',
       ],
-      matchCurrentVersion: '!/^0/',    // Exclude 0.x versions
+      matchCurrentVersion: '!/^0/', // Exclude 0.x versions
       groupName: 'non-major dependencies',
       matchPackageNames: [
         '!/^@stanlemon//',
@@ -68,7 +68,7 @@
         'major',
       ],
       groupName: 'major updates',
-      minimumReleaseAge: '30 days',               // One month waiting period
+      minimumReleaseAge: '30 days', // One month waiting period
       matchPackageNames: [
         '!/^@stanlemon//',
       ],
@@ -83,14 +83,14 @@
         'npm',
         'nvm',
       ],
-      minimumReleaseAge: '30 days',               // Two month waiting period
+      minimumReleaseAge: '30 days', // Two month waiting period
       allowedVersions: '/^[1-9][0-9]*[02468]\\./', // LTS versions only
       automerge: false, // Require manual review
     },
     {
       // Special handling for @stanlemon packages
       groupName: 'my own packages',
-      minimumReleaseAge: null,                // No waiting period
+      minimumReleaseAge: null, // No waiting period
       matchPackageNames: [
         '/^@stanlemon//',
       ],
@@ -103,7 +103,7 @@
         'patch',
         'minor',
       ],
-      matchCurrentVersion: '!/^0/',    // Exclude 0.x versions
+      matchCurrentVersion: '!/^0/', // Exclude 0.x versions
     },
     {
       groupName: 'lock file maintenance',
@@ -120,7 +120,7 @@
     labels: [
       'security',
     ],
-    schedule: 'at any time',        // Process security updates immediately
+    schedule: 'at any time', // Process security updates immediately
   },
 
   // Lock file maintenance
