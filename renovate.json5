@@ -10,7 +10,6 @@
     ':separateMajorReleases',    // Handle major updates separately
     'docker:enableMajor',       // Enable major Docker updates
     'docker:pinDigests',        // Pin Docker digests
-    'npm:unpublishSafe',        // Protect against npm unpublishing
   ],
 
   // Set timezone to Indianapolis
