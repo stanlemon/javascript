@@ -72,7 +72,7 @@
       matchPackageNames: [
         '//^eslint$//',
         '//^typescript-eslint$//',
-        '//^eslint-//',
+        '//^eslint-*//',
       ],
     },
     {
