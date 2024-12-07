@@ -65,6 +65,11 @@
     {
       // Group all react related packages
       'groupName': 'react monorepo',
+      matchUpdateTypes: [
+        'major',
+        'minor',
+        'patch',
+      ],
       'matchPackageNames': [
         'react',
         'react-dom',
