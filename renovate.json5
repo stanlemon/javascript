@@ -63,6 +63,17 @@
       ],
     },
     {
+      // Group all react related packages
+      'groupName': 'react monorepo',
+      'matchPackageNames': [
+        'react',
+        'react-dom',
+        'react-refresh',
+        '@types/react',
+        '@types/react-dom',
+      ],
+    },
+    {
       // Handle major updates separately
       matchUpdateTypes: [
         'major',
