@@ -56,6 +56,17 @@
       ],
     },
     {
+      // Handle major updates separately
+      matchUpdateTypes: [
+        'major',
+      ],
+      groupName: 'major updates',
+      minimumReleaseAge: '30 days', // One month waiting period
+      matchPackageNames: [
+        '!/^@stanlemon//',
+      ],
+    },
+    {
       // Group all eslint related packages
       groupName: 'eslint packages',
       matchPackageNames: [
@@ -76,17 +87,6 @@
         'react-refresh',
         '@types/react',
         '@types/react-dom',
-      ],
-    },
-    {
-      // Handle major updates separately
-      matchUpdateTypes: [
-        'major',
-      ],
-      groupName: 'major updates',
-      minimumReleaseAge: '30 days', // One month waiting period
-      matchPackageNames: [
-        '!/^@stanlemon//',
       ],
     },
     {
@@ -111,15 +111,6 @@
         '/^@stanlemon//',
       ],
       automergeType: 'branch',
-    },
-    {
-      // Minor/patch updates
-      groupName: 'minor/patch updates',
-      matchUpdateTypes: [
-        'patch',
-        'minor',
-      ],
-      matchCurrentVersion: '!/^0/', // Exclude 0.x versions
     },
     {
       groupName: 'lock file maintenance',
