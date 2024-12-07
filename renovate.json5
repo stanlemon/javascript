@@ -41,7 +41,7 @@
 
   // Automerge on by default via a branch
   automerge: true,
-  automergeType: 'branch',
+  automergeType: 'pr',
 
   // Package update rules
   packageRules: [
@@ -87,9 +87,7 @@
       ],
       minimumReleaseAge: '30 days',               // Two month waiting period
       allowedVersions: '/^[1-9][0-9]*[02468]\\./', // LTS versions only
-      major: {
-        automerge: false, // Require manual review
-      },
+      automerge: false, // Require manual review
     },
     {
       // Special handling for @stanlemon packages
@@ -98,6 +96,7 @@
       matchPackageNames: [
         '/^@stanlemon//',
       ],
+      automergeType: 'branch',
     },
     {
       // Minor/patch updates
@@ -113,6 +112,7 @@
       matchUpdateTypes: [
         'lockFileMaintenance',
       ],
+      automergeType: 'branch',
     },
   ],
 
