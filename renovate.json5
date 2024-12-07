@@ -70,7 +70,9 @@
       // Group all eslint related packages
       groupName: 'eslint packages',
       matchPackageNames: [
-        '//^eslint//',
+        '//^eslint$//',
+        '//^typescript-eslint$//',
+        '//^eslint-//',
       ],
     },
     {
