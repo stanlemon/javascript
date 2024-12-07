@@ -126,5 +126,6 @@
   // Lock file maintenance
   lockFileMaintenance: {
     enabled: true,
+    schedule: 'after 8am and before 8pm on saturday',
   },
 }
