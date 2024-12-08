@@ -1,9 +1,9 @@
 {
   "compilerOptions": {
     "noEmit": true,
-    "target": "ES2021",
+    "target": "ESNext",
     "lib": [
-      "ES2021",
+      "ESNext",
       "DOM",
     ],
     "declaration": true,
@@ -15,7 +15,7 @@
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
     "noImplicitAny": true,
-    "module": "es2015",
+    "module": "ESNext",
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
