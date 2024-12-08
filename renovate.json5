@@ -39,7 +39,7 @@
 
   // Automerge on by default via a branch
   automerge: true,
-  automergeType: 'pr',
+  automergeType: 'branch',
 
   // Package update rules
   packageRules: [
@@ -65,6 +65,7 @@
       matchPackageNames: [
         '!/^@stanlemon/',
       ],
+      automergeType: 'pr', // Create a PR
     },
     {
       // Group all eslint related packages
@@ -74,6 +75,7 @@
         '/^typescript-eslint$/',
         '/^eslint-*/',
       ],
+      automergeType: 'pr', // Create a PR
     },
     {
       // Group all react related packages
@@ -99,6 +101,7 @@
       minimumReleaseAge: '30 days', // Two month waiting period
       allowedVersions: '/^[1-9][0-9]*[02468]\\./', // LTS versions only
       automerge: false, // Require manual review
+      automergeType: 'pr', // Create a PR
     },
     {
       // Special handling for @stanlemon packages
@@ -107,14 +110,12 @@
       matchPackageNames: [
         '/^@stanlemon/',
       ],
-      automergeType: 'branch',
     },
     {
       groupName: 'lock file maintenance',
       matchUpdateTypes: [
         'lockFileMaintenance',
       ],
-      automergeType: 'branch',
     },
   ],
 
