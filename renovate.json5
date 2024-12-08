@@ -117,6 +117,13 @@
         'lockFileMaintenance',
       ],
     },
+    // Disable updating peer dependencies
+    {
+      matchDepTypes: [
+        'peerDependencies'
+      ],
+      enabled: false
+    },
   ],
 
   // Security update configuration
