@@ -1,6 +1,6 @@
 {
   "name": "@stanlemon/webdev",
-  "version": "0.2.13",
+  "version": "0.2.14",
   "description": "My typical web development setup, but without all the copy and paste.",
   "keywords": [
     "webpack",

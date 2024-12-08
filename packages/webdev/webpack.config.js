@@ -4,7 +4,7 @@ import webpack from "webpack";
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
 import { config } from "dotenv";
-import babelOptions from "./.babelrc.json" assert { type: "json" };
+import babelOptions from "./.babelrc.json" with { type: "json" };
 
 config();
 

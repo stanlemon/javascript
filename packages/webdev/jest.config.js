@@ -1,5 +1,5 @@
 import path from "path";
-import babelOptions from "./.babelrc.json" assert { type: "json" };
+import babelOptions from "./.babelrc.json" with { type: "json" };
 
 // Disable using esmodules everywhere
 babelOptions.presets.find(
