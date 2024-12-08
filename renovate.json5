@@ -52,7 +52,7 @@
       matchCurrentVersion: '!/^0/', // Exclude 0.x versions
       groupName: 'non-major dependencies',
       matchPackageNames: [
-        '!/^@stanlemon//',
+        '!/^@stanlemon/',
       ],
     },
     {
@@ -63,16 +63,16 @@
       groupName: 'major updates',
       minimumReleaseAge: '30 days', // One month waiting period
       matchPackageNames: [
-        '!/^@stanlemon//',
+        '!/^@stanlemon/',
       ],
     },
     {
       // Group all eslint related packages
       groupName: 'eslint packages',
       matchPackageNames: [
-        '//^eslint$//',
-        '//^typescript-eslint$//',
-        '//^eslint-*//',
+        '/^eslint$/',
+        '/^typescript-eslint$/',
+        '/^eslint-*/',
       ],
     },
     {
@@ -110,7 +110,7 @@
       groupName: 'my own packages',
       minimumReleaseAge: null, // No waiting period
       matchPackageNames: [
-        '/^@stanlemon//',
+        '/^@stanlemon/',
       ],
       automergeType: 'branch',
     },
