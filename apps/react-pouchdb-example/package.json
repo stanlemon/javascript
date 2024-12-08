@@ -38,6 +38,8 @@
   "devDependencies": {
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.1.0",
+    "@types/react": "^19.0.1",
+    "@types/react-dom": "^19.0.1",
     "@types/uuid": "^10.0.0",
     "identity-obj-proxy": "^3.0.0",
     "pouchdb-adapter-memory": "^9.0.0"
