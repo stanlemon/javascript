@@ -10,7 +10,8 @@
     ':combinePatchMinorReleases', // Combine patch and minor releases
     ':separateMajorReleases', // Handle major updates separately
     'docker:enableMajor', // Enable major Docker updates
-    'docker:pinDigests', // Pin Docker digests
+    'docker:pinDigests', // Pin Docker digests,
+    'group:monorepo', // Common monorepo groupings
   ],
 
   // Set timezone to Indianapolis
@@ -91,6 +92,7 @@
     },
     {
       // Special handling for major Node.js updates
+      groupName: 'nodejs major updates',
       matchPackageNames: [
         'node',
       ],
@@ -109,6 +111,7 @@
     },
     {
       // Special handling for non-major Node.js updates
+      groupName: 'nodejs updates',
       matchPackageNames: [
         'node',
       ],
@@ -147,7 +150,6 @@
       ],
     },
     {
-      groupName: 'lock file maintenance',
       matchUpdateTypes: [
         'lockFileMaintenance',
       ],
