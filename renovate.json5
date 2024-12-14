@@ -100,11 +100,46 @@
         'npm',
         'nvm',
       ],
-      minimumReleaseAge: '30 days', // Two month waiting period
       allowedVersions: '/^(?:[2468]\d*|8)\.(?:\d+)(?:\.(?:\d+))?$/', // LTS versions only
       separateMajorMinor: true,
       automerge: false, // Require manual review
       automergeType: 'pr', // Create a PR
+    },
+    {
+      // Special handling for non-major Node.js updates
+      matchPackageNames: [
+        'node',
+      ],
+      matchDatasources: [
+        'docker',
+        'node-version',
+        'npm',
+        'nvm',
+      ],
+      matchUpdateTypes: [
+        'major',
+      ],
+      minimumReleaseAge: '30 days', // Two month waiting period
+      automergeType: 'pr', // Create a PR
+      automerge: false,
+    },
+    {
+      // Special handling for non-major Node.js updates
+      matchPackageNames: [
+        'node',
+      ],
+      matchDatasources: [
+        'docker',
+        'node-version',
+        'npm',
+        'nvm',
+      ],
+      matchUpdateTypes: [
+        'minor',
+        'patch',
+      ],
+      automergeType: 'pr', // Create a PR
+      automerge: true,
     },
     {
       // Special handling for @stanlemon packages
