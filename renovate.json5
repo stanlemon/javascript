@@ -100,8 +100,7 @@
         'npm',
         'nvm',
       ],
-      allowedVersions: '/^(?:[2468]\d*|8)\.(?:\d+)(?:\.(?:\d+))?$/', // LTS versions only
-      separateMajorMinor: true,
+      allowedVersions: '/^(8|10|12|14|16|18|20|22|24|26|28|30|32|34|36|38|40)\.(0|[1-9]\d*)(?:\.(0|[1-9]\d*))?$/', // LTS versions only between 8 and 40
       automerge: false, // Require manual review
       automergeType: 'pr', // Create a PR
     },
