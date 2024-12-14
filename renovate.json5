@@ -11,7 +11,7 @@
     ':separateMajorReleases', // Handle major updates separately
     'docker:enableMajor', // Enable major Docker updates
     'docker:pinDigests', // Pin Docker digests,
-    'group:monorepo', // Common monorepo groupings
+    'group:monorepos', // Common monorepo groupings
   ],
 
   // Set timezone to Indianapolis
