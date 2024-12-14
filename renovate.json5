@@ -90,10 +90,7 @@
       ],
     },
     {
-      // Special handling for Node.js major updates
-      matchUpdateTypes: [
-        'major',
-      ],
+      // Special handling for Node.js updates
       matchPackageNames: [
         'node',
       ],
