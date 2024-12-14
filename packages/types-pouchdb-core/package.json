@@ -1,6 +1,6 @@
 {
   "name": "@stanlemon/types-pouchdb-core",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Alternative Typescript types for use with PouchDB, forked from DefinitelyTyped.",
   "keywords": [
     "typescript",
@@ -13,6 +13,6 @@
     "url": "https://github.com/stanlemon/javascript/tree/main/packages/types-pouchdb-core"
   },
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.11.0"
   }
 }
