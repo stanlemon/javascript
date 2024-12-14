@@ -125,6 +125,19 @@
       automergeType: 'pr', // Create a PR
       automerge: true,
     },
+    // Disable updating engines in package files
+    {
+      matchManagers: [
+        'npm',
+      ],
+      matchDepTypes: [
+        'engines',
+      ],
+      matchPackageNames: [
+        'node',
+      ],
+      enabled: false,
+    },
     {
       // Special handling for @stanlemon packages
       groupName: 'my own packages',
