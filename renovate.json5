@@ -61,7 +61,7 @@
         'major',
       ],
       groupName: 'major updates',
-      minimumReleaseAge: '30 days', // One month waiting period
+      minimumReleaseAge: '14 days', // Longer waiting period
       matchPackageNames: [
         '!/^@stanlemon/',
       ],
@@ -100,25 +100,10 @@
         'npm',
         'nvm',
       ],
-      allowedVersions: '/^(8|10|12|14|16|18|20|22|24|26|28|30|32|34|36|38|40)\.(0|[1-9]\d*)(?:\.(0|[1-9]\d*))?$/', // LTS versions only between 8 and 40
-      automerge: false, // Require manual review
-      automergeType: 'pr', // Create a PR
-    },
-    {
-      // Special handling for non-major Node.js updates
-      matchPackageNames: [
-        'node',
-      ],
-      matchDatasources: [
-        'docker',
-        'node-version',
-        'npm',
-        'nvm',
-      ],
       matchUpdateTypes: [
         'major',
       ],
-      minimumReleaseAge: '30 days', // Two month waiting period
+      minimumReleaseAge: '30 days', // One month waiting period
       automergeType: 'pr', // Create a PR
       automerge: false,
     },
