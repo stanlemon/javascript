@@ -94,8 +94,9 @@
       matchPackageNames: [
         'node',
       ],
-      matchManagers: [
-        'dockerfile',
+      matchDatasources: [
+        'docker',
+        'node-version',
         'npm',
         'nvm',
       ],
