@@ -74,6 +74,7 @@
         '/^eslint$/',
         '/^typescript-eslint$/',
         '/^eslint-*/',
+        '/^@eslint*/',
       ],
       automergeType: 'pr', // Create a PR
     },
