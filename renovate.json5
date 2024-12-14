@@ -90,7 +90,7 @@
       ],
     },
     {
-      // Special handling for Node.js updates
+      // Special handling for major Node.js updates
       matchPackageNames: [
         'node',
       ],
@@ -101,9 +101,26 @@
         'nvm',
       ],
       minimumReleaseAge: '30 days', // Two month waiting period
-      allowedVersions: '/^[1-9][0-9]*[02468]\\./', // LTS versions only
+      matchMajorReleases: ["/^[0-9]*[02468]$/"],  // Matches versions ending in even numbers
+      separateMajorMinor: true,
       automerge: false, // Require manual review
       automergeType: 'pr', // Create a PR
+    },
+    {
+      // Special handling for non-major Node.js updates
+      matchPackageNames: [
+        'node',
+      ],
+      matchDatasources: [
+        'docker',
+        'node-version',
+        'npm',
+        'nvm',
+      ],
+      matchUpdateTypes: [
+        'minor',
+        'patch',
+      ],
     },
     {
       // Special handling for @stanlemon packages
