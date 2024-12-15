@@ -51,10 +51,10 @@
     schedule: 'at any time', // Process security updates immediately
   },
 
-  // Lock file maintenance
+  // Disable lock file maintenance
   lockFileMaintenance: {
-    enabled: true,
-    schedule: 'after 8am and before 8pm on saturday',
+    // These updates are hard to reproduce locally and seem to consistently have issues merging
+    enabled: false,
   },
 
   // Package update rules
