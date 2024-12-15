@@ -33,7 +33,7 @@
     "example": "WEBDEV_ENTRY=./example/Example.tsx webpack serve"
   },
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=20.9.0"
   },
   "peerDependencies": {
     "pouchdb": ">=8.0.0",
@@ -44,7 +44,7 @@
     "@stanlemon/webdev": "*",
     "@types/debug": "^4.1.12",
     "@types/lodash-es": "^4.17.12",
-    "@types/node": "^22.10.1",
+    "@types/node": "^20.9.0",
     "@types/pouchdb": "^6.4.2",
     "pouchdb": "^9.0.0",
     "pouchdb-adapter-memory": "^9.0.0",

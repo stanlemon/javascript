@@ -5,7 +5,7 @@
   "author": "Stan Lemon <stanlemon@users.noreply.github.com>",
   "license": "MIT",
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=20.9.0"
   },
   "type": "module",
   "main": "./src/index.js",

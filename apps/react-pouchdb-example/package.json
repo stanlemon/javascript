@@ -19,7 +19,7 @@
     "lint:fix": "eslint --fix ."
   },
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=20.9.0"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.7.1",

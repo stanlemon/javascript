@@ -42,6 +42,21 @@
   automerge: true,
   automergeType: 'branch',
 
+  // Security update configuration
+  vulnerabilityAlerts: {
+    enabled: true,
+    labels: [
+      'security',
+    ],
+    schedule: 'at any time', // Process security updates immediately
+  },
+
+  // Lock file maintenance
+  lockFileMaintenance: {
+    enabled: true,
+    schedule: 'after 8am and before 8pm on saturday',
+  },
+
   // Package update rules
   packageRules: [
     {
@@ -91,6 +106,22 @@
       ],
     },
     {
+      // Special handling for @stanlemon packages
+      groupName: 'my own packages',
+      minimumReleaseAge: null, // No waiting period
+      matchPackageNames: [
+        '/^@stanlemon/',
+      ],
+    },
+    // Disable updating nodejs package peer dependencies
+    {
+      matchDepTypes: [
+        'peerDependencies'
+      ],
+      enabled: false
+    },
+    // Node.js updates
+    {
       // Special handling for major Node.js updates
       groupName: 'nodejs major updates',
       matchPackageNames: [
@@ -126,10 +157,30 @@
         'patch',
       ],
       automergeType: 'pr', // Create a PR
-      automerge: true,
     },
-    // Disable updating engines in package files
     {
+      // Update Node.js engines in package file
+      groupName: 'nodejs engines',
+      matchUpdateTypes: [
+        'major',
+        'minor',
+      ],
+      matchManagers: [
+        'npm',
+      ],
+      matchDepTypes: [
+        'engines',
+      ],
+      matchPackageNames: [
+        'node',
+      ],
+      minimumReleaseAge: '6 months',
+    },
+    {
+      // Disable patch updates for Node.js engines
+      matchUpdateTypes: [
+        'patch',
+      ],
       matchManagers: [
         'npm',
       ],
@@ -142,39 +193,33 @@
       enabled: false,
     },
     {
-      // Special handling for @stanlemon packages
-      groupName: 'my own packages',
-      minimumReleaseAge: null, // No waiting period
-      matchPackageNames: [
-        '/^@stanlemon/',
-      ],
-    },
-    {
+      // Update nodejs types
+      groupName: 'nodejs types',
       matchUpdateTypes: [
-        'lockFileMaintenance',
+        'major',
+        'minor',
       ],
+      matchManagers: [
+        'npm',
+      ],
+      matchPackageNames: [
+        '@types/node',
+      ],
+      minimumReleaseAge: '6 months',
     },
-    // Disable updating peer dependencies
     {
-      matchDepTypes: [
-        'peerDependencies'
+      // Disable patch updates for nodejs types
+      groupName: 'nodejs types',
+      matchUpdateTypes: [
+        'patch',
       ],
-      enabled: false
-    },
+      matchManagers: [
+        'npm',
+      ],
+      matchPackageNames: [
+        '@types/node',
+      ],
+      enabled: false,
+    }
   ],
-
-  // Security update configuration
-  vulnerabilityAlerts: {
-    enabled: true,
-    labels: [
-      'security',
-    ],
-    schedule: 'at any time', // Process security updates immediately
-  },
-
-  // Lock file maintenance
-  lockFileMaintenance: {
-    enabled: true,
-    schedule: 'after 8am and before 8pm on saturday',
-  },
 }

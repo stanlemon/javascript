@@ -13,6 +13,6 @@
     "url": "https://github.com/stanlemon/javascript/tree/main/packages/types-pouchdb-core"
   },
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=20.9.0"
   }
 }
