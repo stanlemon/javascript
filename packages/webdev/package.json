@@ -1,6 +1,6 @@
 {
   "name": "@stanlemon/webdev",
-  "version": "0.2.18",
+  "version": "0.2.19",
   "description": "My typical web development setup, but without all the copy and paste.",
   "keywords": [
     "webpack",
@@ -52,7 +52,7 @@
   "devDependencies": {
     "@types/jest": "^29.5.14",
     "@types/react": "^19.0.1",
-    "@types/react-dom": "^19.0.1",
+    "@types/react-dom": "^19.0.2",
     "@types/webpack": "^5.28.5",
     "@types/webpack-env": "^1.18.5",
     "react": "^19.0.0",
