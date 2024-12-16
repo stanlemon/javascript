@@ -1,11 +1,11 @@
 {
   "name": "@stanlemon/server-with-auth",
-  "version": "0.3.27",
+  "version": "0.3.28",
   "description": "A basic express web server setup with authentication baked in.",
   "author": "Stan Lemon <stanlemon@users.noreply.github.com>",
   "license": "MIT",
   "engines": {
-    "node": ">=20.9.0"
+    "node": ">=20.14.0"
   },
   "type": "module",
   "main": "./src/index.js",

@@ -1,6 +1,6 @@
 {
   "name": "@stanlemon/react-pouchdb-example",
-  "version": "0.3.8",
+  "version": "0.3.9",
   "description": "A react app using pouchdb built in typescript",
   "author": "Stan Lemon <stanlemon@users.noreply.github.com",
   "license": "MIT",
@@ -19,7 +19,7 @@
     "lint:fix": "eslint --fix ."
   },
   "engines": {
-    "node": ">=20.9.0"
+    "node": ">=20.14.0"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.7.1",
