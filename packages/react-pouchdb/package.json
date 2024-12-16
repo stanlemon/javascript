@@ -1,6 +1,6 @@
 {
   "name": "@stanlemon/react-pouchdb",
-  "version": "0.6.10",
+  "version": "0.6.11",
   "description": "React components for interacting with PouchDB.",
   "keywords": [
     "react",
@@ -33,7 +33,7 @@
     "example": "WEBDEV_ENTRY=./example/Example.tsx webpack serve"
   },
   "engines": {
-    "node": ">=20.14.0"
+    "node": ">=22.12.0"
   },
   "peerDependencies": {
     "pouchdb": ">=8.0.0",
