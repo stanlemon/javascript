@@ -121,6 +121,10 @@
       enabled: false
     },
     // Node.js updates
+    // The idea here is to group nvmrc updates, npm engines updates and @types/node update together
+    // and to try to update them about 6 months after they've baked.
+    // Renovate tries to keep node updates to LTS, so in theory we should only see major updates
+    // 6 months after an LTS version enters LTS support.
     {
       // Special handling for major Node.js updates
       groupName: 'nodejs updates',
@@ -136,12 +140,12 @@
       matchUpdateTypes: [
         'major',
       ],
-      minimumReleaseAge: '30 days', // One month waiting period
+      minimumReleaseAge: '6 months', // One month waiting period
       automergeType: 'pr', // Create a PR
       automerge: false,
     },
     {
-      // Special handling for non-major Node.js updates
+      // Disable non-major Node.js updates
       groupName: 'nodejs updates',
       matchPackageNames: [
         'node',
@@ -156,14 +160,13 @@
         'minor',
         'patch',
       ],
-      automergeType: 'pr', // Create a PR
+      enabled: false,
     },
     {
       // Update Node.js engines in package file
-      groupName: 'nodejs engines',
+      groupName: 'nodejs updates',
       matchUpdateTypes: [
         'major',
-        'minor',
       ],
       matchManagers: [
         'npm',
@@ -177,8 +180,9 @@
       minimumReleaseAge: '6 months',
     },
     {
-      // Disable patch updates for Node.js engines
+      // Disable minor & patch updates for Node.js engines
       matchUpdateTypes: [
+        'minor',
         'patch',
       ],
       matchManagers: [
@@ -194,10 +198,9 @@
     },
     {
       // Update nodejs types
-      groupName: 'nodejs types',
+      groupName: 'nodejs updates',
       matchUpdateTypes: [
         'major',
-        'minor',
       ],
       matchManagers: [
         'npm',
@@ -209,8 +212,8 @@
     },
     {
       // Disable patch updates for nodejs types
-      groupName: 'nodejs types',
       matchUpdateTypes: [
+        'minor',
         'patch',
       ],
       matchManagers: [
@@ -220,6 +223,6 @@
         '@types/node',
       ],
       enabled: false,
-    }
+    },
   ],
 }
