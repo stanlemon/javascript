@@ -35,9 +35,6 @@
     'after 8am and before 8pm on saturday',
   ],
 
-  // Wait 7 days before updating packages
-  minimumReleaseAge: '7 days',
-
   // Automerge on by default via a branch
   automerge: true,
   automergeType: 'branch',
@@ -61,6 +58,7 @@
   packageRules: [
     {
       // Group all non-major dependencies
+      groupName: 'all non-major dependencies',
       matchUpdateTypes: [
         'minor',
         'patch',
@@ -72,15 +70,39 @@
       ],
     },
     {
+      matchDatasources: [
+        'npm',
+      ],
+      matchUpdateTypes: [
+        'minor',
+        'patch',
+      ],
+      matchPackageNames: [
+        '!/^@stanlemon/',
+      ],
+      minimumReleaseAge: '7 days',
+    },
+    {
       // Handle major updates separately
       matchUpdateTypes: [
         'major',
       ],
-      groupName: 'major updates',
       matchPackageNames: [
         '!/^@stanlemon/',
       ],
       automergeType: 'pr',
+    },
+    {
+      matchDatasources: [
+        'npm',
+      ],
+      matchUpdateTypes: [
+        'major',
+      ],
+      matchPackageNames: [
+        '!/^@stanlemon/',
+      ],
+      minimumReleaseAge: '14 days',
     },
     {
       // Group all eslint related packages
