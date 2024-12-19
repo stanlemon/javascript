@@ -8,7 +8,6 @@
     ':configMigration', // Migrate renovate configuration when necessary
     'docker:pinDigests', // Pin Docker digests,
     'helpers:pinGitHubActionDigests',
-    'group:allNonMajor',
   ],
 
   // Set timezone to Indianapolis
@@ -33,7 +32,7 @@
   ],
 
   // Give everything some time to bake
-  minimumReleaseAge: '7 days',
+  minimumReleaseAge: '3 days',
 
   // Automerge on by default via a branch
   automerge: true,
@@ -46,6 +45,8 @@
       'security',
     ],
     schedule: 'at any time', // Process security updates immediately
+    automergeType: 'branch',
+    automerge: true,
   },
 
   // Disable lock file maintenance
@@ -117,6 +118,22 @@
       ],
       minimumReleaseAge: '9 months',
       automerge: false,
+    },
+    {
+      // Group all non-major dependencies
+      groupName: 'all non-major dependencies',
+      groupSlug: 'all-minor-patch',
+      matchPackageNames: [
+        '*',
+      ],
+      'matchUpdateTypes': [
+        'minor',
+        'patch',
+      ],
+      matchPackageNames: [
+        '!/(?:^|/)node$/',
+        '!/^@stanlemon/',
+      ],
     },
   ],
 }
