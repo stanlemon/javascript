@@ -8,7 +8,6 @@
     ':configMigration', // Migrate renovate configuration when necessary
     'docker:pinDigests', // Pin Docker digests,
     'helpers:pinGitHubActionDigests',
-    'group:allNonMajor',
   ],
 
   // Set timezone to Indianapolis
@@ -33,7 +32,7 @@
   ],
 
   // Give everything some time to bake
-  minimumReleaseAge: '7 days',
+  minimumReleaseAge: '3 days',
 
   // Automerge on by default via a branch
   automerge: true,
@@ -46,6 +45,8 @@
       'security',
     ],
     schedule: 'at any time', // Process security updates immediately
+    automergeType: 'branch',
+    automerge: true,
   },
 
   // Disable lock file maintenance
@@ -57,13 +58,30 @@
   // Package update rules
   packageRules: [
     {
+      // Group all non-major dependencies
+      groupName: 'all non-major dependencies',
+      groupSlug: 'all-minor-patch',
+      matchPackageNames: [
+        '*',
+      ],
+      'matchUpdateTypes': [
+        'minor',
+        'patch',
+      ],
+    },
+    {
       // Group all eslint related packages
       groupName: 'eslint',
       matchPackageNames: [
-        '/^eslint$/',
-        '/^typescript-eslint$/',
-        '/^eslint-*/',
-        '/^@eslint*/',
+        '/^eslint/',
+        '/^@eslint/',
+        'typescript-eslint',
+        '/^@types/eslint/',
+      ],
+      'matchUpdateTypes': [
+        'major',
+        'minor',
+        'patch',
       ],
     },
     {
@@ -76,6 +94,11 @@
         '@types/react',
         '@types/react-dom',
       ],
+      'matchUpdateTypes': [
+        'major',
+        'minor',
+        'patch',
+      ],
     },
     {
       // Special handling for @stanlemon packages
@@ -83,6 +106,11 @@
       minimumReleaseAge: null, // No waiting period
       matchPackageNames: [
         '/^@stanlemon/',
+      ],
+      'matchUpdateTypes': [
+        'major',
+        'minor',
+        'patch',
       ],
       automergeType: 'branch',
     },
@@ -97,23 +125,18 @@
       // Node.js updates
       groupName: 'nodejs updates',
       matchPackageNames: [
-        '/(?:^|/)node$/',
+        'node',
+      ],
+      'matchUpdateTypes': [
+        'major',
+        'minor',
+        'patch',
       ],
       matchDatasources: [
         'docker',
         'node-version',
         'npm',
         'nvm',
-      ],
-      matchDepTypes: [
-        'dependencies',
-        'devDependencies',
-        'engines',
-      ],
-      matchUpdateTypes: [
-        'major',
-        'minor',
-        'patch',
       ],
       minimumReleaseAge: '9 months',
       automerge: false,
