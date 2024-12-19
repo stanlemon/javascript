@@ -81,7 +81,7 @@
       matchPackageNames: [
         '!/^@stanlemon/',
       ],
-      automergeType: 'pr', // Create a PR
+      automergeType: 'pr',
     },
     {
       // Group all eslint related packages
@@ -92,7 +92,7 @@
         '/^eslint-*/',
         '/^@eslint*/',
       ],
-      automergeType: 'pr', // Create a PR
+      automergeType: 'pr',
     },
     {
       // Group all react related packages
@@ -117,7 +117,7 @@
     {
       matchDepTypes: [
         'peerDependencies'
-      ],
+      ],f
       enabled: false
     },
     // Node.js updates
@@ -139,8 +139,8 @@
       matchUpdateTypes: [
         'major',
       ],
-      minimumReleaseAge: '7 months', // One month waiting period
-      automergeType: 'pr', // Create a PR
+      minimumReleaseAge: '6 months',
+      automergeType: 'pr',
       automerge: false,
     },
     {
@@ -176,7 +176,7 @@
       matchPackageNames: [
         'node',
       ],
-      minimumReleaseAge: '7 months',
+      minimumReleaseAge: '12 months',
     },
     {
       // Disable minor & patch updates for Node.js engines
@@ -207,7 +207,7 @@
       matchPackageNames: [
         '@types/node',
       ],
-      minimumReleaseAge: '7 months',
+      minimumReleaseAge: '6 months',
     },
     {
       // Disable patch updates for nodejs types
