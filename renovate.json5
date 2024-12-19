@@ -58,6 +58,23 @@
   // Package update rules
   packageRules: [
     {
+      // Group all non-major dependencies
+      groupName: 'all non-major dependencies',
+      groupSlug: 'all-minor-patch',
+      matchPackageNames: [
+        '*',
+      ],
+      'matchUpdateTypes': [
+        'minor',
+        'patch',
+      ],
+      matchPackageNames: [
+        '!/(?:^|/)node$/',
+        '!/^@stanlemon/',
+        '!/^(@types\/)?(typescript-)?@?eslint([-\/][\w-]*)?$/',
+      ],
+    },
+    {
       // Group all eslint related packages
       groupName: 'eslint',
       matchPackageNames: [
@@ -115,23 +132,6 @@
       ],
       minimumReleaseAge: '9 months',
       automerge: false,
-    },
-    {
-      // Group all non-major dependencies
-      groupName: 'all non-major dependencies',
-      groupSlug: 'all-minor-patch',
-      matchPackageNames: [
-        '*',
-      ],
-      'matchUpdateTypes': [
-        'minor',
-        'patch',
-      ],
-      matchPackageNames: [
-        '!/(?:^|/)node$/',
-        '!/^@stanlemon/',
-        '!/^(@types\/)?(typescript-)?@?eslint([-\/][\w-]*)?$/',
-      ],
     },
   ],
 }
