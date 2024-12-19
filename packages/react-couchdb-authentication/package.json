@@ -1,6 +1,6 @@
 {
   "name": "@stanlemon/react-couchdb-authentication",
-  "version": "0.10.14",
+  "version": "0.10.15",
   "description": "React component for authenticating against a CouchDB user db and syncing it locally with PouchDB.",
   "keywords": [
     "react",
@@ -64,6 +64,6 @@
     "buffer": "^6.0.3"
   },
   "overrides": {
-    "@types/pouchdb-core": "npm:@stanlemon/types-pouchdb-core@^0.0.1"
+    "@types/pouchdb-core": "npm:@stanlemon/types-pouchdb-core@^0.0.2"
   }
 }

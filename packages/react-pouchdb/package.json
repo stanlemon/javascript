@@ -1,6 +1,6 @@
 {
   "name": "@stanlemon/react-pouchdb",
-  "version": "0.6.10",
+  "version": "0.6.11",
   "description": "React components for interacting with PouchDB.",
   "keywords": [
     "react",
@@ -55,6 +55,6 @@
     "lodash-es": "^4.17.21"
   },
   "overrides": {
-    "@types/pouchdb-core": "npm:@stanlemon/types-pouchdb-core@^0.0.1"
+    "@types/pouchdb-core": "npm:@stanlemon/types-pouchdb-core@^0.0.2"
   }
 }
