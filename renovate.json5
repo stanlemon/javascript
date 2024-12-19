@@ -107,23 +107,13 @@
       // Node.js updates
       groupName: 'nodejs updates',
       matchPackageNames: [
-        '/(?:^|/)node$/',
+        'node',
       ],
       matchDatasources: [
         'docker',
         'node-version',
         'npm',
         'nvm',
-      ],
-      matchDepTypes: [
-        'dependencies',
-        'devDependencies',
-        'engines',
-      ],
-      matchUpdateTypes: [
-        'major',
-        'minor',
-        'patch',
       ],
       minimumReleaseAge: '9 months',
       automerge: false,
