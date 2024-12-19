@@ -61,10 +61,7 @@
       // Group all eslint related packages
       groupName: 'eslint',
       matchPackageNames: [
-        '/^eslint$/',
-        '/^typescript-eslint$/',
-        '/^eslint-*/',
-        '/^@eslint*/',
+        '/^(@types\/)?(typescript-)?@?eslint([-\/][\w-]*)?$/',
       ],
     },
     {
@@ -133,6 +130,7 @@
       matchPackageNames: [
         '!/(?:^|/)node$/',
         '!/^@stanlemon/',
+        '!/^(@types\/)?(typescript-)?@?eslint([-\/][\w-]*)?$/',
       ],
     },
   ],
