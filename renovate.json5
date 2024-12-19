@@ -77,11 +77,22 @@
         'major',
       ],
       groupName: 'major updates',
-      minimumReleaseAge: '14 days', // Longer waiting period
       matchPackageNames: [
         '!/^@stanlemon/',
       ],
       automergeType: 'pr',
+    },
+    {
+      matchDatasources: [
+        'npm',
+      ],
+      matchUpdateTypes: [
+        'major',
+      ],
+      matchPackageNames: [
+        '!/^@stanlemon/',
+      ],
+      minimumReleaseAge: '14 days', // Longer waiting period
     },
     {
       // Group all eslint related packages
