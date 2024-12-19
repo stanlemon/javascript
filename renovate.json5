@@ -8,6 +8,7 @@
     ':configMigration', // Migrate renovate configuration when necessary
     'docker:pinDigests', // Pin Docker digests,
     'helpers:pinGitHubActionDigests',
+    'group:allNonMajor',
   ],
 
   // Set timezone to Indianapolis
@@ -30,6 +31,9 @@
   schedule: [
     'after 8am and before 8pm on saturday',
   ],
+
+  // Give everything some time to bake
+  minimumReleaseAge: '7 days',
 
   // Automerge on by default via a branch
   automerge: true,
@@ -82,22 +86,34 @@
       ],
       automergeType: 'branch',
     },
-    // Disable updating nodejs package peer dependencies
     {
+      // Disable updating nodejs package peer dependencies
       matchDepTypes: [
         'peerDependencies'
       ],
       enabled: false
     },
-    // Node.js updates
-    // The idea here is to group nvmrc updates, npm engines updates and @types/node update together
-    // and to try to update them after they've baked.
-    // Renovate tries to keep node updates to LTS, so in theory we should only see major LTS updates.
     {
-      // Special handling for major Node.js updates
+      // Node.js updates
       groupName: 'nodejs updates',
       matchPackageNames: [
         '/(?:^|/)node$/',
+      ],
+      matchDatasources: [
+        'docker',
+        'node-version',
+        'npm',
+        'nvm',
+      ],
+      matchDepTypes: [
+        'dependencies',
+        'devDependencies',
+        'engines',
+      ],
+      matchUpdateTypes: [
+        'major',
+        'minor',
+        'patch',
       ],
       minimumReleaseAge: '9 months',
       automerge: false,
