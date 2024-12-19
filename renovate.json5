@@ -57,54 +57,6 @@
   // Package update rules
   packageRules: [
     {
-      // Group all non-major dependencies
-      groupName: 'all non-major dependencies',
-      matchUpdateTypes: [
-        'minor',
-        'patch',
-      ],
-      matchCurrentVersion: '!/^0/', // Exclude 0.x versions
-      groupName: 'non-major dependencies',
-      matchPackageNames: [
-        '!/^@stanlemon/',
-      ],
-    },
-    {
-      matchDatasources: [
-        'npm',
-      ],
-      matchUpdateTypes: [
-        'minor',
-        'patch',
-      ],
-      matchPackageNames: [
-        '!/^@stanlemon/',
-      ],
-      //minimumReleaseAge: '7 days',
-    },
-    {
-      // Handle major updates separately
-      matchUpdateTypes: [
-        'major',
-      ],
-      matchPackageNames: [
-        '!/^@stanlemon/',
-      ],
-      automergeType: 'pr',
-    },
-    {
-      matchDatasources: [
-        'npm',
-      ],
-      matchUpdateTypes: [
-        'major',
-      ],
-      matchPackageNames: [
-        '!/^@stanlemon/',
-      ],
-      //minimumReleaseAge: '14 days',
-    },
-    {
       // Group all eslint related packages
       groupName: 'eslint',
       matchPackageNames: [
