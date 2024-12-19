@@ -117,7 +117,7 @@
     {
       matchDepTypes: [
         'peerDependencies'
-      ],f
+      ],
       enabled: false
     },
     // Node.js updates

@@ -55,6 +55,6 @@
     "lodash-es": "^4.17.21"
   },
   "overrides": {
-    "@types/pouchdb-core": "npm:@stanlemon/types-pouchdb-core@^0.0.1"
+    "@types/pouchdb-core": "npm:@stanlemon/types-pouchdb-core@^0.0.3"
   }
 }
