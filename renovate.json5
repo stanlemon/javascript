@@ -6,12 +6,8 @@
   extends: [
     'config:recommended', // Core preset
     ':configMigration', // Migrate renovate configuration when necessary
-    ':enablePreCommit', // Enable pre-commit hook updates
-    ':combinePatchMinorReleases', // Combine patch and minor releases
-    ':separateMultipleMajorReleases', // Handle major updates separately
     'docker:pinDigests', // Pin Docker digests,
-    'group:monorepos', // Common monorepo groupings
-    'group:allNonMajor', // Group all non-major updates
+    'helpers:pinGitHubActionDigests',
   ],
 
   // Set timezone to Indianapolis
@@ -103,7 +99,7 @@
       // Special handling for major Node.js updates
       groupName: 'nodejs updates',
       matchPackageNames: [
-        'node',
+        '/(?:^|/)node$/',
       ],
       matchDatasources: [
         'docker',
@@ -111,91 +107,18 @@
         'npm',
         'nvm',
       ],
+      matchDepTypes: [
+        'dependencies',
+        'devDependencies',
+        'engines',
+      ],
       matchUpdateTypes: [
         'major',
+        'minor',
+        'patch',
       ],
       minimumReleaseAge: '9 months',
       automerge: false,
-    },
-    {
-      // Disable non-major Node.js updates
-      groupName: 'nodejs updates',
-      matchPackageNames: [
-        'node',
-      ],
-      matchDatasources: [
-        'docker',
-        'node-version',
-        'npm',
-        'nvm',
-      ],
-      matchUpdateTypes: [
-        'minor',
-        'patch',
-      ],
-      enabled: false,
-    },
-    {
-      // Update Node.js engines in package file
-      groupName: 'nodejs updates',
-      matchUpdateTypes: [
-        'major',
-      ],
-      matchManagers: [
-        'npm',
-      ],
-      matchDepTypes: [
-        'engines',
-      ],
-      matchPackageNames: [
-        'node',
-      ],
-      minimumReleaseAge: '9 months',
-    },
-    {
-      // Disable minor & patch updates for Node.js engines
-      matchUpdateTypes: [
-        'minor',
-        'patch',
-      ],
-      matchManagers: [
-        'npm',
-      ],
-      matchDepTypes: [
-        'engines',
-      ],
-      matchPackageNames: [
-        'node',
-      ],
-      enabled: false,
-    },
-    {
-      // Update nodejs types
-      groupName: 'nodejs updates',
-      matchUpdateTypes: [
-        'major',
-      ],
-      matchManagers: [
-        'npm',
-      ],
-      matchPackageNames: [
-        '@types/node',
-      ],
-      minimumReleaseAge: '9 months',
-    },
-    {
-      // Disable patch updates for nodejs types
-      matchUpdateTypes: [
-        'minor',
-        'patch',
-      ],
-      matchManagers: [
-        'npm',
-      ],
-      matchPackageNames: [
-        '@types/node',
-      ],
-      enabled: false,
     },
   ],
 }
