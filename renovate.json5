@@ -6,12 +6,9 @@
   extends: [
     'config:recommended', // Core preset
     ':configMigration', // Migrate renovate configuration when necessary
-    ':enablePreCommit', // Enable pre-commit hook updates
-    ':combinePatchMinorReleases', // Combine patch and minor releases
-    ':separateMajorReleases', // Handle major updates separately
-    'docker:enableMajor', // Enable major Docker updates
     'docker:pinDigests', // Pin Docker digests,
-    'group:monorepos', // Common monorepo groupings
+    'helpers:pinGitHubActionDigests',
+    'group:allNonMajor',
   ],
 
   // Set timezone to Indianapolis
@@ -35,9 +32,12 @@
     'after 8am and before 8pm on saturday',
   ],
 
+  // Give everything some time to bake
+  minimumReleaseAge: '7 days',
+
   // Automerge on by default via a branch
   automerge: true,
-  automergeType: 'branch',
+  automergeType: 'pr',
 
   // Security update configuration
   vulnerabilityAlerts: {
@@ -65,7 +65,6 @@
         '/^eslint-*/',
         '/^@eslint*/',
       ],
-      automergeType: 'pr',
     },
     {
       // Group all react related packages
@@ -85,23 +84,20 @@
       matchPackageNames: [
         '/^@stanlemon/',
       ],
+      automergeType: 'branch',
     },
-    // Disable updating nodejs package peer dependencies
     {
+      // Disable updating nodejs package peer dependencies
       matchDepTypes: [
         'peerDependencies'
       ],
       enabled: false
     },
-    // Node.js updates
-    // The idea here is to group nvmrc updates, npm engines updates and @types/node update together
-    // and to try to update them after they've baked.
-    // Renovate tries to keep node updates to LTS, so in theory we should only see major LTS updates.
     {
-      // Special handling for major Node.js updates
+      // Node.js updates
       groupName: 'nodejs updates',
       matchPackageNames: [
-        'node',
+        '/(?:^|/)node$/',
       ],
       matchDatasources: [
         'docker',
@@ -109,92 +105,18 @@
         'npm',
         'nvm',
       ],
+      matchDepTypes: [
+        'dependencies',
+        'devDependencies',
+        'engines',
+      ],
       matchUpdateTypes: [
         'major',
+        'minor',
+        'patch',
       ],
-      minimumReleaseAge: '6 months',
-      automergeType: 'pr',
+      minimumReleaseAge: '9 months',
       automerge: false,
-    },
-    {
-      // Disable non-major Node.js updates
-      groupName: 'nodejs updates',
-      matchPackageNames: [
-        'node',
-      ],
-      matchDatasources: [
-        'docker',
-        'node-version',
-        'npm',
-        'nvm',
-      ],
-      matchUpdateTypes: [
-        'minor',
-        'patch',
-      ],
-      enabled: false,
-    },
-    {
-      // Update Node.js engines in package file
-      groupName: 'nodejs updates',
-      matchUpdateTypes: [
-        'major',
-      ],
-      matchManagers: [
-        'npm',
-      ],
-      matchDepTypes: [
-        'engines',
-      ],
-      matchPackageNames: [
-        'node',
-      ],
-      minimumReleaseAge: '12 months',
-    },
-    {
-      // Disable minor & patch updates for Node.js engines
-      matchUpdateTypes: [
-        'minor',
-        'patch',
-      ],
-      matchManagers: [
-        'npm',
-      ],
-      matchDepTypes: [
-        'engines',
-      ],
-      matchPackageNames: [
-        'node',
-      ],
-      enabled: false,
-    },
-    {
-      // Update nodejs types
-      groupName: 'nodejs updates',
-      matchUpdateTypes: [
-        'major',
-      ],
-      matchManagers: [
-        'npm',
-      ],
-      matchPackageNames: [
-        '@types/node',
-      ],
-      minimumReleaseAge: '6 months',
-    },
-    {
-      // Disable patch updates for nodejs types
-      matchUpdateTypes: [
-        'minor',
-        'patch',
-      ],
-      matchManagers: [
-        'npm',
-      ],
-      matchPackageNames: [
-        '@types/node',
-      ],
-      enabled: false,
     },
   ],
 }
