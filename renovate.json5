@@ -122,9 +122,8 @@
     },
     // Node.js updates
     // The idea here is to group nvmrc updates, npm engines updates and @types/node update together
-    // and to try to update them about 6 months after they've baked.
-    // Renovate tries to keep node updates to LTS, so in theory we should only see major updates
-    // 6 months after an LTS version enters LTS support.
+    // and to try to update them after they've baked.
+    // Renovate tries to keep node updates to LTS, so in theory we should only see major LTS updates.
     {
       // Special handling for major Node.js updates
       groupName: 'nodejs updates',
@@ -140,7 +139,7 @@
       matchUpdateTypes: [
         'major',
       ],
-      minimumReleaseAge: '6 months', // One month waiting period
+      minimumReleaseAge: '7 months', // One month waiting period
       automergeType: 'pr', // Create a PR
       automerge: false,
     },
@@ -177,7 +176,7 @@
       matchPackageNames: [
         'node',
       ],
-      minimumReleaseAge: '6 months',
+      minimumReleaseAge: '7 months',
     },
     {
       // Disable minor & patch updates for Node.js engines
@@ -208,7 +207,7 @@
       matchPackageNames: [
         '@types/node',
       ],
-      minimumReleaseAge: '6 months',
+      minimumReleaseAge: '7 months',
     },
     {
       // Disable patch updates for nodejs types
