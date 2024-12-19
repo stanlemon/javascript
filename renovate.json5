@@ -78,6 +78,11 @@
         'typescript-eslint',
         '/^@types/eslint/',
       ],
+      'matchUpdateTypes': [
+        'major',
+        'minor',
+        'patch',
+      ],
     },
     {
       // Group all react related packages
@@ -89,6 +94,11 @@
         '@types/react',
         '@types/react-dom',
       ],
+      'matchUpdateTypes': [
+        'major',
+        'minor',
+        'patch',
+      ],
     },
     {
       // Special handling for @stanlemon packages
@@ -96,6 +106,11 @@
       minimumReleaseAge: null, // No waiting period
       matchPackageNames: [
         '/^@stanlemon/',
+      ],
+      'matchUpdateTypes': [
+        'major',
+        'minor',
+        'patch',
       ],
       automergeType: 'branch',
     },
@@ -111,6 +126,11 @@
       groupName: 'nodejs updates',
       matchPackageNames: [
         'node',
+      ],
+      'matchUpdateTypes': [
+        'major',
+        'minor',
+        'patch',
       ],
       matchDatasources: [
         'docker',
