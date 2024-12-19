@@ -12,6 +12,7 @@
     'docker:enableMajor', // Enable major Docker updates
     'docker:pinDigests', // Pin Docker digests,
     'group:monorepos', // Common monorepo groupings
+    'group:allNonMajor', // Group all non-major updates
   ],
 
   // Set timezone to Indianapolis
@@ -37,7 +38,7 @@
 
   // Automerge on by default via a branch
   automerge: true,
-  automergeType: 'branch',
+  automergeType: 'pr',
 
   // Security update configuration
   vulnerabilityAlerts: {
@@ -65,7 +66,6 @@
         '/^eslint-*/',
         '/^@eslint*/',
       ],
-      automergeType: 'pr',
     },
     {
       // Group all react related packages
@@ -85,6 +85,7 @@
       matchPackageNames: [
         '/^@stanlemon/',
       ],
+      automergeType: 'branch',
     },
     // Disable updating nodejs package peer dependencies
     {
@@ -113,7 +114,6 @@
         'major',
       ],
       minimumReleaseAge: '6 months',
-      automergeType: 'pr',
       automerge: false,
     },
     {
@@ -180,7 +180,7 @@
       matchPackageNames: [
         '@types/node',
       ],
-      minimumReleaseAge: '6 months',
+      minimumReleaseAge: '12 months',
     },
     {
       // Disable patch updates for nodejs types
