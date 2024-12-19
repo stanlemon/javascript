@@ -54,6 +54,8 @@
     enabled: false,
   },
 
+  minimumReleaseAge: '9 months',
+
   // Package update rules
   packageRules: [
     {
