@@ -68,11 +68,6 @@
         'minor',
         'patch',
       ],
-      matchPackageNames: [
-        '!/(?:^|/)node$/',
-        '!/^@stanlemon/',
-        '!/^(@types\/)?(typescript-)?@?eslint([-\/][\w-]*)?$/',
-      ],
     },
     {
       // Group all eslint related packages
