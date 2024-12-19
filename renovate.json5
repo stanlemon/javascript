@@ -83,18 +83,6 @@
       automergeType: 'pr',
     },
     {
-      matchDatasources: [
-        'npm',
-      ],
-      matchUpdateTypes: [
-        'major',
-      ],
-      matchPackageNames: [
-        '!/^@stanlemon/',
-      ],
-      minimumReleaseAge: '14 days', // Longer waiting period
-    },
-    {
       // Group all eslint related packages
       groupName: 'eslint',
       matchPackageNames: [
