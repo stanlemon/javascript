@@ -64,6 +64,6 @@
     "buffer": "^6.0.3"
   },
   "overrides": {
-    "@types/pouchdb-core": "npm:@stanlemon/types-pouchdb-core@^0.0.1"
+    "@types/pouchdb-core": "npm:@stanlemon/types-pouchdb-core@^0.0.3"
   }
 }

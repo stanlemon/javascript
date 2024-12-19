@@ -26,6 +26,6 @@
     "renovate:validate": "npx --yes --package renovate -- renovate-config-validator"
   },
   "overrides": {
-    "@types/pouchdb-core": "npm:@stanlemon/types-pouchdb-core@^0.0.1"
+    "@types/pouchdb-core": "npm:@stanlemon/types-pouchdb-core@^0.0.3"
   }
 }

@@ -17,7 +17,7 @@ You can use these alternative types by adding the following to your package.json
     "@types/debug": "^4.1.12"
   },
   "overrides": {
-    "@types/pouchdb-core": "npm:@stanlemon/types-pouchdb-core@^0.0.1"
+    "@types/pouchdb-core": "npm:@stanlemon/types-pouchdb-core@^0.0.3"
   }
 }
 ```
