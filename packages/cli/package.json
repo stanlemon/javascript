@@ -1,11 +1,11 @@
 {
   "name": "@stanlemon/cli",
-  "version": "0.1.24",
+  "version": "0.1.25",
   "description": "A command tool to make all of my things easier.",
   "author": "Stan Lemon <stanlemon@users.noreply.github.com>",
   "license": "MIT",
   "engines": {
-    "node": ">=20.14.0"
+    "node": ">=20.18.1"
   },
   "type": "module",
   "main": "./index.js",
