@@ -126,6 +126,7 @@
       groupName: 'nodejs updates',
       matchPackageNames: [
         'node',
+        '@types/node',
       ],
       'matchUpdateTypes': [
         'major',
