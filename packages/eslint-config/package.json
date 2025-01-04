@@ -1,6 +1,6 @@
 {
   "name": "@stanlemon/eslint-config",
-  "version": "3.0.10",
+  "version": "3.0.11",
   "description": "My typical eslint setup, but without all the copy and paste.",
   "keywords": [
     "eslint"
@@ -37,6 +37,6 @@
     "globals": "^15.14.0",
     "prettier": "^3.4.2",
     "typescript": "^5.7.2",
-    "typescript-eslint": "^8.18.2"
+    "typescript-eslint": "^8.19.0"
   }
 }
