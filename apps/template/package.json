@@ -1,6 +1,6 @@
 {
   "name": "@stanlemon/app-template",
-  "version": "0.3.76",
+  "version": "0.3.77",
   "description": "A template for creating apps using the webdev package.",
   "author": "Stan Lemon <stanlemon@users.noreply.github.com>",
   "license": "MIT",
@@ -29,7 +29,7 @@
     "react": "^19.0.0",
     "react-cookie": "^7.2.2",
     "react-dom": "^19.0.0",
-    "wouter": "^3.5.1"
+    "wouter": "^3.6.0"
   },
   "devDependencies": {
     "@testing-library/react": "^16.2.0",
