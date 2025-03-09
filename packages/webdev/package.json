@@ -1,6 +1,6 @@
 {
   "name": "@stanlemon/webdev",
-  "version": "0.2.29",
+  "version": "0.2.30",
   "description": "My typical web development setup, but without all the copy and paste.",
   "keywords": [
     "webpack",
@@ -32,7 +32,7 @@
     "@stanlemon/eslint-config": "*",
     "@testing-library/jest-dom": "^6.6.3",
     "babel-jest": "^29.7.0",
-    "babel-loader": "^9.2.1",
+    "babel-loader": "^10.0.0",
     "css-loader": "^7.1.2",
     "dotenv": "^16.4.7",
     "html-webpack-plugin": "^5.6.3",
