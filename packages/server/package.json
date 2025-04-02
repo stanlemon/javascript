@@ -1,6 +1,6 @@
 {
   "name": "@stanlemon/server",
-  "version": "0.3.45",
+  "version": "0.3.46",
   "description": "A basic express web server setup.",
   "author": "Stan Lemon <stanlemon@users.noreply.github.com>",
   "license": "MIT",

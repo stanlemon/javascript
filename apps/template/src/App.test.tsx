@@ -4,6 +4,7 @@ import App from "./App";
 import { ItemData } from "./views";
 import { SessionAware } from "./Session";
 import { fetchApi } from "./helpers/fetchApi";
+import { CookiesProvider } from "react-cookie";
 
 jest.mock("./helpers/fetchApi");
 
@@ -14,9 +15,11 @@ describe("<App/>", () => {
 
   it("logged out", async () => {
     render(
-      <SessionAware initialized={true} token={null} user={null}>
-        <App />
-      </SessionAware>
+      <CookiesProvider>
+        <SessionAware initialized={true} token={null} user={null}>
+          <App />
+        </SessionAware>
+      </CookiesProvider>
     );
 
     expect(
@@ -37,17 +40,19 @@ describe("<App/>", () => {
     mockedFetchApi.mockResolvedValue([]);
 
     render(
-      <SessionAware
-        initialized={true}
-        token="abcd"
-        user={{
-          username: "user",
-          name: "user",
-          email: "user@example.com",
-        }}
-      >
-        <App />
-      </SessionAware>
+      <CookiesProvider>
+        <SessionAware
+          initialized={true}
+          token="abcd"
+          user={{
+            username: "user",
+            name: "user",
+            email: "user@example.com",
+          }}
+        >
+          <App />
+        </SessionAware>
+      </CookiesProvider>
     );
 
     // The header is present

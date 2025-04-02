@@ -1,6 +1,7 @@
 import { createRoot } from "react-dom/client";
 import App from "./App";
 import Session from "./Session";
+import { CookiesProvider } from "react-cookie";
 
 document.title = "App";
 
@@ -8,9 +9,11 @@ const root = createRoot(
   document.body.appendChild(document.createElement("div"))
 );
 root.render(
-  <Session>
-    <App />
-  </Session>
+  <CookiesProvider>
+    <Session>
+      <App />
+    </Session>
+  </CookiesProvider>
 );
 
 const link = document.createElement("link");
