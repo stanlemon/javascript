@@ -4,7 +4,7 @@ import {
   NotFoundException,
 } from "./src/index.js";
 
-const app = createAppServer({ port: 3003 });
+export const app = createAppServer({ port: 3003 });
 
 // curl http://localhost:3003/hello?name=Stanley
 app.get(
