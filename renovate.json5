@@ -139,8 +139,48 @@
         'npm',
         'nvm',
       ],
-      minimumReleaseAge: '9 months',
+      minimumReleaseAge: '7 months',
       automerge: false,
     },
+    {
+      matchPackageNames: [
+        'node',
+      ],
+      matchDatasources: [
+        'npm',
+      ],
+      overrideDatasource: "node-version",
+      overridePackageName: "node",
+    },
+    {
+      matchPackageNames: [
+        'node',
+      ],
+      matchDatasources: [
+        'nvm',
+      ],
+      overrideDatasource: "node-version",
+      overridePackageName: "node",
+    },
+    {
+      matchPackageNames: [
+        '@types/node',
+      ],
+      matchDatasources: [
+        'npm',
+      ],
+      overrideDatasource: "node-version",
+      overridePackageName: "node",
+    },
+    {
+      matchPackageNames: [
+        'node',
+      ],
+      matchDatasources: [
+        'docker',
+      ],
+      overrideDatasource: "node-version",
+      overridePackageName: "node",
+    }
   ],
 }
