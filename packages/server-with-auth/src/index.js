@@ -20,3 +20,4 @@ export {
   createInMemoryLowDb,
   createJsonFileLowDb,
 } from "./data/lowdb-user-dao.js";
+export { signupAndLogin as test__signupAndLogin } from "./utilities/testUtils.js";

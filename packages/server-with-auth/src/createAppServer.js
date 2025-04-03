@@ -58,10 +58,6 @@ export default function createAppServer(options) {
 
   const app = createBaseAppServer({ port, webpack, start });
 
-  if (process.env.NODE_ENV === "test") {
-    return app;
-  }
-
   if (!process.env.COOKIE_SECRET) {
     console.warn("You need to specify a cookie secret!");
   }

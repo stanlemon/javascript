@@ -29,7 +29,7 @@ const schemas = createSchemas({
   email: Joi.string().email().required().label("Email"),
 });
 
-const app = createAppServer({
+export const app = createAppServer({
   port: 3003,
   secure: ["/api/"],
   schemas,
@@ -41,12 +41,6 @@ const app = createAppServer({
 app.get(
   "/",
   handler(() => ({ hello: "world" }))
-);
-
-// Insecure endpoint
-app.get(
-  "/hello/:name",
-  handler(({ name = "world" }) => ({ hello: name }))
 );
 
 // Secure endpoint
