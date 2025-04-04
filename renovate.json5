@@ -139,8 +139,29 @@
         'npm',
         'nvm',
       ],
+    },
+    {
+      matchPackageNames: [
+        'node',
+        '@types/node',
+      ],
+      'matchUpdateTypes': [
+        'major',
+      ],
       minimumReleaseAge: '7 months',
       automerge: false,
+    },
+    {
+      matchPackageNames: [
+        'node',
+        '@types/node',
+      ],
+      'matchUpdateTypes': [
+        'minor',
+        'patch',
+      ],
+      minimumReleaseAge: '7 days',
+      automerge: true,
     },
     {
       matchPackageNames: [
