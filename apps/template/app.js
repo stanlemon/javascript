@@ -58,4 +58,4 @@ app.delete(
 );
 
 app.spa();
-app.catch404s("/api/*");
+app.catch404s("/api/");

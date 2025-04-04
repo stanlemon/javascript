@@ -49,4 +49,12 @@ describe("/app", () => {
     expect(response.status).toEqual(200);
     expect(response.body).toEqual({ hello: "Henry" });
   });
+
+  it("GET 404 on undefined api path", async () => {
+    const response = await request(app)
+      .get("/not-found")
+      .set("Accept", "application/json");
+
+    expect(response.status).toEqual(404);
+  });
 });

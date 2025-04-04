@@ -75,7 +75,7 @@ export default function createAppServer(options) {
     console.info("Proxying webpack dev server");
 
     app.get(
-      "/static/*",
+      "/static/*splat",
       createProxyMiddleware({
         target: webpack,
         changeOrigin: true,
@@ -120,25 +120,25 @@ export default function createAppServer(options) {
   app.spa = () => {
     if (useWebpack) {
       app.get(
-        "*",
+        "/*splat",
         createProxyMiddleware({
           target: webpack,
           changeOrigin: true,
         })
       );
     } else {
-      app.get(`*`, function (req, res, next) {
+      app.get(`/*splat`, function (req, res, next) {
         res.sendFile(path.resolve("./", "dist", "index.html"));
       });
     }
   };
 
-  app.catch404s = (path = "/*") => {
+  app.catch404s = (path = "/") => {
     const router = Router();
     router.use((req, res, next) => {
       res.status(404).json({ error: "Not Found" });
     });
-    app.use(path, router);
+    app.use(`${path}*splat`, router);
   };
 
   // If we're set to start. Btw we never start in test.
