@@ -1,6 +1,6 @@
 {
   "name": "@stanlemon/eslint-config",
-  "version": "3.0.28",
+  "version": "3.0.29",
   "description": "My typical eslint setup, but without all the copy and paste.",
   "keywords": [
     "eslint"
@@ -8,7 +8,7 @@
   "author": "Stan Lemon <stanlemon@users.noreply.github.com>",
   "license": "MIT",
   "engines": {
-    "node": ">=22.12.0"
+    "node": ">=22.14.0"
   },
   "type": "module",
   "exports": {
