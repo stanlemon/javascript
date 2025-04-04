@@ -101,6 +101,36 @@
       ],
     },
     {
+      matchPackageNames: [
+        'react-dom',
+      ],
+      matchDatasources: [
+        'npm',
+      ],
+      overrideDatasource: "npm",
+      overridePackageName: "react",
+    },
+    {
+      matchPackageNames: [
+        '@types/react',
+      ],
+      matchDatasources: [
+        'npm',
+      ],
+      overrideDatasource: "npm",
+      overridePackageName: "react",
+    },
+    {
+      matchPackageNames: [
+        '@types/react-dom',
+      ],
+      matchDatasources: [
+        'npm',
+      ],
+      overrideDatasource: "npm",
+      overridePackageName: "react",
+    },
+    {
       // Special handling for @stanlemon packages
       groupName: 'my own packages',
       minimumReleaseAge: null, // No waiting period
