@@ -5,9 +5,6 @@ import request from "supertest";
 import { app } from "./app.js";
 import { signupAndLogin } from "./src/utilities/testUtils.js";
 
-const username = "test" + Math.random();
-const password = "p@$$w0rd!";
-
 describe("/app", () => {
   it("Insecure endpoint", async () => {
     // Insecure endpoint
@@ -29,6 +26,7 @@ describe("/app", () => {
   });
 
   it("Secure endpoint with auth", async () => {
+    const { username, password } = makeUsernameAndPassword();
     const session = await signupAndLogin(app, username, password, {
       email: "test@test.com",
       fullName: "Test User",
@@ -50,4 +48,27 @@ describe("/app", () => {
       })
     );
   });
+
+  it("404 on undefined api path", async () => {
+    const { username, password } = makeUsernameAndPassword();
+    const session = await signupAndLogin(app, username, password, {
+      email: "test@test.com",
+      fullName: "Test User",
+    });
+
+    const token = session.token;
+
+    const response = await request(app)
+      .get("/api/not-found")
+      .set("Accept", "application/json")
+      .set("Authorization", "Bearer " + token);
+
+    expect(response.status).toEqual(404);
+  });
 });
+
+function makeUsernameAndPassword() {
+  const username = "test" + Math.random();
+  const password = "p@$$w0rd!";
+  return { username, password };
+}
