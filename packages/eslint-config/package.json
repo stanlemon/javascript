@@ -1,6 +1,6 @@
 {
   "name": "@stanlemon/eslint-config",
-  "version": "3.0.29",
+  "version": "3.0.30",
   "description": "My typical eslint setup, but without all the copy and paste.",
   "keywords": [
     "eslint"
@@ -22,8 +22,8 @@
     "lint:fix": "eslint --fix ."
   },
   "dependencies": {
-    "@eslint/js": "^9.23.0",
-    "eslint": "^9.23.0",
+    "@eslint/js": "^9.24.0",
+    "eslint": "^9.24.0",
     "eslint-config-prettier": "^10.1.1",
     "eslint-config-react": "^1.1.7",
     "eslint-config-typescript": "^3.0.0",
