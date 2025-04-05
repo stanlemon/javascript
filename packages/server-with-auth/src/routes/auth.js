@@ -105,18 +105,21 @@ export default function authRoutes({
 
   router.get(ROUTES.LOGOUT, (req, res) => {
     // This will happen if you are only using the JWT strategy
-    if (req.logout !== undefined) {
-      req.logout();
+    if (req.logout !== undefined && req.user !== undefined) {
+      return req.logout(() => {
+        if (req?.user?.id) {
+          eventEmitter.emit(EVENTS.USER_LOGOUT, req.user.id);
+        }
+
+        return res.status(401).json({
+          token: false,
+          user: false,
+        });
+      });
     } else {
-      console.warn("Logout attempted, but there is no logout function.");
+      console.warn("Logout attempted, but unable to complete.");
+      return res.status(404).json({ error: "Not Found" });
     }
-
-    eventEmitter.emit(EVENTS.USER_LOGOUT, req.user.id);
-
-    return res.status(401).json({
-      token: false,
-      user: false,
-    });
   });
 
   router.post(
