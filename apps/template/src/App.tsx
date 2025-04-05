@@ -40,7 +40,12 @@ export default function App() {
       <SuccessMessage message={message} />
       {!user && (
         <Switch>
-          <Route path="/">
+          <Route path="/verify/:token">
+            {({ token: verificationToken }: { token: string }) => (
+              <Verify token={verificationToken} />
+            )}
+          </Route>
+          <Route>
             <Row>
               <Column>
                 <h2>Login</h2>
@@ -52,11 +57,6 @@ export default function App() {
                 <SignUp />
               </Column>
             </Row>
-          </Route>
-          <Route path="/verify/:token">
-            {({ token: verificationToken }: { token: string }) => (
-              <Verify token={verificationToken} />
-            )}
           </Route>
         </Switch>
       )}
