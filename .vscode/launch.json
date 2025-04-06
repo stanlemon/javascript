@@ -1,0 +1,43 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Launch App Template Backend (Node.js)",
+      "type": "node",
+      "request": "launch",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [
+        "run",
+        "dev",
+      ],
+      "cwd": "${workspaceFolder}/apps/template",
+      "env": {
+        "NODE_ENV": "development"
+      },
+      "outFiles": [
+        "${workspaceFolder}/**/*.js"
+      ],
+      "skipFiles": [
+        "<node_internals>/**",
+        // Skip all node_modules EXCEPT for your local package
+        "!**/node_modules/@stanlemon/**",
+        "node_modules/**"
+      ]
+    },
+    {
+      "name": "Launch App Template Backend Frontend (Firefox)",
+      "type": "firefox",
+      "request": "launch",
+      "url": "http://localhost:3000",
+      "webRoot": "${workspaceFolder}/apps/template/src/",
+      "reloadOnAttach": true,
+      "reAttach": true,
+      "pathMappings": [
+        {
+          "url": "webpack://stanlemon/app-template/src",
+          "path": "${workspaceFolder}/apps/template/src"
+        }
+      ]
+    }
+  ]
+}
