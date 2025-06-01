@@ -1,6 +1,6 @@
 {
   "name": "@stanlemon/cli",
-  "version": "0.1.29",
+  "version": "0.1.30",
   "description": "A command tool to make all of my things easier.",
   "author": "Stan Lemon <stanlemon@users.noreply.github.com>",
   "license": "MIT",
@@ -21,6 +21,6 @@
   "dependencies": {
     "@stanlemon/app-template": "0.3.57",
     "get-installed-path": "^4.0.8",
-    "yargs": "^17.7.2"
+    "yargs": "^18.0.0"
   }
 }
