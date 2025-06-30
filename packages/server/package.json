@@ -1,6 +1,6 @@
 {
   "name": "@stanlemon/server",
-  "version": "0.4.6",
+  "version": "0.4.7",
   "description": "A basic express web server setup.",
   "author": "Stan Lemon <stanlemon@users.noreply.github.com>",
   "license": "MIT",
@@ -23,9 +23,9 @@
     "body-parser": "^2.2.0",
     "compression": "^1.8.0",
     "cookie-parser": "^1.4.7",
-    "dotenv": "16.5.0",
+    "dotenv": "16.6.0",
     "express": "^5.1.0",
-    "express-rate-limit": "^7.5.0",
+    "express-rate-limit": "^7.5.1",
     "helmet": "^8.1.0",
     "http-proxy-middleware": "^3.0.5",
     "joi": "^17.13.3",
@@ -35,7 +35,7 @@
   },
   "devDependencies": {
     "@stanlemon/eslint-config": "*",
-    "@types/lodash": "^4.17.17",
+    "@types/lodash": "^4.17.19",
     "nodemon": "^3.1.10"
   }
 }
