@@ -50,9 +50,9 @@
     "webpack-dev-server": "^5.2.2"
   },
   "devDependencies": {
-    "@types/jest": "^29.5.14",
-    "@types/react": "^19.1.0",
-    "@types/react-dom": "^19.1.0",
+    "@types/jest": "^30.0.0",
+    "@types/react": "^19.1.8",
+    "@types/react-dom": "^19.1.6",
     "@types/webpack": "^5.28.5",
     "@types/webpack-env": "^1.18.8",
     "react": "^19.1.0",
@@ -60,6 +60,6 @@
   },
   "peerDependencies": {
     "react": ">=18.0.0",
-    "react-dom": ">=18.0.0"
+    "react-dom": ">=19.1.0"
   }
 }
