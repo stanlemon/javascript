@@ -23,9 +23,17 @@
     "publish": "node publish.js",
     "workspaces:lint": "npm run lint --workspaces --if-present",
     "workspaces:test": "npm run test --workspaces --if-present",
-    "renovate:validate": "npx --yes --package renovate -- renovate-config-validator"
+    "renovate:validate": "npx --yes --package renovate -- renovate-config-validator",
+    "audit:fix": "npm audit fix",
+    "outdated": "npm outdated --workspaces",
+    "update:all": "npm update --workspaces",
+    "lockfile:clean": "rm -f package-lock.json && npm install"
   },
   "overrides": {
     "@types/pouchdb-core": "npm:@stanlemon/types-pouchdb-core@^0.0.3"
+  },
+  "resolutions": {
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.0"
   }
 }

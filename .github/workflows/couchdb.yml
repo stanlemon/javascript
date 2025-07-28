@@ -1,5 +1,15 @@
-name: CouchDB Tests
-on: [push]
+name: CouchDB Tests (Optional)
+on:
+  push:
+    branches-ignore:
+      - main
+    paths:
+      - 'packages/react-couchdb-authentication/**'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'packages/react-couchdb-authentication/**'
 
 jobs:
   test:
@@ -20,9 +30,9 @@ jobs:
             ${{ runner.OS }}-
 
       - name: Set up CouchDB
-        uses: "cobot/couchdb-action@master"
+        uses: "cobot/couchdb-action@main"
         with:
-          couchdb version: "2.3.1"
+          couchdb-version: "3.5.0"
 
       - name: Check CouchDB
         run: |
