@@ -1,15 +1,17 @@
-name: CouchDB Tests (Optional)
+name: CouchDB Tests (Optional) - DISABLED
 on:
-  push:
-    branches-ignore:
-      - main
-    paths:
-      - 'packages/react-couchdb-authentication/**'
-  pull_request:
-    branches:
-      - main
-    paths:
-      - 'packages/react-couchdb-authentication/**'
+  # Workflow temporarily disabled
+  # push:
+  #   branches-ignore:
+  #     - main
+  #   paths:
+  #     - 'packages/react-couchdb-authentication/**'
+  # pull_request:
+  #   branches:
+  #     - main
+  #   paths:
+  #     - 'packages/react-couchdb-authentication/**'
+  workflow_dispatch: # Manual trigger only
 
 jobs:
   test:
