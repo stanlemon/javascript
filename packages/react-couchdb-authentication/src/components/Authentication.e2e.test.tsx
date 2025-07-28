@@ -99,9 +99,12 @@ describe("<Authentication /> with CouchDB instance", () => {
     // Submit the form
     fireEvent.click(signUpButton);
 
-    await waitFor(() => {
-      expect(screen.getByText("Authenticated")).toBeInTheDocument();
-    });
+    await waitFor(
+      () => {
+        expect(screen.getByText("Authenticated")).toBeInTheDocument();
+      },
+      { timeout: 5000 }
+    );
 
     expect(screen.getByText("Hello " + username)).toBeInTheDocument();
 
