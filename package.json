@@ -33,7 +33,7 @@
     "@types/pouchdb-core": "npm:@stanlemon/types-pouchdb-core@^0.0.3"
   },
   "resolutions": {
-    "@types/react": "^19.1.0",
-    "@types/react-dom": "^19.1.0"
+    "@types/react": "^19.1.2",
+    "@types/react-dom": "^19.1.6"
   }
 }
