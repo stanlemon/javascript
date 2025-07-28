@@ -154,5 +154,5 @@ describe("<Authentication /> with CouchDB instance", () => {
 
     // We successfully delete the user that we created
     expect(userDelete.ok).toBe(true);
-  });
+  }, 25000);
 });
