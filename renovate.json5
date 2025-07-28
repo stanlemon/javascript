@@ -93,6 +93,9 @@
         'react-refresh',
         '@types/react',
         '@types/react-dom',
+        '@testing-library/react',
+        '@testing-library/react-hooks',
+        '@testing-library/user-event',
       ],
       'matchUpdateTypes': [
         'major',
@@ -143,6 +146,21 @@
         'patch',
       ],
       automergeType: 'branch',
+    },
+    {
+      // Group TypeScript related packages
+      groupName: 'typescript',
+      matchPackageNames: [
+        'typescript',
+        '@types/jest',
+        'typescript-eslint',
+        '/^@types\//',
+      ],
+      'matchUpdateTypes': [
+        'major',
+        'minor',
+        'patch',
+      ],
     },
     {
       // Disable updating nodejs package peer dependencies
