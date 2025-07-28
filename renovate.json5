@@ -88,9 +88,9 @@
     {
       // Disable updating nodejs package peer dependencies
       matchDepTypes: [
-        'peerDependencies'
+        'peerDependencies',
       ],
-      enabled: false
+      enabled: false,
     },
     {
       // Group Node.js updates together
@@ -159,14 +159,14 @@
       // Special handling for Node.js major version updates
       groupName: 'node majors (LTS gate)',
       matchDatasources: [
-        'node-version'
+        'node-version',
       ],
       matchPackageNames: [
         'node',
         '@types/node',
       ],
       matchUpdateTypes: [
-        'major'
+        'major',
       ],
       minimumReleaseAge: '7 months', // Wait longer for major Node.js releases
       internalChecksFilter: 'strict', // Strict internal checks for major updates
@@ -177,14 +177,16 @@
       groupName: 'npm non-major (catch-all)',
       groupSlug: 'npm-all-non-major',
       matchManagers: [
-        'npm'
+        'npm',
       ],
       matchUpdateTypes: [
         'minor',
         'patch',
       ],
       // Exclude my own packages (handled separately)
-      excludePackageNames: ['/^@stanlemon\\//']
-    }
+      matchPackageNames: [
+        '!/^@stanlemon\\//',
+      ],
+    },
   ],
 }
