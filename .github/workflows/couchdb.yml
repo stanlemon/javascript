@@ -22,7 +22,7 @@ jobs:
       - name: Set up CouchDB
         uses: "cobot/couchdb-action@main"
         with:
-          couchdb version: "2.3.1"
+          couchdb version: "3.5.0"
 
       - name: Check CouchDB
         run: |
