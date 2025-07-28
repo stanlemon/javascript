@@ -132,7 +132,6 @@
         "major"
       ],
       "minimumReleaseAge": "7 months",
-      "allowedVersions": "/^(?:\\d*[02468])\\./",
       "internalChecksFilter": "strict",
       "automerge": false
     },
