@@ -1,0 +1,190 @@
+{
+  // Validate against Renovate JSON schema
+  $schema: 'https://docs.renovatebot.com/renovate-schema.json',
+
+  // Base configuration presets
+  extends: [
+    'config:best-practices', // Use Renovate's recommended best practices
+    'mergeConfidence:all-badges', // Enable merge confidence badges
+    ':maintainLockFilesMonthly', // Update lock files monthly
+    ':timezone(America/Indiana/Indianapolis)', // Set timezone
+    ':enableVulnerabilityAlerts', // Enable security vulnerability alerts
+    ':automergeMinor', // Auto-merge minor updates
+    'group:react', // Group React packages together
+    'group:reactMonorepo', // Group React monorepo packages
+    'group:eslintMonorepo', // Group ESLint monorepo packages
+    'group:linters', // Group linting tools
+    'group:jestMonorepo', // Group Jest monorepo packages
+    'group:jestPlusTypes', // Group Jest with its types
+    'group:jestPlusTSJest', // Group Jest with TypeScript Jest
+  ],
+
+  // Version management strategies
+  rangeStrategy: 'bump', // Bump ranges to next version
+  bumpVersion: 'patch', // Use patch version for bumping
+
+  // Enable dependency dashboard for overview
+  dependencyDashboard: true,
+
+  // Rate limiting to avoid overwhelming CI
+  prConcurrentLimit: 10, // Max 10 concurrent PRs
+  prHourlyLimit: 0, // No hourly limit
+
+  // Rebase strategy
+  rebaseWhen: 'auto',
+
+  // Schedule for when to run updates
+  schedule: [
+    'after 8am and before 5pm on monday',
+  ],
+
+  // Schedule for when to automerge
+  automergeSchedule: [
+    'after 8am and before 5pm on monday',
+  ],
+
+  // Allow updates outside of schedule
+  updateNotScheduled: false,
+
+  // Give everything some time to bake
+  minimumReleaseAge: '3 days',
+
+  // Automerge via PR (not branch)
+  automergeType: 'pr',
+
+  // Security update configuration
+  vulnerabilityAlerts: {
+    automerge: true, // Auto-merge security fixes
+    labels: [
+      'security',
+    ],
+    vulnerabilityFixStrategy: 'lowest', // Use lowest possible version that fixes vulnerability
+    prCreation: 'immediate', // Create PRs immediately for security issues
+  },
+
+  // Enable OSV vulnerability alerts
+  osvVulnerabilityAlerts: true,
+
+  // Disable platform automerge (use Renovate's automerge instead)
+  platformAutomerge: false,
+
+  // Package-specific rules
+  packageRules: [
+    {
+      // Special handling for @stanlemon packages (my own packages)
+      groupName: 'my own packages',
+      minimumReleaseAge: null, // No waiting period for my own packages
+      matchPackageNames: [
+        '/^@stanlemon/',
+      ],
+      matchUpdateTypes: [
+        'major',
+        'minor',
+        'patch',
+      ],
+      automergeType: 'branch', // Use branch automerge for faster deployment
+      automerge: true,
+    },
+    {
+      // Disable updating nodejs package peer dependencies
+      matchDepTypes: [
+        'peerDependencies'
+      ],
+      enabled: false
+    },
+    {
+      // Group Node.js updates together
+      groupName: 'nodejs updates',
+      matchPackageNames: [
+        'node',
+        '@types/node',
+      ],
+      matchUpdateTypes: [
+        'major',
+        'minor',
+        'patch',
+      ],
+      matchDatasources: [
+        'docker',
+        'node-version',
+        'npm',
+        'nvm',
+      ],
+    },
+    {
+      // Override datasource for node package in npm to use node-version
+      matchPackageNames: [
+        'node',
+      ],
+      matchDatasources: [
+        'npm',
+      ],
+      overrideDatasource: 'node-version',
+      overridePackageName: 'node',
+    },
+    {
+      // Override datasource for node package in nvm to use node-version
+      matchPackageNames: [
+        'node',
+      ],
+      matchDatasources: [
+        'nvm',
+      ],
+      overrideDatasource: 'node-version',
+      overridePackageName: 'node',
+    },
+    {
+      // Override datasource for @types/node to use node-version
+      matchPackageNames: [
+        '@types/node',
+      ],
+      matchDatasources: [
+        'npm',
+      ],
+      overrideDatasource: 'node-version',
+      overridePackageName: 'node',
+    },
+    {
+      // Override datasource for node package in docker to use node-version
+      matchPackageNames: [
+        'node',
+      ],
+      matchDatasources: [
+        'docker',
+      ],
+      overrideDatasource: 'node-version',
+      overridePackageName: 'node',
+    },
+    {
+      // Special handling for Node.js major version updates
+      groupName: 'node majors (LTS gate)',
+      matchDatasources: [
+        'node-version'
+      ],
+      matchPackageNames: [
+        'node',
+        '@types/node',
+      ],
+      matchUpdateTypes: [
+        'major'
+      ],
+      minimumReleaseAge: '7 months', // Wait longer for major Node.js releases
+      internalChecksFilter: 'strict', // Strict internal checks for major updates
+      automerge: false, // Don't automerge major Node.js updates
+    },
+    {
+      // Catch-all rule for npm non-major updates
+      groupName: 'npm non-major (catch-all)',
+      groupSlug: 'npm-all-non-major',
+      matchManagers: [
+        'npm'
+      ],
+      matchUpdateTypes: [
+        'minor',
+        'patch',
+      ],
+      // Exclude my own packages (handled separately)
+      excludePackageNames: ['/^@stanlemon\\//']
+    }
+  ],
+}
