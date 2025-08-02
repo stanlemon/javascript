@@ -196,5 +196,20 @@
         '!/^@stanlemon\\//',
       ],
     },
+    {
+      // NPM Major updates (non-grouped)
+      matchManagers: [
+        'npm',
+      ],
+      matchUpdateTypes: [
+        'major',
+      ],
+      // Exclude my own packages (handled separately)
+      matchPackageNames: [
+        '!/^@stanlemon\\//',
+      ],
+      // Don't automerge major updates
+      automerge: false,
+    },
   ],
 }
