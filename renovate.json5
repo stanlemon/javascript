@@ -49,7 +49,8 @@
   // Give everything some time to bake
   minimumReleaseAge: '3 days',
 
-  // Automerge via PR (not branch)
+  // Automerge via PR by default
+  automerge: true, // Automerge non-major npm updates
   automergeType: 'pr',
 
   // Security update configuration
@@ -67,6 +68,13 @@
 
   // Disable platform automerge (use Renovate's automerge instead)
   platformAutomerge: false,
+
+  // Assign PRs to myself
+  "assignees": ["stanlemon"],
+
+  // Add labels to PRs
+  "labels": ["renovate-pr"],
+
 
   // Package-specific rules
   packageRules: [
