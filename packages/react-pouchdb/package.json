@@ -1,6 +1,7 @@
 {
   "name": "@stanlemon/react-pouchdb",
   "version": "0.6.19",
+  "deprecated": true,
   "description": "React components for interacting with PouchDB.",
   "keywords": [
     "react",

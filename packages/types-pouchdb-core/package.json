@@ -1,6 +1,7 @@
 {
   "name": "@stanlemon/types-pouchdb-core",
   "version": "0.0.3",
+  "deprecated": true,
   "description": "Alternative Typescript types for use with PouchDB, forked from DefinitelyTyped.",
   "keywords": [
     "typescript",
