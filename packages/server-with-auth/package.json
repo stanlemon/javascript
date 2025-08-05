@@ -25,7 +25,6 @@
     "express-session": "^1.18.2",
     "jsonwebtoken": "^9.0.2",
     "lowdb": "^7.0.1",
-    "lowdb-node": "^3.0.2",
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",
     "passport-local": "^1.0.0",
