@@ -1,15 +1,25 @@
-import "@testing-library/jest-dom";
 import { render, screen, fireEvent } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { Items, ItemData } from "./Items";
-import { SessionAware } from "../Session";
-import { fetchApi } from "../helpers/fetchApi";
+import React from "react";
+import {
+  describe,
+  it,
+  expect,
+  beforeEach,
+  vi,
+  type MockedFunction,
+} from "vitest";
 
-jest.mock("../helpers/fetchApi");
+import { fetchApi } from "../helpers/fetchApi";
+import { SessionAware } from "../Session";
+
+import { Items, ItemData } from "./Items";
+
+vi.mock("../helpers/fetchApi");
 
 describe("<Items/>", () => {
   beforeEach(() => {
-    jest.resetAllMocks();
+    vi.resetAllMocks();
   });
 
   it("renders", async () => {
@@ -18,7 +28,7 @@ describe("<Items/>", () => {
       { id: "2", item: "item two" },
     ];
 
-    const mockedFetchApi = fetchApi as jest.MockedFunction<
+    const mockedFetchApi = fetchApi as MockedFunction<
       typeof fetchApi<ItemData[], null>
     >;
     mockedFetchApi.mockResolvedValue(output);
@@ -29,9 +39,9 @@ describe("<Items/>", () => {
       </SessionAware>
     );
 
-    expect(await screen.findByText("item one")).toBeInTheDocument();
-
-    expect(await screen.findByText("item two")).toBeInTheDocument();
+    // Testing Library queries throw if elements aren't found, providing built-in assertions
+    await screen.findByText("item one"); // Will throw if not found
+    await screen.findByText("item two"); // Will throw if not found
 
     // Type some data into the input
     await userEvent.type(screen.getByLabelText("Item"), "item three");
@@ -48,6 +58,6 @@ describe("<Items/>", () => {
     expect(mockedFetchApi.mock.calls[1][3]).toEqual({ item: "item three" });
 
     // Now we should have a list item with the text we entered
-    expect(await screen.findByText("item three")).toBeInTheDocument();
+    await screen.findByText("item three"); // Will throw if not found
   });
 });

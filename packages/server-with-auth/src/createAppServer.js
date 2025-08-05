@@ -1,20 +1,22 @@
 import EventEmitter from "node:events";
-import { config } from "dotenv";
+
 import {
   createAppServer as createBaseAppServer,
   DEFAULTS as BASE_DEFAULTS,
 } from "@stanlemon/server";
+import { config } from "dotenv";
 import expressSession from "express-session";
 import passport from "passport";
-import { Strategy as LocalStrategy } from "passport-local";
 import { Strategy as JwtStrategy, ExtractJwt } from "passport-jwt";
+import { Strategy as LocalStrategy } from "passport-local";
 import { v4 as uuid } from "uuid";
-import SCHEMAS from "./schema/index.js";
+
 import checkAuth from "./checkAuth.js";
-import auth from "./routes/auth.js";
 import UserDao from "./data/user-dao.js";
-import checkUserDao from "./utilities/checkUserDao.js";
+import auth from "./routes/auth.js";
+import SCHEMAS from "./schema/index.js";
 import checkSchemas from "./utilities/checkSchemas.js";
+import checkUserDao from "./utilities/checkUserDao.js";
 
 config();
 

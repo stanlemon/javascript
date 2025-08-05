@@ -1,4 +1,5 @@
 import { isPlainObject } from "lodash-es";
+
 import { formatInput, formatOutput } from "./index.js";
 
 export default asyncJsonHandler;

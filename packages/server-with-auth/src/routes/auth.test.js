@@ -1,11 +1,13 @@
 /**
- * @jest-environment node
+ * @vitest-environment node
  */
-import request from "supertest";
 import Joi from "joi";
+import request from "supertest";
 import { v4 as uuidv4 } from "uuid";
-import { createAppServer, createSchemas } from "../index.js";
+import { describe, it, expect } from "vitest";
+
 import LowDBUserDao, { createInMemoryLowDb } from "../data/lowdb-user-dao.js";
+import { createAppServer, createSchemas } from "../index.js";
 
 // This suppresses a warning we don't need in tests
 process.env.JWT_SECRET = "SECRET";

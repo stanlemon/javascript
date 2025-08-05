@@ -1,9 +1,11 @@
 /**
- * @jest-environment node
+ * @vitest-environment node
  */
-import request from "supertest";
-import { app, db } from "./app.js";
 import { test__signupAndLogin } from "@stanlemon/server-with-auth";
+import request from "supertest";
+import { describe, it, expect } from "vitest";
+
+import { app, db } from "./app.js";
 
 async function signupAndLogin() {
   const { token } = await test__signupAndLogin(

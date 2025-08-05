@@ -1,7 +1,9 @@
 /**
- * @jest-environment node
+ * @vitest-environment node
  */
 import request from "supertest";
+import { describe, it, expect } from "vitest";
+
 import { app } from "./app.js";
 
 describe("/app", () => {

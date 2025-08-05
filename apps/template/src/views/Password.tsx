@@ -1,7 +1,8 @@
 import { useContext, useState } from "react";
-import { SessionContext } from "../Session";
+
 import { Header, Input } from "../components";
 import { fetchApi, ApiError } from "../helpers/fetchApi";
+import { SessionContext } from "../Session";
 
 export type PasswordForm = {
   current_password: string;

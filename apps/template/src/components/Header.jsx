@@ -1,3 +1,5 @@
+import React from "react";
+
 // While typescript is preferred, you can also use good ol javascript too!
 /**
  *

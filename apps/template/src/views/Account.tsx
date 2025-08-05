@@ -1,8 +1,10 @@
 import { useContext } from "react";
-import { SessionContext } from "../Session";
-import { Header, Spacer } from "../components";
-import { Profile, Password } from "./";
 import { Link } from "wouter";
+
+import { Header, Spacer } from "../components";
+import { SessionContext } from "../Session";
+
+import { Profile, Password } from "./";
 
 export function Account() {
   const { user } = useContext(SessionContext);

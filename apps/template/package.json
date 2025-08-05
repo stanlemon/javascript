@@ -14,9 +14,9 @@
     "webpack:serve": "NODE_ENV=development webpack serve",
     "webpack:build": "NODE_ENV=production webpack",
     "dev": "NODE_ENV=development concurrently \"npm run webpack:serve\" \"npm run start:dev\"",
-    "test": "jest --detectOpenHandles",
-    "test:watch": "jest -w",
-    "test:coverage": "jest --coverage",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
     "lint": "eslint .",
     "lint:fix": "eslint --fix ."
   },
@@ -34,7 +34,6 @@
   "devDependencies": {
     "@testing-library/react": "16.3.0",
     "@testing-library/user-event": "14.6.1",
-    "@types/jest": "30.0.0",
     "@types/react": "19.1.8",
     "@types/react-dom": "19.1.6",
     "concurrently": "9.2.0",

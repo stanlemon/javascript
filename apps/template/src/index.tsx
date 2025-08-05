@@ -1,7 +1,8 @@
+import { CookiesProvider } from "react-cookie";
 import { createRoot } from "react-dom/client";
+
 import App from "./App";
 import Session from "./Session";
-import { CookiesProvider } from "react-cookie";
 
 document.title = "App";
 

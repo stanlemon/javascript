@@ -1,7 +1,8 @@
-import { v4 as uuidv4 } from "uuid";
 import bcrypt from "bcryptjs";
-import UserDao from "./user-dao.js";
 import knex from "knex";
+import { v4 as uuidv4 } from "uuid";
+
+import UserDao from "./user-dao.js";
 
 export async function createBetterSqlite3Db() {
   const db = knex({

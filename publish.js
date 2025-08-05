@@ -1,6 +1,6 @@
 /* eslint no-console: off */
-import { readdirSync, readFileSync } from "fs";
 import { spawnSync } from "child_process";
+import { readdirSync, readFileSync } from "fs";
 import path from "path";
 
 // Load the root package file so we can iterate over configured workspaces

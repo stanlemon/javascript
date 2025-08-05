@@ -1,4 +1,5 @@
 import Joi from "joi";
+
 import { asyncJsonHandler } from "./asyncJsonHandler.js";
 
 const { ValidationError } = Joi;

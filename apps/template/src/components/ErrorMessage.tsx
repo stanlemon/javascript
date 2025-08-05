@@ -1,8 +1,6 @@
-export function ErrorMessage({
-  error,
-}: {
-  error: string | boolean | undefined | null;
-}) {
+import React from "react";
+
+export function ErrorMessage({ error }: { error }) {
   if (error) {
     return (
       <p style={{ color: "red" }}>

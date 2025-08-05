@@ -1,8 +1,10 @@
 /**
- * @jest-environment node
+ * @vitest-environment node
  */
-import LowDBUserDao, { createInMemoryLowDb } from "./lowdb-user-dao.js";
+import { describe, it, expect } from "vitest";
+
 import KnexUserDao, { createBetterSqlite3Db } from "./knex-user-dao.js";
+import LowDBUserDao, { createInMemoryLowDb } from "./lowdb-user-dao.js";
 
 describe("user-dao", () => {
   createUserDaoTests("lowdb-user-dao", async () => {

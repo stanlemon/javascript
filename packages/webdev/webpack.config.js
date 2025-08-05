@@ -1,9 +1,11 @@
-import path from "path";
 import { existsSync } from "fs";
-import webpack from "webpack";
-import HtmlWebpackPlugin from "html-webpack-plugin";
-import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
+import path from "path";
+
 import { config } from "dotenv";
+import HtmlWebpackPlugin from "html-webpack-plugin";
+import webpack from "webpack";
+import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
+
 import babelOptions from "./.babelrc.json" with { type: "json" };
 
 config();

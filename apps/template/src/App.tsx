@@ -1,8 +1,8 @@
 import { useContext, useEffect } from "react";
 import { useCookies } from "react-cookie";
 import { Switch, Route, Link } from "wouter";
+
 import "./App.less";
-import { SessionContext } from "./Session";
 import {
   Column,
   ErrorMessage,
@@ -11,6 +11,7 @@ import {
   Row,
   Spacer,
 } from "./components/";
+import { SessionContext } from "./Session";
 import { Login, SignUp, Verify, Items, Account } from "./views/";
 
 export default function App() {

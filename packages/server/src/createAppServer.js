@@ -1,3 +1,7 @@
+import path from "path";
+
+import compression from "compression";
+import cookieParser from "cookie-parser";
 import { config } from "dotenv";
 import express, {
   Router,
@@ -5,13 +9,10 @@ import express, {
   urlencoded,
   static as serveStatic,
 } from "express";
-import cookieParser from "cookie-parser";
-import compression from "compression";
-import helmet from "helmet";
-import morgan from "morgan";
 import { rateLimit } from "express-rate-limit";
+import helmet from "helmet";
 import { createProxyMiddleware } from "http-proxy-middleware";
-import path from "path";
+import morgan from "morgan";
 
 config();
 

@@ -1,16 +1,25 @@
-import "@testing-library/jest-dom";
 import { render, screen, waitFor } from "@testing-library/react";
-import App from "./App";
-import { ItemData } from "./views";
-import { SessionAware } from "./Session";
-import { fetchApi } from "./helpers/fetchApi";
+import React from "react";
 import { CookiesProvider } from "react-cookie";
+import {
+  describe,
+  it,
+  expect,
+  beforeEach,
+  vi,
+  type MockedFunction,
+} from "vitest";
 
-jest.mock("./helpers/fetchApi");
+import App from "./App";
+import { fetchApi } from "./helpers/fetchApi";
+import { SessionAware } from "./Session";
+import { ItemData } from "./views";
+
+vi.mock("./helpers/fetchApi");
 
 describe("<App/>", () => {
   beforeEach(() => {
-    jest.resetAllMocks();
+    vi.resetAllMocks();
   });
 
   it("logged out", async () => {
@@ -22,19 +31,15 @@ describe("<App/>", () => {
       </CookiesProvider>
     );
 
-    expect(
-      screen.getByRole("heading", { name: "Hello World!" })
-    ).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Hello World!" })).toBeDefined();
 
-    expect(screen.getByRole("heading", { name: "Login" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Login" })).toBeDefined();
 
-    expect(
-      screen.getByRole("heading", { name: "Sign Up" })
-    ).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Sign Up" })).toBeDefined();
   });
 
   it("logged in", async () => {
-    const mockedFetchApi = fetchApi as jest.MockedFunction<
+    const mockedFetchApi = fetchApi as MockedFunction<
       typeof fetchApi<ItemData[], null>
     >;
     mockedFetchApi.mockResolvedValue([]);
@@ -56,19 +61,16 @@ describe("<App/>", () => {
     );
 
     // The header is present
-    expect(
-      screen.getByRole("heading", { name: "Hello World!" })
-    ).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Hello World!" })).toBeDefined();
 
     // The auth text is present
     expect(
       screen.queryByText("You are logged in as", { exact: false })
-    ).toBeInTheDocument();
+    ).toBeDefined();
 
+    // Wait for async components to load
     await waitFor(() => {
-      expect(
-        screen.getByRole("heading", { name: "New Item" })
-      ).toBeInTheDocument();
+      expect(screen.getByRole("heading", { name: "New Item" })).toBeDefined();
     });
   });
 });

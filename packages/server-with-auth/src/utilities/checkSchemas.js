@@ -1,4 +1,5 @@
 import Joi from "joi";
+
 import { ROUTES } from "../constants.js";
 
 export default function checkSchemas(schemas) {

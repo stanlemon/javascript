@@ -1,6 +1,8 @@
-import Home from "./Home";
 import { render, screen, waitFor } from "@testing-library/react";
-import "@testing-library/jest-dom";
+import React from "react";
+import { test } from "vitest";
+
+import Home from "./Home";
 
 test("<Home/>", async () => {
   render(<Home />);

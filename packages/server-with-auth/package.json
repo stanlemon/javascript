@@ -14,9 +14,9 @@
     "start": "NODE_ENV=development nodemon --ignore db.json ./app.js",
     "lint": "eslint .",
     "lint:fix": "eslint --fix .",
-    "test": "jest --detectOpenHandles",
-    "test:coverage": "jest --detectOpenHandles --coverage",
-    "test:watch": "jest --detectOpenHandles --watch"
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "test:watch": "vitest"
   },
   "dependencies": {
     "@stanlemon/server": "*",

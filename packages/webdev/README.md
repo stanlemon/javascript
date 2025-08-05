@@ -2,7 +2,7 @@
 
 [![npm version](https://badge.fury.io/js/%40stanlemon%2Fwebdev.svg)](https://badge.fury.io/js/%40stanlemon%2Fwebdev)
 
-This repository contains all of my usual environment setup for babel, webpack and jest for developing React apps. I got tired of copying and pasting the same config files everywhere, so I put this together.
+This repository contains all of my usual environment setup for babel, webpack and vitest for developing React apps. I got tired of copying and pasting the same config files everywhere, so I put this together.
 
 To get started, either copy [apps/template](../../apps/template/) or create these files:
 
@@ -13,7 +13,7 @@ package.json
   "scripts": {
     "start": "webpack serve",
     "build": "NODE_ENV=production webpack",
-    "test": "jest",
+    "test": "vitest run",
     "lint": "eslint .",
     "lint:fix": "eslint --fix ."
   },
@@ -28,9 +28,9 @@ webpack.config.js
 export { default } from "@stanlemon/webdev/webpack.config.js";
 ```
 
-jest.config.js
+vitest.config.js
 ```javascript
-export { default } from "@stanlemon/webdev/jest.config.js";
+export { default } from "@stanlemon/webdev/vitest.config.js";
 ```
 
 .eslintrc.json

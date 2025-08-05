@@ -1,14 +1,13 @@
-// Generated from the ESM version of the file by Claude Haiku
-const globals = require("globals");
-const eslint = require("@eslint/js");
-const tseslint = require("typescript-eslint");
-const prettierPlugin = require("eslint-plugin-prettier/recommended");
-const reactPlugin = require("eslint-plugin-react");
-const importPlugin = require("eslint-plugin-import");
-const jest = require("eslint-plugin-jest");
-const jestDom = require("eslint-plugin-jest-dom");
+import eslint from "@eslint/js";
+import vitest from "@vitest/eslint-plugin";
+import importPlugin from "eslint-plugin-import";
+import prettierPlugin from "eslint-plugin-prettier/recommended";
+import reactPlugin from "eslint-plugin-react";
+import testingLibrary from "eslint-plugin-testing-library";
+import globals from "globals";
+import tseslint from "typescript-eslint";
 
-module.exports = tseslint.config(
+export default tseslint.config(
   {
     ignores: ["**/node_modules/", ".git/", "**/dist/"],
   },
@@ -30,7 +29,6 @@ module.exports = tseslint.config(
       },
       globals: {
         ...globals.browser,
-        ...globals.jest,
         ...globals.node,
       },
     },
@@ -78,22 +76,29 @@ module.exports = tseslint.config(
           trailingComma: "es5",
         },
       ],
+      "import/order": [
+        "error",
+        {
+          groups: [
+            "builtin",
+            "external",
+            "internal",
+            "parent",
+            "sibling",
+            "index",
+          ],
+          "newlines-between": "always",
+          alphabetize: {
+            order: "asc",
+            caseInsensitive: true,
+          },
+        },
+      ],
     },
   },
   {
     files: ["**/*.ts", "**/*.tsx"],
     extends: [...tseslint.configs.recommended],
-    /*
-    languageOptions: {
-      parserOptions: {
-        projectService: {
-          allowDefaultProject: ['*.ts', '*.tsx'],
-        },
-        tsconfigRootDir: import.meta.dirname,
-
-      },
-    },
-    */
     rules: {
       "@typescript-eslint/no-unused-vars": [
         "warn",
@@ -127,11 +132,23 @@ module.exports = tseslint.config(
       "**/*.test.js",
       "**/*.test.ts",
       "**/*.test.tsx",
-      "jest.setup.js",
-      "jest.config.js",
+      "**/testUtils.js",
+      "**/test-utils.js",
+      "vitest.setup.js",
+      "vitest.config.js",
     ],
-    ...jestDom.configs["flat/recommended"],
-    ...jest.configs["flat/recommended"],
+    languageOptions: {
+      globals: {
+        ...globals.node,
+        ...globals.vitest,
+      },
+    },
+    plugins: {
+      vitest,
+      testingLibrary,
+    },
+    ...vitest.configs.recommended,
+    ...testingLibrary.configs["flat/react"],
     rules: {
       "max-lines-per-function": "off",
     },

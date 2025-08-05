@@ -1,7 +1,8 @@
+import bcrypt from "bcryptjs";
 import { LowSync, MemorySync } from "lowdb";
 import { JSONFileSync } from "lowdb";
 import { v4 as uuidv4 } from "uuid";
-import bcrypt from "bcryptjs";
+
 import UserDao from "./user-dao.js";
 
 export function createInMemoryLowDb() {

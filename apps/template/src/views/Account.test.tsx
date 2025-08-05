@@ -1,19 +1,29 @@
-import "@testing-library/jest-dom";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { Account, PasswordRequest, ProfileForm } from "./";
-import { SessionAware } from "../Session";
-import { fetchApi } from "../helpers/fetchApi";
+import React from "react";
+import {
+  describe,
+  it,
+  expect,
+  beforeEach,
+  vi,
+  type MockedFunction,
+} from "vitest";
 
-jest.mock("../helpers/fetchApi");
+import { fetchApi } from "../helpers/fetchApi";
+import { SessionAware } from "../Session";
+
+import { Account, PasswordRequest, ProfileForm } from "./";
+
+vi.mock("../helpers/fetchApi");
 
 describe("<Account/>", () => {
   beforeEach(() => {
-    jest.resetAllMocks();
+    vi.resetAllMocks();
   });
 
   it("profile updated", async () => {
-    const mockedFetchApi = fetchApi as jest.MockedFunction<
+    const mockedFetchApi = fetchApi as MockedFunction<
       typeof fetchApi<ProfileForm, ProfileForm>
     >;
     mockedFetchApi.mockResolvedValue({
@@ -27,23 +37,21 @@ describe("<Account/>", () => {
       </SessionAware>
     );
 
-    expect(screen.getByText('Account for ""')).toBeInTheDocument();
-    expect(screen.getByText("Profile")).toBeInTheDocument();
-    expect(screen.getByText("Password")).toBeInTheDocument();
+    expect(screen.getByText('Account for ""')).toBeDefined();
+    expect(screen.getByText("Profile")).toBeDefined();
+    expect(screen.getByText("Password")).toBeDefined();
 
     await userEvent.type(screen.getByLabelText("Name"), "Jean Luc Picard");
 
     fireEvent.click(screen.getByText("Save", { selector: "button" }));
 
     await waitFor(() => {
-      expect(
-        screen.getByText('Account for "Jean Luc Picard"')
-      ).toBeInTheDocument();
+      expect(screen.getByText('Account for "Jean Luc Picard"')).toBeDefined();
     });
   });
 
   it("password changed", async () => {
-    const mockedFetchApi = fetchApi as jest.MockedFunction<
+    const mockedFetchApi = fetchApi as MockedFunction<
       typeof fetchApi<null, PasswordRequest>
     >;
     mockedFetchApi.mockResolvedValue(null);
@@ -54,9 +62,9 @@ describe("<Account/>", () => {
       </SessionAware>
     );
 
-    expect(screen.getByText('Account for ""')).toBeInTheDocument();
-    expect(screen.getByText("Profile")).toBeInTheDocument();
-    expect(screen.getByText("Password")).toBeInTheDocument();
+    expect(screen.getByText('Account for ""')).toBeDefined();
+    expect(screen.getByText("Profile")).toBeDefined();
+    expect(screen.getByText("Password")).toBeDefined();
 
     const current_password = "P@ssw0rd1";
     const password = "P@ssw0rd2";

@@ -1,3 +1,5 @@
+import { describe, it, expect, vi } from "vitest";
+
 import asyncJsonHandler from "./asyncJsonHandler";
 
 describe("asyncHandler()", () => {
@@ -5,10 +7,10 @@ describe("asyncHandler()", () => {
     const body = {
       hello: "World",
     };
-    const req = jest.fn();
-    const res = jest.fn();
-    res.status = jest.fn().mockReturnValue({ json: jest.fn() });
-    const next = jest.fn();
+    const req = vi.fn();
+    const res = vi.fn();
+    res.status = vi.fn().mockReturnValue({ json: vi.fn() });
+    const next = vi.fn();
 
     const controller = async (req, res, next) => {
       return Promise.resolve(body);
@@ -21,10 +23,10 @@ describe("asyncHandler()", () => {
   });
 
   it("handles fn 400", async () => {
-    const req = jest.fn();
-    const res = jest.fn();
-    res.status = jest.fn().mockReturnValue({ json: jest.fn() });
-    const next = jest.fn();
+    const req = vi.fn();
+    const res = vi.fn();
+    res.status = vi.fn().mockReturnValue({ json: vi.fn() });
+    const next = vi.fn();
 
     const controller = async (req, res, next) => {
       throw new Error("Bad Request");
@@ -36,10 +38,10 @@ describe("asyncHandler()", () => {
   });
 
   it("handles fn 403", async () => {
-    const req = jest.fn();
-    const res = jest.fn();
-    res.status = jest.fn().mockReturnValue({ json: jest.fn() });
-    const next = jest.fn();
+    const req = vi.fn();
+    const res = vi.fn();
+    res.status = vi.fn().mockReturnValue({ json: vi.fn() });
+    const next = vi.fn();
 
     const controller = async (req, res, next) => {
       throw new Error("Not Authorized");
@@ -51,10 +53,10 @@ describe("asyncHandler()", () => {
   });
 
   it("handles fn 404", async () => {
-    const req = jest.fn();
-    const res = jest.fn();
-    res.status = jest.fn().mockReturnValue({ json: jest.fn() });
-    const next = jest.fn();
+    const req = vi.fn();
+    const res = vi.fn();
+    res.status = vi.fn().mockReturnValue({ json: vi.fn() });
+    const next = vi.fn();
 
     const controller = async (req, res, next) => {
       throw new Error("Not Found");
@@ -66,10 +68,10 @@ describe("asyncHandler()", () => {
   });
 
   it("handles fn 409", async () => {
-    const req = jest.fn();
-    const res = jest.fn();
-    res.status = jest.fn().mockReturnValue({ json: jest.fn() });
-    const next = jest.fn();
+    const req = vi.fn();
+    const res = vi.fn();
+    res.status = vi.fn().mockReturnValue({ json: vi.fn() });
+    const next = vi.fn();
 
     const controller = async (req, res, next) => {
       throw new Error("Already Exists");
@@ -81,10 +83,10 @@ describe("asyncHandler()", () => {
   });
 
   it("handles fn 500", async () => {
-    const req = jest.fn();
-    const res = jest.fn();
-    res.status = jest.fn().mockReturnValue({ json: jest.fn() });
-    const next = jest.fn();
+    const req = vi.fn();
+    const res = vi.fn();
+    res.status = vi.fn().mockReturnValue({ json: vi.fn() });
+    const next = vi.fn();
 
     const controller = async (req, res, next) => {
       throw new Error("Who knows!");

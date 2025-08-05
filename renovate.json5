@@ -13,9 +13,6 @@
     'group:reactMonorepo', // Group React monorepo packages
     'group:eslintMonorepo', // Group ESLint monorepo packages
     'group:linters', // Group linting tools
-    'group:jestMonorepo', // Group Jest monorepo packages
-    'group:jestPlusTypes', // Group Jest with its types
-    'group:jestPlusTSJest', // Group Jest with TypeScript Jest
   ],
 
   // Version management strategies

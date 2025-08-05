@@ -1,13 +1,15 @@
 import { EventEmitter } from "node:events";
-import { isEmpty, omit } from "lodash-es";
-import { Router } from "express";
-import passport from "passport";
-import jwt from "jsonwebtoken";
+
 import { schemaHandler, formatOutput } from "@stanlemon/server";
+import { Router } from "express";
+import jwt from "jsonwebtoken";
+import { isEmpty, omit } from "lodash-es";
+import passport from "passport";
+
 import checkAuth from "../checkAuth.js";
-import checkUserDao from "../utilities/checkUserDao.js";
-import checkSchemas from "../utilities/checkSchemas.js";
 import { HIDDEN_FIELDS, ROUTES, EVENTS } from "../constants.js";
+import checkSchemas from "../utilities/checkSchemas.js";
+import checkUserDao from "../utilities/checkUserDao.js";
 
 /**
  * Create express routes for authentication operations.

@@ -1,23 +1,25 @@
 import Joi from "joi";
+import { describe, it, expect, vi } from "vitest";
+
 import schemaHandler from "./schemaHandler";
 
 describe("schemaHandler()", () => {
   it("validates schema against invalid response", async () => {
-    const req = jest.fn();
+    const req = vi.fn();
     req.body = {
       foo: "bar",
       email: "stan",
     };
-    const res = jest.fn();
-    res.status = jest.fn().mockReturnValue({ json: jest.fn() });
-    const next = jest.fn();
+    const res = vi.fn();
+    res.status = vi.fn().mockReturnValue({ json: vi.fn() });
+    const next = vi.fn();
 
     const person = Joi.object({
       fullName: Joi.string().required().label("Full Name").required(),
       email: Joi.string().email().required().label("Email").required(),
     });
 
-    const controller = jest.fn();
+    const controller = vi.fn();
 
     await schemaHandler(person, controller)(req, res, next);
 
@@ -36,11 +38,11 @@ describe("schemaHandler()", () => {
       fullName: "Stan Lemon",
       email: "stanlemon@users.noreply.github.com",
     };
-    const req = jest.fn();
+    const req = vi.fn();
     req.body = body;
-    const res = jest.fn();
-    res.status = jest.fn().mockReturnValue({ json: jest.fn() });
-    const next = jest.fn();
+    const res = vi.fn();
+    res.status = vi.fn().mockReturnValue({ json: vi.fn() });
+    const next = vi.fn();
 
     const person = Joi.object({
       fullName: Joi.string().required().label("Full Name").required(),

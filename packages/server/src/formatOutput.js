@@ -1,4 +1,5 @@
 import { camelCase, isPlainObject, isDate, isEmpty, omit } from "lodash-es";
+
 import convertCase from "./convertCase.js";
 
 export default function formatOutput(o, omittedFields = []) {
