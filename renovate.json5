@@ -6,7 +6,6 @@
   extends: [
     'config:best-practices', // Use Renovate's recommended best practices
     'mergeConfidence:all-badges', // Enable merge confidence badges
-    ':maintainLockFilesMonthly', // Update lock files monthly
     ':timezone(America/Indiana/Indianapolis)', // Set timezone
     ':enableVulnerabilityAlerts', // Enable security vulnerability alerts
     ':automergeMinor', // Auto-merge minor updates
