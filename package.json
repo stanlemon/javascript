@@ -29,9 +29,6 @@
     "update:all": "npm update --workspaces",
     "lockfile:clean": "rm -f package-lock.json && npm install"
   },
-  "overrides": {
-    "@types/pouchdb-core": "npm:@stanlemon/types-pouchdb-core@^0.0.3"
-  },
   "resolutions": {
     "@types/react": "^19.1.2",
     "@types/react-dom": "^19.1.6"

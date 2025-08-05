@@ -10,13 +10,7 @@ const jestDom = require("eslint-plugin-jest-dom");
 
 module.exports = tseslint.config(
   {
-    ignores: [
-      "**/node_modules/",
-      ".git/",
-      "**/dist/",
-      // This is an override of @types/pouchdb-core which we want to ignore when linting
-      "**/types-pouchdb-core/",
-    ],
+    ignores: ["**/node_modules/", ".git/", "**/dist/"],
   },
   eslint.configs.recommended,
   prettierPlugin,
