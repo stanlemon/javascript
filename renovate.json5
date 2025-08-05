@@ -180,6 +180,21 @@
       automerge: false, // Don't automerge major Node.js updates
     },
     {
+      // NPM Major updates (non-grouped)
+      matchManagers: [
+        'npm',
+      ],
+      matchUpdateTypes: [
+        'major',
+      ],
+      // Exclude my own packages (handled separately)
+      matchPackageNames: [
+        '!/^@stanlemon\\//',
+      ],
+      // Don't automerge major updates
+      automerge: false,
+    },
+    {
       // Catch-all rule for npm non-major updates
       groupName: 'npm non-major (catch-all)',
       groupSlug: 'npm-all-non-major',
@@ -194,21 +209,6 @@
       matchPackageNames: [
         '!/^@stanlemon\\//',
       ],
-    },
-    {
-      // NPM Major updates (non-grouped)
-      matchManagers: [
-        'npm',
-      ],
-      matchUpdateTypes: [
-        'major',
-      ],
-      // Exclude my own packages (handled separately)
-      matchPackageNames: [
-        '!/^@stanlemon\\//',
-      ],
-      // Don't automerge major updates
-      automerge: false,
     },
   ],
 }
