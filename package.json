@@ -1,7 +1,7 @@
 {
   "type": "module",
   "engines": {
-    "node": ">=22.15.1"
+    "node": ">=22.18.0"
   },
   "workspaces": [
     "packages/*",
@@ -30,7 +30,7 @@
     "lockfile:clean": "rm -f package-lock.json && npm install"
   },
   "resolutions": {
-    "@types/react": "^19.1.2",
-    "@types/react-dom": "^19.1.6"
+    "@types/react": "^19.1.9",
+    "@types/react-dom": "^19.1.7"
   }
 }

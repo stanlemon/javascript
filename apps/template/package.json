@@ -1,6 +1,6 @@
 {
   "name": "@stanlemon/app-template",
-  "version": "0.4.12",
+  "version": "0.4.13",
   "description": "A template for creating apps using the webdev package.",
   "author": "Stan Lemon <stanlemon@users.noreply.github.com>",
   "license": "MIT",
@@ -21,22 +21,22 @@
     "lint:fix": "eslint --fix ."
   },
   "engines": {
-    "node": ">=22.15.1"
+    "node": ">=22.18.0"
   },
   "dependencies": {
     "@stanlemon/server-with-auth": "*",
     "@stanlemon/webdev": "*",
-    "react": "^19.1.0",
+    "react": "^19.1.1",
     "react-cookie": "^8.0.1",
-    "react-dom": "^19.1.0",
+    "react-dom": "^19.1.1",
     "wouter": "^3.7.1"
   },
   "devDependencies": {
     "@testing-library/react": "16.3.0",
     "@testing-library/user-event": "14.6.1",
     "@types/jest": "30.0.0",
-    "@types/react": "19.1.8",
-    "@types/react-dom": "19.1.6",
+    "@types/react": "19.1.9",
+    "@types/react-dom": "19.1.7",
     "concurrently": "9.2.0",
     "nodemon": "3.1.10",
     "supertest": "7.1.4"
