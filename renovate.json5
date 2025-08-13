@@ -195,6 +195,17 @@
       automerge: false,
     },
     {
+      // Group GitHub Actions digest updates together
+      groupName: 'github actions digests',
+      groupSlug: 'github-actions-digests',
+      matchManagers: [
+        'github-actions',
+      ],
+      matchUpdateTypes: [
+        'digest',
+      ],
+    },
+    {
       // Catch-all rule for npm non-major updates
       groupName: 'npm non-major (catch-all)',
       groupSlug: 'npm-all-non-major',
