@@ -100,14 +100,13 @@
       enabled: false,
     },
     {
-      // Group Node.js updates together
-      groupName: 'nodejs updates',
+      // Group Node.js minor/patch updates together
+      groupName: 'nodejs updates (non-major)',
       matchPackageNames: [
         'node',
         '@types/node',
       ],
       matchUpdateTypes: [
-        'major',
         'minor',
         'patch',
       ],
@@ -117,9 +116,24 @@
         'npm',
         'nvm',
       ],
+      matchManagers: [
+        'npm',
+        'nvm',
+        'docker-compose',
+        'dockerfile',
+      ],
+      matchFiles: [
+        'package.json',
+        '.nvmrc',
+        'Dockerfile',
+        'docker-compose.yml',
+      ],
+      minimumReleaseAge: '3 days', // Quick updates for minor/patch
+      automerge: false, // Don't automerge Node.js updates due to potential breaking changes
     },
     {
       // Override datasource for node package in npm to use node-version
+      groupName: 'nodejs updates (non-major)',
       matchPackageNames: [
         'node',
       ],
@@ -131,6 +145,7 @@
     },
     {
       // Override datasource for node package in nvm to use node-version
+      groupName: 'nodejs updates (non-major)',
       matchPackageNames: [
         'node',
       ],
@@ -142,6 +157,7 @@
     },
     {
       // Override datasource for @types/node to use node-version
+      groupName: 'nodejs updates (non-major)',
       matchPackageNames: [
         '@types/node',
       ],
@@ -153,6 +169,7 @@
     },
     {
       // Override datasource for node package in docker to use node-version
+      groupName: 'nodejs updates (non-major)',
       matchPackageNames: [
         'node',
       ],
@@ -163,8 +180,8 @@
       overridePackageName: 'node',
     },
     {
-      // Special handling for Node.js major version updates
-      groupName: 'node majors (LTS gate)',
+      // Special LTS gate for Node.js major version updates
+      groupName: 'nodejs major updates (LTS gate)',
       matchDatasources: [
         'node-version',
       ],
@@ -178,6 +195,18 @@
       minimumReleaseAge: '7 months', // Wait longer for major Node.js releases
       internalChecksFilter: 'strict', // Strict internal checks for major updates
       automerge: false, // Don't automerge major Node.js updates
+      matchManagers: [
+        'npm',
+        'nvm',
+        'docker-compose',
+        'dockerfile',
+      ],
+      matchFiles: [
+        'package.json',
+        '.nvmrc',
+        'Dockerfile',
+        'docker-compose.yml',
+      ],
     },
     {
       // NPM Major updates (non-grouped)
