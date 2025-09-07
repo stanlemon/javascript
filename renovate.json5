@@ -39,7 +39,7 @@
 
   // Schedule for when to automerge
   automergeSchedule: [
-    'after 8am and before 5pm on monday',
+    'after 8am and before 5pm on weekdays',
   ],
 
   // Allow updates outside of schedule
@@ -220,6 +220,7 @@
       matchPackageNames: [
         '!/^@stanlemon\\//',
       ],
+      automerge: true,
     },
   ],
 }
