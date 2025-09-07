@@ -21,7 +21,7 @@
   // Version management strategies
   rangeStrategy: 'bump', // Bump ranges to next version
   bumpVersion: 'patch', // Use patch version for bumping
-
+  semanticCommits: "disabled",
   // Enable dependency dashboard for overview
   dependencyDashboard: true,
 
@@ -102,13 +102,14 @@
     {
       // Group Node.js minor/patch updates together
       groupName: 'nodejs updates (non-major)',
-      matchPackageNames: [
-        'node',
-        '@types/node',
-      ],
       matchUpdateTypes: [
         'minor',
         'patch',
+      ],
+      minimumReleaseAge: '3 days', // Quick updates for minor/patch
+      matchPackageNames: [
+        'node',
+        '@types/node',
       ],
       matchDatasources: [
         'docker',
@@ -122,59 +123,11 @@
         'docker-compose',
         'dockerfile',
       ],
-      matchFiles: [
+      matchFileNames: [
         'package.json',
         '.nvmrc',
         'Dockerfile',
         'docker-compose.yml',
-      ],
-      minimumReleaseAge: '3 days', // Quick updates for minor/patch
-      automerge: false, // Don't automerge Node.js updates due to potential breaking changes
-    },
-    {
-      // Override datasource for node package in npm to use node-version
-      groupName: 'nodejs updates (non-major)',
-      matchPackageNames: [
-        'node',
-      ],
-      matchDatasources: [
-        'npm',
-      ],
-      overrideDatasource: 'node-version',
-      overridePackageName: 'node',
-    },
-    {
-      // Override datasource for node package in nvm to use node-version
-      groupName: 'nodejs updates (non-major)',
-      matchPackageNames: [
-        'node',
-      ],
-      matchDatasources: [
-        'nvm',
-      ],
-      overrideDatasource: 'node-version',
-      overridePackageName: 'node',
-    },
-    {
-      // Override datasource for @types/node to use node-version
-      groupName: 'nodejs updates (non-major)',
-      matchPackageNames: [
-        '@types/node',
-      ],
-      matchDatasources: [
-        'npm',
-      ],
-      overrideDatasource: 'node-version',
-      overridePackageName: 'node',
-    },
-    {
-      // Override datasource for node package in docker to use node-version
-      groupName: 'nodejs updates (non-major)',
-      matchPackageNames: [
-        'node',
-      ],
-      matchDatasources: [
-        'docker',
       ],
       overrideDatasource: 'node-version',
       overridePackageName: 'node',
@@ -182,31 +135,37 @@
     {
       // Special LTS gate for Node.js major version updates
       groupName: 'nodejs major updates (LTS gate)',
-      matchDatasources: [
-        'node-version',
-      ],
-      matchPackageNames: [
-        'node',
-        '@types/node',
-      ],
       matchUpdateTypes: [
         'major',
       ],
       minimumReleaseAge: '7 months', // Wait longer for major Node.js releases
       internalChecksFilter: 'strict', // Strict internal checks for major updates
       automerge: false, // Don't automerge major Node.js updates
+      matchPackageNames: [
+        'node',
+        '@types/node',
+      ],
+
+      matchDatasources: [
+        'docker',
+        'node-version',
+        'npm',
+        'nvm',
+      ],
       matchManagers: [
         'npm',
         'nvm',
         'docker-compose',
         'dockerfile',
       ],
-      matchFiles: [
+      matchFileNames: [
         'package.json',
         '.nvmrc',
         'Dockerfile',
         'docker-compose.yml',
       ],
+      overrideDatasource: 'node-version',
+      overridePackageName: 'node',
     },
     {
       // NPM Major updates (non-grouped)
@@ -219,6 +178,8 @@
       // Exclude my own packages (handled separately)
       matchPackageNames: [
         '!/^@stanlemon\\//',
+        '!/^@types\\/node$/',
+        '!/^node$/',
       ],
       // Don't automerge major updates
       automerge: false,
