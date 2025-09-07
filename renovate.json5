@@ -1,86 +1,55 @@
 {
-  // Validate against Renovate JSON schema
   $schema: 'https://docs.renovatebot.com/renovate-schema.json',
-
-  // Base configuration presets
   extends: [
-    'config:best-practices', // Use Renovate's recommended best practices
-    'mergeConfidence:all-badges', // Enable merge confidence badges
-    ':timezone(America/Indiana/Indianapolis)', // Set timezone
-    ':enableVulnerabilityAlerts', // Enable security vulnerability alerts
-    ':automergeMinor', // Auto-merge minor updates
-    'group:react', // Group React packages together
-    'group:reactMonorepo', // Group React monorepo packages
-    'group:eslintMonorepo', // Group ESLint monorepo packages
-    'group:linters', // Group linting tools
-    'group:jestMonorepo', // Group Jest monorepo packages
-    'group:jestPlusTypes', // Group Jest with its types
-    'group:jestPlusTSJest', // Group Jest with TypeScript Jest
+    'config:best-practices',
+    'mergeConfidence:all-badges',
+    ':timezone(America/Indiana/Indianapolis)',
+    ':enableVulnerabilityAlerts',
+    ':automergeMinor',
+    'group:react',
+    'group:reactMonorepo',
+    'group:eslintMonorepo',
+    'group:linters',
+    'group:jestMonorepo',
+    'group:jestPlusTypes',
+    'group:jestPlusTSJest',
   ],
-
-  // Version management strategies
-  rangeStrategy: 'bump', // Bump ranges to next version
-  bumpVersion: 'patch', // Use patch version for bumping
-
-  // Enable dependency dashboard for overview
+  rangeStrategy: 'bump',
+  bumpVersion: 'patch',
   dependencyDashboard: true,
-
-  // Rate limiting to avoid overwhelming CI
-  prConcurrentLimit: 10, // Max 10 concurrent PRs
-  prHourlyLimit: 0, // No hourly limit
-
-  // Rebase strategy
+  prConcurrentLimit: 10,
+  prHourlyLimit: 0,
   rebaseWhen: 'auto',
-
-  // Schedule for when to run updates
   schedule: [
     'after 8am and before 5pm on monday',
   ],
-
-  // Schedule for when to automerge
   automergeSchedule: [
     'after 8am and before 5pm on weekdays',
   ],
-
-  // Allow updates outside of schedule
   updateNotScheduled: false,
-
-  // Give everything some time to bake
   minimumReleaseAge: '3 days',
-
-  // Automerge via PR by default
-  automerge: true, // Automerge non-major npm updates
+  automerge: true,
   automergeType: 'pr',
-
-  // Security update configuration
   vulnerabilityAlerts: {
-    automerge: true, // Auto-merge security fixes
+    automerge: true,
     labels: [
       'security',
     ],
-    vulnerabilityFixStrategy: 'lowest', // Use lowest possible version that fixes vulnerability
-    prCreation: 'immediate', // Create PRs immediately for security issues
+    vulnerabilityFixStrategy: 'lowest',
+    prCreation: 'immediate',
   },
-
-  // Enable OSV vulnerability alerts
   osvVulnerabilityAlerts: true,
-
-  // Disable platform automerge (use Renovate's automerge instead)
   platformAutomerge: false,
-
-  // Assign PRs to myself
-  "assignees": ["stanlemon"],
-
-  // Add labels to PRs
-  "labels": ["renovate-pr"],
-
-
-  // Package-specific rules
+  assignees: [
+    'stanlemon',
+  ],
+  labels: [
+    'renovate-pr',
+  ],
   packageRules: [
     {
-      // Special handling for @stanlemon packages (my own packages)
       groupName: 'my own packages',
-      minimumReleaseAge: null, // No waiting period for my own packages
+      minimumReleaseAge: null,
       matchPackageNames: [
         '/^@stanlemon/',
       ],
@@ -89,18 +58,16 @@
         'minor',
         'patch',
       ],
-      automergeType: 'branch', // Use branch automerge for faster deployment
+      automergeType: 'branch',
       automerge: true,
     },
     {
-      // Disable updating nodejs package peer dependencies
       matchDepTypes: [
         'peerDependencies',
       ],
       enabled: false,
     },
     {
-      // Group Node.js minor/patch updates together
       groupName: 'nodejs updates (non-major)',
       matchPackageNames: [
         'node',
@@ -122,17 +89,16 @@
         'docker-compose',
         'dockerfile',
       ],
-      matchFiles: [
+      matchFileNames: [
         'package.json',
         '.nvmrc',
         'Dockerfile',
         'docker-compose.yml',
       ],
-      minimumReleaseAge: '3 days', // Quick updates for minor/patch
-      automerge: false, // Don't automerge Node.js updates due to potential breaking changes
+      minimumReleaseAge: '3 days',
+      automerge: false,
     },
     {
-      // Override datasource for node package in npm to use node-version
       groupName: 'nodejs updates (non-major)',
       matchPackageNames: [
         'node',
@@ -144,7 +110,6 @@
       overridePackageName: 'node',
     },
     {
-      // Override datasource for node package in nvm to use node-version
       groupName: 'nodejs updates (non-major)',
       matchPackageNames: [
         'node',
@@ -156,7 +121,6 @@
       overridePackageName: 'node',
     },
     {
-      // Override datasource for @types/node to use node-version
       groupName: 'nodejs updates (non-major)',
       matchPackageNames: [
         '@types/node',
@@ -168,7 +132,6 @@
       overridePackageName: 'node',
     },
     {
-      // Override datasource for node package in docker to use node-version
       groupName: 'nodejs updates (non-major)',
       matchPackageNames: [
         'node',
@@ -180,7 +143,6 @@
       overridePackageName: 'node',
     },
     {
-      // Special LTS gate for Node.js major version updates
       groupName: 'nodejs major updates (LTS gate)',
       matchDatasources: [
         'node-version',
@@ -192,16 +154,16 @@
       matchUpdateTypes: [
         'major',
       ],
-      minimumReleaseAge: '7 months', // Wait longer for major Node.js releases
-      internalChecksFilter: 'strict', // Strict internal checks for major updates
-      automerge: false, // Don't automerge major Node.js updates
+      minimumReleaseAge: '7 months',
+      internalChecksFilter: 'strict',
+      automerge: false,
       matchManagers: [
         'npm',
         'nvm',
         'docker-compose',
         'dockerfile',
       ],
-      matchFiles: [
+      matchFileNames: [
         'package.json',
         '.nvmrc',
         'Dockerfile',
@@ -209,22 +171,18 @@
       ],
     },
     {
-      // NPM Major updates (non-grouped)
       matchManagers: [
         'npm',
       ],
       matchUpdateTypes: [
         'major',
       ],
-      // Exclude my own packages (handled separately)
       matchPackageNames: [
         '!/^@stanlemon\\//',
       ],
-      // Don't automerge major updates
       automerge: false,
     },
     {
-      // Group GitHub Actions digest updates together
       groupName: 'github actions digests',
       groupSlug: 'github-actions-digests',
       matchManagers: [
@@ -235,7 +193,6 @@
       ],
     },
     {
-      // Catch-all rule for npm non-major updates
       groupName: 'npm non-major (catch-all)',
       groupSlug: 'npm-all-non-major',
       matchManagers: [
@@ -245,7 +202,6 @@
         'minor',
         'patch',
       ],
-      // Exclude my own packages (handled separately)
       matchPackageNames: [
         '!/^@stanlemon\\//',
         '!/^@types\\/node$/',
