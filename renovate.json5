@@ -74,7 +74,6 @@
   // Add labels to PRs
   "labels": ["renovate-pr"],
 
-
   // Package-specific rules
   packageRules: [
     {
@@ -123,12 +122,6 @@
         'docker-compose',
         'dockerfile',
       ],
-      matchFileNames: [
-        'package.json',
-        '.nvmrc',
-        'Dockerfile',
-        'docker-compose.yml',
-      ],
       overrideDatasource: 'node-version',
       overridePackageName: 'node',
     },
@@ -157,12 +150,6 @@
         'nvm',
         'docker-compose',
         'dockerfile',
-      ],
-      matchFileNames: [
-        'package.json',
-        '.nvmrc',
-        'Dockerfile',
-        'docker-compose.yml',
       ],
       overrideDatasource: 'node-version',
       overridePackageName: 'node',
