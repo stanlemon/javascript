@@ -219,6 +219,8 @@
       // Exclude my own packages (handled separately)
       matchPackageNames: [
         '!/^@stanlemon\\//',
+        '!/^@types\\/node$/',
+        '!/^node$/',
       ],
     },
   ],
