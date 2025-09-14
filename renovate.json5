@@ -124,6 +124,7 @@
       ],
       overrideDatasource: 'node-version',
       overridePackageName: 'node',
+      automerge: true,
     },
     {
       // Special LTS gate for Node.js major version updates
@@ -172,27 +173,19 @@
       automerge: false,
     },
     {
-      // Group GitHub Actions digest updates together
-      groupName: 'github actions digests',
-      groupSlug: 'github-actions-digests',
-      matchManagers: [
-        'github-actions',
+      "groupName": "all digest updates",
+      "groupSlug": "all-digest",
+      "matchPackageNames": [
+        "*"
       ],
       matchUpdateTypes: [
         'digest',
       ],
+      automerge: true,
     },
     {
-      // Catch-all rule for npm non-major updates
-      groupName: 'npm non-major (catch-all)',
-      groupSlug: 'npm-all-non-major',
-      matchManagers: [
-        'npm',
-      ],
-      matchUpdateTypes: [
-        'minor',
-        'patch',
-      ],
+      "groupName": "all non-major dependencies",
+      "groupSlug": "all-minor-patch",
       // Exclude my own packages (handled separately)
       matchPackageNames: [
         '!/^@stanlemon\\//',
