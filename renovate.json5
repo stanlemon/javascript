@@ -16,6 +16,8 @@
     'group:jestMonorepo', // Group Jest monorepo packages
     'group:jestPlusTypes', // Group Jest with its types
     'group:jestPlusTSJest', // Group Jest with TypeScript Jest
+    'group:dropwizardMonorepo', // Group Dropwizard packages
+    'group:springMonorepo',
   ],
 
   // Version management strategies
