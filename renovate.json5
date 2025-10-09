@@ -188,6 +188,10 @@
     {
       "groupName": "all non-major dependencies",
       "groupSlug": "all-minor-patch",
+      matchUpdateTypes: [
+        'minor',
+        'patch',
+      ],
       // Exclude my own packages (handled separately)
       matchPackageNames: [
         '!/^@stanlemon\\//',
