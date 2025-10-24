@@ -1,6 +1,6 @@
 {
   "name": "@stanlemon/webdev",
-  "version": "0.2.58",
+  "version": "0.2.59",
   "description": "My typical web development setup, but without all the copy and paste.",
   "keywords": [
     "webpack",
@@ -39,20 +39,20 @@
     "identity-obj-proxy": "^3.0.0",
     "jest": "^30.2.0",
     "jest-environment-jsdom": "^30.2.0",
-    "less": "^4.4.1",
+    "less": "^4.4.2",
     "less-loader": "^12.3.0",
     "react-refresh": "^0.18.0",
     "style-loader": "^4.0.0",
     "typescript": "^5.9.3",
-    "webpack": "^5.102.0",
+    "webpack": "^5.102.1",
     "webpack-bundle-analyzer": "^4.10.2",
     "webpack-cli": "^6.0.1",
     "webpack-dev-server": "^5.2.2"
   },
   "devDependencies": {
     "@types/jest": "30.0.0",
-    "@types/react": "19.2.0",
-    "@types/react-dom": "19.2.0",
+    "@types/react": "19.2.2",
+    "@types/react-dom": "19.2.2",
     "@types/webpack": "5.28.5",
     "@types/webpack-env": "1.18.8",
     "react": "19.2.0",
