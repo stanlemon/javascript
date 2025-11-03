@@ -1,6 +1,6 @@
 {
   "name": "@stanlemon/hello-world",
-  "version": "0.1.46",
+  "version": "0.1.47",
   "description": "A hello world example using the webdev package.",
   "author": "Stan Lemon <stanlemon@users.noreply.github.com>",
   "license": "MIT",
@@ -14,7 +14,7 @@
     "test": "jest"
   },
   "engines": {
-    "node": ">=22.20.0"
+    "node": ">=22.21.1"
   },
   "dependencies": {
     "@stanlemon/webdev": "*",
