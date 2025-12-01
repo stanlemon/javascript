@@ -30,7 +30,7 @@
     "lockfile:clean": "rm -f package-lock.json && npm install"
   },
   "resolutions": {
-    "@types/react": "^19.2.6",
+    "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3"
   }
 }
