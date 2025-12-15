@@ -1,6 +1,6 @@
 {
   "name": "@stanlemon/webdev",
-  "version": "0.2.64",
+  "version": "0.2.65",
   "description": "My typical web development setup, but without all the copy and paste.",
   "keywords": [
     "webpack",
@@ -55,8 +55,8 @@
     "@types/react-dom": "19.2.3",
     "@types/webpack": "5.28.5",
     "@types/webpack-env": "1.18.8",
-    "react": "19.2.1",
-    "react-dom": "19.2.1"
+    "react": "19.2.3",
+    "react-dom": "19.2.3"
   },
   "peerDependencies": {
     "react": ">=18.0.0",
