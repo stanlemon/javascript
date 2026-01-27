@@ -184,6 +184,7 @@
         'digest',
       ],
       automerge: true,
+      automergeType: 'branch', // Use branch automerge for faster deployment
     },
     {
       "groupName": "all non-major dependencies",
