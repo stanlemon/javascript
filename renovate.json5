@@ -175,16 +175,17 @@
       automerge: false,
     },
     {
-      "groupName": "all digest updates",
-      "groupSlug": "all-digest",
-      "matchPackageNames": [
-        "*"
+      // GitHub Actions digest updates - auto-merge without PR
+      groupName: 'github-actions digest updates',
+      matchManagers: [
+        'github-actions',
       ],
       matchUpdateTypes: [
         'digest',
       ],
       automerge: true,
-      automergeType: 'branch', // Use branch automerge for faster deployment
+      automergeType: 'branch', // Merge directly without creating PR
+      minimumReleaseAge: null, // No waiting period for digest updates
     },
     {
       "groupName": "all non-major dependencies",
