@@ -176,15 +176,15 @@
     },
     {
       // GitHub Actions digest updates - auto-merge without PR
-      "groupName": "github-actions digest updates",
+      groupName: 'github-actions digest updates',
       matchManagers: [
-        "github-actions",
+        'github-actions',
       ],
       matchUpdateTypes: [
-        "digest",
+        'digest',
       ],
       automerge: true,
-      automergeType: "branch", // Merge directly without creating PR
+      automergeType: 'branch', // Merge directly without creating PR
       minimumReleaseAge: null, // No waiting period for digest updates
     },
     {
