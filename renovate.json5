@@ -188,18 +188,6 @@
       minimumReleaseAge: null, // No waiting period for digest updates
     },
     {
-      "groupName": "all digest updates",
-      "groupSlug": "all-digest",
-      "matchPackageNames": [
-        "*"
-      ],
-      matchUpdateTypes: [
-        'digest',
-      ],
-      automerge: true,
-      automergeType: 'branch', // Use branch automerge for faster deployment
-    },
-    {
       "groupName": "all non-major dependencies",
       "groupSlug": "all-minor-patch",
       matchUpdateTypes: [
