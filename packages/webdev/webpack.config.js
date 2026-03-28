@@ -146,12 +146,13 @@ export default {
         "process.env.NODE_ENV": JSON.stringify(NODE_ENV),
       }),
     ],
-    ...[
-      isDevelopment &&
-        new BundleAnalyzerPlugin({
-          analyzerMode: "static",
-          openAnalyzer: false,
-        }),
-    ].filter(Boolean),
+    ...(!isDevelopment
+      ? [
+          new BundleAnalyzerPlugin({
+            analyzerMode: "static",
+            openAnalyzer: false,
+          }),
+        ]
+      : []),
   ],
 };
