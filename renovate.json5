@@ -1,206 +1,278 @@
 {
-  // Validate against Renovate JSON schema
+  // Validate against Renovate's published schema so editor tooling can catch
+  // typos early and Renovate-specific fields stay discoverable in autocomplete.
   $schema: 'https://docs.renovatebot.com/renovate-schema.json',
 
-  // Base configuration presets
+  // Start from Renovate's baseline best-practice preset and then layer in only
+  // the extra grouping/workaround presets that are specifically useful for the
+  // ecosystems you said you actually use across your repos.
+  //
+  // Notes:
+  // - `workarounds:typesNodeVersioning` handles `@types/node` correctly without
+  //   the more fragile datasource/package-name overrides you had before.
+  // - `config:best-practices` already pulls in Renovate's cross-language
+  //   baseline, including:
+  //   - `config:recommended`
+  //   - digest pinning for Docker and GitHub Actions
+  //   - lock file maintenance
+  //   - abandonment detection
+  //   - the Go x/* helper presets
+  //   - the Java LTS runtime workaround that comes through `workarounds:all`
+  // - The explicit group presets here are only the extra ecosystem groupings
+  //   you called out or that are especially useful for reducing PR noise.
+  // - The old `:automergeMinor` preset is intentionally removed. The fast-path
+  //   policy now lives in one explicit rule below instead of being spread across
+  //   presets plus global settings plus package rules.
   extends: [
-    'config:best-practices', // Use Renovate's recommended best practices
-    'mergeConfidence:all-badges', // Enable merge confidence badges
-    ':timezone(America/Indiana/Indianapolis)', // Set timezone
-    ':enableVulnerabilityAlerts', // Enable security vulnerability alerts
-    ':automergeMinor', // Auto-merge minor updates
-    'group:react', // Group React packages together
-    'group:reactMonorepo', // Group React monorepo packages
-    'group:eslintMonorepo', // Group ESLint monorepo packages
-    'group:linters', // Group linting tools
-    'group:jestMonorepo', // Group Jest monorepo packages
-    'group:jestPlusTypes', // Group Jest with its types
-    'group:jestPlusTSJest', // Group Jest with TypeScript Jest
-    'group:dropwizardMonorepo', // Group Dropwizard packages
-    'group:springBoot', // Group Spring Boot packages
+    'config:best-practices',
+    'mergeConfidence:all-badges',
+    ':timezone(America/Indiana/Indianapolis)',
+    ':enableVulnerabilityAlerts',
+    'workarounds:typesNodeVersioning',
+    'group:allDigest',
+    'group:dropwizardMonorepo',
+    'group:react',
+    'group:reactMonorepo',
+    'group:eslintMonorepo',
+    'group:linters',
+    'group:jestMonorepo',
+    'group:jestPlusTypes',
+    'group:jestPlusTSJest',
+    'group:springBoot',
+    'group:terraformMonorepo',
   ],
 
-  // Version management strategies
-  rangeStrategy: 'bump', // Bump ranges to next version
-  bumpVersion: 'patch', // Use patch version for bumping
-  semanticCommits: "disabled",
-  // Enable dependency dashboard for overview
+  // Keep declared ranges moving forward when Renovate edits package files
+  // instead of only refreshing the lockfile.
+  rangeStrategy: 'bump',
+
+  // You explicitly asked to keep version bumping enabled. This means Renovate
+  // may also increment package version fields when it edits package files.
+  //
+  // Important: this is not npm-only. Renovate documents `bumpVersion` support
+  // for managers including npm, maven, helmv3, nuget, sbt, cargo, poetry, and
+  // several others. In other words, this choice is intentionally broad.
+  bumpVersion: 'patch',
+
+  // Commit titles stay plain instead of being forced into semantic-commit form.
+  semanticCommits: 'disabled',
+
+  // The dependency dashboard is still useful for items waiting on human review.
   dependencyDashboard: true,
 
-  // Rate limiting to avoid overwhelming CI
-  prConcurrentLimit: 10, // Max 10 concurrent PRs
-  prHourlyLimit: 0, // No hourly limit
+  // Keep the number of simultaneous review PRs reasonable, but do not throttle
+  // them hour-by-hour inside the allowed review window.
+  //
+  // Why no hourly cap:
+  // - you said the annoying part is staggered PR creation over multiple hours
+  // - if review PRs need to exist, it is better for them to appear together
+  //   during the scheduled review window than to dribble out across the day
+  //
+  // Noise control therefore comes from:
+  // - grouping related updates into shared PRs where reasonable
+  // - restricting review PR creation to the Tuesday/Saturday review windows
+  //   below
+  //
+  // The fast path still is not affected:
+  // - successful branch automerges do not need PRs
+  // - vulnerability PRs bypass normal PR rate limits anyway
+  prConcurrentLimit: 10,
+  prHourlyLimit: 0,
 
-  // Rebase strategy
+  // Let Renovate rebase when it determines a rebase is actually necessary.
   rebaseWhen: 'auto',
 
-  // Schedule for when to run updates
+  // Default schedule for "review-required" work:
+  // - normal PR-creating updates are only allowed in two short weekly windows
+  // - Tuesday during the 5 PM hour
+  // - Saturday during the 8 AM hour
+  // - this keeps Renovate from opening review PRs overnight or randomly
+  //   throughout the week
+  //
+  // The fast-path minor/patch rule below intentionally overrides this with a
+  // broader weekday schedule so low-risk updates can still land promptly after
+  // the soak period.
+  //
+  // Cron format here is:
+  // - minute hour day-of-month month day-of-week
+  // - Renovate requires `*` for the minute field
+  // - `2` means Tuesday
+  // - `6` means Saturday
   schedule: [
-    'after 8am and before 5pm on monday',
+    '* 17 * * 2',
+    '* 8 * * 6',
   ],
 
-  // Schedule for when to automerge
-  automergeSchedule: [
-    'after 8am and before 5pm on weekdays',
-  ],
-
-  // Allow updates outside of schedule
+  // Enforce the schedule strictly so Renovate does not keep pushing branch
+  // updates outside the allowed windows.
   updateNotScheduled: false,
 
-  // Give everything some time to bake
+  // Review-required updates get a short soak period so extremely fresh releases
+  // do not show up immediately. The fast-path minor/patch rule below inherits
+  // this too, which means "merge quickly" still does not mean "merge on day 1".
   minimumReleaseAge: '3 days',
 
-  // Automerge via PR by default
-  automerge: true, // Automerge non-major npm updates
+  // Default posture:
+  // - open a PR
+  // - do not automerge
+  //
+  // Specific rules below opt back into fast-path behavior where appropriate.
+  automerge: false,
   automergeType: 'pr',
 
-  // Security update configuration
+  // Use Renovate's own automerge flow instead of GitHub's platform-native
+  // automerge so the behavior follows the package rules in this file directly.
+  platformAutomerge: false,
+
+  // Security fixes should still appear immediately, but because you asked for
+  // only normal minor/patch updates to fast-path into `main`, vulnerability
+  // fixes stay reviewable as PRs.
+  //
+  // Renovate treats vulnerability PRs specially:
+  // - they are created immediately
+  // - they are not blocked by normal schedules or PR limits
+  // - they should not wait through the normal 3-day soak period
+  //
+  // `minimumReleaseAge: null` is included here to make that last point obvious
+  // in the config itself, even though vulnerability alert handling is already
+  // special-cased by Renovate.
   vulnerabilityAlerts: {
-    automerge: true, // Auto-merge security fixes
+    automerge: false,
+    minimumReleaseAge: null,
     labels: [
       'security',
     ],
-    vulnerabilityFixStrategy: 'lowest', // Use lowest possible version that fixes vulnerability
-    prCreation: 'immediate', // Create PRs immediately for security issues
+    vulnerabilityFixStrategy: 'lowest',
+    prCreation: 'immediate',
   },
 
-  // Enable OSV vulnerability alerts
+  // Also consult OSV for direct-dependency vulnerability information.
   osvVulnerabilityAlerts: true,
 
-  // Disable platform automerge (use Renovate's automerge instead)
-  platformAutomerge: false,
+  // Review PR hygiene.
+  assignees: [
+    'stanlemon',
+  ],
+  labels: [
+    'renovate-pr',
+  ],
 
-  // Assign PRs to myself
-  "assignees": ["stanlemon"],
-
-  // Add labels to PRs
-  "labels": ["renovate-pr"],
-
-  // Package-specific rules
   packageRules: [
     {
-      // Special handling for @stanlemon packages (my own packages)
-      groupName: 'my own packages',
-      minimumReleaseAge: null, // No waiting period for my own packages
-      matchPackageNames: [
-        '/^@stanlemon/',
-      ],
+      // This is the main behavior change in the config.
+      //
+      // For stable semver dependencies already on 1.0.0 or newer:
+      // - create a Renovate branch immediately
+      // - still wait for the global 3-day minimum release age
+      // - run CI on that branch
+      // - merge directly into `main` with no PR if CI passes
+      // - only do this during weekday business hours
+      //
+      // This rule is intentionally not limited to npm. If Renovate can classify
+      // an update as `minor` or `patch`, this is the default fast path unless a
+      // later, narrower rule overrides it.
+      //
+      // Why `automergeType: 'branch'`:
+      // - this is the Renovate setting that actually means "land directly into
+      //   the base branch" instead of "open a PR and let that PR automerge"
+      //
+      // Operational requirement:
+      // - your CI must run on `renovate/**` branches
+      // - Renovate must be allowed to update the base branch after checks pass
+      //
+      // If branch protection blocks that second requirement, Renovate will fall
+      // back to opening PRs instead of silently landing these updates.
+      description: 'Fast-path stable semver minor/patch updates directly into main when CI passes.',
       matchUpdateTypes: [
-        'major',
         'minor',
         'patch',
       ],
-      automergeType: 'branch', // Use branch automerge for faster deployment
+      matchCurrentVersion: '!/^0\\./',
+      // Cron `1-5` means Monday through Friday, and `8-16` keeps this in the
+      // 8 AM through 4:59 PM business-hours window in your configured timezone.
+      schedule: [
+        '* 8-16 * * 1-5',
+      ],
+      automergeSchedule: [
+        '* 8-16 * * 1-5',
+      ],
       automerge: true,
+      automergeType: 'branch',
     },
     {
-      // Disable updating nodejs package peer dependencies
+      // Pre-1.0 packages are deliberately excluded from the fast path because
+      // `0.x` minor bumps can contain breaking changes. Keeping them reviewable
+      // prevents a "looks safe on paper, breaks in practice" upgrade from
+      // landing automatically.
+      description: 'Keep pre-1.0 minor/patch updates in review PRs.',
+      matchUpdateTypes: [
+        'minor',
+        'patch',
+      ],
+      matchCurrentVersion: '/^0\\./',
+      automerge: false,
+      groupName: 'pre-1.0 dependency updates',
+      groupSlug: 'pre-1-updates',
+    },
+    {
+      // Peer dependency ranges are part of the published compatibility promise
+      // of a package. Even a small-looking range change can affect consumers, so
+      // keep peer dependency edits in explicit review PRs.
+      //
+      // This is intentionally dep-type based instead of manager based. In
+      // practice today it mostly affects JavaScript package managers, but the
+      // config should express the policy in terms of dependency role, not npm.
+      description: 'Keep peer dependency compatibility changes in review PRs.',
       matchDepTypes: [
         'peerDependencies',
       ],
-      enabled: false,
+      automerge: false,
+      groupName: 'peer dependency compatibility updates',
+      groupSlug: 'peer-compatibility',
     },
     {
-      // Group Node.js minor/patch updates together
-      groupName: 'nodejs updates (non-major)',
-      matchUpdateTypes: [
-        'minor',
-        'patch',
-      ],
-      minimumReleaseAge: '3 days', // Quick updates for minor/patch
-      matchPackageNames: [
-        'node',
-        '@types/node',
-      ],
-      matchDatasources: [
-        'docker',
-        'node-version',
-        'npm',
-        'nvm',
-      ],
-      matchManagers: [
-        'npm',
-        'nvm',
-        'docker-compose',
-        'dockerfile',
-      ],
-      overrideDatasource: 'node-version',
-      overridePackageName: 'node',
-      automerge: true,
-    },
-    {
-      // Special LTS gate for Node.js major version updates
-      groupName: 'nodejs major updates (LTS gate)',
+      // Any major version bump requires review. The ecosystem grouping presets
+      // above still apply, so related React / ESLint / Jest major bumps can stay
+      // grouped together instead of becoming a pile of unrelated review PRs.
+      description: 'All major version bumps require review.',
       matchUpdateTypes: [
         'major',
       ],
-      minimumReleaseAge: '7 months', // Wait longer for major Node.js releases
-      internalChecksFilter: 'strict', // Strict internal checks for major updates
-      automerge: false, // Don't automerge major Node.js updates
-      matchPackageNames: [
-        'node',
-        '@types/node',
-      ],
-
-      matchDatasources: [
-        'docker',
-        'node-version',
-        'npm',
-        'nvm',
-      ],
-      matchManagers: [
-        'npm',
-        'nvm',
-        'docker-compose',
-        'dockerfile',
-      ],
-      overrideDatasource: 'node-version',
-      overridePackageName: 'node',
-    },
-    {
-      // NPM Major updates (non-grouped)
-      matchManagers: [
-        'npm',
-      ],
-      matchUpdateTypes: [
-        'major',
-      ],
-      // Exclude my own packages (handled separately)
-      matchPackageNames: [
-        '!/^@stanlemon\\//',
-        '!/^@types\\/node$/',
-        '!/^node$/',
-      ],
-      // Don't automerge major updates
       automerge: false,
     },
     {
-      // GitHub Actions digest updates - auto-merge without PR
-      groupName: 'github-actions digest updates',
-      matchManagers: [
-        'github-actions',
+      // Node.js runtime majors are worth treating even more conservatively than
+      // ordinary package majors. Renovate already understands `engines.node`,
+      // so this rule only adds a long soak period before such majors are even
+      // proposed for review.
+      description: 'Hold Node.js major runtime upgrades until they have aged.',
+      matchDatasources: [
+        'node-version',
+      ],
+      matchPackageNames: [
+        'node',
       ],
       matchUpdateTypes: [
-        'digest',
+        'major',
       ],
-      automerge: true,
-      automergeType: 'branch', // Merge directly without creating PR
-      minimumReleaseAge: null, // No waiting period for digest updates
+      minimumReleaseAge: '7 months',
+      automerge: false,
+      groupName: 'node.js major updates',
+      groupSlug: 'node-major-updates',
     },
     {
-      "groupName": "all non-major dependencies",
-      "groupSlug": "all-minor-patch",
+      // Pin and replacement updates are not normal semver minor or patch
+      // changes, so they stay reviewable instead of joining the fast path rule
+      // above. Digest updates are already grouped by `group:allDigest`.
+      description: 'Non-semver maintenance updates stay reviewable.',
       matchUpdateTypes: [
-        'minor',
-        'patch',
+        'pin',
+        'pinDigest',
+        'replacement',
       ],
-      // Exclude my own packages (handled separately)
-      matchPackageNames: [
-        '!/^@stanlemon\\//',
-        '!/^@types\\/node$/',
-        '!/^node$/',
-      ],
-      automerge: true,
+      automerge: false,
+      groupName: 'review-required maintenance updates',
+      groupSlug: 'review-maintenance',
     },
   ],
 }
