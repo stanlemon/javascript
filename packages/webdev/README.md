@@ -4,7 +4,7 @@
 
 This repository contains all of my usual environment setup for babel, webpack and jest for developing React apps. I got tired of copying and pasting the same config files everywhere, so I put this together.
 
-To get started, either copy [apps/template](../../apps/template/) or create these files:
+To get started, create these files:
 
 package.json
 ```json
@@ -43,5 +43,7 @@ export { default } from "@stanlemon/webdev/jest.config.js";
 ```
 
 Then run `npm install` and start coding!
+
+If you need the old full-stack starter app, use the historical snapshot at [deprecate-2026-03-app-template-hello-world-servers](https://github.com/stanlemon/javascript/tree/deprecate-2026-03-app-template-hello-world-servers/apps/template).
 
 _Eventually I'll add some CLI tooling to streamline this further._
