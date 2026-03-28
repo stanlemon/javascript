@@ -1,7 +1,7 @@
 {
   "type": "module",
   "engines": {
-    "node": ">=22.21.1"
+    "node": ">=24.14.1"
   },
   "workspaces": [
     "packages/*",
