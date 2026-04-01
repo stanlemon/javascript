@@ -40,6 +40,7 @@
     'group:jestPlusTSJest',
     'group:springBoot',
     'group:terraformMonorepo',
+    'group:allNonMajor',
   ],
 
   // Keep declared ranges moving forward when Renovate edits package files
@@ -97,9 +98,11 @@
   // - minute hour day-of-month month day-of-week
   // - Renovate requires `*` for the minute field
   // - `2` means Tuesday
+  // - `5` means Friday
   // - `6` means Saturday
   schedule: [
     '* 17 * * 2',
+    '* 17 * * 5',
     '* 8 * * 6',
   ],
 
@@ -110,7 +113,7 @@
   // Review-required updates get a short soak period so extremely fresh releases
   // do not show up immediately. The fast-path minor/patch rule below inherits
   // this too, which means "merge quickly" still does not mean "merge on day 1".
-  minimumReleaseAge: '3 days',
+  minimumReleaseAge: '7 days',
 
   // Default posture:
   // - open a PR
@@ -131,7 +134,7 @@
   // Renovate treats vulnerability PRs specially:
   // - they are created immediately
   // - they are not blocked by normal schedules or PR limits
-  // - they should not wait through the normal 3-day soak period
+  // - they should not wait through the normal 7-day soak period
   //
   // `minimumReleaseAge: null` is included here to make that last point obvious
   // in the config itself, even though vulnerability alert handling is already
@@ -163,7 +166,7 @@
       //
       // For stable semver dependencies already on 1.0.0 or newer:
       // - create a Renovate branch immediately
-      // - still wait for the global 3-day minimum release age
+      // - still wait for the global 7-day minimum release age
       // - run CI on that branch
       // - merge directly into `main` with no PR if CI passes
       // - only do this during weekday business hours
@@ -188,6 +191,9 @@
         'patch',
       ],
       matchCurrentVersion: '!/^0\\./',
+      // Override the global 7-day soak — 1 day is enough for stable releases
+      // on the fast path; anything riskier is handled by later, narrower rules.
+      minimumReleaseAge: '1 day',
       // Cron `1-5` means Monday through Friday, and `8-16` keeps this in the
       // 8 AM through 4:59 PM business-hours window in your configured timezone.
       schedule: [
@@ -216,19 +222,13 @@
     },
     {
       // Peer dependency ranges are part of the published compatibility promise
-      // of a package. Even a small-looking range change can affect consumers, so
-      // keep peer dependency edits in explicit review PRs.
-      //
-      // This is intentionally dep-type based instead of manager based. In
-      // practice today it mostly affects JavaScript package managers, but the
-      // config should express the policy in terms of dependency role, not npm.
-      description: 'Keep peer dependency compatibility changes in review PRs.',
+      // of a package. Changes here can affect consumers in ways that are hard to
+      // detect automatically, so disable all peer dependency updates entirely.
+      description: 'Disable all peer dependency updates.',
       matchDepTypes: [
         'peerDependencies',
       ],
-      automerge: false,
-      groupName: 'peer dependency compatibility updates',
-      groupSlug: 'peer-compatibility',
+      enabled: false,
     },
     {
       // Any major version bump requires review. The ecosystem grouping presets
@@ -259,6 +259,18 @@
       automerge: false,
       groupName: 'node.js major updates',
       groupSlug: 'node-major-updates',
+    },
+    {
+      // Lock file maintenance runs once a month (1st of the month at 8 AM) and
+      // automerges directly into main when CI passes — no review needed since
+      // no dependency versions are changing.
+      description: 'Run lock file maintenance once a month and automerge when CI passes.',
+      matchUpdateTypes: ['lockFileMaintenance'],
+      minimumReleaseAge: null,
+      schedule: ['* 8 1 * *'],
+      automergeSchedule: ['* 8-16 * * 1-5'],
+      automerge: true,
+      automergeType: 'branch',
     },
     {
       // Pin and replacement updates are not normal semver minor or patch
