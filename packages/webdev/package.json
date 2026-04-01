@@ -58,7 +58,7 @@
     "@types/webpack-env": "1.18.8",
     "react": "19.2.4",
     "react-dom": "19.2.4",
-    "uuid": "^8.3.2"
+    "uuid": "^13.0.0"
   },
   "peerDependencies": {
     "react": ">=18.0.0",
