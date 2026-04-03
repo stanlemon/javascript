@@ -4,7 +4,7 @@
 
 This repository contains things I like to reuse. They're generic enough that they might be useful to you too, so feel free to use them!
 
-Check out [@stanlemon/webdev](packages/webdev/README.md) and [@stanlemon/eslint-config](packages/eslint-config/README.md) for things that might be useful.
+Check out [@stanlemon/webdev](packages/webdev/README.md) for something that might be useful.
 
 Everything exists under the *MIT* license, so please use as you see fit. If you find a bug, please open an issue or a pull request and let me know.
 
@@ -26,3 +26,7 @@ These packages and apps are deprecated and will not receive further updates. His
 * [@stanlemon/hello-world](https://github.com/stanlemon/javascript/tree/deprecate-2026-03-app-template-hello-world-servers/apps/hello-world) - Hello world example app for `@stanlemon/webdev`
 * [@stanlemon/server](https://github.com/stanlemon/javascript/tree/deprecate-2026-03-app-template-hello-world-servers/packages/server) - Basic Express server setup
 * [@stanlemon/server-with-auth](https://github.com/stanlemon/javascript/tree/deprecate-2026-03-app-template-hello-world-servers/packages/server-with-auth) - Express server setup with authentication helpers
+
+### Deprecated at `deprecate-2026-04-eslint-config`
+
+* [@stanlemon/eslint-config](https://github.com/stanlemon/javascript/tree/deprecate-2026-04-eslint-config/packages/eslint-config) - Shared ESLint and Prettier config, replaced in this repo by Biome-based tooling
