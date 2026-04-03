@@ -1,14 +1,29 @@
 # My Javascript
 
-[![Test](https://github.com/stanlemon/javascript/actions/workflows/test.yml/badge.svg)](https://github.com/stanlemon/javascript/actions/workflows/test.yml)
-
 This repository used to contains things I liked to reuse. They were generic enough that they might have been useful to you too. The reality today is that toolchains have evolved. For example, I think vite is a better choice than webpack and biome a better choices than eslint and prettier. These tools offer better out of the box experiences, and that was ultimately the pain I was trying to solve for myself with these packages. Furthermore, in the age of AI, Claude Code or Codex are going to be a better solution for bootstrapping new projects than any template or CLI I could create. So, I am deprecating all the packages and apps in this repo. They still remain in git history for the curious archaeologist.
 
 Everything exists under the *MIT* license, so please use as you see fit. If you find a bug, please open an issue or a pull request and let me know.
 
-## Recommended Projects
+## Renovate
+
+I have a [config for renovate](renovate.json5) I reuse in a lot of other repositories. It starts from Renovate's `config:best-practices`, groups common ecosystems, fast-paths stable minor and patch updates, and keeps majors and security work reviewable. In general it keeps my dependencies up to date without overwhelming me with noise, and without letting important updates slip through the cracks.
+
+To use it, simply put this in your own `renovate.json`:
+
+```json
+{
+  "extends": [
+    "github>stanlemon/javascript:renovate.json5"
+  ]
+}
+```
+
+*I don't plan to support this forever, only because forever is a long time.*
+
+## Remaining Projects
 
 * [@stanlemon/webdev](packages/webdev/README.md) wired up webpack and babel for a great development experience, with support for React, TypeScript, and more. This was the recommended starting point for new projects.
+
 
 ## Deprecated Projects
 
