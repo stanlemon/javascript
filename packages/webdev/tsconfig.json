@@ -2,10 +2,7 @@
   "compilerOptions": {
     "noEmit": true,
     "target": "ESNext",
-    "lib": [
-      "ESNext",
-      "DOM",
-    ],
+    "lib": ["ESNext", "DOM"],
     "declaration": true,
     "declarationMap": true,
     "allowJs": true,

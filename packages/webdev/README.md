@@ -14,10 +14,11 @@ package.json
     "start": "webpack serve",
     "build": "NODE_ENV=production webpack",
     "test": "jest",
-    "lint": "eslint .",
-    "lint:fix": "eslint --fix ."
+    "lint": "biome check .",
+    "lint:fix": "biome check --write ."
   },
-  "dependencies": {
+  "devDependencies": {
+    "@biomejs/biome": "^2.4.10",
     "@stanlemon/webdev": "*"
   }
 }
@@ -33,12 +34,64 @@ jest.config.js
 export { default } from "@stanlemon/webdev/jest.config.js";
 ```
 
-.eslintrc.json
+biome.json
 ```json
 {
-  "extends": [
-    "@stanlemon"
-  ]
+  "files": {
+    "includes": [
+      "**",
+      "!**/dist",
+      "!**/node_modules",
+      "!**/.git"
+    ]
+  },
+  "assist": {
+    "enabled": false
+  },
+  "formatter": {
+    "indentStyle": "space",
+    "indentWidth": 2
+  },
+  "javascript": {
+    "formatter": {
+      "trailingCommas": "es5"
+    },
+    "jsxRuntime": "transparent"
+  },
+  "linter": {
+    "domains": {
+      "react": "recommended",
+      "test": "recommended"
+    },
+    "rules": {
+      "complexity": {
+        "useOptionalChain": "off"
+      },
+      "correctness": {
+        "noUnusedVariables": "warn"
+      },
+      "style": {
+        "useNodejsImportProtocol": "off"
+      },
+      "suspicious": {
+        "noConsole": {
+          "level": "warn",
+          "options": {
+            "allow": [
+              "warn",
+              "error"
+            ]
+          }
+        },
+        "noDoubleEquals": {
+          "level": "error",
+          "options": {
+            "ignoreNull": false
+          }
+        }
+      }
+    }
+  }
 }
 ```
 
