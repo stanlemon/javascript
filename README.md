@@ -2,11 +2,13 @@
 
 [![Test](https://github.com/stanlemon/javascript/actions/workflows/test.yml/badge.svg)](https://github.com/stanlemon/javascript/actions/workflows/test.yml)
 
-This repository contains things I like to reuse. They're generic enough that they might be useful to you too, so feel free to use them!
-
-Check out [@stanlemon/webdev](packages/webdev/README.md) for something that might be useful.
+This repository used to contains things I liked to reuse. They were generic enough that they might have been useful to you too. The reality today is that toolchains have evolved. For example, I think vite is a better choice than webpack and biome a better choices than eslint and prettier. These tools offer better out of the box experiences, and that was ultimately the pain I was trying to solve for myself with these packages. Furthermore, in the age of AI, Claude Code or Codex are going to be a better solution for bootstrapping new projects than any template or CLI I could create. So, I am deprecating all the packages and apps in this repo. They still remain in git history for the curious archaeologist.
 
 Everything exists under the *MIT* license, so please use as you see fit. If you find a bug, please open an issue or a pull request and let me know.
+
+## Recommended Projects
+
+* [@stanlemon/webdev](packages/webdev/README.md) wired up webpack and babel for a great development experience, with support for React, TypeScript, and more. This was the recommended starting point for new projects.
 
 ## Deprecated Projects
 
