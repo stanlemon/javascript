@@ -1,6 +1,6 @@
 {
   "name": "@stanlemon/eslint-config",
-  "version": "3.0.71",
+  "version": "3.0.72",
   "description": "My typical eslint setup, but without all the copy and paste.",
   "keywords": [
     "eslint"
@@ -22,8 +22,8 @@
     "lint:fix": "eslint --fix ."
   },
   "dependencies": {
-    "@eslint/js": "^10.0.1",
-    "eslint": "^10.1.0",
+    "@eslint/js": "^9.39.4",
+    "eslint": "^9.39.4",
     "eslint-config-prettier": "^10.1.8",
     "eslint-config-react": "^1.1.7",
     "eslint-config-typescript": "^3.0.0",
@@ -35,7 +35,7 @@
     "eslint-plugin-react": "^7.37.5",
     "globals": "^17.4.0",
     "prettier": "^3.8.1",
-    "typescript": "^6.0.2",
-    "typescript-eslint": "^8.58.0"
+    "typescript": "^5.9.3",
+    "typescript-eslint": "8.57.2"
   }
 }
