@@ -30,16 +30,16 @@ jobs:
         run: npm ci
 
       - name: Lint code
-        run: npm run lint
+        run: npm run lint --workspace @stanlemon/webdev
 
       - name: Typescript
-        run: npm run tsc
+        run: npm run tsc --workspace @stanlemon/webdev
 
       - name: Build
-        run: npm run build
+        run: npm run build --workspace @stanlemon/webdev
 
       - name: Run tests
-        run: npm run test
+        run: npm run test --workspace @stanlemon/webdev
 
       - name: Publish to npm
         run: npm run publish

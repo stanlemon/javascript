@@ -1,2 +1,2 @@
-npm run workspaces:lint
-npm run test
+npm run lint --workspace @stanlemon/webdev
+npm run test --workspace @stanlemon/webdev
