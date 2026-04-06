@@ -140,7 +140,8 @@
   // in the config itself, even though vulnerability alert handling is already
   // special-cased by Renovate.
   vulnerabilityAlerts: {
-    automerge: false,
+    automerge: true,
+    automergeType: 'pr',
     minimumReleaseAge: null,
     labels: [
       'security',
