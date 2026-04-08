@@ -232,6 +232,37 @@
       enabled: false,
     },
     {
+      // Keep workflow runner/action updates together so CI maintenance lands as
+      // one coherent change instead of multiple small PRs. Renovate will still
+      // split majors from non-majors according to its normal separation rules.
+      //
+      // These are also safe enough to use the same branch automerge flow as
+      // other low-risk maintenance updates, including digest refreshes for
+      // pinned actions. Majors still remain review-only because the broader
+      // major-version rule below overrides automerge for that update type.
+      description: 'Group GitHub Actions updates together and automerge non-major changes.',
+      matchManagers: [
+        'github-actions',
+      ],
+      matchUpdateTypes: [
+        'minor',
+        'patch',
+        'digest',
+        'pinDigest',
+      ],
+      groupName: 'GitHub Actions',
+      groupSlug: 'github-actions',
+      minimumReleaseAge: '1 day',
+      schedule: [
+        '* 8-16 * * 1-5',
+      ],
+      automergeSchedule: [
+        '* 8-16 * * 1-5',
+      ],
+      automerge: true,
+      automergeType: 'branch',
+    },
+    {
       // Any major version bump requires review. The ecosystem grouping presets
       // above still apply, so related React / ESLint / Jest major bumps can stay
       // grouped together instead of becoming a pile of unrelated review PRs.
