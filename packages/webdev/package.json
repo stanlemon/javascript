@@ -1,6 +1,6 @@
 {
   "name": "@stanlemon/webdev",
-  "version": "0.2.80",
+  "version": "0.2.81",
   "description": "My typical web development setup, but without all the copy and paste.",
   "keywords": [
     "webpack",
@@ -11,7 +11,7 @@
   "author": "Stan Lemon <stanlemon@users.noreply.github.com>",
   "license": "MIT",
   "engines": {
-    "node": ">=24.14.1"
+    "node": ">=24.15.0"
   },
   "type": "module",
   "scripts": {
@@ -43,7 +43,7 @@
     "react-refresh": "^0.18.0",
     "style-loader": "^4.0.0",
     "typescript": "^6.0.2",
-    "webpack": "^5.106.1",
+    "webpack": "^5.106.2",
     "webpack-bundle-analyzer": "^5.3.0",
     "webpack-cli": "^7.0.2",
     "webpack-dev-server": "^5.2.3"
@@ -56,7 +56,7 @@
     "@types/react-dom": "19.2.3",
     "@types/webpack": "5.28.5",
     "@types/webpack-env": "1.18.8",
-    "@biomejs/biome": "2.4.11",
+    "@biomejs/biome": "2.4.12",
     "react": "19.2.5",
     "react-dom": "19.2.5",
     "uuid": "13.0.0"
