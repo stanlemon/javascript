@@ -1,6 +1,6 @@
 {
   "name": "@stanlemon/webdev",
-  "version": "0.2.82",
+  "version": "0.2.83",
   "description": "My typical web development setup, but without all the copy and paste.",
   "keywords": [
     "webpack",
@@ -59,7 +59,7 @@
     "@biomejs/biome": "2.4.12",
     "react": "19.2.5",
     "react-dom": "19.2.5",
-    "uuid": "13.0.0"
+    "uuid": "14.0.0"
   },
   "peerDependencies": {
     "react": ">=18.0.0",
