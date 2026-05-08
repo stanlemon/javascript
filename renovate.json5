@@ -71,7 +71,7 @@
   //
   // Noise control therefore comes from:
   // - grouping related updates into shared PRs where reasonable
-  // - restricting review PR creation to the Tuesday/Saturday review windows
+  // - restricting review PR creation to the weekend review window
   //   below
   //
   // The fast path still is not affected:
@@ -84,26 +84,25 @@
   rebaseWhen: 'auto',
 
   // Default schedule for "review-required" work:
-  // - normal PR-creating updates are only allowed in two short weekly windows
-  // - Tuesday during the 5 PM hour
-  // - Saturday during the 8 AM hour
-  // - this keeps Renovate from opening review PRs overnight or randomly
-  //   throughout the week
+  // - normal PR-creating updates are deferred to the weekend review window
+  // - Friday, Saturday, and Sunday from 8:00 AM through 7:59 PM
+  // - this keeps larger/riskier dependency work out of the weekday flow for
+  //   personal projects
   //
-  // The fast-path minor/patch rule below intentionally overrides this with a
-  // broader weekday schedule so low-risk updates can still land promptly after
-  // the soak period.
+  // Fast-path rules below intentionally override this with `at any time` so
+  // low-risk updates can land promptly after their soak period whenever CI
+  // passes.
   //
   // Cron format here is:
   // - minute hour day-of-month month day-of-week
   // - Renovate requires `*` for the minute field
-  // - `2` means Tuesday
   // - `5` means Friday
   // - `6` means Saturday
+  // - `0` means Sunday
   schedule: [
-    '* 17 * * 2',
-    '* 17 * * 5',
-    '* 8 * * 6',
+    '* 8-19 * * 5',
+    '* 8-19 * * 6',
+    '* 8-19 * * 0',
   ],
 
   // Enforce the schedule strictly so Renovate does not keep pushing branch
@@ -111,8 +110,8 @@
   updateNotScheduled: false,
 
   // Review-required updates get a short soak period so extremely fresh releases
-  // do not show up immediately. The fast-path minor/patch rule below inherits
-  // this too, which means "merge quickly" still does not mean "merge on day 1".
+  // do not show up immediately. Fast-path rules below override this with a
+  // shorter soak period where the risk is lower.
   minimumReleaseAge: '7 days',
 
   // Default posture:
@@ -127,9 +126,8 @@
   // automerge so the behavior follows the package rules in this file directly.
   platformAutomerge: false,
 
-  // Security fixes should still appear immediately, but because you asked for
-  // only normal minor/patch updates to fast-path into `main`, vulnerability
-  // fixes stay reviewable as PRs.
+  // Security fixes should still appear and land immediately when CI passes,
+  // bypassing the normal review cadence and release-age soak.
   //
   // Renovate treats vulnerability PRs specially:
   // - they are created immediately
@@ -141,13 +139,9 @@
   // special-cased by Renovate.
   vulnerabilityAlerts: {
     automerge: true,
-    automergeType: 'pr',
+    automergeType: 'branch',
     minimumReleaseAge: null,
-    labels: [
-      'security',
-    ],
     vulnerabilityFixStrategy: 'lowest',
-    prCreation: 'immediate',
   },
 
   // Also consult OSV for direct-dependency vulnerability information.
@@ -167,10 +161,11 @@
       //
       // For stable semver dependencies already on 1.0.0 or newer:
       // - create a Renovate branch immediately
-      // - still wait for the global 7-day minimum release age
+      // - wait for the shorter fast-path release age below
       // - run CI on that branch
       // - merge directly into `main` with no PR if CI passes
-      // - only do this during weekday business hours
+      // - do this at any time so small safe updates do not wait for the
+      //   weekend review window
       //
       // This rule is intentionally not limited to npm. If Renovate can classify
       // an update as `minor` or `patch`, this is the default fast path unless a
@@ -192,16 +187,11 @@
         'patch',
       ],
       matchCurrentVersion: '!/^0\\./',
-      // Override the global 7-day soak — 1 day is enough for stable releases
-      // on the fast path; anything riskier is handled by later, narrower rules.
-      minimumReleaseAge: '1 day',
-      // Cron `1-5` means Monday through Friday, and `8-16` keeps this in the
-      // 8 AM through 4:59 PM business-hours window in your configured timezone.
+      // Override the global 7-day soak. Three days is enough for fast-path
+      // updates; anything riskier is handled by later, narrower rules.
+      minimumReleaseAge: '3 days',
       schedule: [
-        '* 8-16 * * 1-5',
-      ],
-      automergeSchedule: [
-        '* 8-16 * * 1-5',
+        'at any time',
       ],
       automerge: true,
       automergeType: 'branch',
@@ -252,12 +242,9 @@
       ],
       groupName: 'GitHub Actions',
       groupSlug: 'github-actions',
-      minimumReleaseAge: '1 day',
+      minimumReleaseAge: '3 days',
       schedule: [
-        '* 8-16 * * 1-5',
-      ],
-      automergeSchedule: [
-        '* 8-16 * * 1-5',
+        'at any time',
       ],
       automerge: true,
       automergeType: 'branch',
@@ -295,23 +282,36 @@
     {
       // Lock file maintenance runs once a month (1st of the month at 8 AM) and
       // automerges directly into main when CI passes — no review needed since
-      // no dependency versions are changing.
+      // no declared dependency versions are changing.
       description: 'Run lock file maintenance once a month and automerge when CI passes.',
       matchUpdateTypes: ['lockFileMaintenance'],
       minimumReleaseAge: null,
       schedule: ['* 8 1 * *'],
-      automergeSchedule: ['* 8-16 * * 1-5'],
       automerge: true,
       automergeType: 'branch',
     },
     {
-      // Pin and replacement updates are not normal semver minor or patch
-      // changes, so they stay reviewable instead of joining the fast path rule
-      // above. Digest updates are already grouped by `group:allDigest`.
-      description: 'Non-semver maintenance updates stay reviewable.',
+      // Digest refreshes and pinning an existing floating/ranged reference are
+      // low-risk maintenance, so let them use the same direct-to-main flow as
+      // other fast-path updates.
+      description: 'Fast-path digest, pin, and digest-pin maintenance when CI passes.',
       matchUpdateTypes: [
+        'digest',
         'pin',
         'pinDigest',
+      ],
+      minimumReleaseAge: '3 days',
+      schedule: [
+        'at any time',
+      ],
+      automerge: true,
+      automergeType: 'branch',
+    },
+    {
+      // Replacement updates can change the package/image/action identity rather
+      // than only changing how an existing dependency is referenced.
+      description: 'Replacement updates require review.',
+      matchUpdateTypes: [
         'replacement',
       ],
       automerge: false,
