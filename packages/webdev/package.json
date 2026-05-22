@@ -1,6 +1,6 @@
 {
   "name": "@stanlemon/webdev",
-  "version": "0.2.95",
+  "version": "0.2.96",
   "description": "My typical web development setup, but without all the copy and paste.",
   "keywords": [
     "webpack",
@@ -39,7 +39,7 @@
     "jest": "^30.4.2",
     "jest-environment-jsdom": "^30.4.1",
     "less": "^4.6.4",
-    "less-loader": "^12.3.2",
+    "less-loader": "^12.3.3",
     "react-refresh": "^0.18.0",
     "style-loader": "^4.0.0",
     "typescript": "^6.0.3",
@@ -52,7 +52,7 @@
     "@types/aria-query": "5.0.4",
     "@types/jest": "30.0.0",
     "@types/node": "24.12.4",
-    "@types/react": "19.2.14",
+    "@types/react": "19.2.15",
     "@types/react-dom": "19.2.3",
     "@types/webpack": "5.28.5",
     "@types/webpack-env": "1.18.8",

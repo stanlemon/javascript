@@ -16,7 +16,7 @@
     "renovate:validate": "npx --yes --package renovate -- renovate-config-validator"
   },
   "resolutions": {
-    "@types/react": "^19.2.14",
+    "@types/react": "^19.2.15",
     "@types/react-dom": "^19.2.3"
   }
 }
