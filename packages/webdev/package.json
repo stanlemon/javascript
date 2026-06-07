@@ -1,6 +1,6 @@
 {
   "name": "@stanlemon/webdev",
-  "version": "0.2.102",
+  "version": "0.2.103",
   "description": "My typical web development setup, but without all the copy and paste.",
   "keywords": [
     "webpack",
@@ -51,7 +51,7 @@
   "devDependencies": {
     "@types/aria-query": "5.0.4",
     "@types/jest": "30.0.0",
-    "@types/node": "24.12.4",
+    "@types/node": "24.13.0",
     "@types/react": "19.2.16",
     "@types/react-dom": "19.2.3",
     "@types/webpack": "5.28.5",
