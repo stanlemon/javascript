@@ -1,6 +1,6 @@
 {
   "name": "@stanlemon/webdev",
-  "version": "0.2.106",
+  "version": "0.2.107",
   "description": "My typical web development setup, but without all the copy and paste.",
   "keywords": [
     "webpack",
@@ -38,7 +38,7 @@
     "identity-obj-proxy": "^3.0.0",
     "jest": "^30.4.2",
     "jest-environment-jsdom": "^30.4.1",
-    "less": "^4.6.4",
+    "less": "^4.6.6",
     "less-loader": "^12.3.3",
     "react-refresh": "^0.18.0",
     "style-loader": "^4.0.0",
