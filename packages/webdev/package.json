@@ -1,6 +1,6 @@
 {
   "name": "@stanlemon/webdev",
-  "version": "0.2.113",
+  "version": "0.2.114",
   "description": "My typical web development setup, but without all the copy and paste.",
   "keywords": [
     "webpack",
@@ -29,7 +29,7 @@
     "@babel/preset-react": "^7.29.7",
     "@babel/preset-typescript": "^7.29.7",
     "@peculiar/webcrypto": "^1.7.1",
-    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/jest-dom": "^7.0.1",
     "babel-jest": "^30.4.1",
     "babel-loader": "^10.1.1",
     "css-loader": "^7.1.4",
