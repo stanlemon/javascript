@@ -1,6 +1,6 @@
 {
   "name": "@stanlemon/webdev",
-  "version": "0.2.113",
+  "version": "0.2.114",
   "description": "My typical web development setup, but without all the copy and paste.",
   "keywords": [
     "webpack",
@@ -11,7 +11,7 @@
   "author": "Stan Lemon <stanlemon@users.noreply.github.com>",
   "license": "MIT",
   "engines": {
-    "node": ">=24.18.0"
+    "node": ">=24.20.0"
   },
   "type": "module",
   "scripts": {
@@ -30,36 +30,36 @@
     "@babel/preset-typescript": "^7.29.7",
     "@peculiar/webcrypto": "^1.7.1",
     "@testing-library/jest-dom": "^6.9.1",
-    "babel-jest": "^30.4.1",
+    "babel-jest": "^30.5.1",
     "babel-loader": "^10.1.1",
-    "css-loader": "^7.1.4",
+    "css-loader": "^7.1.5",
     "dotenv": "^17.4.2",
-    "html-webpack-plugin": "^5.6.7",
+    "html-webpack-plugin": "^5.6.8",
     "identity-obj-proxy": "^3.0.0",
-    "jest": "^30.4.2",
-    "jest-environment-jsdom": "^30.4.1",
-    "less": "^4.6.7",
+    "jest": "^30.5.1",
+    "jest-environment-jsdom": "^30.5.1",
+    "less": "^4.9.0",
     "less-loader": "^12.3.3",
     "react-refresh": "^0.18.0",
     "style-loader": "^4.0.0",
     "typescript": "^6.0.3",
-    "webpack": "^5.108.0",
-    "webpack-bundle-analyzer": "^5.3.0",
-    "webpack-cli": "^7.0.3",
+    "webpack": "^5.110.3",
+    "webpack-bundle-analyzer": "^5.3.2",
+    "webpack-cli": "^7.2.3",
     "webpack-dev-server": "^5.2.6"
   },
   "devDependencies": {
     "@types/aria-query": "5.0.4",
     "@types/jest": "30.0.0",
-    "@types/node": "24.13.2",
-    "@types/react": "19.2.17",
-    "@types/react-dom": "19.2.3",
+    "@types/node": "24.13.3",
+    "@types/react": "19.2.18",
+    "@types/react-dom": "19.2.5",
     "@types/webpack": "5.28.5",
     "@types/webpack-env": "1.18.8",
-    "@biomejs/biome": "2.5.1",
-    "react": "19.2.7",
-    "react-dom": "19.2.7",
-    "uuid": "14.0.1"
+    "@biomejs/biome": "2.5.11",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "uuid": "14.0.2"
   },
   "peerDependencies": {
     "react": ">=18.0.0",
