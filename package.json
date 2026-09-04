@@ -1,7 +1,7 @@
 {
   "type": "module",
   "engines": {
-    "node": ">=24.18.0"
+    "node": ">=24.20.0"
   },
   "workspaces": [
     "packages/*",
@@ -16,7 +16,7 @@
     "renovate:validate": "npx --yes --package renovate -- renovate-config-validator"
   },
   "resolutions": {
-    "@types/react": "^19.2.17",
-    "@types/react-dom": "^19.2.3"
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.5"
   }
 }
