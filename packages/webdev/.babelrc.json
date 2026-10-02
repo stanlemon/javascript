@@ -3,7 +3,6 @@
     [
       "@babel/preset-env",
       {
-        "bugfixes": true,
         "targets": {
           "node": "20.0",
           "browsers": [
@@ -15,12 +14,7 @@
         }
       }
     ],
-    [
-      "@babel/preset-typescript",
-      {
-        "allowDeclareFields": true
-      }
-    ],
+    "@babel/preset-typescript",
     [
       "@babel/preset-react",
       {
