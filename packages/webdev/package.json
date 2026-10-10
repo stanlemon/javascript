@@ -1,6 +1,6 @@
 {
   "name": "@stanlemon/webdev",
-  "version": "0.2.118",
+  "version": "0.2.119",
   "description": "My typical web development setup, but without all the copy and paste.",
   "keywords": [
     "webpack",
@@ -23,11 +23,11 @@
   },
   "dependencies": {
     "@babel/cli": "^8.0.6",
-    "@babel/core": "^8.0.6",
+    "@babel/core": "^8.0.7",
     "@babel/plugin-transform-private-property-in-object": "^8.0.5",
-    "@babel/preset-env": "^8.0.6",
+    "@babel/preset-env": "^8.0.7",
     "@babel/preset-react": "^8.0.1",
-    "@babel/preset-typescript": "^8.0.1",
+    "@babel/preset-typescript": "^8.0.7",
     "@peculiar/webcrypto": "^1.7.1",
     "@testing-library/jest-dom": "^7.0.1",
     "babel-jest": "^30.5.2",
