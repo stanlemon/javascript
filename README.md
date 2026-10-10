@@ -1,6 +1,6 @@
 # My Javascript
 
-This repository used to contains things I liked to reuse. They were generic enough that they might have been useful to you too. The reality today is that toolchains have evolved. For example, I think vite is a better choice than webpack and biome a better choices than eslint and prettier. These tools offer better out of the box experiences, and that was ultimately the pain I was trying to solve for myself with these packages. Furthermore, in the age of AI, Claude Code or Codex are going to be a better solution for bootstrapping new projects than any template or CLI I could create. So, I am deprecating all the packages and apps in this repo. They still remain in git history for the curious archaeologist.
+This repository used to contain things I liked to reuse. They were generic enough that they might have been useful to you too. The reality today is that toolchains have evolved. For example, I think vite is a better choice than webpack and biome a better choice than eslint and prettier. These tools offer better out of the box experiences, and that was ultimately the pain I was trying to solve for myself with these packages. Furthermore, in the age of AI, Claude Code or Codex are going to be a better solution for bootstrapping new projects than any template or CLI I could create. So, I am deprecating all the packages and apps in this repo. They still remain in git history for the curious archaeologist.
 
 Everything exists under the *MIT* license, so please use as you see fit. If you find a bug, please open an issue or a pull request and let me know.
 
@@ -24,6 +24,12 @@ To use it, simply put this in your own `renovate.json`:
 
 * [@stanlemon/webdev](packages/webdev/README.md) wired up webpack and babel for a great development experience, with support for React, TypeScript, and more. This was the recommended starting point for new projects.
 
+
+## Dependency security
+
+The root npm override pins `js-yaml` to 4.3.2 for `@istanbuljs/load-nyc-config`. This removes the vulnerable `sprintf-js` dependency from workspace installations. The override does not apply to projects that install the published `@stanlemon/webdev` package.
+
+The `braces` advisory [GHSA-vfj7-8cjw-p6xm](https://github.com/advisories/GHSA-vfj7-8cjw-p6xm) remains open because no patched release exists.
 
 ## Deprecated Projects
 
