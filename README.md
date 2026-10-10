@@ -25,6 +25,12 @@ To use it, simply put this in your own `renovate.json`:
 * [@stanlemon/webdev](packages/webdev/README.md) wired up webpack and babel for a great development experience, with support for React, TypeScript, and more. This was the recommended starting point for new projects.
 
 
+## Dependency security
+
+The root npm override pins `js-yaml` to 4.3.2 for `@istanbuljs/load-nyc-config`. This removes the vulnerable `sprintf-js` dependency from workspace installations. The override does not apply to projects that install the published `@stanlemon/webdev` package.
+
+The `braces` advisory [GHSA-vfj7-8cjw-p6xm](https://github.com/advisories/GHSA-vfj7-8cjw-p6xm) remains open because no patched release exists.
+
 ## Deprecated Projects
 
 These packages and apps are deprecated and will not receive further updates. Historical source remains available at the tagged snapshots below.

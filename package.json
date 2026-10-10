@@ -15,6 +15,11 @@
     "publish": "node publish.js",
     "renovate:validate": "npx --yes --package renovate -- renovate-config-validator"
   },
+  "overrides": {
+    "@istanbuljs/load-nyc-config": {
+      "js-yaml": "4.3.2"
+    }
+  },
   "resolutions": {
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0"
