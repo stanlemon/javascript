@@ -1,10 +1,8 @@
 # Security Policy
 
-This repository uses Dependabot and CodeQL to automatically scan for issues. Dependabot will open PRs and if everything passes they are merged automatically.
-
 ## Supported Versions
 
-Only the latest version of packages are supported. If you're using an older version of a package, update it!
+This repository supports the current shared Renovate configuration. The retired npm packages and example apps receive no security updates.
 
 ## Reporting a Vulnerability
 

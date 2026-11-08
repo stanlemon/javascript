@@ -1,14 +1,12 @@
-# My Javascript
+# My JavaScript
 
-This repository used to contain things I liked to reuse. They were generic enough that they might have been useful to you too. The reality today is that toolchains have evolved. For example, I think vite is a better choice than webpack and biome a better choice than eslint and prettier. These tools offer better out of the box experiences, and that was ultimately the pain I was trying to solve for myself with these packages. Furthermore, in the age of AI, Claude Code or Codex are going to be a better solution for bootstrapping new projects than any template or CLI I could create. So, I am deprecating all the packages and apps in this repo. They still remain in git history for the curious archaeologist.
-
-Everything exists under the *MIT* license, so please use as you see fit. If you find a bug, please open an issue or a pull request and let me know.
+This repository maintains a shared Renovate configuration. All npm packages and example apps are retired. The [MIT license](LICENSE) applies to this repository.
 
 ## Renovate
 
-I have a [config for renovate](renovate.json5) I reuse in a lot of other repositories. It starts from Renovate's `config:best-practices`, groups common ecosystems, fast-paths stable minor and patch updates, and keeps majors and security work reviewable. In general it keeps my dependencies up to date without overwhelming me with noise, and without letting important updates slip through the cracks.
+The [shared Renovate configuration](renovate.json5) starts from `config:best-practices`. It groups related dependencies and merges stable minor and patch updates when checks pass. Major updates and security updates stay open for review.
 
-To use it, simply put this in your own `renovate.json`:
+Add this entry to your repository's `renovate.json`:
 
 ```json
 {
@@ -18,29 +16,22 @@ To use it, simply put this in your own `renovate.json`:
 }
 ```
 
-*I don't plan to support this forever, only because forever is a long time.*
-
-## Remaining Projects
-
-* [@stanlemon/webdev](packages/webdev/README.md) wired up webpack and babel for a great development experience, with support for React, TypeScript, and more. This was the recommended starting point for new projects.
-
-
-## Dependency security
-
-The root npm override pins `js-yaml` to 4.3.2 for `@istanbuljs/load-nyc-config`. This removes the vulnerable `sprintf-js` dependency from workspace installations. The override does not apply to projects that install the published `@stanlemon/webdev` package.
-
-The `braces` advisory [GHSA-vfj7-8cjw-p6xm](https://github.com/advisories/GHSA-vfj7-8cjw-p6xm) remains open because no patched release exists.
+Run `npm run renovate:validate` from the repository root. This command downloads the Renovate validator when needed.
 
 ## Deprecated Projects
 
-These packages and apps are deprecated and will not receive further updates. Historical source remains available at the tagged snapshots below.
+These packages and apps receive no further updates. Their source remains available in Git.
+
+### Webdev
+
+[@stanlemon/webdev](https://github.com/stanlemon/javascript/tree/820834069030885114c3c8eaa5b2d30c1bccd94a/packages/webdev) provided shared Webpack, Babel, and Jest configuration. Published versions remain available on npm.
 
 ### Deprecated at `deprecate-packages`
 
 * [@stanlemon/react-couchdb-authentication](https://github.com/stanlemon/javascript/tree/deprecate-packages/packages/react-couchdb-authentication) - React components for CouchDB authentication
 * [@stanlemon/react-pouchdb](https://github.com/stanlemon/javascript/tree/deprecate-packages/packages/react-pouchdb) - React components for PouchDB
 * [@stanlemon/types-pouchdb-core](https://github.com/stanlemon/javascript/tree/deprecate-packages/packages/types-pouchdb-core) - TypeScript types for PouchDB core
-* [@stanlemon/react-pouchdb-example](https://github.com/stanlemon/javascript/tree/deprecate-packages/packages/react-pouchdb-example) - Example app using React PouchDB
+* [@stanlemon/react-pouchdb-example](https://github.com/stanlemon/javascript/tree/deprecate-packages/apps/react-pouchdb-example) - Example app using React PouchDB
 * [@stanlemon/cli](https://github.com/stanlemon/javascript/tree/deprecate-packages/packages/cli) - CLI for creating new web apps
 
 ### Deprecated at `deprecate-2026-03-app-template-hello-world-servers`
@@ -52,4 +43,4 @@ These packages and apps are deprecated and will not receive further updates. His
 
 ### Deprecated at `deprecate-2026-04-eslint-config`
 
-* [@stanlemon/eslint-config](https://github.com/stanlemon/javascript/tree/deprecate-2026-04-eslint-config/packages/eslint-config) - Shared ESLint and Prettier config, replaced in this repo by Biome-based tooling
+* [@stanlemon/eslint-config](https://github.com/stanlemon/javascript/tree/24c306284bd367bbafb3937991879968f3851ba5/packages/eslint-config) - Shared ESLint and Prettier configuration
