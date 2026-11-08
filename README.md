@@ -31,7 +31,7 @@ These packages and apps receive no further updates. Their source remains availab
 * [@stanlemon/react-couchdb-authentication](https://github.com/stanlemon/javascript/tree/deprecate-packages/packages/react-couchdb-authentication) - React components for CouchDB authentication
 * [@stanlemon/react-pouchdb](https://github.com/stanlemon/javascript/tree/deprecate-packages/packages/react-pouchdb) - React components for PouchDB
 * [@stanlemon/types-pouchdb-core](https://github.com/stanlemon/javascript/tree/deprecate-packages/packages/types-pouchdb-core) - TypeScript types for PouchDB core
-* [@stanlemon/react-pouchdb-example](https://github.com/stanlemon/javascript/tree/deprecate-packages/packages/react-pouchdb-example) - Example app using React PouchDB
+* [@stanlemon/react-pouchdb-example](https://github.com/stanlemon/javascript/tree/deprecate-packages/apps/react-pouchdb-example) - Example app using React PouchDB
 * [@stanlemon/cli](https://github.com/stanlemon/javascript/tree/deprecate-packages/packages/cli) - CLI for creating new web apps
 
 ### Deprecated at `deprecate-2026-03-app-template-hello-world-servers`
@@ -43,4 +43,4 @@ These packages and apps receive no further updates. Their source remains availab
 
 ### Deprecated at `deprecate-2026-04-eslint-config`
 
-* [@stanlemon/eslint-config](https://github.com/stanlemon/javascript/tree/deprecate-2026-04-eslint-config/packages/eslint-config) - Shared ESLint and Prettier config, replaced in this repo by Biome-based tooling
+* [@stanlemon/eslint-config](https://github.com/stanlemon/javascript/tree/24c306284bd367bbafb3937991879968f3851ba5/packages/eslint-config) - Shared ESLint and Prettier configuration
