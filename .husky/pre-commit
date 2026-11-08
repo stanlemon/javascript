@@ -1,2 +1,0 @@
-npm run lint --workspace @stanlemon/webdev
-npm run test --workspace @stanlemon/webdev
