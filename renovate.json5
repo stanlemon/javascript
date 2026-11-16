@@ -59,7 +59,7 @@
   semanticCommits: 'disabled',
 
   // The dependency dashboard is still useful for items waiting on human review.
-  dependencyDashboard: true,
+  dependencyDashboard: { enabled: true },
 
   // Keep the number of simultaneous review PRs reasonable, but do not throttle
   // them hour-by-hour inside the allowed review window.
