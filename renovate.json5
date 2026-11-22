@@ -126,6 +126,11 @@
   // automerge so the behavior follows the package rules in this file directly.
   platformAutomerge: false,
 
+  // Failed or pending CI blocks every automerge, including security fixes.
+  // A passing release-age check alone does not count as passing CI.
+  ignoreTests: false,
+  internalChecksAsSuccess: false,
+
   // Security fixes should still appear and land immediately when CI passes,
   // bypassing the normal review cadence and release-age soak.
   //
@@ -228,8 +233,8 @@
       //
       // These are also safe enough to use the same branch automerge flow as
       // other low-risk maintenance updates, including digest refreshes for
-      // pinned actions. Majors still remain review-only because the broader
-      // major-version rule below overrides automerge for that update type.
+      // pinned actions. The major-version rule below gives majors a longer
+      // waiting period and merges them through PRs after CI passes.
       description: 'Group GitHub Actions updates together and automerge non-major changes.',
       matchManagers: [
         'github-actions',
@@ -250,14 +255,18 @@
       automergeType: 'branch',
     },
     {
-      // Any major version bump requires review. The ecosystem grouping presets
-      // above still apply, so related React / ESLint / Jest major bumps can stay
-      // grouped together instead of becoming a pile of unrelated review PRs.
-      description: 'All major version bumps require review.',
+      // Major releases wait 21 days before automatic merging through a PR.
+      // Refresh the branch against the base so CI tests the combined changes.
+      // The grouping presets still keep related ecosystem updates together.
+      description: 'Automerge major updates after 21 days and passing CI.',
       matchUpdateTypes: [
         'major',
       ],
-      automerge: false,
+      minimumReleaseAge: '21 days',
+      minimumReleaseAgeBehaviour: 'timestamp-required',
+      automerge: true,
+      automergeType: 'pr',
+      rebaseWhen: 'behind-base-branch',
     },
     {
       // Node.js runtime majors are worth treating even more conservatively than
