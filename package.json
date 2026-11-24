@@ -1,6 +1,8 @@
 {
   "private": true,
   "scripts": {
-    "renovate:validate": "npx --yes --package renovate -- renovate-config-validator"
+    "renovate:validate": "npx --yes --package renovate -- renovate-config-validator",
+    "test": "npx --yes --package renovate -- node --test test/renovate.test.mjs",
+    "renovate:check": "npx --yes --package renovate -- sh -c 'renovate-config-validator && node --test test/renovate.test.mjs'"
   }
 }
