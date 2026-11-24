@@ -16,7 +16,9 @@ Add this entry to your repository's `renovate.json`:
 }
 ```
 
-Run `npm run renovate:check` from the repository root to validate the schema and test policy behavior. It uses the same Renovate installation for both checks and downloads it when needed. `npm run renovate:validate` runs only the schema validator; `npm test` runs only the behavior scenarios.
+Run `npm ci` to install the locked validation tool, then `npm run renovate:check` from the repository root to validate the schema and test policy behavior. Both checks use the exact Renovate development dependency; Renovate manages updates to that version through `package.json` and `package-lock.json`. `npm run renovate:validate` runs only the schema validator; `npm test` runs only the behavior scenarios.
+
+Tooling overrides select the advisory fixes for affected glob and minimatch versions. They leave older, unaffected callback-based glob consumers unchanged. The schema and behavior checks validate this installation.
 
 The scenarios cover manual major upgrades, stable and pre-1.0 updates, Node runtime majors, peers, maintenance, and security fixes. They resolve Renovate defaults and built-in presets before applying its real package rules, so valid config changes that alter these policies fail CI.
 

@@ -1,5 +1,8 @@
 name: Validate Renovate configuration
-on: [push]
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -17,6 +20,9 @@ jobs:
         uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
         with:
           node-version-file: ".nvmrc"
+
+      - name: Install locked validation tools
+        run: npm ci
 
       - name: Validate Renovate schema and policy behavior
         run: npm run renovate:check
