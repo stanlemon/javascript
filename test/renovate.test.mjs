@@ -1,19 +1,15 @@
 import assert from 'node:assert/strict';
-import { existsSync, readFileSync, realpathSync } from 'node:fs';
+import { readFileSync } from 'node:fs';
 import { createRequire } from 'node:module';
-import { delimiter, dirname, join } from 'node:path';
+import { dirname, join } from 'node:path';
 import test from 'node:test';
 import { pathToFileURL } from 'node:url';
 
-// npm exec exposes the existing Renovate package on PATH. Use that same
-// installation rather than adding a copy or hardcoding a personal cache path.
-const validator = process.env.PATH.split(delimiter)
-  .map((directory) => join(directory, 'renovate-config-validator'))
-  .find(existsSync);
-assert.ok(validator, 'Run with npm test or npm run renovate:check.');
-const renovateDirectory = dirname(realpathSync(validator));
-const require = createRequire(pathToFileURL(join(renovateDirectory, 'config-validator.js')));
-const JSON5 = require('json5');
+// Use the exact lockfile installation for both the schema and behavior checks.
+const require = createRequire(import.meta.url);
+const renovatePackage = require.resolve('renovate/package.json');
+const renovateDirectory = join(dirname(renovatePackage), 'dist');
+const JSON5 = createRequire(renovatePackage)('json5');
 
 // Renovate has no public rule-evaluation API. Isolate its internal adapter
 // here so the tests exercise real defaults, presets, matching and precedence.
