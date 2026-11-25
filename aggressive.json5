@@ -1,0 +1,25 @@
+{
+  $schema: 'https://docs.renovatebot.com/renovate-schema.json',
+  description: 'Opt in to major updates after 21 days and passing CI.',
+
+  // Add this preset after renovate.json5. Keep the shared baseline conservative.
+  // A release-age result alone never counts as passing CI.
+  platformAutomerge: false,
+  ignoreTests: false,
+  internalChecksAsSuccess: false,
+
+  packageRules: [
+    {
+      description: 'Automerge major updates after 21 days and passing CI.',
+      matchUpdateTypes: ['major'],
+      // Later presets override earlier rules. Exclude runtime updates so the
+      // baseline still requires Node.js major review after seven months.
+      matchDatasources: ['!node-version'],
+      minimumReleaseAge: '21 days',
+      minimumReleaseAgeBehaviour: 'timestamp-required',
+      automerge: true,
+      automergeType: 'pr',
+      rebaseWhen: 'behind-base-branch',
+    },
+  ],
+}

@@ -1,7 +1,7 @@
 {
   "private": true,
   "scripts": {
-    "renovate:validate": "renovate-config-validator",
+    "renovate:validate": "renovate-config-validator --strict --no-global renovate.json5 aggressive.json5",
     "test": "node --test test/renovate.test.mjs",
     "renovate:check": "npm run renovate:validate && npm test"
   },

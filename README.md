@@ -16,11 +16,28 @@ Add this entry to your repository's `renovate.json`:
 }
 ```
 
-Run `npm ci` to install the locked validation tool, then `npm run renovate:check` from the repository root to validate the schema and test policy behavior. Both checks use the exact Renovate development dependency; Renovate manages updates to that version through `package.json` and `package-lock.json`. `npm run renovate:validate` runs only the schema validator; `npm test` runs only the behavior scenarios.
+To opt in to automatic major updates, add the [aggressive preset](aggressive.json5) after the baseline:
+
+```json
+{
+  "extends": [
+    "github>stanlemon/javascript:renovate.json5",
+    "github>stanlemon/javascript:aggressive.json5"
+  ]
+}
+```
+
+The aggressive preset waits until each major release is at least 21 days old. Missing release timestamps block those updates. Renovate merges through a PR after CI passes and refreshes branches that fall behind the base. Failed or pending CI blocks merging. A passing release-age result alone does not count as passing CI.
+
+Node.js runtime majors still require review after seven months. The baseline rules for pre-1.0 minor and patch updates, peers, maintenance, and security fixes still apply.
+
+Keep the baseline alone for repositories that need manual review of major updates. Remove the aggressive entry to return to that policy. Repository-level rules apply after presets and can override these safeguards.
+
+Run `npm ci` to install the locked validation tool, then `npm run renovate:check` from the repository root to validate both preset schemas and test both policies. Both checks use the exact Renovate development dependency; Renovate manages updates to that version through `package.json` and `package-lock.json`. `npm run renovate:validate` runs only the schema validator; `npm test` runs only the behavior scenarios.
 
 Tooling overrides select the advisory fixes for affected glob and minimatch versions. They leave older, unaffected callback-based glob consumers unchanged. The schema and behavior checks validate this installation.
 
-The scenarios cover manual major upgrades, stable and pre-1.0 updates, Node runtime majors, peers, maintenance, and security fixes. They resolve Renovate defaults and built-in presets before applying its real package rules, so valid config changes that alter these policies fail CI.
+The scenarios cover manual and aggressive major upgrades, stable and pre-1.0 updates, Node runtime majors, peers, maintenance, and security fixes. They resolve Renovate defaults and built-in presets before applying its real package rules, so valid config changes that alter these policies fail CI.
 
 ## Deprecated Projects
 
