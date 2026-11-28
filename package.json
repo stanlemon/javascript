@@ -6,7 +6,7 @@
     "renovate:check": "npm run renovate:validate && npm test"
   },
   "devDependencies": {
-    "renovate": "44.260.0"
+    "renovate": "44.262.2"
   },
   "overrides": {
     "glob@>=9.0.0 <14.0.2": "14.0.2",
